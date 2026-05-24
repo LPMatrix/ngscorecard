@@ -184,3 +184,16 @@ export const indicatorPoints = sqliteTable('indicator_points', {
   label:          text('label').notNull(),
   value:          real('value').notNull(),
 })
+
+export const governors = sqliteTable('governors', {
+  id:             integer('id').primaryKey({ autoIncrement: true }),
+  administration: text('administration').notNull(),
+  name:           text('name').notNull(),
+  state:          text('state').notNull(),
+  party:          text('party').notNull(),
+  geopolitical:   text('geopolitical').notNull(),
+  termStart:      text('term_start').notNull(),
+  termEnd:        text('term_end'),
+  status:         text('status').notNull(),
+  note:           text('note'),
+})

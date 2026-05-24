@@ -4,6 +4,7 @@ import PromiseCard  from './components/PromiseCard.vue'
 import HistoryChart from './components/HistoryChart.vue'
 import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
+import GovernorsView   from './components/GovernorsView.vue'
 
 const ADMINISTRATIONS = ref([])
 
@@ -30,6 +31,7 @@ const indicators   = ref([])
 const appointments = ref([])
 const judgments    = ref([])
 const history      = ref([])
+const governors    = ref([])
 const activeTab      = ref('promises')
 const activeStatus   = ref('all')
 const activeCategory = ref('all')
@@ -39,10 +41,10 @@ const copied         = ref(false)
 
 async function loadData(admin) {
   const get = (name) => fetch(`/api/${admin}/${name}`).then(r => r.json()).catch(() => [])
-  const [p, i, h, f, o, m, bu, bi, ind, ap, j] = await Promise.all([
+  const [p, i, h, f, o, m, bu, bi, ind, ap, j, g] = await Promise.all([
     get('promises'), get('inherited'), get('history'), get('fraud'),
     get('orders'), get('ministers'), get('budget'), get('bills'),
-    get('indicators'), get('appointments'), get('judgments'),
+    get('indicators'), get('appointments'), get('judgments'), get('governors'),
   ])
   promises.value     = p
   inherited.value    = i
@@ -55,6 +57,7 @@ async function loadData(admin) {
   indicators.value   = ind
   appointments.value = ap
   judgments.value    = j
+  governors.value    = g
 }
 
 onMounted(async () => {
@@ -364,81 +367,31 @@ const filteredBills = computed(() => {
 <template>
   <div class="pt-layout">
 
-    <!-- ── Sidebar ── -->
-    <aside class="pt-sidebar">
-      <div class="pt-sidebar-brand">
+    <!-- ── Top header ── -->
+    <header class="pt-header">
+      <div class="pt-header-brand">
         <div class="pt-eyebrow">Civic Accountability · Nigeria</div>
         <h1 class="pt-headline">NGScorecard</h1>
-        <p class="pt-subline">{{ currentAdmin.tagline }}</p>
       </div>
-
-      <!-- Administration switcher -->
-      <div class="pt-admin-switcher">
-        <div class="pt-admin-label">Administration</div>
-        <div class="pt-admin-pills">
-          <button
-            v-for="a in ADMINISTRATIONS"
-            :key="a.key"
-            :class="['pt-admin-pill', { active: activeAdmin === a.key }]"
-            @click="activeAdmin = a.key"
-          >
-            <span class="pt-admin-pill-name">{{ a.name }}</span>
-            <span class="pt-admin-pill-term">{{ a.term }}</span>
-          </button>
-        </div>
-      </div>
-
-      <nav class="pt-nav">
-        <div class="pt-nav-group">
-          <div class="pt-nav-group-label">Government</div>
-          <button :class="['pt-nav-btn', { active: activeTab === 'promises' }]"     @click="switchTab('promises')">Promises <span class="pt-nav-count">{{ promises.length }}</span></button>
-          <button :class="['pt-nav-btn', { active: activeTab === 'ministers' }]"    @click="switchTab('ministers')">Ministers <span class="pt-nav-count">{{ ministers.length }}</span></button>
-          <button :class="['pt-nav-btn', { active: activeTab === 'orders' }]"       @click="switchTab('orders')">Orders &amp; Policy <span class="pt-nav-count">{{ orders.length }}</span></button>
-          <button :class="['pt-nav-btn', { active: activeTab === 'appointments' }]" @click="switchTab('appointments')">Appointments <span class="pt-nav-count">{{ appointments.length }}</span></button>
-        </div>
-
-        <div class="pt-nav-group">
-          <div class="pt-nav-group-label">Accountability</div>
-          <button :class="['pt-nav-btn', { active: activeTab === 'fraud' }]"     @click="switchTab('fraud')">Fraud <span class="pt-nav-count">{{ fraud.length }}</span></button>
-          <button :class="['pt-nav-btn', { active: activeTab === 'judgments' }]" @click="switchTab('judgments')">Court Judgments <span class="pt-nav-count">{{ judgments.length }}</span></button>
-          <button :class="['pt-nav-btn', { active: activeTab === 'inherited' }]" @click="switchTab('inherited')">Inherited Fixes <span class="pt-nav-count">{{ inherited.length }}</span></button>
-        </div>
-
-        <div class="pt-nav-group">
-          <div class="pt-nav-group-label">Economy</div>
-          <button :class="['pt-nav-btn', { active: activeTab === 'budget' }]"     @click="switchTab('budget')">Budget</button>
-          <button :class="['pt-nav-btn', { active: activeTab === 'indicators' }]" @click="switchTab('indicators')">Key Indicators</button>
-        </div>
-
-        <div class="pt-nav-group">
-          <div class="pt-nav-group-label">Legislature</div>
-          <button :class="['pt-nav-btn', { active: activeTab === 'bills' }]" @click="switchTab('bills')">Bills Watch <span class="pt-nav-count">{{ bills.length }}</span></button>
-        </div>
+      <nav class="pt-admin-nav" aria-label="Administration">
+        <button
+          v-for="a in ADMINISTRATIONS"
+          :key="a.key"
+          :class="['pt-admin-tab', { active: activeAdmin === a.key }]"
+          @click="activeAdmin = a.key"
+        >
+          <span class="pt-admin-tab-name">{{ a.name }}</span>
+          <span class="pt-admin-tab-term">{{ a.term }}</span>
+        </button>
       </nav>
-
-      <div class="pt-sidebar-footer">
-        <span class="pt-freshness-dot"></span>
-        Updated <strong>{{ LAST_REVIEWED }}</strong> · Sources on each card
-        <span class="pt-admin-badge">{{ currentAdmin.title }} · {{ currentAdmin.term }}</span>
-      </div>
-    </aside>
-
-    <!-- ── Mobile header ── -->
-    <header class="pt-mobile-header">
-      <div class="pt-mobile-brand">
-        <div class="pt-eyebrow">{{ currentAdmin.title }} · {{ currentAdmin.term }}</div>
-        <strong class="pt-mobile-title">NGScorecard</strong>
-      </div>
-      <div class="pt-mobile-controls">
-        <select class="pt-mobile-admin" :value="activeAdmin" @change="activeAdmin = $event.target.value">
-          <option v-for="a in ADMINISTRATIONS" :key="a.key" :value="a.key">{{ a.name }} {{ a.term }}</option>
-        </select>
-        <select class="pt-mobile-nav" :value="activeTab" @change="switchTab($event.target.value)">
+      <!-- Mobile-only section nav -->
+      <select class="pt-mobile-nav" :value="activeTab" @change="switchTab($event.target.value)">
         <optgroup label="Government">
           <option value="promises">Promises</option>
           <option value="ministers">Ministers</option>
           <option value="orders">Orders &amp; Policy</option>
           <option value="appointments">Appointments</option>
+          <option value="governors">Governors</option>
         </optgroup>
         <optgroup label="Accountability">
           <option value="fraud">Fraud</option>
@@ -453,24 +406,56 @@ const filteredBills = computed(() => {
           <option value="bills">Bills Watch</option>
         </optgroup>
       </select>
-      </div>
     </header>
 
-    <!-- ── Main content ── -->
-    <main class="pt-content">
+    <!-- ── Body: sidebar + content ── -->
+    <div class="pt-body">
 
-    <!-- Copied toast -->
-    <Transition name="toast">
-      <div v-if="copied" class="pt-toast">Link copied to clipboard</div>
-    </Transition>
+      <!-- ── Sidebar (section nav only) ── -->
+      <aside class="pt-sidebar">
+        <nav class="pt-nav">
+          <div class="pt-nav-group">
+            <div class="pt-nav-group-label">Government</div>
+            <button :class="['pt-nav-btn', { active: activeTab === 'promises' }]"     @click="switchTab('promises')">Promises <span class="pt-nav-count">{{ promises.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'ministers' }]"    @click="switchTab('ministers')">Ministers <span class="pt-nav-count">{{ ministers.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'orders' }]"       @click="switchTab('orders')">Orders &amp; Policy <span class="pt-nav-count">{{ orders.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'appointments' }]" @click="switchTab('appointments')">Appointments <span class="pt-nav-count">{{ appointments.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'governors' }]"    @click="switchTab('governors')">Governors <span class="pt-nav-count">{{ governors.length }}</span></button>
+          </div>
 
-    <!-- Administration banner -->
-    <div class="pt-admin-banner">
-      <span class="pt-admin-banner-name">{{ currentAdmin.title }}</span>
-      <span class="pt-admin-banner-sep">·</span>
-      <span class="pt-admin-banner-term">{{ currentAdmin.term }}</span>
-      <span class="pt-admin-banner-tag">{{ currentAdmin.tagline }}</span>
-    </div>
+          <div class="pt-nav-group">
+            <div class="pt-nav-group-label">Accountability</div>
+            <button :class="['pt-nav-btn', { active: activeTab === 'fraud' }]"     @click="switchTab('fraud')">Fraud <span class="pt-nav-count">{{ fraud.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'judgments' }]" @click="switchTab('judgments')">Court Judgments <span class="pt-nav-count">{{ judgments.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'inherited' }]" @click="switchTab('inherited')">Inherited Fixes <span class="pt-nav-count">{{ inherited.length }}</span></button>
+          </div>
+
+          <div class="pt-nav-group">
+            <div class="pt-nav-group-label">Economy</div>
+            <button :class="['pt-nav-btn', { active: activeTab === 'budget' }]"     @click="switchTab('budget')">Budget</button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'indicators' }]" @click="switchTab('indicators')">Key Indicators</button>
+          </div>
+
+          <div class="pt-nav-group">
+            <div class="pt-nav-group-label">Legislature</div>
+            <button :class="['pt-nav-btn', { active: activeTab === 'bills' }]" @click="switchTab('bills')">Bills Watch <span class="pt-nav-count">{{ bills.length }}</span></button>
+          </div>
+        </nav>
+
+        <div class="pt-sidebar-footer">
+          <span class="pt-freshness-dot"></span>
+          Updated <strong>{{ LAST_REVIEWED }}</strong>
+          <span class="pt-sidebar-footer-sub">Sources linked on each card</span>
+        </div>
+      </aside>
+
+      <!-- ── Main content ── -->
+      <main class="pt-content">
+
+      <!-- Copied toast -->
+      <Transition name="toast">
+        <div v-if="copied" class="pt-toast">Link copied to clipboard</div>
+      </Transition>
 
     <!-- ── PROMISES TAB ── -->
     <template v-if="activeTab === 'promises'">
@@ -927,6 +912,15 @@ const filteredBills = computed(() => {
       </div>
     </template>
 
+    <!-- ── GOVERNORS TAB ── -->
+    <template v-else-if="activeTab === 'governors'">
+      <div class="pt-tab-intro">
+        State governors who served during this administration — all 36 states across
+        Nigeria's six geopolitical zones, including mid-term changes.
+      </div>
+      <GovernorsView :governors="governors" />
+    </template>
+
     <!-- ── JUDGMENTS TAB ── -->
     <template v-else-if="activeTab === 'judgments'">
       <div class="pt-tab-intro">
@@ -985,6 +979,7 @@ const filteredBills = computed(() => {
       </div>
     </template>
 
-    </main>
-  </div>
+      </main>
+    </div><!-- .pt-body -->
+  </div><!-- .pt-layout -->
 </template>

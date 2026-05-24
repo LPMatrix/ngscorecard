@@ -31,6 +31,7 @@ async function clearAll() {
   await db.delete(t.fraud)
   await db.delete(t.inherited)
   await db.delete(t.promises)
+  await db.delete(t.governors)
   await db.delete(t.presidents)
 }
 
@@ -160,6 +161,17 @@ async function seedBudget(rows, admin) {
   }
 }
 
+async function seedGovernors(rows, admin) {
+  for (const r of rows) {
+    await db.insert(t.governors).values({
+      administration: admin, name: r.name, state: r.state,
+      party: r.party, geopolitical: r.geopolitical,
+      termStart: r.termStart, termEnd: r.termEnd ?? null,
+      status: r.status, note: r.note ?? null,
+    })
+  }
+}
+
 async function seedIndicators(rows, admin) {
   for (const r of rows) {
     const [{ id: indicatorId }] = await db.insert(t.indicators).values({
@@ -179,8 +191,11 @@ async function seedIndicators(rows, admin) {
 // ── Run ──────────────────────────────────────────────────────────────────────
 
 const ADMINISTRATIONS = [
-  { key: 'tinubu', prefix: '' },
-  { key: 'buhari', prefix: 'buhari-' },
+  { key: 'tinubu',   prefix: '' },
+  { key: 'buhari',   prefix: 'buhari-' },
+  { key: 'jonathan', prefix: 'jonathan-' },
+  { key: 'yaradua',  prefix: 'yaradua-' },
+  { key: 'obasanjo', prefix: 'obasanjo-' },
 ]
 
 await clearAll()
@@ -200,6 +215,7 @@ for (const { key, prefix } of ADMINISTRATIONS) {
   await seedHistory(     readJson(`${prefix}history.json`),      key)
   await seedBudget(      readJson(`${prefix}budget.json`),       key)
   await seedIndicators(  readJson(`${prefix}indicators.json`),   key)
+  await seedGovernors(   readJson(`${prefix}governors.json`),    key)
 }
 
 console.log('Done.')

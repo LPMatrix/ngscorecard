@@ -1,0 +1,94 @@
+[
+  { "name": "Akinwunmi Ambode", "state": "Lagos", "party": "APC", "geopolitical": "South-West", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Babajide Sanwo-Olu", "state": "Lagos", "party": "APC", "geopolitical": "South-West", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Ibikunle Amosun", "state": "Ogun", "party": "APC", "geopolitical": "South-West", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Dapo Abiodun", "state": "Ogun", "party": "APC", "geopolitical": "South-West", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Abiola Ajimobi", "state": "Oyo", "party": "APC", "geopolitical": "South-West", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Seyi Makinde", "state": "Oyo", "party": "PDP", "geopolitical": "South-West", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Rauf Aregbesola", "state": "Osun", "party": "APC", "geopolitical": "South-West", "termStart": "2015", "termEnd": "2018", "status": "completed", "note": null },
+  { "name": "Gboyega Oyetola", "state": "Osun", "party": "APC", "geopolitical": "South-West", "termStart": "2018", "termEnd": "2022", "status": "completed", "note": null },
+  { "name": "Ademola Adeleke", "state": "Osun", "party": "PDP", "geopolitical": "South-West", "termStart": "2022", "termEnd": "2023", "status": "completed", "note": "Still serving at end of Buhari tenure" },
+
+  { "name": "Olusegun Mimiko", "state": "Ondo", "party": "PDP", "geopolitical": "South-West", "termStart": "2015", "termEnd": "2017", "status": "completed", "note": null },
+  { "name": "Rotimi Akeredolu", "state": "Ondo", "party": "APC", "geopolitical": "South-West", "termStart": "2017", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Ayodele Fayose", "state": "Ekiti", "party": "PDP", "geopolitical": "South-West", "termStart": "2015", "termEnd": "2018", "status": "completed", "note": null },
+  { "name": "Kayode Fayemi", "state": "Ekiti", "party": "APC", "geopolitical": "South-West", "termStart": "2018", "termEnd": "2022", "status": "completed", "note": null },
+  { "name": "Biodun Oyebanji", "state": "Ekiti", "party": "APC", "geopolitical": "South-West", "termStart": "2022", "termEnd": "2023", "status": "completed", "note": "Still serving at end of Buhari tenure" },
+
+  { "name": "Abdullahi Umar Ganduje", "state": "Kano", "party": "APC", "geopolitical": "North-West", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Nasir Ahmad el-Rufai", "state": "Kaduna", "party": "APC", "geopolitical": "North-West", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Aminu Bello Masari", "state": "Katsina", "party": "APC", "geopolitical": "North-West", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Abdulaziz Yari", "state": "Zamfara", "party": "APC", "geopolitical": "North-West", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Bello Matawalle", "state": "Zamfara", "party": "APC", "geopolitical": "North-West", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": "Defected to PDP in 2022, then back to APC in 2023" },
+
+  { "name": "Aminu Waziri Tambuwal", "state": "Sokoto", "party": "APC", "geopolitical": "North-West", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": "Defected from APC to PDP in 2018; re-elected 2019 under PDP" },
+
+  { "name": "Atiku Bagudu", "state": "Kebbi", "party": "APC", "geopolitical": "North-West", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Muhammad Badaru Abubakar", "state": "Jigawa", "party": "APC", "geopolitical": "North-West", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Kashim Shettima", "state": "Borno", "party": "APC", "geopolitical": "North-East", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Babagana Umara Zulum", "state": "Borno", "party": "APC", "geopolitical": "North-East", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Ibrahim Gaidam", "state": "Yobe", "party": "APC", "geopolitical": "North-East", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Mai Mala Buni", "state": "Yobe", "party": "APC", "geopolitical": "North-East", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Muhammadu Jibrilla Bindow", "state": "Adamawa", "party": "APC", "geopolitical": "North-East", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Ahmadu Umaru Fintiri", "state": "Adamawa", "party": "PDP", "geopolitical": "North-East", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Ibrahim Hassan Dankwambo", "state": "Gombe", "party": "PDP", "geopolitical": "North-East", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Muhammad Inuwa Yahaya", "state": "Gombe", "party": "APC", "geopolitical": "North-East", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Mohammed Abdullahi Abubakar", "state": "Bauchi", "party": "APC", "geopolitical": "North-East", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Bala Mohammed", "state": "Bauchi", "party": "PDP", "geopolitical": "North-East", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Darius Dickson Ishaku", "state": "Taraba", "party": "PDP", "geopolitical": "North-East", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Abubakar Sani Bello", "state": "Niger", "party": "APC", "geopolitical": "North-Central", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Abdulfatah Ahmed", "state": "Kwara", "party": "APC", "geopolitical": "North-Central", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Abdulrahman Abdulrazaq", "state": "Kwara", "party": "APC", "geopolitical": "North-Central", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Yahaya Bello", "state": "Kogi", "party": "APC", "geopolitical": "North-Central", "termStart": "2016", "termEnd": "2023", "status": "completed", "note": "Declared winner after APC candidate Abubakar Audu died during the Nov 2015 election" },
+
+  { "name": "Samuel Ortom", "state": "Benue", "party": "APC", "geopolitical": "North-Central", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": "Defected from APC to PDP in 2018; re-elected 2019 under PDP" },
+
+  { "name": "Usman Lafia", "state": "Nasarawa", "party": "APC", "geopolitical": "North-Central", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Abdullahi Sule", "state": "Nasarawa", "party": "APC", "geopolitical": "North-Central", "termStart": "2019", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Simon Lalong", "state": "Plateau", "party": "APC", "geopolitical": "North-Central", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Nyesom Wike", "state": "Rivers", "party": "PDP", "geopolitical": "South-South", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Ifeanyi Okowa", "state": "Delta", "party": "PDP", "geopolitical": "South-South", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Seriake Dickson", "state": "Bayelsa", "party": "PDP", "geopolitical": "South-South", "termStart": "2015", "termEnd": "2020", "status": "completed", "note": null },
+  { "name": "Duoye Diri", "state": "Bayelsa", "party": "PDP", "geopolitical": "South-South", "termStart": "2020", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Ben Ayade", "state": "Cross River", "party": "PDP", "geopolitical": "South-South", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": "Defected from PDP to APC in 2021" },
+
+  { "name": "Udom Emmanuel", "state": "Akwa Ibom", "party": "PDP", "geopolitical": "South-South", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Adams Oshiomhole", "state": "Edo", "party": "APC", "geopolitical": "South-South", "termStart": "2015", "termEnd": "2016", "status": "completed", "note": null },
+  { "name": "Godwin Obaseki", "state": "Edo", "party": "APC", "geopolitical": "South-South", "termStart": "2016", "termEnd": "2023", "status": "completed", "note": "Re-elected 2020 under PDP after APC denied him ticket" },
+
+  { "name": "Willie Obiano", "state": "Anambra", "party": "APGA", "geopolitical": "South-East", "termStart": "2015", "termEnd": "2022", "status": "completed", "note": null },
+  { "name": "Charles Soludo", "state": "Anambra", "party": "APGA", "geopolitical": "South-East", "termStart": "2022", "termEnd": "2023", "status": "completed", "note": "Still serving at end of Buhari tenure" },
+
+  { "name": "Rochas Okorocha", "state": "Imo", "party": "APC", "geopolitical": "South-East", "termStart": "2015", "termEnd": "2019", "status": "completed", "note": null },
+  { "name": "Emeka Ihedioha", "state": "Imo", "party": "PDP", "geopolitical": "South-East", "termStart": "2019", "termEnd": "2020", "status": "removed", "note": "Removed by Supreme Court in January 2020" },
+  { "name": "Hope Uzodimma", "state": "Imo", "party": "APC", "geopolitical": "South-East", "termStart": "2020", "termEnd": "2023", "status": "completed", "note": "Installed by Supreme Court order in January 2020" },
+
+  { "name": "Ifeanyi Ugwuanyi", "state": "Enugu", "party": "PDP", "geopolitical": "South-East", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null },
+
+  { "name": "Dave Umahi", "state": "Ebonyi", "party": "PDP", "geopolitical": "South-East", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": "Defected from PDP to APC in 2020" },
+
+  { "name": "Okezie Ikpeazu", "state": "Abia", "party": "PDP", "geopolitical": "South-East", "termStart": "2015", "termEnd": "2023", "status": "completed", "note": null }
+]

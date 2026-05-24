@@ -96,6 +96,11 @@ export function createApiRouter() {
     res.json(budgets.map(b => ({ ...b, ministries: byYear[b.year] || [] })))
   })
 
+  router.get('/:admin/governors', async (req, res) => {
+    if (!guard(req, res)) return
+    res.json(await db.select().from(t.governors).where(eq(t.governors.administration, req.params.admin)))
+  })
+
   router.get('/:admin/indicators', async (req, res) => {
     if (!guard(req, res)) return
     const { admin } = req.params

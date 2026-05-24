@@ -1,0 +1,46 @@
+[
+  { "name": "Babajide Sanwo-Olu", "state": "Lagos", "party": "APC", "geopolitical": "South-West", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected for second term" },
+  { "name": "Dapo Abiodun", "state": "Ogun", "party": "APC", "geopolitical": "South-West", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected for second term" },
+  { "name": "Seyi Makinde", "state": "Oyo", "party": "PDP", "geopolitical": "South-West", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected for second term" },
+  { "name": "Ademola Adeleke", "state": "Osun", "party": "PDP", "geopolitical": "South-West", "termStart": "2022", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Rotimi Akeredolu", "state": "Ondo", "party": "APC", "geopolitical": "South-West", "termStart": "2023", "termEnd": "2023", "status": "deceased", "note": "Died December 27, 2023 while in office; deputy Lucky Aiyedatiwa completed the term" },
+  { "name": "Lucky Aiyedatiwa", "state": "Ondo", "party": "APC", "geopolitical": "South-West", "termStart": "2024", "termEnd": null, "status": "serving", "note": "Became governor after Akeredolu's death; won 2024 governorship election in his own right" },
+  { "name": "Biodun Oyebanji", "state": "Ekiti", "party": "APC", "geopolitical": "South-West", "termStart": "2022", "termEnd": null, "status": "serving", "note": null },
+
+  { "name": "Abba Kabir Yusuf", "state": "Kano", "party": "NNPP", "geopolitical": "North-West", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Defeated incumbent APC; first NNPP governor of Kano" },
+  { "name": "Uba Sani", "state": "Kaduna", "party": "APC", "geopolitical": "North-West", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Dikko Umaru Radda", "state": "Katsina", "party": "APC", "geopolitical": "North-West", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Dauda Lawal", "state": "Zamfara", "party": "PDP", "geopolitical": "North-West", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Ahmad Aliyu Sokoto", "state": "Sokoto", "party": "APC", "geopolitical": "North-West", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Nasir Idris", "state": "Kebbi", "party": "APC", "geopolitical": "North-West", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Umar Namadi", "state": "Jigawa", "party": "APC", "geopolitical": "North-West", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+
+  { "name": "Babagana Umara Zulum", "state": "Borno", "party": "APC", "geopolitical": "North-East", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected for second term" },
+  { "name": "Mai Mala Buni", "state": "Yobe", "party": "APC", "geopolitical": "North-East", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected for second term" },
+  { "name": "Ahmadu Umaru Fintiri", "state": "Adamawa", "party": "PDP", "geopolitical": "North-East", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected for second term" },
+  { "name": "Muhammad Inuwa Yahaya", "state": "Gombe", "party": "APC", "geopolitical": "North-East", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected for second term" },
+  { "name": "Bala Mohammed", "state": "Bauchi", "party": "PDP", "geopolitical": "North-East", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected for second term" },
+  { "name": "Agbu Kefas", "state": "Taraba", "party": "PDP", "geopolitical": "North-East", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+
+  { "name": "Mohammed Umar Bago", "state": "Niger", "party": "APC", "geopolitical": "North-Central", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Abdulrahman Abdulrazaq", "state": "Kwara", "party": "APC", "geopolitical": "North-Central", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected for second term" },
+  { "name": "Yahaya Bello", "state": "Kogi", "party": "APC", "geopolitical": "North-Central", "termStart": "2023", "termEnd": "2024", "status": "completed", "note": "His second term ended January 2024" },
+  { "name": "Usman Ododo", "state": "Kogi", "party": "APC", "geopolitical": "North-Central", "termStart": "2024", "termEnd": null, "status": "serving", "note": "Won November 2023 election; sworn in January 2024" },
+  { "name": "Hyacinth Alia", "state": "Benue", "party": "APC", "geopolitical": "North-Central", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Abdullahi Sule", "state": "Nasarawa", "party": "APC", "geopolitical": "North-Central", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected for second term" },
+  { "name": "Caleb Mutfwang", "state": "Plateau", "party": "PDP", "geopolitical": "North-Central", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+
+  { "name": "Siminalayi Fubara", "state": "Rivers", "party": "PDP", "geopolitical": "South-South", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Sheriff Oborevwori", "state": "Delta", "party": "PDP", "geopolitical": "South-South", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Duoye Diri", "state": "Bayelsa", "party": "PDP", "geopolitical": "South-South", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected November 2023" },
+  { "name": "Bassey Otu", "state": "Cross River", "party": "APC", "geopolitical": "South-South", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Umo Eno", "state": "Akwa Ibom", "party": "PDP", "geopolitical": "South-South", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Godwin Obaseki", "state": "Edo", "party": "PDP", "geopolitical": "South-South", "termStart": "2023", "termEnd": "2024", "status": "completed", "note": "Term ended November 2024" },
+  { "name": "Monday Okpebholo", "state": "Edo", "party": "APC", "geopolitical": "South-South", "termStart": "2024", "termEnd": null, "status": "serving", "note": "Won September 2024 governorship election" },
+
+  { "name": "Charles Soludo", "state": "Anambra", "party": "APGA", "geopolitical": "South-East", "termStart": "2022", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Hope Uzodimma", "state": "Imo", "party": "APC", "geopolitical": "South-East", "termStart": "2023", "termEnd": null, "status": "serving", "note": "Re-elected November 2023" },
+  { "name": "Peter Mbah", "state": "Enugu", "party": "PDP", "geopolitical": "South-East", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Francis Nwifuru", "state": "Ebonyi", "party": "APC", "geopolitical": "South-East", "termStart": "2023", "termEnd": null, "status": "serving", "note": null },
+  { "name": "Alex Otti", "state": "Abia", "party": "LP", "geopolitical": "South-East", "termStart": "2023", "termEnd": null, "status": "serving", "note": "First Labour Party governor of Abia" }
+]
