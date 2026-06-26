@@ -367,11 +367,22 @@ const filteredBills = computed(() => {
 <template>
   <div class="pt-layout">
 
-    <!-- ── Top header ── -->
     <header class="pt-header">
+      <div class="pt-govbar">
+        <span class="pt-flag" aria-hidden="true"><span></span></span>
+        <span>Federal Republic of Nigeria</span>
+        <span class="pt-govbar-note">Public accountability information service</span>
+      </div>
       <div class="pt-header-brand">
-        <div class="pt-eyebrow">Civic Accountability · Nigeria</div>
-        <h1 class="pt-headline">NGScorecard</h1>
+        <div class="pt-crest" aria-hidden="true">NG</div>
+        <div>
+          <div class="pt-eyebrow">Civic Accountability · Nigeria</div>
+          <h1 class="pt-headline">NGScorecard</h1>
+        </div>
+        <div class="pt-admin-summary">
+          <span>{{ currentAdmin.title || currentAdmin.name }}</span>
+          <strong>{{ currentAdmin.term }}</strong>
+        </div>
       </div>
       <nav class="pt-admin-nav" aria-label="Administration">
         <button
