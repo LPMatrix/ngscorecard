@@ -1,14 +1,23 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, inject } from 'vue'
 import PromiseCard  from './components/PromiseCard.vue'
 import HistoryChart from './components/HistoryChart.vue'
 import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
 import GovernorsView   from './components/GovernorsView.vue'
 
-const ADMINISTRATIONS = ref([])
+// Populated server-side (entry-server.js) or client-side from
+// window.__INITIAL_STATE__ (entry-client.js) — null in a plain SPA fallback.
+const initial = inject('initialData', null)
 
-const activeAdmin = ref('tinubu')
+const VALID_TABS = new Set([
+  'promises', 'ministers', 'orders', 'appointments', 'governors',
+  'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills',
+])
+
+const ADMINISTRATIONS = ref(initial?.presidents ?? [])
+
+const activeAdmin = ref(initial?.admin ?? 'tinubu')
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
 
@@ -20,23 +29,23 @@ const STATUSES = [
   { key: 'pending', label: 'In progress' },
 ]
 
-const promises     = ref([])
-const inherited    = ref([])
-const fraud        = ref([])
-const orders       = ref([])
-const ministers    = ref([])
-const budget       = ref([])
-const bills        = ref([])
-const indicators   = ref([])
-const appointments = ref([])
-const judgments    = ref([])
-const history      = ref([])
-const governors    = ref([])
-const activeTab      = ref('promises')
+const promises     = ref(initial?.data?.promises ?? [])
+const inherited    = ref(initial?.data?.inherited ?? [])
+const fraud        = ref(initial?.data?.fraud ?? [])
+const orders       = ref(initial?.data?.orders ?? [])
+const ministers    = ref(initial?.data?.ministers ?? [])
+const budget       = ref(initial?.data?.budget ?? [])
+const bills        = ref(initial?.data?.bills ?? [])
+const indicators   = ref(initial?.data?.indicators ?? [])
+const appointments = ref(initial?.data?.appointments ?? [])
+const judgments    = ref(initial?.data?.judgments ?? [])
+const historyData  = ref(initial?.data?.history ?? [])
+const governors    = ref(initial?.data?.governors ?? [])
+const activeTab      = ref(initial?.tab ?? 'promises')
 const activeStatus   = ref('all')
 const activeCategory = ref('all')
 const searchQuery    = ref('')
-const expandedId     = ref(null)
+const expandedId     = ref(initial?.expandedId ?? null)
 const copied         = ref(false)
 
 async function loadData(admin) {
@@ -48,7 +57,7 @@ async function loadData(admin) {
   ])
   promises.value     = p
   inherited.value    = i
-  history.value      = h
+  historyData.value  = h
   fraud.value        = f
   orders.value       = o
   ministers.value    = m
@@ -61,23 +70,34 @@ async function loadData(admin) {
 }
 
 onMounted(async () => {
-  const presidents = await fetch('/api/presidents').then(r => r.json()).catch(() => [])
-  ADMINISTRATIONS.value = presidents.map(p => ({
+  // Server already rendered this exact admin/tab — nothing to fetch.
+  if (!initial) {
+    const presidents = await fetch('/api/presidents').then(r => r.json()).catch(() => [])
+    ADMINISTRATIONS.value = presidents.map(mapPresident)
+
+    const params = new URLSearchParams(window.location.search)
+    const admin = params.get('admin')
+    const tab   = params.get('tab')
+    if (admin) activeAdmin.value = admin
+    if (tab && VALID_TABS.has(tab)) activeTab.value = tab
+
+    await loadData(activeAdmin.value)
+
+    const id = parseInt(params.get('id'))
+    if (id) expandedId.value = id
+  }
+})
+
+function mapPresident(p) {
+  return {
     key:      p.key,
     name:     p.name,
     title:    p.fullName,
     term:     p.term,
     tagline:  p.tagline,
     reviewed: p.reviewed,
-  }))
-
-  await loadData(activeAdmin.value)
-
-  // Deep-link: open card specified by ?id= on load
-  const params = new URLSearchParams(window.location.search)
-  const id = parseInt(params.get('id'))
-  if (id) expandedId.value = id
-})
+  }
+}
 
 watch(activeAdmin, (admin) => {
   activeTab.value      = 'promises'
@@ -86,6 +106,7 @@ watch(activeAdmin, (admin) => {
   searchQuery.value    = ''
   expandedId.value     = null
   loadData(admin)
+  syncUrl()
 })
 
 // ── Tab switching ─────────────────────────────────────
@@ -97,9 +118,19 @@ function switchTab(tab) {
   activeResponse.value = 'all'
   searchQuery.value    = ''
   setExpanded(null)
+  syncUrl()
 }
 
-// ── Deep-link ─────────────────────────────────────────
+// ── URL sync ────────────────────────────────────────────
+// Keeps ?admin=&tab=&id= in sync with the current view so it's shareable,
+// bookmarkable, and — since these are read server-side too — crawlable.
+
+function syncUrl() {
+  const url = new URL(window.location)
+  url.searchParams.set('admin', activeAdmin.value)
+  url.searchParams.set('tab', activeTab.value)
+  window.history.replaceState(null, '', url)
+}
 
 function setExpanded(id) {
   expandedId.value = id
@@ -109,7 +140,7 @@ function setExpanded(id) {
   } else {
     url.searchParams.delete('id')
   }
-  history.replaceState(null, '', url)
+  window.history.replaceState(null, '', url)
 }
 
 function handleToggle(id) {
@@ -396,7 +427,7 @@ const filteredBills = computed(() => {
         </button>
       </nav>
       <!-- Mobile-only section nav -->
-      <select class="pt-mobile-nav" :value="activeTab" @change="switchTab($event.target.value)">
+      <select class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup label="Government">
           <option value="promises">Promises</option>
           <option value="ministers">Ministers</option>
@@ -506,7 +537,7 @@ const filteredBills = computed(() => {
       </div>
 
       <!-- History chart -->
-      <HistoryChart :history="history" />
+      <HistoryChart :history="historyData" />
 
       <!-- Controls -->
       <div class="pt-controls">

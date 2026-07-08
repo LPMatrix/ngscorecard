@@ -2,44 +2,74 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ngscorecard.com/</loc>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://ngscorecard.com/?tab=promises</loc>
-    <lastmod>2026-05-12</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://ngscorecard.com/?admin=tinubu&amp;tab=fraud</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/?admin=tinubu&amp;tab=orders</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/?admin=tinubu&amp;tab=ministers</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/?admin=tinubu&amp;tab=budget</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/?admin=tinubu&amp;tab=bills</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/?admin=buhari&amp;tab=promises</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ngscorecard.com/?tab=fraud</loc>
-    <lastmod>2026-05-12</lastmod>
+    <loc>https://ngscorecard.com/?admin=buhari&amp;tab=fraud</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/?admin=jonathan&amp;tab=promises</loc>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ngscorecard.com/?tab=orders</loc>
-    <lastmod>2026-05-12</lastmod>
+    <loc>https://ngscorecard.com/?admin=jonathan&amp;tab=fraud</loc>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://ngscorecard.com/?tab=ministers</loc>
-    <lastmod>2026-05-12</lastmod>
+    <loc>https://ngscorecard.com/?admin=yaradua&amp;tab=promises</loc>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ngscorecard.com/?tab=budget</loc>
-    <lastmod>2026-05-12</lastmod>
+    <loc>https://ngscorecard.com/?admin=obasanjo&amp;tab=promises</loc>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ngscorecard.com/?tab=bills</loc>
-    <lastmod>2026-05-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
 </urlset>

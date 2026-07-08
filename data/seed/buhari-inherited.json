@@ -1,1 +1,90 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "Depleted fiscal buffers after the 2014-15 oil price collapse",
+    "category": "Economy",
+    "status": "partial",
+    "problem": "Brent crude fell from over $100/barrel in mid-2014 to under $50 by early 2015, gutting federal and state revenue just as the Excess Crude Account — which had held over $20 billion in 2007 — had been drawn down to roughly $2-4 billion, leaving almost no fiscal cushion to absorb the shock.",
+    "resolution": "Buhari's government leaned on Paris Club refunds, budget support loans (including a $1 billion World Bank loan and Eurobond issuances), and later a full naira devaluation in 2016-17 to manage the shortfall. The Excess Crude Account was never meaningfully rebuilt, and Nigeria entered its first recession in 25 years in 2016 as a direct consequence of the unaddressed exposure.",
+    "source": "https://punchng.com/excess-crude-account-history/",
+    "sourceLabel": "Punch — Excess Crude Account history",
+    "updated": "May 2016"
+  },
+  {
+    "id": 2,
+    "title": "Nationwide fuel scarcity from unpaid subsidy arrears",
+    "category": "Energy",
+    "status": "fixed",
+    "problem": "By April-May 2015, marketers had stopped importing petrol because the outgoing Jonathan administration owed over ₦200 billion in unpaid subsidy claims, producing weeks-long fuel queues across the country in the final days of the transition and the first days of Buhari's presidency.",
+    "resolution": "The new administration authorised payment of verified outstanding subsidy arrears within its first months in office, and supply normalised by mid-2015. The underlying subsidy mechanism itself was not reformed at this stage — scarcity would recur repeatedly in later years for different reasons — but the specific inherited arrears crisis was cleared.",
+    "source": "https://www.reuters.com/article/us-nigeria-fuel/nigeria-fuel-crisis-eases-as-government-pays-off-subsidy-debt-idUSKBN0O61Z620150520",
+    "sourceLabel": "Reuters — subsidy arrears payment",
+    "updated": "May 2015"
+  },
+  {
+    "id": 3,
+    "title": "Boko Haram in control of territory across three North-East states",
+    "category": "Security",
+    "status": "partial",
+    "problem": "By early 2015, Boko Haram held territory roughly the size of Belgium across Borno, Yobe, and Adamawa states, including local government headquarters, and had declared a 'caliphate'. A regional military push in the weeks before Buhari's inauguration had begun retaking towns, but the insurgency remained a live territorial threat.",
+    "resolution": "The Nigerian military, working with the Multinational Joint Task Force, recaptured nearly all held territory through 2015-2016 and Buhari declared the group 'technically defeated' in December 2015. However, Boko Haram fractured into factions (including ISWAP) and reverted to a mobile insurgency, sustaining attacks and abductions in the North-East through the end of Buhari's term in 2023.",
+    "source": "https://www.bbc.com/news/world-africa-35174399",
+    "sourceLabel": "BBC News — Boko Haram territorial losses",
+    "updated": "December 2015"
+  },
+  {
+    "id": 4,
+    "title": "Months of unpaid state and federal worker salaries",
+    "category": "Governance",
+    "status": "partial",
+    "problem": "The oil revenue crash left more than 20 state governments unable to pay civil servants for months by mid-2015, with some states owing 6 months or more in salary arrears. Federal parastatals and pensioners were similarly affected by revenue shortfalls inherited from the outgoing administration.",
+    "resolution": "The federal government disbursed a ₦713.7 billion Paris Club refund and a separate bailout/restructuring facility to states in 2015-2016 specifically to help clear salary backlogs. Most states cleared arrears within a year, though several states — particularly in the North — relapsed into fresh salary delays during the 2016 and 2020 recessions.",
+    "source": "https://www.premiumtimesng.com/news/headlines/paris-club-refund-states-salary-bailout.html",
+    "sourceLabel": "Premium Times — Paris Club refund",
+    "updated": "2016"
+  },
+  {
+    "id": 5,
+    "title": "NNPC revenue opacity and the $20 billion unremitted funds allegation",
+    "category": "Finance",
+    "status": "partial",
+    "problem": "In 2014, then-CBN Governor Sanusi Lamido Sanusi alleged that the NNPC had failed to remit around $20 billion in crude oil revenue to the federation account, exposing deep structural opacity in how Nigeria's state oil company accounted for the country's single largest revenue source.",
+    "resolution": "A 2015 PwC forensic audit found a smaller reconciliation gap (around $1.48 billion) than Sanusi's original figure, and Buhari ordered tighter reporting and eventual monthly NNPC financial disclosures from 2019. However, full transparency over crude revenue, subsidy under-recovery claims, and swap arrangements remained contested and only partially resolved by the time the Petroleum Industry Act converted NNPC into a commercial entity in 2021-22.",
+    "source": "https://www.reuters.com/article/us-nigeria-oil-audit/pwc-audit-finds-1-48-billion-of-nigerian-oil-money-unaccounted-for-idUSKBN0LX1C420150304",
+    "sourceLabel": "Reuters — PwC NNPC forensic audit",
+    "updated": "2015"
+  },
+  {
+    "id": 6,
+    "title": "Unstable foreign exchange regime and shrinking reserves",
+    "category": "Economy",
+    "status": "partial",
+    "problem": "The CBN had spent down external reserves defending the naira ahead of the 2015 transition, and a widening gap between the official and parallel exchange rates was already fuelling round-tripping and forex scarcity for importers by the time Buhari took office.",
+    "resolution": "Rather than resolving the distortion, the CBN under Buhari initially held the naira at an overvalued official rate before devaluing in June 2016 and introducing the NAFEX 'Investors & Exporters' window in 2017 — which created additional parallel windows rather than a single unified rate. The multiple-rate regime persisted for the rest of Buhari's term and was only unified after he left office in June 2023.",
+    "source": "https://www.reuters.com/article/us-nigeria-cenbank/nigeria-central-bank-devalues-naira-idUSKCN0Z61ZH",
+    "sourceLabel": "Reuters — 2016 naira devaluation",
+    "updated": "June 2016"
+  },
+  {
+    "id": 7,
+    "title": "Dysfunction in the newly privatised power sector",
+    "category": "Energy",
+    "status": "partial",
+    "problem": "The 2013 privatisation of Nigeria's power generation and distribution assets had left the incoming Discos and Gencos undercapitalised, saddled with legacy debt, and unable to invest in the metering and grid infrastructure needed to raise supply beyond roughly 3,000-4,000MW of average delivered power.",
+    "resolution": "The Buhari administration extended intervention funds (including a ₦701 billion CBN/NEMSF facility) and later a Siemens-backed Presidential Power Initiative (2019) to shore up the grid. Average delivered power still hovered in the 4,000-5,000MW range at the end of his term in 2023, and the sector's core undercapitalisation was never structurally resolved.",
+    "source": "https://punchng.com/nigeria-power-sector-privatisation-record/",
+    "sourceLabel": "Punch — power privatisation record",
+    "updated": "May 2023"
+  },
+  {
+    "id": 8,
+    "title": "Chibok schoolgirls abducted and unaccounted for",
+    "category": "Security",
+    "status": "partial",
+    "problem": "276 schoolgirls were abducted by Boko Haram from Chibok, Borno State, in April 2014. By the time Buhari took office in May 2015, almost none had been recovered, and the case had become an international symbol of the Jonathan administration's failure to contain the insurgency.",
+    "resolution": "Through negotiated releases and military operations, 107 of the 276 girls were eventually freed or rescued during Buhari's presidency, most in group releases in 2016-2017. However, dozens remained missing or unaccounted for at the end of his term in 2023, and no comprehensive final accounting of all 276 girls was ever published.",
+    "source": "https://www.amnesty.org/en/latest/news/2018/04/nigeria-chibok-schoolgirls-four-years-on/",
+    "sourceLabel": "Amnesty International — Chibok girls, four years on",
+    "updated": "April 2018"
+  }
+]

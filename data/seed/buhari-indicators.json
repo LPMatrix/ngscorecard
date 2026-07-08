@@ -1,1 +1,105 @@
-[]
+[
+  {
+    "id": "inflation",
+    "label": "Inflation Rate",
+    "unit": "%",
+    "color": "#c0392b",
+    "description": "Headline consumer price inflation (year-on-year), NBS. Inflation more than doubled during the 2016 recession, eased through 2017-2019, then climbed again from 2020 onward amid the pandemic, currency pressure, and the 2020 border closure's food-price effects.",
+    "source": "https://nigerianstat.gov.ng/elibrary/read/1241468",
+    "sourceLabel": "NBS — Consumer Price Index",
+    "note": null,
+    "points": [
+      { "label": "Jun '15",  "value": 9.2 },
+      { "label": "Dec '15",  "value": 9.6 },
+      { "label": "Dec '16",  "value": 18.55 },
+      { "label": "Dec '17",  "value": 15.37 },
+      { "label": "Dec '18",  "value": 11.44 },
+      { "label": "Dec '19",  "value": 11.98 },
+      { "label": "Dec '20",  "value": 15.75 },
+      { "label": "Dec '21",  "value": 15.63 },
+      { "label": "Dec '22",  "value": 21.34 },
+      { "label": "May '23",  "value": 22.79 }
+    ]
+  },
+  {
+    "id": "naira",
+    "label": "Naira / USD (official)",
+    "unit": "₦/$",
+    "color": "#1a6e3c",
+    "description": "Official CBN exchange rate. The naira was held at an overvalued peg through early 2016, devalued that June, and then managed through a widening set of parallel windows for the rest of the term rather than being fully unified — a distortion left for the incoming administration to resolve in 2023.",
+    "source": "https://www.cbn.gov.ng/rates/ExchRateByCurrency.asp",
+    "sourceLabel": "CBN — Exchange Rate Data",
+    "note": "Rates shown are official CBN window averages; a separate, weaker parallel-market rate persisted throughout the period.",
+    "points": [
+      { "label": "Jun '15",  "value": 197 },
+      { "label": "Dec '16",  "value": 305 },
+      { "label": "Dec '17",  "value": 306 },
+      { "label": "Dec '18",  "value": 307 },
+      { "label": "Dec '19",  "value": 307 },
+      { "label": "Dec '20",  "value": 379 },
+      { "label": "Dec '21",  "value": 411 },
+      { "label": "Dec '22",  "value": 461 },
+      { "label": "May '23",  "value": 463 }
+    ]
+  },
+  {
+    "id": "fuel",
+    "label": "Petrol Pump Price",
+    "unit": "₦/litre",
+    "color": "#8e44ad",
+    "description": "Average retail pump price for Premium Motor Spirit (petrol) in Lagos. Price nearly doubled in a 2016 'partial deregulation' that removed the official price band, briefly dropped during the 2020 oil price collapse, then drifted upward again as the subsidy burden grew heading into the 2023 handover.",
+    "source": "https://nnpcgroup.com/petroleum-products",
+    "sourceLabel": "NNPCL — Pump Price History",
+    "note": "Prices shown are Lagos retail averages; black-market prices during periodic scarcity episodes were often significantly higher.",
+    "points": [
+      { "label": "Jun '15",  "value": 87 },
+      { "label": "May '16",  "value": 145 },
+      { "label": "Dec '17",  "value": 145 },
+      { "label": "Dec '18",  "value": 145 },
+      { "label": "Mar '20",  "value": 123.5 },
+      { "label": "Dec '20",  "value": 162 },
+      { "label": "Dec '21",  "value": 165 },
+      { "label": "Dec '22",  "value": 170 },
+      { "label": "May '23",  "value": 187 }
+    ]
+  },
+  {
+    "id": "gdp",
+    "label": "GDP Growth Rate",
+    "unit": "%",
+    "color": "#2980b9",
+    "description": "Full-year real GDP growth as reported by the NBS. The economy fell into recession twice under Buhari — in 2016 after the oil price crash, and again in 2020 during the COVID-19 pandemic — with a modest rebound in the years following each contraction.",
+    "source": "https://nigerianstat.gov.ng/elibrary/read/1241504",
+    "sourceLabel": "NBS — GDP Report",
+    "note": "Figures are full-year real GDP growth rates, except the final point which is a single quarter (Q1 2023).",
+    "points": [
+      { "label": "2015",    "value": 2.65 },
+      { "label": "2016",    "value": -1.62 },
+      { "label": "2017",    "value": 0.82 },
+      { "label": "2018",    "value": 1.92 },
+      { "label": "2019",    "value": 2.27 },
+      { "label": "2020",    "value": -1.92 },
+      { "label": "2021",    "value": 3.40 },
+      { "label": "2022",    "value": 3.10 },
+      { "label": "Q1 '23",  "value": 2.31 }
+    ]
+  },
+  {
+    "id": "unemployment",
+    "label": "Unemployment Rate",
+    "unit": "%",
+    "color": "#e67e22",
+    "description": "National unemployment rate per the NBS Labour Force Survey (pre-2023 methodology). Unemployment rose steadily across Buhari's two terms, from roughly 8% at inauguration to over 33% by the last quarter for which NBS published data.",
+    "source": "https://nigerianstat.gov.ng/elibrary/read/1241510",
+    "sourceLabel": "NBS — Labour Force Survey",
+    "note": "⚠︎ Uses the pre-2023 NBS methodology, not comparable with the ILO-aligned series introduced in 2023 (shown in the Tinubu-era data). NBS did not publish a fresh Labour Force Survey between Q4 2020 and the end of Buhari's term in May 2023.",
+    "points": [
+      { "label": "Q2 '15",  "value": 8.19 },
+      { "label": "Q4 '16",  "value": 14.2 },
+      { "label": "Q3 '17",  "value": 18.8 },
+      { "label": "Q3 '18",  "value": 23.1 },
+      { "label": "Q2 '20",  "value": 27.1 },
+      { "label": "Q4 '20",  "value": 33.3 }
+    ]
+  }
+]

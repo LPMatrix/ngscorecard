@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node server/dev.js",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build",
+    "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
     "preview": "vite preview",
     "start": "node server/index.js",
     "db:push": "drizzle-kit push",
     "db:seed": "node --env-file=.env server/seed.js",
+    "db:seed:reset": "node --env-file=.env server/seed.js --reset",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {

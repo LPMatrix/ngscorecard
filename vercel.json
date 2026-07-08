@@ -1,7 +1,8 @@
 {
-  "buildCommand": "vite build",
-  "outputDirectory": "dist",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/client",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api" }
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/(.*)", "destination": "/ssr" }
   ]
 }

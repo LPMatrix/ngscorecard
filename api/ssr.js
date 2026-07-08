@@ -2,27 +2,23 @@ import express from 'express'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import { readFileSync } from 'fs'
-import { createApiRouter } from './api.js'
-import { renderHtml } from './render.js'
+import { renderHtml } from '../server/render.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const app = express()
-const PORT = process.env.PORT || 3000
 
 const template = readFileSync(path.join(__dirname, '../dist/client/index.html'), 'utf-8')
 const loadEntryServer = () => import('../dist/server/entry-server.js')
 
-app.use('/api', createApiRouter())
-app.use(express.static(path.join(__dirname, '../dist/client'), { index: false }))
+const app = express()
 
 app.use(async (req, res) => {
   try {
     const html = await renderHtml(req.originalUrl, template, loadEntryServer)
-    res.status(200).set('Content-Type', 'text/html').end(html)
+    res.status(200).set('Content-Type', 'text/html').send(html)
   } catch (e) {
     console.error(e)
-    res.status(500).end('Internal Server Error')
+    res.status(500).send('Internal Server Error')
   }
 })
 
-app.listen(PORT, () => console.log(`NGScorecard running on http://localhost:${PORT}`))
+export default app

@@ -48,6 +48,8 @@ export const fraud = sqliteTable('fraud', {
   year:           integer('year'),
   allegation:     text('allegation').notNull(),
   outcome:        text('outcome').notNull(),
+  responseVerdict: text('response_verdict'),
+  govtResponse:   text('govt_response'),
   source:         text('source').notNull(),
   sourceLabel:    text('source_label').notNull(),
   updated:        text('updated').notNull(),

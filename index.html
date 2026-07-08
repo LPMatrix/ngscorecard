@@ -6,8 +6,8 @@
 
     <!-- Primary SEO -->
     <title>NGScorecard — Nigeria Government Accountability Tracker</title>
-    <meta name="description" content="Independent tracker for President Tinubu's campaign promises, executive orders, ministerial performance, federal budget spending, and NASS legislation. Civic accountability for Nigeria 2023–2027." />
-    <meta name="keywords" content="Tinubu promises, Nigeria government accountability, Tinubu scorecard, Nigeria 2027, NGScorecard, Nigeria budget tracker, minister scorecard, NASS bills, Nigeria politics, Renewed Hope Agenda" />
+    <meta name="description" content="Independent tracker for Nigerian presidential administrations — campaign promises, fraud cases, executive orders, ministerial performance, budgets, and legislation, covering Tinubu, Buhari, Jonathan, Yar'Adua, and Obasanjo since 1999." />
+    <meta name="keywords" content="Nigeria government accountability, NGScorecard, Tinubu scorecard, Buhari scorecard, Jonathan scorecard, Nigeria budget tracker, minister scorecard, NASS bills, Nigeria politics, presidential promise tracker" />
     <meta name="author" content="NGScorecard" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://ngscorecard.com/" />
@@ -17,7 +17,7 @@
     <meta property="og:url" content="https://ngscorecard.com/" />
     <meta property="og:site_name" content="NGScorecard" />
     <meta property="og:title" content="NGScorecard — Nigeria Government Accountability Tracker" />
-    <meta property="og:description" content="Independent tracker for President Tinubu's campaign promises, executive orders, ministerial performance, federal budget spending, and NASS legislation." />
+    <meta property="og:description" content="Independent tracker for Nigerian presidential administrations — campaign promises, fraud cases, executive orders, ministerial performance, budgets, and legislation, covering Tinubu, Buhari, Jonathan, Yar'Adua, and Obasanjo since 1999." />
     <meta property="og:image" content="https://ngscorecard.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -28,7 +28,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@ngscorecard" />
     <meta name="twitter:title" content="NGScorecard — Nigeria Government Accountability Tracker" />
-    <meta name="twitter:description" content="Independent tracker for President Tinubu's campaign promises, executive orders, ministerial performance, federal budget spending, and NASS legislation." />
+    <meta name="twitter:description" content="Independent tracker for Nigerian presidential administrations — campaign promises, fraud cases, executive orders, ministerial performance, budgets, and legislation, covering Tinubu, Buhari, Jonathan, Yar'Adua, and Obasanjo since 1999." />
     <meta name="twitter:image" content="https://ngscorecard.com/og-image.png" />
 
     <!-- Favicon -->
@@ -44,7 +44,7 @@
       "@type": "WebSite",
       "name": "NGScorecard",
       "url": "https://ngscorecard.com",
-      "description": "Independent civic accountability tracker for the Nigerian federal government — tracking campaign promises, executive orders, ministerial performance, budget spending, and legislation.",
+      "description": "Independent civic accountability tracker for Nigerian federal administrations — tracking campaign promises, fraud cases, executive orders, ministerial performance, budget spending, and legislation across five presidencies.",
       "inLanguage": "en-NG",
       "publisher": {
         "@type": "Organization",
@@ -54,7 +54,7 @@
       "about": {
         "@type": "Thing",
         "name": "Nigerian Government Accountability",
-        "description": "Tracking promises, performance, and policy of the Tinubu administration (2023–2027)"
+        "description": "Tracking promises, performance, and policy of Nigeria's federal administrations since 1999: Bola Tinubu (2023–present), Muhammadu Buhari (2015–2023), Goodluck Jonathan (2010–2015), Umaru Musa Yar'Adua (2007–2010), and Olusegun Obasanjo (1999–2007)."
       }
     }
     </script>
@@ -65,7 +65,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <div id="app"><!--ssr-outlet--></div>
+    <!--ssr-state-->
+    <script type="module" src="/src/entry-client.js"></script>
   </body>
 </html>

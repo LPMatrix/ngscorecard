@@ -53,5 +53,192 @@
     "source": "https://nbs.gov.ng/",
     "sourceLabel": "National Bureau of Statistics",
     "updated": "May 2023"
+  },
+  {
+    "id": 6,
+    "title": "Restructure the federation and devolve powers to states",
+    "category": "Governance",
+    "status": "broken",
+    "promise": "The APC's 2015 and 2019 manifestos pledged to review the constitution and devolve more powers, resources, and responsibilities to state and local governments — 'true federalism'.",
+    "assessment": "No devolution bill was ever transmitted by the presidency. The 2015–2019 and 2019–2023 National Assemblies handled restructuring only through backbench constitution-amendment bills, most of which failed. Buhari personally showed little enthusiasm for the agenda, and state police, resource control, and fiscal federalism proposals all stalled under his watch.",
+    "source": "https://www.premiumtimesng.com/news/headlines/buhari-restructuring-record.html",
+    "sourceLabel": "Premium Times — restructuring record",
+    "updated": "May 2023"
+  },
+  {
+    "id": 7,
+    "title": "End militancy and sustain peace in the Niger Delta",
+    "category": "Security",
+    "status": "partial",
+    "promise": "Promised to consolidate the Presidential Amnesty Programme for ex-militants and address the environmental and developmental grievances driving Niger Delta militancy.",
+    "assessment": "The Amnesty Programme continued with stipends for over 30,000 ex-agitators, and pipeline vandalism eased for stretches after the 2016 Niger Delta Avengers campaign. However, environmental remediation (Ogoni clean-up/HYPREP) moved slowly, and militancy resurged periodically whenever amnesty funding or stipends lapsed.",
+    "source": "https://www.premiumtimesng.com/regional/niger-delta/niger-delta-amnesty-programme.html",
+    "sourceLabel": "Premium Times — Niger Delta desk",
+    "updated": "May 2023"
+  },
+  {
+    "id": 8,
+    "title": "Resolve farmer-herder conflict without forced land grants",
+    "category": "Agriculture",
+    "status": "broken",
+    "promise": "Pledged to end the escalating farmer-herder clashes across the Middle Belt through a national livestock policy that would not impose grazing land on unwilling states.",
+    "assessment": "The government's RUGA settlement plan, announced in June 2019, triggered immediate backlash from southern and Middle Belt governors over perceived land appropriation for Fulani herders, and was suspended within days. No replacement livestock policy was implemented. Farmer-herder killings continued throughout the North-Central and Middle Belt, with thousands of deaths recorded by conflict trackers between 2015 and 2023.",
+    "source": "https://www.reuters.com/article/us-nigeria-landrights-cattle/nigeria-drops-plan-for-cattle-colonies-after-backlash-idUSKCN1TX1ZE",
+    "sourceLabel": "Reuters — RUGA policy suspension",
+    "updated": "July 2019"
+  },
+  {
+    "id": 9,
+    "title": "Enforce the Treasury Single Account to block leakages",
+    "category": "Governance",
+    "status": "kept",
+    "promise": "Promised strict enforcement of the Treasury Single Account (TSA) across all federal ministries, departments and agencies to consolidate government cash and stop the diversion of public revenue into private commercial accounts.",
+    "assessment": "The TSA, first introduced under Jonathan, was enforced government-wide from September 2015. Over 20,000 previously dormant MDA bank accounts were closed and consolidated at the CBN. The reform is widely credited as one of the more durable fiscal governance improvements of the Buhari years, though some agencies continued to find operational workarounds.",
+    "source": "https://www.cbn.gov.ng/out/2015/ccd/treasury%20single%20account%20circular.pdf",
+    "sourceLabel": "Central Bank of Nigeria — TSA circular",
+    "updated": "September 2015"
+  },
+  {
+    "id": 10,
+    "title": "Launch social investment programmes for the poorest Nigerians",
+    "category": "Social",
+    "status": "partial",
+    "promise": "Pledged a National Social Investment Programme including a school feeding scheme, conditional cash transfers to the poorest households, N-Power job placements for graduates, and GEEP/TraderMoni micro-loans for traders and artisans.",
+    "assessment": "The National Home-Grown School Feeding Programme reportedly fed over 9 million pupils at its peak before COVID-19 disrupted school attendance. Conditional cash transfers and N-Power reached millions of beneficiaries cumulatively, but implementation was dogged by weak targeting data, allegations of politicisation, and a 2020 audit that found significant gaps between claimed and verifiable beneficiary numbers.",
+    "source": "https://nassber.gov.ng/",
+    "sourceLabel": "National Social Investment Programme Agency",
+    "updated": "May 2023"
+  },
+  {
+    "id": 11,
+    "title": "Achieve rice and staple food self-sufficiency",
+    "category": "Agriculture",
+    "status": "partial",
+    "promise": "Promised to end Nigeria's dependence on imported rice and other staples through the Anchor Borrowers' Programme, land border closures, and support for local farmers.",
+    "assessment": "Rice production and milling capacity increased substantially, and the August 2019 land border closure temporarily curbed smuggling. However, the CBN's own review later found high default rates (over 50% in some assessments) on Anchor Borrowers loans, food inflation rose sharply after the border closure, and Nigeria remained a large net food importer at the end of the term.",
+    "source": "https://www.cbn.gov.ng/devfin/abp.asp",
+    "sourceLabel": "Central Bank of Nigeria — Anchor Borrowers' Programme",
+    "updated": "May 2023"
+  },
+  {
+    "id": 12,
+    "title": "Increase electricity generation to 20,000MW",
+    "category": "Energy",
+    "status": "broken",
+    "promise": "Promised to fix the privatised power sector and dramatically raise generation and transmission capacity to meet national demand.",
+    "assessment": "Installed generation capacity grew only marginally, and actual power delivered to the grid rarely exceeded 4,000–5,000MW throughout the two terms — far short of the 20,000MW target and of estimated national demand above 30,000MW. Multiple total grid collapses occurred every year, and metering gaps left millions of customers on estimated billing.",
+    "source": "https://punchng.com/nigeria-power-sector-buhari-years/",
+    "sourceLabel": "Punch — power sector under Buhari",
+    "updated": "May 2023"
+  },
+  {
+    "id": 13,
+    "title": "Reform and unbundle the NNPC",
+    "category": "Energy",
+    "status": "partial",
+    "promise": "Promised to make the state oil company transparent and commercially run, ending decades of opacity around crude revenue and subsidy claims.",
+    "assessment": "NNPC began publishing monthly financial and operational reports from 2019 — a first. The Petroleum Industry Act (2021) converted NNPC into a commercial entity, NNPC Limited, incorporated in 2021 and formally unveiled in 2022. However, the transition was not complete by the end of the term, and questions over unremitted revenue and subsidy under-recovery persisted throughout.",
+    "source": "https://nnpcgroup.com/NNPC-Documents/Financial%20and%20Operations%20Report",
+    "sourceLabel": "NNPC — monthly financial and operations reports",
+    "updated": "May 2023"
+  },
+  {
+    "id": 14,
+    "title": "Pass the long-stalled Petroleum Industry Bill",
+    "category": "Energy",
+    "status": "kept",
+    "promise": "Promised to finally pass comprehensive petroleum sector legislation that had been stuck in the National Assembly since 2008 under successive administrations.",
+    "assessment": "The Petroleum Industry Act was passed by the National Assembly in July 2021 and signed into law by Buhari on 16 August 2021 — the first comprehensive overhaul of Nigeria's oil and gas legal framework in over two decades. Host community provisions and fiscal terms were criticised by parts of the industry and civil society, but the two-decade legislative logjam was broken.",
+    "source": "https://statehouse.gov.ng/news/buhari-signs-petroleum-industry-bill-into-law/",
+    "sourceLabel": "State House — PIA signing",
+    "updated": "August 2021"
+  },
+  {
+    "id": 15,
+    "title": "Reform the electoral process for credible elections",
+    "category": "Governance",
+    "status": "kept",
+    "promise": "Promised electoral reforms to reduce rigging, violence, and delays, and to modernise INEC's processes.",
+    "assessment": "Buhari declined to sign an earlier Electoral Act amendment in 2018, and the 2019 general election was marred by vote-buying and violence in several states. However, he signed the Electoral Act 2022, which mandated the Bimodal Voter Accreditation System (BVAS) and electronic transmission of results — reforms first used in the 2023 general election, widely seen as the most significant electoral legal reform in over a decade despite continued implementation gaps.",
+    "source": "https://placng.org/i/electoral-act-2022/",
+    "sourceLabel": "PLAC — Electoral Act 2022 analysis",
+    "updated": "February 2022"
+  },
+  {
+    "id": 16,
+    "title": "Reduce the cost of governance",
+    "category": "Governance",
+    "status": "broken",
+    "promise": "Promised a leaner, less expensive government, cutting waste and the size of the political class.",
+    "assessment": "The cost of running the presidency and the National Assembly rose over the two terms, and Buhari's cabinet and aide appointments were larger than promised on the campaign trail. Recurrent expenditure consistently outpaced capital expenditure in the federal budget throughout his tenure, and repeated pledges to cut the presidential fleet and convoy sizes were not delivered.",
+    "source": "https://www.budgetoffice.gov.ng/",
+    "sourceLabel": "Budget Office of the Federation",
+    "updated": "May 2023"
+  },
+  {
+    "id": 17,
+    "title": "Respond decisively to the COVID-19 pandemic",
+    "category": "Health",
+    "status": "partial",
+    "promise": "Promised a coordinated national response to the COVID-19 pandemic from March 2020, including lockdowns, testing scale-up, and economic relief for vulnerable households.",
+    "assessment": "The Presidential Task Force coordinated an initial lockdown and testing capacity expanded from a handful of labs to over 100. However, the October 2020 discovery of unused, hoarded COVID-19 palliatives in warehouses across several states — looted by the public amid #EndSARS unrest — became a defining symbol of distribution failure. Economic relief (N-CARES, cash transfers) reached a fraction of the informal-sector workers hit hardest by lockdowns.",
+    "source": "https://www.bbc.com/news/world-africa-54566988",
+    "sourceLabel": "BBC News — looted COVID-19 palliatives",
+    "updated": "October 2020"
+  },
+  {
+    "id": 18,
+    "title": "Improve Nigeria's ease of doing business ranking",
+    "category": "Economy",
+    "status": "kept",
+    "promise": "Promised reforms to cut red tape and make Nigeria more attractive to investors, targeting a top-100 global ranking.",
+    "assessment": "Through the Presidential Enabling Business Environment Council (PEBEC), Nigeria climbed from 169th in 2015 to 131st in the World Bank's 2020 Ease of Doing Business ranking (the report's final edition before discontinuation), driven by reforms to business registration, construction permits, and cross-border trade. The top-100 target was not reached, but the sustained multi-year improvement was one of the more consistently delivered reforms of the era.",
+    "source": "https://archive.doingbusiness.org/en/data/exploreeconomies/nigeria",
+    "sourceLabel": "World Bank — Doing Business archive, Nigeria",
+    "updated": "October 2019"
+  },
+  {
+    "id": 19,
+    "title": "Deploy a national identity system (NIN-SIM linkage)",
+    "category": "Governance",
+    "status": "kept",
+    "promise": "Promised to build a unified national identity database to improve security, financial inclusion, and service delivery.",
+    "assessment": "The government mandated linkage of the National Identification Number (NIN) to all mobile SIM cards from December 2020, threatening to bar unlinked lines. NIN enrolment rose from under 40 million to over 90 million by 2023, a major expansion despite widespread enrolment centre congestion and repeated deadline extensions.",
+    "source": "https://nimc.gov.ng/nin-sim-linkage-policy/",
+    "sourceLabel": "NIMC — NIN-SIM linkage policy",
+    "updated": "April 2022"
+  },
+  {
+    "id": 20,
+    "title": "Reform the police, including disbanding SARS",
+    "category": "Security",
+    "status": "broken",
+    "promise": "Following years of public complaints, promised to overhaul the Special Anti-Robbery Squad (SARS) and improve police accountability, culminating in a formal disbandment announcement in October 2020 amid the #EndSARS protests.",
+    "assessment": "SARS was announced disbanded on 11 October 2020, but was rapidly replaced by a similarly-staffed unit (SWAT), and the 20 October 2020 Lekki Toll Gate shooting of #EndSARS protesters — which a Lagos State judicial panel later found amounted to unlawful killing by security forces — went without any federal prosecution. Most of the five-point #EndSARS demands, including panel recommendations on compensation and prosecution, were left unimplemented by the end of the term.",
+    "source": "https://www.hrw.org/news/2021/11/15/nigeria-lekki-shooting-panel-confirms-killings",
+    "sourceLabel": "Human Rights Watch — Lekki shooting panel findings",
+    "updated": "November 2021"
+  },
+  {
+    "id": 21,
+    "title": "Rehabilitate Nigeria's refineries for local refining capacity",
+    "category": "Energy",
+    "status": "broken",
+    "promise": "Promised to fix the Port Harcourt, Warri, and Kaduna refineries so Nigeria could refine its own crude instead of importing nearly all its petrol.",
+    "assessment": "Multiple turnaround maintenance (TAM) contracts were awarded across the two terms, including a $1.5 billion rehabilitation contract for Port Harcourt signed in 2021. None of the state refineries returned to meaningful, sustained production capacity before Buhari left office in May 2023; Nigeria continued importing the vast majority of its refined petroleum products throughout his presidency.",
+    "source": "https://www.reuters.com/business/energy/nigeria-oil-refineries-history-failure-2021-04-16/",
+    "sourceLabel": "Reuters — Nigeria's refinery rehabilitation record",
+    "updated": "April 2021"
+  },
+  {
+    "id": 22,
+    "title": "Combat Boko Haram regionally through the Multinational Joint Task Force",
+    "category": "Security",
+    "status": "partial",
+    "promise": "Promised to revive and strengthen the Multinational Joint Task Force (MNJTF) with Chad, Niger, Cameroon and Benin to fight Boko Haram and ISWAP across the Lake Chad Basin.",
+    "assessment": "The MNJTF was reactivated and conducted joint operations that reclaimed significant territory from Boko Haram in 2015–2016. However, coordination between member states was inconsistent, funding lagged pledges, and ISWAP exploited gaps to entrench itself in the Lake Chad islands, sustaining a cross-border insurgency through the end of Buhari's term.",
+    "source": "https://www.crisisgroup.org/africa/west-africa/nigeria/watchmen-lake-chad-vigilante-groups-fighting-boko-haram",
+    "sourceLabel": "International Crisis Group — Lake Chad Basin",
+    "updated": "May 2023"
   }
 ]

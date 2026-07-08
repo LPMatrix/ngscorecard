@@ -1,1 +1,110 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "Executive Order 1 — Promotion of Transparency and Efficiency in the Business Environment",
+    "category": "Economy",
+    "status": "implemented",
+    "signed": "May 18, 2017",
+    "directive": "Directed all MDAs to grant or refuse business permits, licences, and approvals within stated timelines, publish a checklist of requirements for applications, and prioritise Nigerian nationals in the appointment of resident representatives and executives of foreign companies operating in Nigeria.",
+    "effect": "Formed the operational backbone of the Presidential Enabling Business Environment Council (PEBEC) reform agenda. Combined with successive reform bills, Nigeria climbed from 169th to 131st in the World Bank's Ease of Doing Business ranking between 2015 and 2020. Compliance across MDAs was uneven, but the order gave PEBEC a legal basis to name and shame slow agencies.",
+    "source": "https://statehouse.gov.ng/news/executive-order-1-promotion-transparency-efficiency-business-environment/",
+    "sourceLabel": "State House — Executive Order 1",
+    "updated": "May 2017"
+  },
+  {
+    "id": 2,
+    "title": "Executive Order 5 — Preference for local science, engineering and technology talent",
+    "category": "Economy",
+    "status": "partial",
+    "signed": "February 5, 2018",
+    "directive": "Required all federal agencies procuring science, engineering, and technology-related goods and services to give first preference to Nigerian professionals and companies, and to hire foreign personnel only where no qualified Nigerian expertise existed.",
+    "effect": "Some MDAs began favouring Nigerian consultancies and researchers in contract awards. However, monitoring was weak, several major infrastructure and technology contracts continued to rely heavily on foreign firms and expatriate staff, and no public enforcement mechanism was ever established to penalise non-compliant agencies.",
+    "source": "https://statehouse.gov.ng/news/executive-order-5-planning-execution-projects-promotion-nigerian-content-contracts/",
+    "sourceLabel": "State House — Executive Order 5",
+    "updated": "February 2018"
+  },
+  {
+    "id": 3,
+    "title": "Executive Order 6 — Preservation of Suspicious Assets Connected with Corruption Cases",
+    "category": "Governance",
+    "status": "partial",
+    "signed": "July 5, 2018",
+    "directive": "Authorised the interim forfeiture of assets belonging to persons facing corruption-related investigation or trial, to prevent the dissipation, transfer, or concealment of such assets while proceedings were ongoing.",
+    "effect": "Enabled the EFCC and ICPC to freeze assets tied to several high-profile suspects more quickly than the standard forfeiture process allowed. Civil society groups welcomed the intent but criticised inconsistent application — assets tied to opposition figures were frozen swiftly, while similar allegations against ruling-party allies (such as the Ganduje bribery-video case) saw no comparable action.",
+    "source": "https://statehouse.gov.ng/news/executive-order-6-preservation-suspicious-assets-connected-corruption-related-cases/",
+    "sourceLabel": "State House — Executive Order 6",
+    "updated": "July 2018"
+  },
+  {
+    "id": 4,
+    "title": "Executive Order 7 — Road Infrastructure Development and Refurbishment Investment Tax Credit Scheme",
+    "category": "Infrastructure",
+    "status": "implemented",
+    "signed": "January 25, 2019",
+    "directive": "Allowed private companies to fund the construction or refurbishment of eligible federal roads directly, in exchange for tax credits equivalent to their investment, to be offset against future company income tax liabilities.",
+    "effect": "Dangote Group, NNPC, and other companies committed to fund road projects including the Apapa-Oshodi-Oworonshoki-Ojota expressway and roads linking cement plants and ports. Several projects progressed under the scheme, though disbursement and certification of tax credits lagged behind construction milestones in multiple cases.",
+    "source": "https://statehouse.gov.ng/news/executive-order-7-road-infrastructure-tax-credit-scheme/",
+    "sourceLabel": "State House — Executive Order 7",
+    "updated": "January 2019"
+  },
+  {
+    "id": 5,
+    "title": "Executive Order 8 — Voluntary Offshore Assets Regularisation Scheme (VOARS)",
+    "category": "Finance",
+    "status": "partial",
+    "signed": "October 8, 2018",
+    "directive": "Gave Nigerians with undeclared offshore assets a final 12-month window to voluntarily declare and regularise those assets with the tax authorities, ahead of Nigeria's participation in the OECD's automatic international exchange of financial account information.",
+    "effect": "The scheme followed an earlier Voluntary Assets and Income Declaration Scheme (VAIDS, 2017) that had also underperformed its revenue targets. VOARS similarly saw limited voluntary uptake, and the government did not publish comprehensive figures on total assets regularised under the order before it lapsed.",
+    "source": "https://statehouse.gov.ng/news/executive-order-8-voluntary-offshore-assets-regularisation-scheme/",
+    "sourceLabel": "State House — Executive Order 8",
+    "updated": "October 2018"
+  },
+  {
+    "id": 6,
+    "title": "Whistleblower Policy — reward scheme for reporting public fund theft",
+    "category": "Governance",
+    "status": "partial",
+    "signed": "December 2016",
+    "directive": "The Ministry of Finance launched a policy offering informants between 2.5% and 5% of any government funds recovered as a direct result of their tip-offs, aimed at encouraging citizens and insiders to report corruption and stolen public assets.",
+    "effect": "The policy produced early, widely publicised wins, including tips that led to recovery of tens of millions of dollars hidden in Ikoyi, Lagos in 2017. Momentum faded after 2018 amid leadership changes at the Finance Ministry, reported delays in paying promised rewards to whistleblowers, and no comprehensive public accounting of total recoveries attributable to the scheme by the end of Buhari's term.",
+    "source": "https://www.premiumtimesng.com/news/headlines/whistleblower-policy-nigeria-recoveries.html",
+    "sourceLabel": "Premium Times",
+    "updated": "2019"
+  },
+  {
+    "id": 7,
+    "title": "Suspension of Twitter's operations in Nigeria",
+    "category": "Governance",
+    "status": "reversed",
+    "signed": "June 4, 2021",
+    "directive": "The Ministry of Information directed the Nigerian Communications Commission to instruct all telecom operators to block access to Twitter indefinitely, days after the platform deleted a tweet by Buhari that referenced the Biafra civil war and was widely read as a veiled threat against secessionist agitators.",
+    "effect": "Access to Twitter was blocked nationwide for over seven months, disrupting businesses, activists, and government agencies that relied on the platform, and drawing condemnation from press freedom groups and foreign governments. The ban was lifted in January 2022 after Twitter agreed to a set of government conditions, including opening a local office and registering with the National Broadcasting Commission.",
+    "source": "https://www.bbc.com/news/world-africa-57370800",
+    "sourceLabel": "BBC News",
+    "updated": "January 2022"
+  },
+  {
+    "id": 8,
+    "title": "Closure of all land borders to stem smuggling",
+    "category": "Economy",
+    "status": "reversed",
+    "signed": "August 20, 2019",
+    "directive": "Ordered the closure of all of Nigeria's land borders with Benin, Niger, Cameroon and Chad to curb the smuggling of rice, fuel, and other goods that officials said was undermining local agriculture and the government's fuel pricing regime.",
+    "effect": "Rice smuggling and some cross-border fuel diversion fell sharply in the short term, and domestic rice milling capacity utilisation rose. However, food inflation climbed as legitimate trade was also disrupted, ECOWAS neighbours protested the breach of regional free-trade commitments, and the government reopened the borders in December 2020 without having resolved the smuggling problem structurally.",
+    "source": "https://www.reuters.com/article/us-nigeria-borders/nigeria-reopens-land-borders-after-16-month-closure-idUSKBN28K1JZ",
+    "sourceLabel": "Reuters",
+    "updated": "December 2020"
+  },
+  {
+    "id": 9,
+    "title": "Executive Order 10 — Financial Autonomy for State Legislature and State Judiciary",
+    "category": "Governance",
+    "status": "ignored",
+    "signed": "May 22, 2020",
+    "directive": "Directed the Accountant-General of the Federation to deduct funds directly from the allocations of any state that failed to grant financial autonomy to its state House of Assembly and state judiciary, as required by the 1999 Constitution, and to remit those funds directly to the affected arms of government.",
+    "effect": "The Nigeria Governors' Forum challenged the order in court, and most state governments continued to control legislative and judicial budgets in practice throughout the remainder of Buhari's term. Implementation was inconsistent across states, and the direct-deduction mechanism was rarely, if ever, enforced against non-complying governors before he left office in 2023.",
+    "source": "https://www.premiumtimesng.com/news/headlines/buhari-executive-order-10-financial-autonomy.html",
+    "sourceLabel": "Premium Times",
+    "updated": "May 2020"
+  }
+]
