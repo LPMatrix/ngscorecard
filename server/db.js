@@ -1,5 +1,18 @@
 import * as schema from './schema.js'
 
+function ensureColumn(client, table, column, definition) {
+  const columns = client.prepare(`PRAGMA table_info(${table})`).all()
+  if (columns.some(c => c.name === column)) return
+  client.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run()
+}
+
+function ensureLocalSchema(client) {
+  ensureColumn(client, 'presidents', 'level', "TEXT NOT NULL DEFAULT 'federal'")
+  ensureColumn(client, 'presidents', 'state', 'TEXT')
+  ensureColumn(client, 'fraud', 'response_verdict', 'TEXT')
+  ensureColumn(client, 'fraud', 'govt_response', 'TEXT')
+}
+
 async function createDb() {
   if (process.env.TURSO_DATABASE_URL) {
     const { createClient } = await import('@libsql/client')
@@ -23,6 +36,7 @@ async function createDb() {
   const client = new Database(dbPath)
   client.pragma('journal_mode = WAL')
   client.pragma('foreign_keys = ON')
+  ensureLocalSchema(client)
   return drizzle(client, { schema })
 }
 

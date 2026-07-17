@@ -25,6 +25,7 @@ const range  = computed(() => maxVal.value - minVal.value || 1)
 
 function xPos(i) {
   const n = active.value.points.length
+  if (n === 1) return PAD.left + PLOT_W / 2
   return PAD.left + (i / (n - 1)) * PLOT_W
 }
 
@@ -85,19 +86,21 @@ const change = computed(() => {
     <!-- Key stats -->
     <div class="iv-stats">
       <div class="iv-stat">
-        <div class="iv-stat-lbl">At inauguration ({{ first.label }})</div>
+        <div class="iv-stat-lbl">{{ active.points.length > 1 ? 'Earliest' : 'Recorded' }} ({{ first.label }})</div>
         <div class="iv-stat-val">{{ fmt(first.value, active.unit) }}</div>
       </div>
-      <div class="iv-stat">
-        <div class="iv-stat-lbl">Latest ({{ last.label }})</div>
-        <div class="iv-stat-val">{{ fmt(last.value, active.unit) }}</div>
-      </div>
-      <div class="iv-stat">
-        <div class="iv-stat-lbl">Change since {{ first.label }}</div>
-        <div :class="['iv-stat-val', 'iv-change', change.up ? 'up' : 'down']">
-          {{ change.up ? '+' : '' }}{{ change.pct }}%
+      <template v-if="active.points.length > 1">
+        <div class="iv-stat">
+          <div class="iv-stat-lbl">Latest ({{ last.label }})</div>
+          <div class="iv-stat-val">{{ fmt(last.value, active.unit) }}</div>
         </div>
-      </div>
+        <div class="iv-stat">
+          <div class="iv-stat-lbl">Change since {{ first.label }}</div>
+          <div :class="['iv-stat-val', 'iv-change', change.up ? 'up' : 'down']">
+            {{ change.up ? '+' : '' }}{{ change.pct }}%
+          </div>
+        </div>
+      </template>
       <div v-if="hovered" class="iv-stat iv-hover-stat">
         <div class="iv-stat-lbl">{{ hovered.label }}</div>
         <div class="iv-stat-val">{{ fmt(hovered.value, active.unit) }}</div>

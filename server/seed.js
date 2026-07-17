@@ -63,13 +63,17 @@ async function seedPresidents(rows) {
   const seen = new Set(existing.map(r => r.key))
   let added = 0
   for (const r of rows) {
-    if (seen.has(r.key)) continue
-    await db.insert(t.presidents).values({
+    const values = {
       key: r.key, name: r.name, fullName: r.fullName,
       termStart: r.termStart, termEnd: r.termEnd ?? null,
       tagline: r.tagline, party: r.party ?? null, reviewed: r.reviewed,
       level: r.level ?? 'federal', state: r.state ?? null,
-    })
+    }
+    if (seen.has(r.key)) {
+      await db.update(t.presidents).set(values).where(eq(t.presidents.key, r.key))
+      continue
+    }
+    await db.insert(t.presidents).values(values)
     seen.add(r.key)
     added++
   }
@@ -214,24 +218,17 @@ async function seedIndicators(rows, admin) {
 
 // ── Run ──────────────────────────────────────────────────────────────────────
 
-const ADMINISTRATIONS = [
-  { key: 'tinubu',   prefix: '' },
-  { key: 'buhari',   prefix: 'buhari-' },
-  { key: 'jonathan', prefix: 'jonathan-' },
-  { key: 'yaradua',  prefix: 'yaradua-' },
-  { key: 'obasanjo', prefix: 'obasanjo-' },
-  // State-level (governor) — no bills.json/governors.json for these; readJson()
-  // returns [] for missing files, so seedBills/seedGovernors are harmless no-ops.
-  { key: 'makinde',  prefix: 'makinde-' },
-]
-
 if (process.argv.includes('--reset')) {
   await clearAll()
 }
 
-await seedPresidents(readJson('presidents.json'))
+const administrations = readJson('presidents.json')
 
-for (const { key, prefix } of ADMINISTRATIONS) {
+await seedPresidents(administrations)
+
+for (const admin of administrations) {
+  const key = admin.key
+  const prefix = admin.seedPrefix ?? (key === 'tinubu' ? '' : `${key}-`)
   const counts = {
     promises:     await seedPromises(    readJson(`${prefix}promises.json`),     key),
     inherited:    await seedInherited(   readJson(`${prefix}inherited.json`),    key),

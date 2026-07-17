@@ -1,7 +1,7 @@
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
-import { VALID_ADMINS, getPresidents, getAllDataForAdmin } from '../server/queries.js'
+import { getPresidents, getAllDataForAdmin } from '../server/queries.js'
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
@@ -32,7 +32,7 @@ function buildMeta(admin) {
 export async function render({ admin, tab, id } = {}) {
   const presidents = await getPresidents()
 
-  const resolvedAdmin = VALID_ADMINS.has(admin) ? admin : 'tinubu'
+  const resolvedAdmin = presidents.some(p => p.key === admin) ? admin : 'tinubu'
   const adminRecord = presidents.find(p => p.key === resolvedAdmin)
 
   const tabInvalidForLevel = adminRecord?.level === 'state' && FEDERAL_ONLY_TABS.has(tab)

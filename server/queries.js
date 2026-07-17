@@ -2,14 +2,22 @@ import { eq } from 'drizzle-orm'
 import { db } from './db.js'
 import * as t from './schema.js'
 
-export const VALID_ADMINS = new Set(['tinubu', 'buhari', 'jonathan', 'yaradua', 'obasanjo', 'makinde'])
-
 export async function getPresidents() {
   const rows = await db.select().from(t.presidents)
   return rows.map(p => ({
     ...p,
     term: p.termEnd ? `${p.termStart}–${p.termEnd}` : `${p.termStart}–present`,
   }))
+}
+
+export async function isValidAdmin(admin) {
+  if (!admin) return false
+  const rows = await db
+    .select({ key: t.presidents.key })
+    .from(t.presidents)
+    .where(eq(t.presidents.key, admin))
+    .limit(1)
+  return rows.length > 0
 }
 
 export const getPromises     = (admin) => db.select().from(t.promises).where(eq(t.promises.administration, admin))
