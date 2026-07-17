@@ -16,8 +16,8 @@ const current = computed(() => {
 
 function fmt(bn) {
   if (bn == null) return '—'
-  if (bn >= 1000) return '₦' + (bn / 1000).toFixed(1) + 'tn'
-  return '₦' + bn + 'bn'
+  if (bn >= 1000) return '₦' + (bn / 1000).toLocaleString(undefined, { maximumFractionDigits: 3 }) + 'tn'
+  return '₦' + bn.toLocaleString(undefined, { maximumFractionDigits: 3 }) + 'bn'
 }
 
 function barWidth(pct) {

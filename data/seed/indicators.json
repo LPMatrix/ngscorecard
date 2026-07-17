@@ -78,6 +78,7 @@
     "label": "GDP Growth Rate",
     "unit": "%",
     "color": "#2980b9",
+    "higherIsBetter": true,
     "description": "Year-on-year real GDP growth as reported by the NBS. Growth has been positive but below the administration's 7% target, driven mainly by services and a recovering oil sector rather than broad-based economic transformation.",
     "source": "https://nigerianstat.gov.ng/elibrary/read/1241504",
     "sourceLabel": "NBS — GDP Report",

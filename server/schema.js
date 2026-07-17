@@ -180,6 +180,9 @@ export const indicators = sqliteTable('indicators', {
   source:         text('source').notNull(),
   sourceLabel:    text('source_label').notNull(),
   note:           text('note'),
+  // Whether a rising value is good news (e.g. GDP growth, IGR) rather than
+  // bad (e.g. inflation, debt, unemployment) — determines change-arrow color.
+  higherIsBetter: integer('higher_is_better', { mode: 'boolean' }),
 })
 
 export const indicatorPoints = sqliteTable('indicator_points', {

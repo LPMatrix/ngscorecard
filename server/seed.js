@@ -198,6 +198,7 @@ async function seedIndicators(rows, admin) {
         administration: admin, key: r.id, label: r.label, unit: r.unit,
         color: r.color, description: r.description,
         source: r.source, sourceLabel: r.sourceLabel, note: r.note ?? null,
+        higherIsBetter: r.higherIsBetter ?? false,
       }).returning({ id: t.indicators.id })
       indicatorId = id
       added++

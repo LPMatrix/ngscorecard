@@ -11,6 +11,7 @@ function ensureLocalSchema(client) {
   ensureColumn(client, 'presidents', 'state', 'TEXT')
   ensureColumn(client, 'fraud', 'response_verdict', 'TEXT')
   ensureColumn(client, 'fraud', 'govt_response', 'TEXT')
+  ensureColumn(client, 'indicators', 'higher_is_better', 'INTEGER')
 }
 
 async function createDb() {

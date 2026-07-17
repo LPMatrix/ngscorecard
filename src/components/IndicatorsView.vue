@@ -58,7 +58,10 @@ const hovered = ref(null)
 function fmt(v, unit) {
   if (unit === '₦/$') return '₦' + v.toLocaleString()
   if (unit === '₦/litre') return '₦' + v
-  if (unit === '₦bn') return '₦' + v.toLocaleString() + 'bn'
+  if (unit === '₦bn') {
+    if (v >= 1000) return '₦' + (v / 1000).toLocaleString(undefined, { maximumFractionDigits: 3 }) + 'tn'
+    return '₦' + v.toLocaleString(undefined, { maximumFractionDigits: 3 }) + 'bn'
+  }
   return v + unit
 }
 
@@ -67,7 +70,11 @@ const last  = computed(() => active.value.points[active.value.points.length - 1]
 const change = computed(() => {
   const diff = last.value.value - first.value.value
   const pct  = ((diff / first.value.value) * 100).toFixed(1)
-  return { diff, pct, up: diff > 0 }
+  const up   = diff > 0
+  // Direction alone doesn't tell you if a change is good news — rising GDP
+  // or IGR is good, rising inflation or debt is bad. higherIsBetter decides.
+  const good = active.value.higherIsBetter ? up : !up
+  return { diff, pct, up, good }
 })
 </script>
 
@@ -96,7 +103,7 @@ const change = computed(() => {
         </div>
         <div class="iv-stat">
           <div class="iv-stat-lbl">Change since {{ first.label }}</div>
-          <div :class="['iv-stat-val', 'iv-change', change.up ? 'up' : 'down']">
+          <div :class="['iv-stat-val', 'iv-change', change.good ? 'good' : 'bad']">
             {{ change.up ? '+' : '' }}{{ change.pct }}%
           </div>
         </div>

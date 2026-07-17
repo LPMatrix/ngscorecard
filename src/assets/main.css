@@ -376,10 +376,10 @@ a:focus-visible {
 
 .pt-stat-value.total { color: var(--pt-green-900); }
 .pt-stat-value.kept,
-.iv-change.down { color: var(--pt-kept); }
+.iv-change.good { color: var(--pt-kept); }
 .pt-stat-value.partial { color: var(--pt-partial); }
 .pt-stat-value.broken,
-.iv-change.up { color: var(--pt-broken); }
+.iv-change.bad { color: var(--pt-broken); }
 .pt-stat-value.pending { color: var(--pt-pending); }
 .bv-top-val.deficit { color: var(--pt-broken); }
 .bv-top-val.debt { color: var(--pt-partial); }

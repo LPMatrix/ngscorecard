@@ -60,5 +60,29 @@
     "reviewed": "July 2026",
     "level": "state",
     "state": "Oyo"
+  },
+  {
+    "key": "sanwoolu",
+    "name": "Sanwo-Olu",
+    "fullName": "Babajide Sanwo-Olu",
+    "termStart": "2019",
+    "termEnd": null,
+    "tagline": "T.H.E.M.E.S+ Agenda",
+    "party": "APC",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Lagos"
+  },
+  {
+    "key": "otti",
+    "name": "Otti",
+    "fullName": "Alex Otti",
+    "termStart": "2023",
+    "termEnd": null,
+    "tagline": "New Abia",
+    "party": "LP",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Abia"
   }
 ]
