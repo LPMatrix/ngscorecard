@@ -57,6 +57,7 @@ const hovered = ref(null)
 function fmt(v, unit) {
   if (unit === '₦/$') return '₦' + v.toLocaleString()
   if (unit === '₦/litre') return '₦' + v
+  if (unit === '₦bn') return '₦' + v.toLocaleString() + 'bn'
   return v + unit
 }
 
@@ -92,7 +93,7 @@ const change = computed(() => {
         <div class="iv-stat-val">{{ fmt(last.value, active.unit) }}</div>
       </div>
       <div class="iv-stat">
-        <div class="iv-stat-lbl">Change since May '23</div>
+        <div class="iv-stat-lbl">Change since {{ first.label }}</div>
         <div :class="['iv-stat-val', 'iv-change', change.up ? 'up' : 'down']">
           {{ change.up ? '+' : '' }}{{ change.pct }}%
         </div>

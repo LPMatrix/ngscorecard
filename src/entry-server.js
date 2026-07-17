@@ -8,27 +8,37 @@ const VALID_TABS = new Set([
   'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills',
 ])
 
-function buildMeta(president) {
-  if (!president) {
+const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])
+
+function buildMeta(admin) {
+  if (!admin) {
     return {
       title: 'NGScorecard — Nigeria Government Accountability Tracker',
       description: 'Independent tracker for Nigerian presidential administrations — campaign promises, fraud cases, executive orders, ministerial performance, budgets, and legislation, covering Tinubu, Buhari, Jonathan, Yar’Adua, and Obasanjo since 1999.',
     }
   }
+  if (admin.level === 'state') {
+    return {
+      title: `NGScorecard — ${admin.fullName} Accountability Tracker (${admin.state} State, ${admin.term})`,
+      description: `Independent tracker for ${admin.fullName}'s (${admin.term}) record as Governor of ${admin.state} State — campaign promises, fraud cases, executive directives, commissioners' performance, state budgets, and court judgments. Part of NGScorecard's civic accountability record for Nigeria.`,
+    }
+  }
   return {
-    title: `NGScorecard — ${president.fullName} Accountability Tracker (${president.term})`,
-    description: `Independent tracker for ${president.fullName}'s (${president.term}) campaign promises, fraud cases, executive orders, ministerial performance, federal budgets, and legislation. Part of NGScorecard's civic accountability record for Nigeria since 1999.`,
+    title: `NGScorecard — ${admin.fullName} Accountability Tracker (${admin.term})`,
+    description: `Independent tracker for ${admin.fullName}'s (${admin.term}) campaign promises, fraud cases, executive orders, ministerial performance, federal budgets, and legislation. Part of NGScorecard's civic accountability record for Nigeria since 1999.`,
   }
 }
 
 export async function render({ admin, tab, id } = {}) {
-  const resolvedAdmin = VALID_ADMINS.has(admin) ? admin : 'tinubu'
-  const resolvedTab   = VALID_TABS.has(tab) ? tab : 'promises'
+  const presidents = await getPresidents()
 
-  const [presidents, data] = await Promise.all([
-    getPresidents(),
-    getAllDataForAdmin(resolvedAdmin),
-  ])
+  const resolvedAdmin = VALID_ADMINS.has(admin) ? admin : 'tinubu'
+  const adminRecord = presidents.find(p => p.key === resolvedAdmin)
+
+  const tabInvalidForLevel = adminRecord?.level === 'state' && FEDERAL_ONLY_TABS.has(tab)
+  const resolvedTab = (VALID_TABS.has(tab) && !tabInvalidForLevel) ? tab : 'promises'
+
+  const data = await getAllDataForAdmin(resolvedAdmin)
 
   const initialData = {
     admin: resolvedAdmin,
@@ -36,7 +46,7 @@ export async function render({ admin, tab, id } = {}) {
     expandedId: Number.isFinite(id) ? id : null,
     presidents: presidents.map(p => ({
       key: p.key, name: p.name, title: p.fullName, term: p.term,
-      tagline: p.tagline, reviewed: p.reviewed,
+      tagline: p.tagline, reviewed: p.reviewed, level: p.level, state: p.state,
     })),
     data,
   }
@@ -45,7 +55,7 @@ export async function render({ admin, tab, id } = {}) {
   app.provide('initialData', initialData)
 
   const html = await renderToString(app)
-  const meta = buildMeta(presidents.find(p => p.key === resolvedAdmin))
+  const meta = buildMeta(adminRecord)
 
   return { html, initialData, meta }
 }

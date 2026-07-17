@@ -68,6 +68,7 @@ async function seedPresidents(rows) {
       key: r.key, name: r.name, fullName: r.fullName,
       termStart: r.termStart, termEnd: r.termEnd ?? null,
       tagline: r.tagline, party: r.party ?? null, reviewed: r.reviewed,
+      level: r.level ?? 'federal', state: r.state ?? null,
     })
     seen.add(r.key)
     added++
@@ -219,6 +220,9 @@ const ADMINISTRATIONS = [
   { key: 'jonathan', prefix: 'jonathan-' },
   { key: 'yaradua',  prefix: 'yaradua-' },
   { key: 'obasanjo', prefix: 'obasanjo-' },
+  // State-level (governor) — no bills.json/governors.json for these; readJson()
+  // returns [] for missing files, so seedBills/seedGovernors are harmless no-ops.
+  { key: 'makinde',  prefix: 'makinde-' },
 ]
 
 if (process.argv.includes('--reset')) {

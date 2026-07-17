@@ -14,12 +14,17 @@ const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
   'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills',
 ])
+const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])
 
 const ADMINISTRATIONS = ref(initial?.presidents ?? [])
+const federalAdmins = computed(() => ADMINISTRATIONS.value.filter(a => (a.level ?? 'federal') === 'federal'))
+const stateAdmins    = computed(() => ADMINISTRATIONS.value.filter(a => a.level === 'state'))
 
 const activeAdmin = ref(initial?.admin ?? 'tinubu')
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
+const isStateLevel = computed(() => currentAdmin.value.level === 'state')
+const ministerLabel = computed(() => isStateLevel.value ? 'Commissioners' : 'Ministers')
 
 const STATUSES = [
   { key: 'all',     label: 'All' },
@@ -79,7 +84,9 @@ onMounted(async () => {
     const admin = params.get('admin')
     const tab   = params.get('tab')
     if (admin) activeAdmin.value = admin
-    if (tab && VALID_TABS.has(tab)) activeTab.value = tab
+    const adminLevel = presidents.find(p => p.key === activeAdmin.value)?.level
+    const tabInvalidForLevel = adminLevel === 'state' && FEDERAL_ONLY_TABS.has(tab)
+    if (tab && VALID_TABS.has(tab) && !tabInvalidForLevel) activeTab.value = tab
 
     await loadData(activeAdmin.value)
 
@@ -96,6 +103,8 @@ function mapPresident(p) {
     term:     p.term,
     tagline:  p.tagline,
     reviewed: p.reviewed,
+    level:    p.level,
+    state:    p.state,
   }
 }
 
@@ -401,7 +410,7 @@ const filteredBills = computed(() => {
     <header class="pt-header">
       <div class="pt-govbar">
         <span class="pt-flag" aria-hidden="true"><span></span></span>
-        <span>Federal Republic of Nigeria</span>
+        <span>{{ isStateLevel ? `${currentAdmin.state} State Government` : 'Federal Republic of Nigeria' }}</span>
         <span class="pt-govbar-note">Public accountability information service</span>
       </div>
       <div class="pt-header-brand">
@@ -416,8 +425,9 @@ const filteredBills = computed(() => {
         </div>
       </div>
       <nav class="pt-admin-nav" aria-label="Administration">
+        <span class="pt-admin-nav-label">Federal</span>
         <button
-          v-for="a in ADMINISTRATIONS"
+          v-for="a in federalAdmins"
           :key="a.key"
           :class="['pt-admin-tab', { active: activeAdmin === a.key }]"
           @click="activeAdmin = a.key"
@@ -426,14 +436,26 @@ const filteredBills = computed(() => {
           <span class="pt-admin-tab-term">{{ a.term }}</span>
         </button>
       </nav>
+      <nav v-if="stateAdmins.length" class="pt-admin-nav pt-admin-nav-state" aria-label="State governors">
+        <span class="pt-admin-nav-label">States</span>
+        <button
+          v-for="a in stateAdmins"
+          :key="a.key"
+          :class="['pt-admin-tab', { active: activeAdmin === a.key }]"
+          @click="activeAdmin = a.key"
+        >
+          <span class="pt-admin-tab-name">{{ a.name }} ({{ a.state }})</span>
+          <span class="pt-admin-tab-term">{{ a.term }}</span>
+        </button>
+      </nav>
       <!-- Mobile-only section nav -->
       <select class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup label="Government">
           <option value="promises">Promises</option>
-          <option value="ministers">Ministers</option>
+          <option value="ministers">{{ ministerLabel }}</option>
           <option value="orders">Orders &amp; Policy</option>
           <option value="appointments">Appointments</option>
-          <option value="governors">Governors</option>
+          <option v-if="!isStateLevel" value="governors">Governors</option>
         </optgroup>
         <optgroup label="Accountability">
           <option value="fraud">Fraud</option>
@@ -444,7 +466,7 @@ const filteredBills = computed(() => {
           <option value="budget">Budget</option>
           <option value="indicators">Key Indicators</option>
         </optgroup>
-        <optgroup label="Legislature">
+        <optgroup v-if="!isStateLevel" label="Legislature">
           <option value="bills">Bills Watch</option>
         </optgroup>
       </select>
@@ -459,10 +481,10 @@ const filteredBills = computed(() => {
           <div class="pt-nav-group">
             <div class="pt-nav-group-label">Government</div>
             <button :class="['pt-nav-btn', { active: activeTab === 'promises' }]"     @click="switchTab('promises')">Promises <span class="pt-nav-count">{{ promises.length }}</span></button>
-            <button :class="['pt-nav-btn', { active: activeTab === 'ministers' }]"    @click="switchTab('ministers')">Ministers <span class="pt-nav-count">{{ ministers.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'ministers' }]"    @click="switchTab('ministers')">{{ ministerLabel }} <span class="pt-nav-count">{{ ministers.length }}</span></button>
             <button :class="['pt-nav-btn', { active: activeTab === 'orders' }]"       @click="switchTab('orders')">Orders &amp; Policy <span class="pt-nav-count">{{ orders.length }}</span></button>
             <button :class="['pt-nav-btn', { active: activeTab === 'appointments' }]" @click="switchTab('appointments')">Appointments <span class="pt-nav-count">{{ appointments.length }}</span></button>
-            <button :class="['pt-nav-btn', { active: activeTab === 'governors' }]"    @click="switchTab('governors')">Governors <span class="pt-nav-count">{{ governors.length }}</span></button>
+            <button v-if="!isStateLevel" :class="['pt-nav-btn', { active: activeTab === 'governors' }]"    @click="switchTab('governors')">Governors <span class="pt-nav-count">{{ governors.length }}</span></button>
           </div>
 
           <div class="pt-nav-group">
@@ -478,7 +500,7 @@ const filteredBills = computed(() => {
             <button :class="['pt-nav-btn', { active: activeTab === 'indicators' }]" @click="switchTab('indicators')">Key Indicators</button>
           </div>
 
-          <div class="pt-nav-group">
+          <div v-if="!isStateLevel" class="pt-nav-group">
             <div class="pt-nav-group-label">Legislature</div>
             <button :class="['pt-nav-btn', { active: activeTab === 'bills' }]" @click="switchTab('bills')">Bills Watch <span class="pt-nav-count">{{ bills.length }}</span></button>
           </div>
@@ -629,8 +651,9 @@ const filteredBills = computed(() => {
     <template v-else-if="activeTab === 'fraud'">
 
       <div class="pt-fraud-intro">
-        Documented cases of fraud, corruption, and financial misconduct by Nigerian
-        government officials and agencies over the past five years (2021–2026).
+        Documented cases of fraud, corruption, and financial misconduct by
+        {{ isStateLevel ? `${currentAdmin.state} State` : 'Nigerian federal' }}
+        government officials and agencies during the {{ currentAdmin.term }} term.
         Sources linked on each card.
       </div>
 
@@ -711,8 +734,8 @@ const filteredBills = computed(() => {
     <template v-else-if="activeTab === 'orders'">
 
       <div class="pt-tab-intro">
-        Executive orders, presidential directives, and major policy decisions issued
-        since May 2023 — tracked from announcement through to real-world effect.
+        Executive orders, {{ isStateLevel ? 'gubernatorial' : 'presidential' }} directives, and major policy decisions issued
+        during the {{ currentAdmin.term }} term — tracked from announcement through to real-world effect.
       </div>
 
       <div class="pt-stats">
@@ -769,14 +792,14 @@ const filteredBills = computed(() => {
     <template v-else-if="activeTab === 'ministers'">
 
       <div class="pt-tab-intro">
-        Performance scorecard for key cabinet ministers — assessed against their stated
+        Performance scorecard for key {{ isStateLevel ? 'state commissioners' : 'cabinet ministers' }} — assessed against their stated
         mandate and verified deliverables. Ratings reflect independent assessment as of April 2026.
       </div>
 
       <div class="pt-stats">
         <div class="pt-stat">
           <div class="pt-stat-value total">{{ ministers.length }}</div>
-          <div class="pt-stat-label">Ministers tracked</div>
+          <div class="pt-stat-label">{{ ministerLabel }} tracked</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value kept">{{ ministerCounts.good }}</div>
@@ -793,7 +816,7 @@ const filteredBills = computed(() => {
       </div>
 
       <div class="pt-controls">
-        <input v-model="searchQuery" type="text" class="pt-search" placeholder="Search ministers…" />
+        <input v-model="searchQuery" type="text" class="pt-search" :placeholder="`Search ${ministerLabel.toLowerCase()}…`" />
         <div class="pt-filter-group">
           <button
             v-for="s in MINISTER_STATUSES" :key="s.key"
@@ -815,7 +838,7 @@ const filteredBills = computed(() => {
           @toggle="handleToggle"
           @share="handleShare"
         />
-        <div v-if="!filteredMinisters.length" class="pt-empty">No ministers match your filters.</div>
+        <div v-if="!filteredMinisters.length" class="pt-empty">No {{ ministerLabel.toLowerCase() }} match your filters.</div>
       </div>
     </template>
 
@@ -823,7 +846,7 @@ const filteredBills = computed(() => {
     <template v-else-if="activeTab === 'budget'">
 
       <div class="pt-tab-intro">
-        Federal budget allocation versus actual release rates by ministry.
+        {{ isStateLevel ? `${currentAdmin.state} State` : 'Federal' }} budget allocation versus actual release rates by ministry.
         Tracks whether approved funds are reaching the programmes they were signed for.
       </div>
 
@@ -891,15 +914,20 @@ const filteredBills = computed(() => {
     <!-- ── INDICATORS TAB ── -->
     <template v-else-if="activeTab === 'indicators'">
       <div class="pt-tab-intro">
-        Key economic metrics since May 2023 — inflation, the naira exchange rate, petrol
-        prices, GDP growth, and unemployment. Context for every other tab on this site.
+        Key {{ isStateLevel ? 'state' : 'economic' }} metrics tracked across the {{ currentAdmin.term }} term —
+        {{ indicators.map(i => i.label.toLowerCase()).join(', ') || 'no indicators tracked yet' }}.
+        Context for every other tab on this site.
       </div>
       <IndicatorsView :indicators="indicators" />
     </template>
 
     <!-- ── APPOINTMENTS TAB ── -->
     <template v-else-if="activeTab === 'appointments'">
-      <div class="pt-tab-intro">
+      <div class="pt-tab-intro" v-if="isStateLevel">
+        Key gubernatorial appointments beyond the cabinet — agency heads, security
+        commanders, and judiciary appointments — and how they've performed.
+      </div>
+      <div class="pt-tab-intro" v-else>
         Key presidential appointments — who was picked, from where, and how they've
         performed. Tracks state-of-origin patterns and whether appointees delivered.
       </div>
@@ -966,7 +994,7 @@ const filteredBills = computed(() => {
     <!-- ── JUDGMENTS TAB ── -->
     <template v-else-if="activeTab === 'judgments'">
       <div class="pt-tab-intro">
-        Key court cases involving the federal government — tracking wins, losses,
+        Key court cases involving the {{ isStateLevel ? `${currentAdmin.state} State` : 'federal' }} government — tracking wins, losses,
         and critically, whether court orders are actually complied with.
       </div>
 

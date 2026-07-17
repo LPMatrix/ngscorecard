@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm'
 import { db } from './db.js'
 import * as t from './schema.js'
 
-export const VALID_ADMINS = new Set(['tinubu', 'buhari', 'jonathan', 'yaradua', 'obasanjo'])
+export const VALID_ADMINS = new Set(['tinubu', 'buhari', 'jonathan', 'yaradua', 'obasanjo', 'makinde'])
 
 export async function getPresidents() {
   const rows = await db.select().from(t.presidents)

@@ -10,6 +10,9 @@ export const presidents = sqliteTable('presidents', {
   tagline:   text('tagline').notNull(),
   party:     text('party'),
   reviewed:  text('reviewed').notNull(),
+  // 'federal' (president) or 'state' (governor). state holds e.g. 'Oyo' for governors.
+  level:     text('level').notNull().default('federal'),
+  state:     text('state'),
 })
 
 export const promises = sqliteTable('promises', {

@@ -48,5 +48,17 @@
     "tagline": "NEEDS / Economic Reform",
     "party": "PDP",
     "reviewed": "May 2007"
+  },
+  {
+    "key": "makinde",
+    "name": "Makinde",
+    "fullName": "Seyi Makinde",
+    "termStart": "2019",
+    "termEnd": null,
+    "tagline": "Omituntun (Renewal)",
+    "party": "PDP",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Oyo"
   }
 ]
