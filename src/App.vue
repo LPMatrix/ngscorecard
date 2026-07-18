@@ -26,6 +26,9 @@ const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
 const isStateLevel = computed(() => currentAdmin.value.level === 'state')
 const ministerLabel = computed(() => isStateLevel.value ? 'Commissioners' : 'Ministers')
 
+const adminNavMode = ref(isStateLevel.value ? 'state' : 'federal')
+const visibleAdmins = computed(() => adminNavMode.value === 'state' ? stateAdmins.value : federalAdmins.value)
+
 const STATUSES = [
   { key: 'all',     label: 'All' },
   { key: 'kept',    label: 'Kept' },
@@ -408,11 +411,6 @@ const filteredBills = computed(() => {
   <div class="pt-layout">
 
     <header class="pt-header">
-      <div class="pt-govbar">
-        <span class="pt-flag" aria-hidden="true"><span></span></span>
-        <span>{{ isStateLevel ? `${currentAdmin.state} State Government` : 'Federal Republic of Nigeria' }}</span>
-        <span class="pt-govbar-note">Public accountability information service</span>
-      </div>
       <div class="pt-header-brand">
         <div class="pt-crest" aria-hidden="true">NG</div>
         <div>
@@ -424,30 +422,33 @@ const filteredBills = computed(() => {
           <strong>{{ currentAdmin.term }}</strong>
         </div>
       </div>
-      <nav class="pt-admin-nav" aria-label="Administration">
-        <span class="pt-admin-nav-label">Federal</span>
-        <button
-          v-for="a in federalAdmins"
-          :key="a.key"
-          :class="['pt-admin-tab', { active: activeAdmin === a.key }]"
-          @click="activeAdmin = a.key"
-        >
-          <span class="pt-admin-tab-name">{{ a.name }}</span>
-          <span class="pt-admin-tab-term">{{ a.term }}</span>
-        </button>
-      </nav>
-      <nav v-if="stateAdmins.length" class="pt-admin-nav pt-admin-nav-state" aria-label="State governors">
-        <span class="pt-admin-nav-label">States</span>
-        <button
-          v-for="a in stateAdmins"
-          :key="a.key"
-          :class="['pt-admin-tab', { active: activeAdmin === a.key }]"
-          @click="activeAdmin = a.key"
-        >
-          <span class="pt-admin-tab-name">{{ a.name }} ({{ a.state }})</span>
-          <span class="pt-admin-tab-term">{{ a.term }}</span>
-        </button>
-      </nav>
+      <div class="pt-admin-nav-wrap">
+        <div v-if="stateAdmins.length" class="pt-admin-mode-tabs" role="tablist" aria-label="Government level">
+          <button
+            role="tab"
+            :aria-selected="adminNavMode === 'federal'"
+            :class="['pt-admin-mode-tab', { active: adminNavMode === 'federal' }]"
+            @click="adminNavMode = 'federal'"
+          >Federal</button>
+          <button
+            role="tab"
+            :aria-selected="adminNavMode === 'state'"
+            :class="['pt-admin-mode-tab', { active: adminNavMode === 'state' }]"
+            @click="adminNavMode = 'state'"
+          >State</button>
+        </div>
+        <nav class="pt-admin-nav" aria-label="Administration">
+          <button
+            v-for="a in visibleAdmins"
+            :key="a.key"
+            :class="['pt-admin-tab', { active: activeAdmin === a.key }]"
+            @click="activeAdmin = a.key"
+          >
+            <span class="pt-admin-tab-name">{{ adminNavMode === 'state' ? `${a.name} (${a.state})` : a.name }}</span>
+            <span class="pt-admin-tab-term">{{ a.term }}</span>
+          </button>
+        </nav>
+      </div>
       <!-- Mobile-only section nav -->
       <select class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup label="Government">
