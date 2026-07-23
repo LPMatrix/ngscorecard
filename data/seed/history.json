@@ -1,8 +1,0 @@
-[
-  { "label": "Jun 2023", "kept": 1, "partial": 1, "broken": 0, "pending": 44 },
-  { "label": "Dec 2023", "kept": 2, "partial": 3, "broken": 2, "pending": 39 },
-  { "label": "Jun 2024", "kept": 4, "partial": 6, "broken": 4, "pending": 32 },
-  { "label": "Dec 2024", "kept": 6, "partial": 9, "broken": 7, "pending": 24 },
-  { "label": "Jun 2025", "kept": 7, "partial": 11, "broken": 9, "pending": 19 },
-  { "label": "Apr 2026", "kept": 9, "partial": 13, "broken": 12, "pending": 12 }
-]

@@ -16,6 +16,16 @@ function readJson(filename) {
   }
 }
 
+// Each administration's full record lives in one file (data/seed/{key}.json)
+// with a key per category — see the CATEGORIES list in the Run section below.
+function readAdminData(key) {
+  try {
+    return JSON.parse(readFileSync(path.join(pub, `${key}.json`), 'utf-8'))
+  } catch {
+    return {}
+  }
+}
+
 // ── Clear all tables (order matters for FK integrity) ────────────────────────
 // Only runs with --reset. Normal runs are additive — see seedByKey below.
 async function clearAll() {
@@ -229,20 +239,20 @@ await seedPresidents(administrations)
 
 for (const admin of administrations) {
   const key = admin.key
-  const prefix = admin.seedPrefix ?? (key === 'tinubu' ? '' : `${key}-`)
+  const data = readAdminData(key)
   const counts = {
-    promises:     await seedPromises(    readJson(`${prefix}promises.json`),     key),
-    inherited:    await seedInherited(   readJson(`${prefix}inherited.json`),    key),
-    fraud:        await seedFraud(       readJson(`${prefix}fraud.json`),        key),
-    orders:       await seedOrders(      readJson(`${prefix}orders.json`),       key),
-    ministers:    await seedMinisters(   readJson(`${prefix}ministers.json`),    key),
-    bills:        await seedBills(       readJson(`${prefix}bills.json`),        key),
-    appointments: await seedAppointments(readJson(`${prefix}appointments.json`), key),
-    judgments:    await seedJudgments(   readJson(`${prefix}judgments.json`),    key),
-    history:      await seedHistory(     readJson(`${prefix}history.json`),      key),
-    budget:       await seedBudget(      readJson(`${prefix}budget.json`),       key),
-    indicators:   await seedIndicators(  readJson(`${prefix}indicators.json`),   key),
-    governors:    await seedGovernors(   readJson(`${prefix}governors.json`),    key),
+    promises:     await seedPromises(    data.promises ?? [],     key),
+    inherited:    await seedInherited(   data.inherited ?? [],    key),
+    fraud:        await seedFraud(       data.fraud ?? [],        key),
+    orders:       await seedOrders(      data.orders ?? [],       key),
+    ministers:    await seedMinisters(   data.ministers ?? [],    key),
+    bills:        await seedBills(       data.bills ?? [],        key),
+    appointments: await seedAppointments(data.appointments ?? [], key),
+    judgments:    await seedJudgments(   data.judgments ?? [],    key),
+    history:      await seedHistory(     data.history ?? [],      key),
+    budget:       await seedBudget(      data.budget ?? [],       key),
+    indicators:   await seedIndicators(  data.indicators ?? [],   key),
+    governors:    await seedGovernors(   data.governors ?? [],    key),
   }
   const added = Object.entries(counts).filter(([, n]) => n > 0).map(([k, n]) => `${k} +${n}`).join(', ')
   console.log(`Seeding ${key}… ${added || 'nothing new'}`)

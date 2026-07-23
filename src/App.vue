@@ -5,6 +5,7 @@ import HistoryChart from './components/HistoryChart.vue'
 import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
 import GovernorsView   from './components/GovernorsView.vue'
+import CompareView     from './components/CompareView.vue'
 
 // Populated server-side (entry-server.js) or client-side from
 // window.__INITIAL_STATE__ (entry-client.js) — null in a plain SPA fallback.
@@ -19,6 +20,9 @@ const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])
 const ADMINISTRATIONS = ref(initial?.presidents ?? [])
 const federalAdmins = computed(() => ADMINISTRATIONS.value.filter(a => (a.level ?? 'federal') === 'federal'))
 const stateAdmins    = computed(() => ADMINISTRATIONS.value.filter(a => a.level === 'state'))
+
+const viewMode = ref('single') // 'single' | 'compare'
+const compareInitial = ref({ a: null, b: null, tab: 'promises' })
 
 const activeAdmin = ref(initial?.admin ?? 'tinubu')
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
@@ -78,12 +82,30 @@ async function loadData(admin) {
 }
 
 onMounted(async () => {
+  const params = new URLSearchParams(window.location.search)
+
+  // Compare mode is client-only: SSR always renders the normal single-admin
+  // view, and — regardless of whether SSR gave us initial single-admin data
+  // — we switch into compare mode here if the URL asks for it.
+  if (params.get('mode') === 'compare') {
+    if (!ADMINISTRATIONS.value.length) {
+      const presidents = await fetch('/api/presidents').then(r => r.json()).catch(() => [])
+      ADMINISTRATIONS.value = presidents.map(mapPresident)
+    }
+    viewMode.value = 'compare'
+    compareInitial.value = {
+      a: params.get('a') || ADMINISTRATIONS.value[0]?.key,
+      b: params.get('b') || ADMINISTRATIONS.value[1]?.key,
+      tab: params.get('tab') || 'promises',
+    }
+    return
+  }
+
   // Server already rendered this exact admin/tab — nothing to fetch.
   if (!initial) {
     const presidents = await fetch('/api/presidents').then(r => r.json()).catch(() => [])
     ADMINISTRATIONS.value = presidents.map(mapPresident)
 
-    const params = new URLSearchParams(window.location.search)
     const admin = params.get('admin')
     const tab   = params.get('tab')
     if (admin) activeAdmin.value = admin
@@ -97,6 +119,31 @@ onMounted(async () => {
     if (id) expandedId.value = id
   }
 })
+
+function enterCompareMode() {
+  const level = currentAdmin.value.level ?? 'federal'
+  const sameLevelOther = ADMINISTRATIONS.value.find(a => a.key !== activeAdmin.value && (a.level ?? 'federal') === level)
+  compareInitial.value = { a: activeAdmin.value, b: sameLevelOther?.key, tab: 'promises' }
+  viewMode.value = 'compare'
+  const url = new URL(window.location)
+  url.searchParams.delete('admin')
+  url.searchParams.set('mode', 'compare')
+  url.searchParams.set('a', compareInitial.value.a)
+  url.searchParams.set('b', compareInitial.value.b)
+  url.searchParams.set('tab', compareInitial.value.tab)
+  window.history.replaceState(null, '', url)
+}
+
+function exitCompareMode() {
+  viewMode.value = 'single'
+  const url = new URL(window.location)
+  url.searchParams.delete('mode')
+  url.searchParams.delete('a')
+  url.searchParams.delete('b')
+  url.searchParams.set('admin', activeAdmin.value)
+  url.searchParams.set('tab', activeTab.value)
+  window.history.replaceState(null, '', url)
+}
 
 function mapPresident(p) {
   return {
@@ -421,8 +468,9 @@ const filteredBills = computed(() => {
           <span>{{ currentAdmin.title || currentAdmin.name }}</span>
           <strong>{{ currentAdmin.term }}</strong>
         </div>
+        <button v-if="viewMode === 'single'" class="pt-compare-btn" @click="enterCompareMode">Compare ⇄</button>
       </div>
-      <div class="pt-admin-nav-wrap">
+      <div v-if="viewMode === 'single'" class="pt-admin-nav-wrap">
         <div v-if="stateAdmins.length" class="pt-admin-mode-tabs" role="tablist" aria-label="Government level">
           <button
             role="tab"
@@ -450,7 +498,7 @@ const filteredBills = computed(() => {
         </nav>
       </div>
       <!-- Mobile-only section nav -->
-      <select class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
+      <select v-if="viewMode === 'single'" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup label="Government">
           <option value="promises">Promises</option>
           <option value="ministers">{{ ministerLabel }}</option>
@@ -473,8 +521,18 @@ const filteredBills = computed(() => {
       </select>
     </header>
 
+    <!-- ── Compare mode ── -->
+    <CompareView
+      v-if="viewMode === 'compare'"
+      :presidents="ADMINISTRATIONS"
+      :initialA="compareInitial.a"
+      :initialB="compareInitial.b"
+      :initialTab="compareInitial.tab"
+      @exit="exitCompareMode"
+    />
+
     <!-- ── Body: sidebar + content ── -->
-    <div class="pt-body">
+    <div v-else class="pt-body">
 
       <!-- ── Sidebar (section nav only) ── -->
       <aside class="pt-sidebar">
