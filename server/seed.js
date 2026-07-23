@@ -161,13 +161,6 @@ function seedJudgments(rows, admin) {
   }))
 }
 
-function seedHistory(rows, admin) {
-  return seedByKey(t.history, admin, rows, r => r.label, r => ({
-    administration: admin, label: r.label,
-    kept: r.kept, partial: r.partial, broken: r.broken, pending: r.pending,
-  }))
-}
-
 async function seedBudget(rows, admin) {
   const added = await seedByKey(t.budget, admin, rows, r => String(r.year), r => ({
     administration: admin, year: r.year, totalBn: r.totalBn,
@@ -249,7 +242,6 @@ for (const admin of administrations) {
     bills:        await seedBills(       data.bills ?? [],        key),
     appointments: await seedAppointments(data.appointments ?? [], key),
     judgments:    await seedJudgments(   data.judgments ?? [],    key),
-    history:      await seedHistory(     data.history ?? [],      key),
     budget:       await seedBudget(      data.budget ?? [],       key),
     indicators:   await seedIndicators(  data.indicators ?? [],   key),
     governors:    await seedGovernors(   data.governors ?? [],    key),

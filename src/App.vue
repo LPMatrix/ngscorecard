@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch, inject } from 'vue'
 import PromiseCard  from './components/PromiseCard.vue'
-import HistoryChart from './components/HistoryChart.vue'
 import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
 import GovernorsView   from './components/GovernorsView.vue'
@@ -51,7 +50,6 @@ const bills        = ref(initial?.data?.bills ?? [])
 const indicators   = ref(initial?.data?.indicators ?? [])
 const appointments = ref(initial?.data?.appointments ?? [])
 const judgments    = ref(initial?.data?.judgments ?? [])
-const historyData  = ref(initial?.data?.history ?? [])
 const governors    = ref(initial?.data?.governors ?? [])
 const activeTab      = ref(initial?.tab ?? 'promises')
 const activeStatus   = ref('all')
@@ -62,14 +60,13 @@ const copied         = ref(false)
 
 async function loadData(admin) {
   const get = (name) => fetch(`/api/${admin}/${name}`).then(r => r.json()).catch(() => [])
-  const [p, i, h, f, o, m, bu, bi, ind, ap, j, g] = await Promise.all([
-    get('promises'), get('inherited'), get('history'), get('fraud'),
+  const [p, i, f, o, m, bu, bi, ind, ap, j, g] = await Promise.all([
+    get('promises'), get('inherited'), get('fraud'),
     get('orders'), get('ministers'), get('budget'), get('bills'),
     get('indicators'), get('appointments'), get('judgments'), get('governors'),
   ])
   promises.value     = p
   inherited.value    = i
-  historyData.value  = h
   fraud.value        = f
   orders.value       = o
   ministers.value    = m
@@ -616,9 +613,6 @@ const filteredBills = computed(() => {
           <div class="pt-legend-item"><span class="pt-legend-dot pending"></span> In progress</div>
         </div>
       </div>
-
-      <!-- History chart -->
-      <HistoryChart :history="historyData" />
 
       <!-- Controls -->
       <div class="pt-controls">

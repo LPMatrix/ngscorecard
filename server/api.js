@@ -68,11 +68,6 @@ export function createApiRouter() {
     res.json(await q.getJudgments(req.params.admin))
   })
 
-  router.get('/:admin/history', async (req, res) => {
-    if (!(await guard(req, res))) return
-    res.json(await q.getHistory(req.params.admin))
-  })
-
   router.get('/:admin/budget', async (req, res) => {
     if (!(await guard(req, res))) return
     res.json(await q.getBudget(req.params.admin))

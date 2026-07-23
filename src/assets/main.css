@@ -717,7 +717,6 @@ a:focus-visible {
 .toast-leave-to { opacity: 0; transform: translateX(-50%) translateY(8px); }
 
 /* Chart and notices */
-.pt-chart,
 .iv-chart-scroll {
   margin-bottom: 28px;
   padding: 18px;
@@ -726,18 +725,6 @@ a:focus-visible {
   box-shadow: var(--pt-shadow);
   overflow-x: auto;
 }
-
-.pt-chart-title {
-  margin-bottom: 14px;
-  color: var(--pt-green-700);
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.pt-chart-scroll { overflow-x: auto; }
-.pt-chart-svg { display: block; }
-.pt-chart-label { fill: var(--pt-text-faint); font-family: "Instrument Sans", sans-serif; font-size: 10.5px; }
 
 .pt-tab-intro,
 .pt-fraud-intro,

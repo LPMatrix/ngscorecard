@@ -28,7 +28,6 @@ export const getMinisters    = (admin) => db.select().from(t.ministers).where(eq
 export const getBills        = (admin) => db.select().from(t.bills).where(eq(t.bills.administration, admin))
 export const getAppointments = (admin) => db.select().from(t.appointments).where(eq(t.appointments.administration, admin))
 export const getJudgments    = (admin) => db.select().from(t.judgments).where(eq(t.judgments.administration, admin))
-export const getHistory      = (admin) => db.select().from(t.history).where(eq(t.history.administration, admin))
 export const getGovernors    = (admin) => db.select().from(t.governors).where(eq(t.governors.administration, admin))
 
 export async function getBudget(admin) {
@@ -61,12 +60,12 @@ export async function getIndicators(admin) {
 // object can be dropped in as initial state for SSR or hydration.
 export async function getAllDataForAdmin(admin) {
   const [
-    promises, inherited, history, fraud, orders, ministers,
+    promises, inherited, fraud, orders, ministers,
     budget, bills, indicators, appointments, judgments, governors,
   ] = await Promise.all([
-    getPromises(admin), getInherited(admin), getHistory(admin), getFraud(admin),
+    getPromises(admin), getInherited(admin), getFraud(admin),
     getOrders(admin), getMinisters(admin), getBudget(admin), getBills(admin),
     getIndicators(admin), getAppointments(admin), getJudgments(admin), getGovernors(admin),
   ])
-  return { promises, inherited, history, fraud, orders, ministers, budget, bills, indicators, appointments, judgments, governors }
+  return { promises, inherited, fraud, orders, ministers, budget, bills, indicators, appointments, judgments, governors }
 }

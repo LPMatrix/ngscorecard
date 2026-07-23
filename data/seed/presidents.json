@@ -240,5 +240,113 @@
     "reviewed": "July 2026",
     "level": "state",
     "state": "Bayelsa"
+  },
+  {
+    "key": "abdulrazaq",
+    "name": "AbdulRazaq",
+    "fullName": "AbdulRahman AbdulRazaq",
+    "termStart": "2019",
+    "termEnd": null,
+    "tagline": "O To Ge (Enough Is Enough)",
+    "party": "APC",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Kwara"
+  },
+  {
+    "key": "oborevwori",
+    "name": "Oborevwori",
+    "fullName": "Sheriff Oborevwori",
+    "termStart": "2023",
+    "termEnd": null,
+    "tagline": "M.O.R.E Agenda",
+    "party": "APC",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Delta"
+  },
+  {
+    "key": "uzodinma",
+    "name": "Uzodinma",
+    "fullName": "Hope Uzodinma",
+    "termStart": "2020",
+    "termEnd": null,
+    "tagline": "3R Agenda (Reconstruction, Rehabilitation, Recovery)",
+    "party": "APC",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Imo"
+  },
+  {
+    "key": "oyebanji",
+    "name": "Oyebanji",
+    "fullName": "Biodun Oyebanji",
+    "termStart": "2022",
+    "termEnd": null,
+    "tagline": "Putting People First",
+    "party": "APC",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Ekiti"
+  },
+  {
+    "key": "eno",
+    "name": "Eno",
+    "fullName": "Umo Eno",
+    "termStart": "2023",
+    "termEnd": null,
+    "tagline": "ARISE Agenda",
+    "party": "APC",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Akwa Ibom"
+  },
+  {
+    "key": "okpebholo",
+    "name": "Okpebholo",
+    "fullName": "Monday Okpebholo",
+    "termStart": "2024",
+    "termEnd": null,
+    "tagline": "Edo Has Risen",
+    "party": "APC",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Edo"
+  },
+  {
+    "key": "ododo",
+    "name": "Ododo",
+    "fullName": "Ahmed Usman Ododo",
+    "termStart": "2024",
+    "termEnd": null,
+    "tagline": "Shared Hope and Prosperity",
+    "party": "APC",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Kogi"
+  },
+  {
+    "key": "buni",
+    "name": "Buni",
+    "fullName": "Mai Mala Buni",
+    "termStart": "2019",
+    "termEnd": null,
+    "tagline": "Continuity, Consolidation and Innovation",
+    "party": "APC",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Yobe"
+  },
+  {
+    "key": "lawal",
+    "name": "Dauda Lawal",
+    "fullName": "Dauda Lawal",
+    "termStart": "2023",
+    "termEnd": null,
+    "tagline": "Rescue and Rebuild Zamfara",
+    "party": "APC",
+    "reviewed": "July 2026",
+    "level": "state",
+    "state": "Zamfara"
   }
 ]

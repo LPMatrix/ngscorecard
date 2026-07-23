@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import PromiseCard from './PromiseCard.vue'
-import HistoryChart from './HistoryChart.vue'
 import BudgetView from './BudgetView.vue'
 import IndicatorsView from './IndicatorsView.vue'
 
@@ -26,19 +25,17 @@ const budget = ref([])
 const indicators = ref([])
 const appointments = ref([])
 const judgments = ref([])
-const historyData = ref([])
 
 async function loadData(adminKey) {
   loading.value = true
   const get = (name) => fetch(`/api/${adminKey}/${name}`).then(r => r.json()).catch(() => [])
-  const [p, i, h, f, o, m, bu, ind, ap, j] = await Promise.all([
-    get('promises'), get('inherited'), get('history'), get('fraud'),
+  const [p, i, f, o, m, bu, ind, ap, j] = await Promise.all([
+    get('promises'), get('inherited'), get('fraud'),
     get('orders'), get('ministers'), get('budget'),
     get('indicators'), get('appointments'), get('judgments'),
   ])
   promises.value = p
   inherited.value = i
-  historyData.value = h
   fraud.value = f
   orders.value = o
   ministers.value = m
@@ -147,7 +144,6 @@ watch(() => props.tab, () => { expandedId.value = null })
           <div class="cmp-bar-broken" :style="{ width: pct(promiseCounts.broken, promises.length) }"></div>
           <div class="cmp-bar-pending" :style="{ width: pct(promiseCounts.pending, promises.length) }"></div>
         </div>
-        <HistoryChart :history="historyData" />
         <div class="cmp-list">
           <PromiseCard v-for="p in filteredPromises" :key="p.id" :item="p" :field1="p.promise" :field2="p.assessment" label1="The promise" label2="Assessment" :isExpanded="expandedId === p.id" @toggle="handleToggle" />
           <div v-if="!filteredPromises.length" class="cmp-empty">No promises match your filters.</div>
