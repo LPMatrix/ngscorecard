@@ -183,18 +183,26 @@ before that.
 widget that auto-updates from NGScorecard.
 
 **Gap vs. reality:**
+- Built: `public/widget.js` (a dependency-free script, rendered into a
+  Shadow DOM so it can't clash with a host page's CSS) plus a dedicated,
+  unauthenticated, CORS-open `GET /api/v1/widget/:admin/summary` endpoint —
+  deliberately separate from the keyed data routes, since a script embedded
+  on someone else's site can't safely carry a secret API key. Rate-limited
+  by caller IP (30/min), which naturally scales with real visitor traffic
+  rather than needing per-site metering.
 - This is the one idea in the pitch that's mostly *decoupled* from the
   provenance problem — a kept/partial/broken percentage bar is a simple,
   low-stakes aggregate, not a specific disputed figure like a debt-service
   number. Lower trust bar than #1–4.
-- Still needs real infrastructure that doesn't exist: a versioned embed
-  script, a CDN, CORS/CSP handling for third-party sites, and a way to meter
-  which domains are embedding it (for billing).
+- Still missing: no CDN in front of it yet (served straight from the app
+  origin), and no per-domain embed analytics — right now there's no way to
+  tell *which* sites are embedding it, only how many requests are coming in.
 - Good distribution play regardless of monetization — even a *free* embed
   widget drives backlink traffic and brand awareness cheaply.
 
-**Verdict:** Cheapest-to-derisk idea with the least data-trust exposure. Good
-candidate to ship early and free, monetize later once there's real embed
+**Verdict:** Shipped. Cheapest-to-derisk idea with the least data-trust
+exposure, and now live — next step is distribution (get a few sites to
+actually embed it), not more building. Monetize later once there's real embed
 volume worth metering.
 
 ### Idea 6 — Corporate intelligence ("what policies could affect our business")
@@ -310,7 +318,7 @@ conflated with the monetization sequencing question.
 |---|---|---|
 | 1 | Extend the same discipline used for budget figures (real value or `null`, never a silent guess) to the rest of the dataset, and add whatever queryable confidence/sourcing marker qualitative fields need (promise status, fraud verdicts, etc. can't just be nulled the way a number can) | Unblocks every paid idea at once; cheapest to do now while the schema is still small, expensive to retrofit later |
 | 2 | ~~Ship a free, rate-limited public API~~ — done (idea #2, free tier: `/api/v1`, keyed, 60 req/min). A real docs page beyond the `GET /api/v1` JSON response is the remaining piece of this step | Forced the budget-provenance schema fix in §1 to actually happen, as intended |
-| 3 | Ship a free embeddable widget (idea #5) | Low trust exposure, pure distribution, validates whether anyone wants to embed this at all |
+| 3 | ~~Ship a free embeddable widget~~ — done (idea #5: `public/widget.js` + `/api/v1/widget/:admin/summary`). Getting a few real sites to actually embed it is the remaining piece of this step | Low trust exposure, pure distribution, validates whether anyone wants to embed this at all |
 | 4 | Talk to 3-4 real newsrooms/NGOs with the free API + widget in hand | Replaces guessed pricing with real willingness-to-pay data |
 | 5 | Paid API tiers + Pro reporting (ideas #1, #2 paid, #4) | Only once #1-4 are proven, using the provenance flag as the actual product differentiator ("audited data") |
 | 6 | AI interface (#7) | Right after the API, using it as the retrieval layer, provenance flag surfaced in every answer |

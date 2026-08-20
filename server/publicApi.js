@@ -2,6 +2,7 @@ import { Router, json } from 'express'
 import { rateLimit, ipKeyGenerator } from 'express-rate-limit'
 import { registerDataRoutes } from './dataRoutes.js'
 import { getOrCreateApiKey, findApiKey, touchApiKey } from './apiKeys.js'
+import * as q from './queries.js'
 
 const FREE_TIER_LIMIT = 60 // requests per minute per key
 
@@ -66,6 +67,50 @@ export function createPublicApiRouter() {
         'GET /api/v1/:admin/indicators',
       ],
       adminKeys: 'GET /api/v1/presidents returns the list of valid :admin keys (e.g. "tinubu", "otti").',
+      widget: {
+        description: 'A no-key-required, CORS-open summary endpoint powering the embeddable widget — see /widget.js.',
+        endpoint: 'GET /api/v1/widget/:admin/summary',
+        embed: '<div data-ngscorecard-admin="tinubu"></div><script src="https://ngscorecard.com/widget.js" async></script>',
+        rateLimit: '30 requests/minute per IP',
+      },
+    })
+  })
+
+  // Public, unauthenticated, CORS-open summary for the embeddable widget
+  // (see /widget.js) — deliberately separate from the keyed data routes
+  // below: a script embedded on a third-party site can't safely carry a
+  // secret API key, and this only exposes an aggregate count, not the raw
+  // dataset. Rate-limited by caller IP (i.e. each site visitor's own
+  // browser), not by admin/site, since that's who's actually calling it.
+  const widgetLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    limit: 30,
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => ipKeyGenerator(req.ip),
+  })
+
+  router.get('/widget/:admin/summary', widgetLimiter, async (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    const { admin } = req.params
+    if (!(await q.isValidAdmin(admin))) {
+      return res.status(404).json({ error: 'Unknown administration' })
+    }
+    const [administrations, promises] = await Promise.all([q.getPresidents(), q.getPromises(admin)])
+    const info = administrations.find(a => a.key === admin)
+    const counts = { kept: 0, partial: 0, broken: 0, pending: 0 }
+    for (const p of promises) {
+      if (p.status in counts) counts[p.status]++
+    }
+    res.json({
+      admin,
+      name: info?.name,
+      fullName: info?.fullName,
+      term: info?.term,
+      tagline: info?.tagline,
+      total: promises.length,
+      counts,
+      url: `https://ngscorecard.com/?admin=${admin}`,
     })
   })
 
