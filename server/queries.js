@@ -2,12 +2,31 @@ import { eq } from 'drizzle-orm'
 import { db } from './db.js'
 import * as t from './schema.js'
 
-export async function getPresidents() {
-  const rows = await db.select().from(t.presidents)
+function withTerm(rows) {
   return rows.map(p => ({
     ...p,
     term: p.termEnd ? `${p.termStart}–${p.termEnd}` : `${p.termStart}–present`,
   }))
+}
+
+// Full registry — every tracked administration, federal and state alike.
+// Used internally (the frontend's own Federal/State nav filters this
+// client-side). The public API splits it into the two functions below
+// instead, so /api/v1/presidents can't return a governor by surprise.
+export async function getPresidents() {
+  return withTerm(await db.select().from(t.presidents))
+}
+
+export async function getFederalPresidents() {
+  return withTerm(await db.select().from(t.presidents).where(eq(t.presidents.level, 'federal')))
+}
+
+// Named distinctly from getGovernors(admin) below, which is a different,
+// unrelated resource: the historical state-governor list nested under a
+// federal president's own profile (GET /:admin/governors), not this —
+// the registry of governor *administrations* themselves (Otti, Ododo, etc.).
+export async function getStateGovernorAdmins() {
+  return withTerm(await db.select().from(t.presidents).where(eq(t.presidents.level, 'state')))
 }
 
 export async function isValidAdmin(admin) {

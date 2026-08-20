@@ -24,8 +24,10 @@ async function createDevServer() {
     appType: 'custom',
   })
 
-  app.use('/api', createApiRouter())
+  // /api/v1 must be mounted before the more general /api — see the comment
+  // in server/index.js for why.
   app.use('/api/v1', createPublicApiRouter())
+  app.use('/api', createApiRouter())
   app.get('/developers', (_req, res) => {
     res.sendFile(path.join(root, 'public/developers.html'))
   })

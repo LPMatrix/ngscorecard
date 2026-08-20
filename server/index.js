@@ -13,8 +13,13 @@ const PORT = process.env.PORT || 3000
 const template = readFileSync(path.join(__dirname, '../dist/client/index.html'), 'utf-8')
 const loadEntryServer = () => import('../dist/server/entry-server.js')
 
-app.use('/api', createApiRouter())
+// /api/v1 must be mounted before the more general /api: Express checks
+// mounts in registration order, and /api's internal routes (:admin/category)
+// would otherwise swallow /api/v1/xxx requests whenever "xxx" happens to
+// match one of its own category names (e.g. /api/v1/governors getting
+// misread as :admin="v1", category="governors").
 app.use('/api/v1', createPublicApiRouter())
+app.use('/api', createApiRouter())
 app.get('/developers', (_req, res) => {
   res.sendFile(path.join(__dirname, '../dist/client/developers.html'))
 })

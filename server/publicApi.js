@@ -54,7 +54,8 @@ export function createPublicApiRouter() {
       auth: 'X-API-Key header, obtained via POST /api/v1/keys with a JSON body { "email": "you@example.com" }',
       rateLimit: `${FREE_TIER_LIMIT} requests/minute per key`,
       endpoints: [
-        'GET /api/v1/presidents',
+        'GET /api/v1/presidents — the 5 federal presidents only',
+        'GET /api/v1/governors — the state governors only (not to be confused with /:admin/governors below)',
         'GET /api/v1/:admin/promises',
         'GET /api/v1/:admin/inherited',
         'GET /api/v1/:admin/fraud',
@@ -64,10 +65,10 @@ export function createPublicApiRouter() {
         'GET /api/v1/:admin/appointments',
         'GET /api/v1/:admin/judgments',
         'GET /api/v1/:admin/budget',
-        'GET /api/v1/:admin/governors',
+        'GET /api/v1/:admin/governors — historical state governors listed under a federal president\'s own profile; unrelated to GET /api/v1/governors above',
         'GET /api/v1/:admin/indicators',
       ],
-      adminKeys: 'GET /api/v1/presidents returns the list of valid :admin keys (e.g. "tinubu", "otti").',
+      adminKeys: 'GET /api/v1/presidents (federal) and GET /api/v1/governors (state) together list every valid :admin key (e.g. "tinubu", "otti").',
       widget: {
         description: 'A no-key-required, CORS-open summary endpoint powering the embeddable widget — see /widget.js.',
         endpoint: 'GET /api/v1/widget/:admin/summary',
@@ -139,6 +140,21 @@ export function createPublicApiRouter() {
   })
 
   router.use(requireApiKey, dataLimiter)
+
+  // Registered ahead of registerDataRoutes()'s own generic /presidents route
+  // below, so these — filtered by level — win for these exact paths. Kept
+  // out of dataRoutes.js deliberately: the internal frontend route
+  // (GET /api/presidents, no key required) still needs the full unfiltered
+  // registry for its own Federal/State nav toggle, so that shared route
+  // stays as-is. Only the public API gets the split.
+  router.get('/presidents', async (_req, res) => {
+    res.json(await q.getFederalPresidents())
+  })
+
+  router.get('/governors', async (_req, res) => {
+    res.json(await q.getStateGovernorAdmins())
+  })
+
   registerDataRoutes(router)
 
   return router

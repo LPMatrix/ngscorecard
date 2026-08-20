@@ -190,12 +190,15 @@ curl https://ngscorecard.com/api/v1/tinubu/promises \
 
     <section id="endpoints">
       <h2><span class="num">3</span>Endpoints</h2>
-      <p>All administration keys (e.g. <code>tinubu</code>, <code>otti</code>, <code>ododo</code>) are listed by <code>GET /api/v1/presidents</code>.
-        Every other data route follows the same shape: <code>/api/v1/:admin/:category</code>.</p>
+      <p>Presidents and governors are separate lists, each with their own valid <code>:admin</code> keys
+        (e.g. <code>tinubu</code> is a president, <code>otti</code> and <code>ododo</code> are governors) —
+        <code>GET /api/v1/presidents</code> for the 5 federal presidents, <code>GET /api/v1/governors</code> for the 35 state governors.
+        Every other data route takes either kind of key and follows the same shape: <code>/api/v1/:admin/:category</code>.</p>
       <div class="table-scroll">
         <table>
           <tr><th>Method</th><th>Path</th><th>Returns</th></tr>
-          <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/presidents</code></td><td>All tracked administrations and their valid <code>:admin</code> keys</td></tr>
+          <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/presidents</code></td><td>The 5 federal presidents and their <code>:admin</code> keys</td></tr>
+          <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/governors</code></td><td>The 35 state governors and their <code>:admin</code> keys</td></tr>
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/promises</code></td><td>Campaign promises, status, and sourcing</td></tr>
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/inherited</code></td><td>Inherited problems and their resolution status</td></tr>
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/fraud</code></td><td>Fraud allegations, amounts, and outcomes</td></tr>
@@ -205,7 +208,7 @@ curl https://ngscorecard.com/api/v1/tinubu/promises \
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/appointments</code></td><td>Key appointments across government</td></tr>
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/judgments</code></td><td>Court judgments and compliance</td></tr>
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/budget</code></td><td>Annual budgets, revenue, and debt service (see note below)</td></tr>
-          <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/governors</code></td><td>Governor records (federal administrations only)</td></tr>
+          <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/governors</code></td><td>Historical state governors listed under a <em>president's</em> own profile — not the same list as <code>GET /api/v1/governors</code> above (federal administrations only)</td></tr>
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/indicators</code></td><td>Tracked economic/performance indicators over time</td></tr>
           <tr><td><span class="badge post">POST</span></td><td><code>/api/v1/keys</code></td><td>Issue (or retrieve) a free API key for an email</td></tr>
         </table>
