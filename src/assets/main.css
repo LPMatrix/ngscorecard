@@ -309,6 +309,8 @@ a:focus-visible {
 
 .pt-sidebar-footer strong { color: var(--pt-green-800); }
 .pt-sidebar-footer-sub { display: block; width: 100%; font-size: 11px; }
+.pt-footer-link { color: var(--pt-text-faint); font-weight: 700; text-decoration: none; }
+.pt-footer-link:hover { color: var(--pt-green-700); text-decoration: underline; }
 
 .pt-content {
   min-width: 0;

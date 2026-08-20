@@ -15,6 +15,9 @@ const loadEntryServer = () => import('../dist/server/entry-server.js')
 
 app.use('/api', createApiRouter())
 app.use('/api/v1', createPublicApiRouter())
+app.get('/developers', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/client/developers.html'))
+})
 app.use(express.static(path.join(__dirname, '../dist/client'), { index: false }))
 
 app.use(async (req, res) => {

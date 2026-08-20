@@ -49,6 +49,7 @@ export function createPublicApiRouter() {
   router.get('/', (_req, res) => {
     res.json({
       name: 'NGScorecard public API',
+      docs: 'https://ngscorecard.com/developers',
       version: 'v1',
       auth: 'X-API-Key header, obtained via POST /api/v1/keys with a JSON body { "email": "you@example.com" }',
       rateLimit: `${FREE_TIER_LIMIT} requests/minute per key`,

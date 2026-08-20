@@ -26,6 +26,9 @@ async function createDevServer() {
 
   app.use('/api', createApiRouter())
   app.use('/api/v1', createPublicApiRouter())
+  app.get('/developers', (_req, res) => {
+    res.sendFile(path.join(root, 'public/developers.html'))
+  })
   app.use(vite.middlewares)
 
   app.use(async (req, res) => {

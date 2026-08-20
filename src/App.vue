@@ -566,6 +566,7 @@ const filteredBills = computed(() => {
           <span class="pt-freshness-dot"></span>
           Updated <strong>{{ LAST_REVIEWED }}</strong>
           <span class="pt-sidebar-footer-sub">Sources linked on each card</span>
+          <span class="pt-sidebar-footer-sub"><a href="/developers" class="pt-footer-link">API &amp; widget docs →</a></span>
         </div>
       </aside>
 
