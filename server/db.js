@@ -12,6 +12,18 @@ function ensureLocalSchema(client) {
   ensureColumn(client, 'fraud', 'response_verdict', 'TEXT')
   ensureColumn(client, 'fraud', 'govt_response', 'TEXT')
   ensureColumn(client, 'indicators', 'higher_is_better', 'INTEGER')
+  client.prepare(`
+    CREATE TABLE IF NOT EXISTS api_keys (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      key TEXT NOT NULL UNIQUE,
+      email TEXT NOT NULL,
+      tier TEXT NOT NULL DEFAULT 'free',
+      created_at TEXT NOT NULL,
+      last_used_at TEXT,
+      request_count INTEGER NOT NULL DEFAULT 0,
+      revoked INTEGER NOT NULL DEFAULT 0
+    )
+  `).run()
 }
 
 async function createDb() {

@@ -4,6 +4,7 @@ import { readFileSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { createApiRouter } from './api.js'
+import { createPublicApiRouter } from './publicApi.js'
 import { renderHtml } from './render.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -24,6 +25,7 @@ async function createDevServer() {
   })
 
   app.use('/api', createApiRouter())
+  app.use('/api/v1', createPublicApiRouter())
   app.use(vite.middlewares)
 
   app.use(async (req, res) => {

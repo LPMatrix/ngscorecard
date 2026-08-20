@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url'
 import path from 'path'
 import { readFileSync } from 'fs'
 import { createApiRouter } from './api.js'
+import { createPublicApiRouter } from './publicApi.js'
 import { renderHtml } from './render.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -13,6 +14,7 @@ const template = readFileSync(path.join(__dirname, '../dist/client/index.html'),
 const loadEntryServer = () => import('../dist/server/entry-server.js')
 
 app.use('/api', createApiRouter())
+app.use('/api/v1', createPublicApiRouter())
 app.use(express.static(path.join(__dirname, '../dist/client'), { index: false }))
 
 app.use(async (req, res) => {

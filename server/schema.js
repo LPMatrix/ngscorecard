@@ -147,13 +147,13 @@ export const budget = sqliteTable('budget', {
   administration:    text('administration').notNull(),
   year:              integer('year').notNull(),
   totalBn:           real('total_bn').notNull(),
-  revenueBn:         real('revenue_bn').notNull(),
+  revenueBn:         real('revenue_bn'),
   actualRevenueBn:   real('actual_revenue_bn'),
-  debtServiceBn:     real('debt_service_bn').notNull(),
-  capitalBn:         real('capital_bn').notNull(),
-  recurrentBn:       real('recurrent_bn').notNull(),
+  debtServiceBn:     real('debt_service_bn'),
+  capitalBn:         real('capital_bn'),
+  recurrentBn:       real('recurrent_bn'),
   implementationPct: real('implementation_pct'),
-  deficitBn:         real('deficit_bn').notNull(),
+  deficitBn:         real('deficit_bn'),
   note:              text('note'),
   source:            text('source').notNull(),
   sourceLabel:       text('source_label').notNull(),
@@ -191,6 +191,17 @@ export const indicatorPoints = sqliteTable('indicator_points', {
   administration: text('administration').notNull(),
   label:          text('label').notNull(),
   value:          real('value').notNull(),
+})
+
+export const apiKeys = sqliteTable('api_keys', {
+  id:           integer('id').primaryKey({ autoIncrement: true }),
+  key:          text('key').notNull().unique(),
+  email:        text('email').notNull(),
+  tier:         text('tier').notNull().default('free'),
+  createdAt:    text('created_at').notNull(),
+  lastUsedAt:   text('last_used_at'),
+  requestCount: integer('request_count').notNull().default(0),
+  revoked:      integer('revoked', { mode: 'boolean' }).notNull().default(false),
 })
 
 export const governors = sqliteTable('governors', {

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node server/dev.js",
+    "dev": "node --env-file=.env server/dev.js",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
@@ -19,6 +19,7 @@
     "better-sqlite3": "^12.10.0",
     "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.6.2",
     "vue": "^3.5.0"
   },
   "devDependencies": {
