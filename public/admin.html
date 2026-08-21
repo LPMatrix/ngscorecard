@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NGScorecard — Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --g900: #073f2a; --g800: #075236; --g700: #006b45; --g600: #008751; --g100: #dff5e8; --g050: #f1fbf5;
+      --gold: #c7931d; --red: #a2261b; --red-bg: #fbe9e7;
+      --ink: #1b2720; --muted: #5f6f66; --faint: #7f8c84;
+      --line: #d9e2dc; --line-strong: #b9cbc1;
+      --bg: #f6f8f3; --surface: #fffef9;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: "Instrument Sans", "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    button { font-family: inherit; cursor: pointer; }
+    input, select, textarea { font-family: inherit; }
+
+    /* ---------- Login ---------- */
+    #login-screen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
+    }
+    .login-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+      padding: 32px 30px; width: 100%; max-width: 340px; text-align: center;
+    }
+    .login-card h1 {
+      font-family: "Playfair Display", Georgia, serif; font-size: 22px; font-weight: 800; margin: 0 0 4px;
+      color: var(--g800);
+    }
+    .login-card p { color: var(--muted); font-size: 13px; margin: 0 0 20px; }
+    .login-card input {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 6px;
+      font-size: 14px; margin-bottom: 12px;
+    }
+    .login-card button {
+      width: 100%; padding: 10px; border: none; border-radius: 6px; background: var(--g700); color: #fff;
+      font-weight: 700; font-size: 14px;
+    }
+    .login-card button:hover { background: var(--g800); }
+    .login-error { color: var(--red); font-size: 12.5px; margin-top: 10px; min-height: 16px; }
+
+    /* ---------- Shell ---------- */
+    #app { display: none; height: 100vh; }
+    #app.ready { display: flex; }
+    aside {
+      width: 220px; flex: none; background: var(--g900); color: #dff5e8; display: flex; flex-direction: column;
+      overflow-y: auto;
+    }
+    aside .brand {
+      padding: 18px 16px 14px; font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.12); color: #fff;
+    }
+    aside .brand span { display: block; font-family: "Instrument Sans", sans-serif; font-weight: 600; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #9fd8b8; margin-top: 2px; }
+    aside nav { flex: 1; padding: 10px 0; }
+    aside .group-label { padding: 14px 16px 4px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #7fb99a; }
+    aside button.nav-item {
+      display: block; width: 100%; text-align: left; background: none; border: none; color: #dff5e8;
+      padding: 8px 16px; font-size: 13px; font-weight: 600; opacity: 0.85;
+    }
+    aside button.nav-item:hover { opacity: 1; background: rgba(255,255,255,0.06); }
+    aside button.nav-item.active { opacity: 1; background: rgba(255,255,255,0.12); border-left: 3px solid var(--gold); padding-left: 13px; }
+    aside .logout {
+      padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.12); background: none; border-left: none; border-right: none; border-bottom: none;
+      color: #dff5e8; font-size: 12.5px; font-weight: 700; text-align: left; opacity: 0.75;
+    }
+    aside .logout:hover { opacity: 1; }
+
+    main { flex: 1; overflow-y: auto; padding: 26px 32px 60px; }
+    .main-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+    .main-head h2 { font-size: 20px; font-weight: 800; color: var(--g800); margin: 0; }
+    .main-head .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    select, .btn {
+      padding: 8px 12px; border: 1px solid var(--line-strong); border-radius: 6px; font-size: 13px; background: #fff;
+    }
+    .btn { font-weight: 700; border: 1px solid var(--line-strong); background: #fff; color: var(--ink); }
+    .btn:hover { border-color: var(--g700); color: var(--g700); }
+    .btn.primary { background: var(--g700); color: #fff; border-color: var(--g700); }
+    .btn.primary:hover { background: var(--g800); }
+    .btn.danger { color: var(--red); }
+    .btn.danger:hover { background: var(--red-bg); border-color: var(--red); }
+    .btn.small { padding: 4px 9px; font-size: 12px; }
+
+    .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
+    th { color: var(--faint); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 800; background: var(--g050); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--g050); }
+    td.actions { white-space: nowrap; text-align: right; }
+    td.actions .btn { margin-left: 6px; }
+    .empty-state { padding: 40px; text-align: center; color: var(--faint); font-size: 13.5px; }
+    .badge { display: inline-block; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 999px; background: var(--g100); color: var(--g800); }
+    .badge.revoked { background: var(--red-bg); color: var(--red); }
+
+    /* ---------- Modal form ---------- */
+    .overlay {
+      display: none; position: fixed; inset: 0; background: rgba(7,63,42,0.35); z-index: 20;
+      align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto;
+    }
+    .overlay.show { display: flex; }
+    .form-card {
+      background: var(--surface); border-radius: 10px; width: 100%; max-width: 560px; padding: 24px 26px;
+      box-shadow: 0 20px 50px rgba(7,63,42,0.25);
+    }
+    .form-card h3 { margin: 0 0 16px; font-size: 17px; font-weight: 800; color: var(--g800); }
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: 11.5px; font-weight: 700; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.03em; }
+    .field input[type=text], .field input[type=number], .field select, .field textarea {
+      width: 100%; padding: 8px 10px; border: 1px solid var(--line-strong); border-radius: 6px; font-size: 13.5px;
+    }
+    .field textarea { min-height: 64px; resize: vertical; }
+    .field.checkbox { display: flex; align-items: center; gap: 8px; }
+    .field.checkbox label { margin: 0; text-transform: none; font-size: 13px; }
+    .form-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 10px; }
+    .form-error { color: var(--red); font-size: 12.5px; }
+
+    .loading { padding: 30px; text-align: center; color: var(--faint); font-size: 13px; }
+  </style>
+</head>
+<body>
+
+  <div id="login-screen">
+    <form class="login-card" id="login-form">
+      <h1>NGScorecard Admin</h1>
+      <p>Sign in to edit tracked data.</p>
+      <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required />
+      <button type="submit">Sign in</button>
+      <div class="login-error" id="login-error"></div>
+    </form>
+  </div>
+
+  <div id="app">
+    <aside>
+      <div class="brand">NGScorecard<span>Admin</span></div>
+      <nav id="nav"></nav>
+      <button class="logout" id="logout-btn">Sign out</button>
+    </aside>
+    <main>
+      <div class="main-head">
+        <h2 id="section-title">—</h2>
+        <div class="controls" id="section-controls"></div>
+      </div>
+      <div id="content"><div class="loading">Loading…</div></div>
+    </main>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <form class="form-card" id="record-form">
+      <h3 id="form-title">Edit</h3>
+      <div id="form-fields"></div>
+      <div class="form-error" id="form-error"></div>
+      <div class="form-actions">
+        <div>
+          <button type="button" class="btn danger" id="form-delete" style="display:none">Delete</button>
+        </div>
+        <div>
+          <button type="button" class="btn" id="form-cancel">Cancel</button>
+          <button type="submit" class="btn primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+<script>
+(function () {
+  'use strict'
+
+  var STATUS_OPTIONS = {
+    inherited: ['broken', 'disputed', 'fixed', 'ongoing', 'partial', 'pending'],
+    fraud: ['convicted', 'debunked', 'denied', 'dismissed', 'disputed', 'investigating', 'ongoing', 'pending', 'prosecuted', 'resolved'],
+    orders: ['ignored', 'implemented', 'partial', 'reversed'],
+    ministers: ['fair', 'good', 'poor', 'resigned', 'sacked'],
+    bills: ['abandoned', 'partial', 'passed', 'pending'],
+    appointments: ['completed', 'deceased', 'defected', 'reinstated', 'resigned', 'retired', 'sacked', 'served', 'serving'],
+    judgments: ['lost', 'ongoing', 'settled', 'won'],
+    governors: ['completed', 'deceased', 'removed', 'serving'],
+  }
+
+  function statusField(table, required) {
+    return { key: 'status', label: 'Status', type: 'status', options: STATUS_OPTIONS[table] || [], required: required !== false }
+  }
+
+  var TABLES = {
+    presidents: {
+      label: 'Administrations', adminScoped: false,
+      list: ['key', 'name', 'level', 'state', 'termStart', 'termEnd'],
+      columns: [
+        { key: 'key', label: 'Key', type: 'text', required: true, hint: 'e.g. "tinubu" — used in URLs and every other table\'s administration field' },
+        { key: 'name', label: 'Name', type: 'text', required: true },
+        { key: 'fullName', label: 'Full name', type: 'text', required: true },
+        { key: 'termStart', label: 'Term start', type: 'text', required: true, hint: 'YYYY-MM-DD' },
+        { key: 'termEnd', label: 'Term end', type: 'text', hint: 'blank = still serving' },
+        { key: 'tagline', label: 'Tagline', type: 'text', required: true },
+        { key: 'party', label: 'Party', type: 'text' },
+        { key: 'reviewed', label: 'Last reviewed', type: 'text', required: true, hint: 'YYYY-MM-DD' },
+        { key: 'level', label: 'Level', type: 'select', required: true, options: ['federal', 'state'] },
+        { key: 'state', label: 'State', type: 'text', hint: 'governors only, e.g. "Oyo"' },
+      ],
+    },
+    promises: {
+      label: 'Promises', adminScoped: true,
+      list: ['title', 'category', 'status', 'updated'],
+      columns: [
+        { key: 'title', label: 'Title', type: 'text', required: true },
+        { key: 'category', label: 'Category', type: 'text', required: true },
+        { key: 'status', label: 'Status', type: 'select', required: true, options: ['kept', 'partial', 'broken', 'pending'] },
+        { key: 'promise', label: 'Promise (verbatim)', type: 'textarea', required: true },
+        { key: 'assessment', label: 'Assessment', type: 'textarea', required: true },
+        { key: 'source', label: 'Source URL', type: 'text', required: true },
+        { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        { key: 'updated', label: 'Updated', type: 'text', required: true, hint: 'YYYY-MM-DD' },
+      ],
+    },
+    inherited: {
+      label: 'Inherited Issues', adminScoped: true,
+      list: ['title', 'category', 'status', 'updated'],
+      columns: [
+        { key: 'title', label: 'Title', type: 'text', required: true },
+        { key: 'category', label: 'Category', type: 'text', required: true },
+        statusField('inherited'),
+        { key: 'problem', label: 'Problem', type: 'textarea', required: true },
+        { key: 'resolution', label: 'Resolution', type: 'textarea', required: true },
+        { key: 'source', label: 'Source URL', type: 'text', required: true },
+        { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        { key: 'updated', label: 'Updated', type: 'text', required: true },
+      ],
+    },
+    fraud: {
+      label: 'Fraud Cases', adminScoped: true,
+      list: ['title', 'category', 'status', 'year', 'updated'],
+      columns: [
+        { key: 'title', label: 'Title', type: 'text', required: true },
+        { key: 'category', label: 'Category', type: 'text', required: true },
+        statusField('fraud'),
+        { key: 'amount', label: 'Amount', type: 'text', hint: 'free text, e.g. "₦80bn"' },
+        { key: 'year', label: 'Year', type: 'number' },
+        { key: 'allegation', label: 'Allegation', type: 'textarea', required: true },
+        { key: 'outcome', label: 'Outcome', type: 'textarea', required: true },
+        { key: 'responseVerdict', label: 'Response verdict', type: 'text' },
+        { key: 'govtResponse', label: 'Government response', type: 'textarea' },
+        { key: 'source', label: 'Source URL', type: 'text', required: true },
+        { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        { key: 'updated', label: 'Updated', type: 'text', required: true },
+      ],
+    },
+    orders: {
+      label: 'Executive Orders', adminScoped: true,
+      list: ['title', 'category', 'status', 'signed'],
+      columns: [
+        { key: 'title', label: 'Title', type: 'text', required: true },
+        { key: 'category', label: 'Category', type: 'text', required: true },
+        statusField('orders'),
+        { key: 'signed', label: 'Signed', type: 'text', hint: 'YYYY-MM-DD' },
+        { key: 'directive', label: 'Directive', type: 'textarea', required: true },
+        { key: 'effect', label: 'Effect', type: 'textarea', required: true },
+        { key: 'source', label: 'Source URL', type: 'text', required: true },
+        { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        { key: 'updated', label: 'Updated', type: 'text', required: true },
+      ],
+    },
+    ministers: {
+      label: 'Ministers', adminScoped: true,
+      list: ['name', 'ministry', 'status', 'serving'],
+      columns: [
+        { key: 'name', label: 'Name', type: 'text', required: true },
+        { key: 'ministry', label: 'Ministry', type: 'text', required: true },
+        { key: 'appointed', label: 'Appointed', type: 'text', hint: 'YYYY-MM-DD' },
+        statusField('ministers'),
+        { key: 'serving', label: 'Currently serving', type: 'boolean' },
+        { key: 'mandate', label: 'Mandate', type: 'textarea', required: true },
+        { key: 'performance', label: 'Performance', type: 'textarea', required: true },
+        { key: 'source', label: 'Source URL', type: 'text' },
+        { key: 'sourceLabel', label: 'Source label', type: 'text' },
+        { key: 'updated', label: 'Updated', type: 'text' },
+      ],
+    },
+    bills: {
+      label: 'Bills', adminScoped: true,
+      list: ['title', 'status', 'chamber', 'signed'],
+      columns: [
+        { key: 'title', label: 'Title', type: 'text', required: true },
+        { key: 'category', label: 'Category', type: 'text', required: true },
+        statusField('bills'),
+        { key: 'chamber', label: 'Chamber', type: 'text' },
+        { key: 'introduced', label: 'Introduced', type: 'text', hint: 'YYYY-MM-DD' },
+        { key: 'signed', label: 'Signed', type: 'text', hint: 'YYYY-MM-DD' },
+        { key: 'summary', label: 'Summary', type: 'textarea', required: true },
+        { key: 'outcome', label: 'Outcome', type: 'textarea', required: true },
+        { key: 'source', label: 'Source URL', type: 'text', required: true },
+        { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        { key: 'updated', label: 'Updated', type: 'text', required: true },
+      ],
+    },
+    appointments: {
+      label: 'Appointments', adminScoped: true,
+      list: ['name', 'role', 'agency', 'status'],
+      columns: [
+        { key: 'name', label: 'Name', type: 'text', required: true },
+        { key: 'role', label: 'Role', type: 'text', required: true },
+        { key: 'agency', label: 'Agency', type: 'text', required: true },
+        { key: 'category', label: 'Category', type: 'text', required: true },
+        { key: 'state', label: 'State', type: 'text', required: true },
+        { key: 'geopolitical', label: 'Geopolitical zone', type: 'text', required: true },
+        { key: 'appointed', label: 'Appointed', type: 'text', required: true, hint: 'YYYY-MM-DD' },
+        statusField('appointments'),
+        { key: 'note', label: 'Note', type: 'textarea', required: true },
+      ],
+    },
+    judgments: {
+      label: 'Judgments', adminScoped: true,
+      list: ['title', 'court', 'status', 'ruled'],
+      columns: [
+        { key: 'title', label: 'Title', type: 'text', required: true },
+        { key: 'court', label: 'Court', type: 'text', required: true },
+        { key: 'category', label: 'Category', type: 'text', required: true },
+        statusField('judgments'),
+        { key: 'compliance', label: 'Compliance', type: 'text' },
+        { key: 'ruled', label: 'Ruled', type: 'text', required: true, hint: 'YYYY-MM-DD' },
+        { key: 'issue', label: 'Issue', type: 'textarea', required: true },
+        { key: 'outcome', label: 'Outcome', type: 'textarea', required: true },
+        { key: 'source', label: 'Source URL', type: 'text' },
+        { key: 'sourceLabel', label: 'Source label', type: 'text' },
+      ],
+    },
+    budget: {
+      label: 'Budget', adminScoped: true,
+      list: ['year', 'totalBn', 'revenueBn', 'source'],
+      columns: [
+        { key: 'year', label: 'Year', type: 'number', required: true },
+        { key: 'totalBn', label: 'Total (₦bn)', type: 'number', required: true },
+        { key: 'revenueBn', label: 'Revenue (₦bn)', type: 'number', hint: 'blank = not published' },
+        { key: 'actualRevenueBn', label: 'Actual revenue (₦bn)', type: 'number', hint: 'blank = not published' },
+        { key: 'debtServiceBn', label: 'Debt service (₦bn)', type: 'number', hint: 'blank = not published' },
+        { key: 'capitalBn', label: 'Capital (₦bn)', type: 'number', hint: 'blank = not published' },
+        { key: 'recurrentBn', label: 'Recurrent (₦bn)', type: 'number', hint: 'blank = not published' },
+        { key: 'implementationPct', label: 'Implementation %', type: 'number' },
+        { key: 'deficitBn', label: 'Deficit (₦bn)', type: 'number', hint: 'blank = not published' },
+        { key: 'note', label: 'Note', type: 'textarea' },
+        { key: 'source', label: 'Source URL', type: 'text', required: true },
+        { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+      ],
+    },
+    budgetMinistries: {
+      label: 'Budget — Ministries', adminScoped: true,
+      list: ['budgetYear', 'name', 'allocationBn', 'releasedPct'],
+      columns: [
+        { key: 'budgetYear', label: 'Budget year', type: 'number', required: true, hint: 'must match a Budget row\'s year' },
+        { key: 'name', label: 'Ministry name', type: 'text', required: true },
+        { key: 'allocationBn', label: 'Allocation (₦bn)', type: 'number', required: true },
+        { key: 'releasedPct', label: 'Released %', type: 'number' },
+        { key: 'note', label: 'Note', type: 'text' },
+      ],
+    },
+    indicators: {
+      label: 'Indicators', adminScoped: true,
+      list: ['key', 'label', 'unit', 'higherIsBetter'],
+      columns: [
+        { key: 'key', label: 'Key', type: 'text', required: true, hint: 'e.g. "inflation"' },
+        { key: 'label', label: 'Label', type: 'text', required: true },
+        { key: 'unit', label: 'Unit', type: 'text', required: true },
+        { key: 'color', label: 'Color', type: 'text', required: true, hint: 'hex or CSS color' },
+        { key: 'description', label: 'Description', type: 'textarea', required: true },
+        { key: 'source', label: 'Source URL', type: 'text', required: true },
+        { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        { key: 'note', label: 'Note', type: 'text' },
+        { key: 'higherIsBetter', label: 'Rising value is good news', type: 'boolean' },
+      ],
+    },
+    indicatorPoints: {
+      label: 'Indicators — Data Points', adminScoped: true,
+      list: ['indicatorId', 'label', 'value'],
+      columns: [
+        { key: 'indicatorId', label: 'Indicator ID', type: 'number', required: true, hint: 'the numeric id from the Indicators table' },
+        { key: 'label', label: 'Point label', type: 'text', required: true, hint: 'e.g. "Q1 2024"' },
+        { key: 'value', label: 'Value', type: 'number', required: true },
+      ],
+    },
+    governors: {
+      label: 'Historical Governors', adminScoped: true,
+      list: ['name', 'state', 'party', 'status'],
+      columns: [
+        { key: 'name', label: 'Name', type: 'text', required: true },
+        { key: 'state', label: 'State', type: 'text', required: true },
+        { key: 'party', label: 'Party', type: 'text', required: true },
+        { key: 'geopolitical', label: 'Geopolitical zone', type: 'text', required: true },
+        { key: 'termStart', label: 'Term start', type: 'text', required: true, hint: 'YYYY-MM-DD' },
+        { key: 'termEnd', label: 'Term end', type: 'text' },
+        statusField('governors'),
+        { key: 'note', label: 'Note', type: 'text' },
+      ],
+    },
+  }
+
+  var state = { table: null, administration: '', administrations: [], rows: [], editingId: null }
+
+  var $ = function (sel, root) { return (root || document).querySelector(sel) }
+  var $$ = function (sel, root) { return Array.from((root || document).querySelectorAll(sel)) }
+
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    })
+  }
+
+  async function api(path, opts) {
+    var res = await fetch('/api/admin' + path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts))
+    if (res.status === 401) { showLogin(); throw new Error('unauthenticated') }
+    if (!res.ok) {
+      var body = await res.json().catch(function () { return {} })
+      throw new Error(body.error || ('Request failed (' + res.status + ')'))
+    }
+    if (res.status === 204) return null
+    return res.json()
+  }
+
+  // ---------- Login ----------
+  function showLogin() {
+    $('#app').classList.remove('ready')
+    $('#login-screen').style.display = 'flex'
+  }
+
+  function showApp() {
+    $('#login-screen').style.display = 'none'
+    $('#app').classList.add('ready')
+  }
+
+  $('#login-form').addEventListener('submit', async function (e) {
+    e.preventDefault()
+    var errEl = $('#login-error')
+    errEl.textContent = ''
+    try {
+      await api('/login', { method: 'POST', body: JSON.stringify({ password: $('#login-password').value }) })
+      $('#login-password').value = ''
+      await boot()
+    } catch (err) {
+      errEl.textContent = err.message === 'unauthenticated' ? 'Wrong password' : err.message
+    }
+  })
+
+  $('#logout-btn').addEventListener('click', async function () {
+    await api('/logout', { method: 'POST' }).catch(function () {})
+    showLogin()
+  })
+
+  // ---------- Nav ----------
+  function buildNav() {
+    var nav = $('#nav')
+    nav.innerHTML = ''
+    var group = document.createElement('div')
+    group.className = 'group-label'
+    group.textContent = 'Content'
+    nav.appendChild(group)
+    Object.keys(TABLES).forEach(function (name) {
+      var btn = document.createElement('button')
+      btn.className = 'nav-item'
+      btn.textContent = TABLES[name].label
+      btn.dataset.table = name
+      btn.addEventListener('click', function () { selectTable(name) })
+      nav.appendChild(btn)
+    })
+    var group2 = document.createElement('div')
+    group2.className = 'group-label'
+    group2.textContent = 'Public API'
+    nav.appendChild(group2)
+    var keysBtn = document.createElement('button')
+    keysBtn.className = 'nav-item'
+    keysBtn.textContent = 'API Keys'
+    keysBtn.dataset.table = '__keys'
+    keysBtn.addEventListener('click', function () { selectKeys() })
+    nav.appendChild(keysBtn)
+  }
+
+  function setActiveNav(name) {
+    $$('.nav-item').forEach(function (b) { b.classList.toggle('active', b.dataset.table === name) })
+  }
+
+  // ---------- Table view ----------
+  async function ensureAdministrations() {
+    if (state.administrations.length) return
+    state.administrations = await api('/administrations')
+  }
+
+  async function selectTable(name) {
+    state.table = name
+    state.editingId = null
+    setActiveNav(name)
+    var cfg = TABLES[name]
+    $('#section-title').textContent = cfg.label
+    var controls = $('#section-controls')
+    controls.innerHTML = ''
+
+    if (cfg.adminScoped) {
+      await ensureAdministrations()
+      var sel = document.createElement('select')
+      sel.id = 'admin-filter'
+      sel.innerHTML = '<option value="">All administrations</option>' +
+        state.administrations.map(function (a) { return '<option value="' + esc(a.key) + '">' + esc(a.name) + '</option>' }).join('')
+      sel.value = state.administration
+      sel.addEventListener('change', function () { state.administration = sel.value; loadRows() })
+      controls.appendChild(sel)
+    }
+    var addBtn = document.createElement('button')
+    addBtn.className = 'btn primary'
+    addBtn.textContent = '+ Add'
+    addBtn.addEventListener('click', function () { openForm(null) })
+    controls.appendChild(addBtn)
+
+    await loadRows()
+  }
+
+  async function loadRows() {
+    $('#content').innerHTML = '<div class="loading">Loading…</div>'
+    var cfg = TABLES[state.table]
+    var qs = cfg.adminScoped && state.administration ? '?administration=' + encodeURIComponent(state.administration) : ''
+    state.rows = await api('/' + state.table + qs)
+    renderTable()
+  }
+
+  function renderTable() {
+    var cfg = TABLES[state.table]
+    var cols = cfg.list
+    if (!state.rows.length) {
+      $('#content').innerHTML = '<div class="table-scroll"><div class="empty-state">No rows yet. Click "+ Add" to create one.</div></div>'
+      return
+    }
+    var html = '<div class="table-scroll"><table><thead><tr>'
+    if (cfg.adminScoped) html += '<th>Admin</th>'
+    cols.forEach(function (c) { html += '<th>' + esc(labelFor(cfg, c)) + '</th>' })
+    html += '<th></th></tr></thead><tbody>'
+    state.rows.forEach(function (row) {
+      html += '<tr data-id="' + row.id + '">'
+      if (cfg.adminScoped) html += '<td>' + esc(row.administration) + '</td>'
+      cols.forEach(function (c) {
+        var v = row[c]
+        if (typeof v === 'boolean') v = v ? 'yes' : 'no'
+        html += '<td title="' + esc(v) + '">' + esc(v) + '</td>'
+      })
+      html += '<td class="actions"><button class="btn small" data-edit="' + row.id + '">Edit</button>' +
+        '<button class="btn small danger" data-del="' + row.id + '">Delete</button></td></tr>'
+    })
+    html += '</tbody></table></div>'
+    $('#content').innerHTML = html
+    $$('[data-edit]').forEach(function (b) {
+      b.addEventListener('click', function () { openForm(Number(b.dataset.edit)) })
+    })
+    $$('[data-del]').forEach(function (b) {
+      b.addEventListener('click', function () { deleteRow(Number(b.dataset.del)) })
+    })
+  }
+
+  function labelFor(cfg, key) {
+    var col = cfg.columns.find(function (c) { return c.key === key })
+    return col ? col.label : key
+  }
+
+  async function deleteRow(id) {
+    if (!confirm('Delete this row? This cannot be undone.')) return
+    await api('/' + state.table + '/' + id, { method: 'DELETE' })
+    await loadRows()
+  }
+
+  // ---------- Form ----------
+  function openForm(id) {
+    state.editingId = id
+    var cfg = TABLES[state.table]
+    var row = id ? state.rows.find(function (r) { return r.id === id }) : {}
+    $('#form-title').textContent = (id ? 'Edit ' : 'Add ') + cfg.label.replace(/s$/, '')
+    $('#form-error').textContent = ''
+    $('#form-delete').style.display = id ? 'inline-block' : 'none'
+
+    var fields = $('#form-fields')
+    fields.innerHTML = ''
+
+    if (cfg.adminScoped) {
+      var wrap = document.createElement('div')
+      wrap.className = 'field'
+      wrap.innerHTML = '<label>Administration</label>' +
+        '<select data-field="administration" required>' +
+        state.administrations.map(function (a) {
+          var sel = (row.administration || state.administration) === a.key ? 'selected' : ''
+          return '<option value="' + esc(a.key) + '" ' + sel + '>' + esc(a.name) + '</option>'
+        }).join('') + '</select>'
+      fields.appendChild(wrap)
+    }
+
+    cfg.columns.forEach(function (col) {
+      var val = row[col.key]
+      var wrap = document.createElement('div')
+      if (col.type === 'boolean') {
+        wrap.className = 'field checkbox'
+        wrap.innerHTML = '<input type="checkbox" id="f-' + col.key + '" data-field="' + col.key + '" ' + (val ? 'checked' : '') + '>' +
+          '<label for="f-' + col.key + '">' + esc(col.label) + '</label>'
+      } else {
+        wrap.className = 'field'
+        var label = '<label>' + esc(col.label) + (col.required ? ' *' : '') + (col.hint ? ' — <span style="text-transform:none;font-weight:400;color:var(--faint)">' + esc(col.hint) + '</span>' : '') + '</label>'
+        var input
+        if (col.type === 'textarea') {
+          input = '<textarea data-field="' + col.key + '" ' + (col.required ? 'required' : '') + '>' + esc(val) + '</textarea>'
+        } else if (col.type === 'select') {
+          input = '<select data-field="' + col.key + '" ' + (col.required ? 'required' : '') + '>' +
+            col.options.map(function (o) { return '<option value="' + esc(o) + '" ' + (o === val ? 'selected' : '') + '>' + esc(o) + '</option>' }).join('') + '</select>'
+        } else if (col.type === 'status') {
+          input = '<input type="text" list="dl-' + col.key + '" data-field="' + col.key + '" value="' + esc(val) + '" ' + (col.required ? 'required' : '') + '>' +
+            '<datalist id="dl-' + col.key + '">' + col.options.map(function (o) { return '<option value="' + esc(o) + '">' }).join('') + '</datalist>'
+        } else if (col.type === 'number') {
+          input = '<input type="number" step="any" data-field="' + col.key + '" value="' + (val == null ? '' : esc(val)) + '" ' + (col.required ? 'required' : '') + '>'
+        } else {
+          input = '<input type="text" data-field="' + col.key + '" value="' + esc(val) + '" ' + (col.required ? 'required' : '') + '>'
+        }
+        wrap.innerHTML = label + input
+      }
+      fields.appendChild(wrap)
+    })
+
+    $('#overlay').classList.add('show')
+  }
+
+  function closeForm() {
+    $('#overlay').classList.remove('show')
+    state.editingId = null
+  }
+
+  $('#form-cancel').addEventListener('click', closeForm)
+  $('#overlay').addEventListener('click', function (e) { if (e.target.id === 'overlay') closeForm() })
+
+  $('#form-delete').addEventListener('click', async function () {
+    if (!state.editingId) return
+    if (!confirm('Delete this row? This cannot be undone.')) return
+    await api('/' + state.table + '/' + state.editingId, { method: 'DELETE' })
+    closeForm()
+    await loadRows()
+  })
+
+  $('#record-form').addEventListener('submit', async function (e) {
+    e.preventDefault()
+    var cfg = TABLES[state.table]
+    var form = e.target
+    var values = {}
+    if (cfg.adminScoped) values.administration = $('[data-field="administration"]', form).value
+    cfg.columns.forEach(function (col) {
+      var el = $('[data-field="' + col.key + '"]', form)
+      var v
+      if (col.type === 'boolean') { v = el.checked }
+      else if (col.type === 'number') { v = el.value === '' ? null : Number(el.value) }
+      else { v = el.value === '' ? (col.required ? '' : null) : el.value }
+      values[col.key] = v
+    })
+
+    try {
+      if (state.editingId) {
+        await api('/' + state.table + '/' + state.editingId, { method: 'PUT', body: JSON.stringify(values) })
+      } else {
+        await api('/' + state.table, { method: 'POST', body: JSON.stringify(values) })
+      }
+      closeForm()
+      await loadRows()
+    } catch (err) {
+      $('#form-error').textContent = err.message
+    }
+  })
+
+  // ---------- API Keys ----------
+  async function selectKeys() {
+    state.table = '__keys'
+    setActiveNav('__keys')
+    $('#section-title').textContent = 'API Keys'
+    $('#section-controls').innerHTML = ''
+    $('#content').innerHTML = '<div class="loading">Loading…</div>'
+    var keys = await api('/keys')
+    if (!keys.length) {
+      $('#content').innerHTML = '<div class="table-scroll"><div class="empty-state">No API keys issued yet.</div></div>'
+      return
+    }
+    var html = '<div class="table-scroll"><table><thead><tr><th>Email</th><th>Tier</th><th>Created</th><th>Last used</th><th>Requests</th><th>Status</th><th></th></tr></thead><tbody>'
+    keys.forEach(function (k) {
+      html += '<tr><td>' + esc(k.email) + '</td><td>' + esc(k.tier) + '</td><td>' + esc(k.createdAt) + '</td>' +
+        '<td>' + esc(k.lastUsedAt || '—') + '</td><td>' + esc(k.requestCount) + '</td>' +
+        '<td><span class="badge ' + (k.revoked ? 'revoked' : '') + '">' + (k.revoked ? 'revoked' : 'active') + '</span></td>' +
+        '<td class="actions"><button class="btn small" data-toggle="' + k.id + '" data-revoked="' + k.revoked + '">' + (k.revoked ? 'Unrevoke' : 'Revoke') + '</button>' +
+        '<button class="btn small danger" data-delkey="' + k.id + '">Delete</button></td></tr>'
+    })
+    html += '</tbody></table></div>'
+    $('#content').innerHTML = html
+    $$('[data-toggle]').forEach(function (b) {
+      b.addEventListener('click', async function () {
+        var revoked = b.dataset.revoked === 'true'
+        await api('/keys/' + b.dataset.toggle + '/' + (revoked ? 'unrevoke' : 'revoke'), { method: 'POST' })
+        selectKeys()
+      })
+    })
+    $$('[data-delkey]').forEach(function (b) {
+      b.addEventListener('click', async function () {
+        if (!confirm('Permanently delete this API key?')) return
+        await api('/keys/' + b.dataset.delkey, { method: 'DELETE' })
+        selectKeys()
+      })
+    })
+  }
+
+  // ---------- Boot ----------
+  async function boot() {
+    var session = await fetch('/api/admin/session').then(function (r) { return r.json() })
+    if (!session.authenticated) { showLogin(); return }
+    showApp()
+    buildNav()
+    await selectTable(Object.keys(TABLES)[0])
+  }
+
+  boot()
+})()
+</script>
+</body>
+</html>

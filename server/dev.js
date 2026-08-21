@@ -5,6 +5,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { createApiRouter } from './api.js'
 import { createPublicApiRouter } from './publicApi.js'
+import { createAdminRouter } from './adminRoutes.js'
 import { renderHtml } from './render.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -27,9 +28,13 @@ async function createDevServer() {
   // /api/v1 must be mounted before the more general /api — see the comment
   // in server/index.js for why.
   app.use('/api/v1', createPublicApiRouter())
+  app.use('/api/admin', createAdminRouter())
   app.use('/api', createApiRouter())
   app.get('/developers', (_req, res) => {
     res.sendFile(path.join(root, 'public/developers.html'))
+  })
+  app.get('/admin', (_req, res) => {
+    res.sendFile(path.join(root, 'public/admin.html'))
   })
   app.use(vite.middlewares)
 

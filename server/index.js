@@ -4,6 +4,7 @@ import path from 'path'
 import { readFileSync } from 'fs'
 import { createApiRouter } from './api.js'
 import { createPublicApiRouter } from './publicApi.js'
+import { createAdminRouter } from './adminRoutes.js'
 import { renderHtml } from './render.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -19,9 +20,13 @@ const loadEntryServer = () => import('../dist/server/entry-server.js')
 // match one of its own category names (e.g. /api/v1/governors getting
 // misread as :admin="v1", category="governors").
 app.use('/api/v1', createPublicApiRouter())
+app.use('/api/admin', createAdminRouter())
 app.use('/api', createApiRouter())
 app.get('/developers', (_req, res) => {
   res.sendFile(path.join(__dirname, '../dist/client/developers.html'))
+})
+app.get('/admin', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/client/admin.html'))
 })
 app.use(express.static(path.join(__dirname, '../dist/client'), { index: false }))
 
