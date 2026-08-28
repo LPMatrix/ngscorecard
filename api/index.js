@@ -1,7 +1,3 @@
-import express from 'express'
-import { createApiRouter } from '../server/api.js'
+import { createApiApp } from '../server/apiApp.js'
 
-const app = express()
-app.use('/api', createApiRouter())
-
-export default app
+export default createApiApp()

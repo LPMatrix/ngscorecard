@@ -3,9 +3,7 @@ import { createServer as createViteServer } from 'vite'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { createApiRouter } from './api.js'
-import { createPublicApiRouter } from './publicApi.js'
-import { createAdminRouter } from './adminRoutes.js'
+import { createApiApp } from './apiApp.js'
 import { renderHtml } from './render.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -25,11 +23,9 @@ async function createDevServer() {
     appType: 'custom',
   })
 
-  // /api/v1 must be mounted before the more general /api — see the comment
-  // in server/index.js for why.
-  app.use('/api/v1', createPublicApiRouter())
-  app.use('/api/admin', createAdminRouter())
-  app.use('/api', createApiRouter())
+  // Same API app used by the Vercel serverless entrypoint (api/index.js) —
+  // see server/apiApp.js for why this must stay a single shared factory.
+  app.use(createApiApp())
   app.get('/developers', (_req, res) => {
     res.sendFile(path.join(root, 'public/developers.html'))
   })
