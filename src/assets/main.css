@@ -88,12 +88,22 @@ a:focus-visible {
 
 .pt-header-brand {
   display: grid;
-  grid-template-columns: 52px 1fr;
+  grid-template-columns: 52px 1fr auto;
   gap: 14px;
   align-items: center;
   padding: 18px 24px;
   border-bottom: 1px solid var(--pt-line);
 }
+
+.pt-header-docs-link {
+  justify-self: end;
+  color: var(--pt-text-faint);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.pt-header-docs-link:hover { color: var(--pt-green-700); text-decoration: underline; }
 
 .pt-crest {
   display: grid;
@@ -227,6 +237,7 @@ a:focus-visible {
 }
 
 .pt-mobile-nav { display: none; }
+.pt-mobile-docs-link { display: none; }
 
 .pt-body {
   display: grid;
@@ -309,8 +320,6 @@ a:focus-visible {
 
 .pt-sidebar-footer strong { color: var(--pt-green-800); }
 .pt-sidebar-footer-sub { display: block; width: 100%; font-size: 11px; }
-.pt-footer-link { color: var(--pt-text-faint); font-weight: 700; text-decoration: none; }
-.pt-footer-link:hover { color: var(--pt-green-700); text-decoration: underline; }
 
 .pt-content {
   min-width: 0;
@@ -905,11 +914,12 @@ a:focus-visible {
 
 @media (max-width: 720px) {
   .pt-header-brand {
-    grid-template-columns: 44px 1fr;
+    grid-template-columns: 44px 1fr auto;
     gap: 12px;
     padding: 16px 14px 12px;
   }
   .pt-crest { width: 44px; height: 44px; font-size: 12px; }
+  .pt-header-docs-link { font-size: 11px; }
   .pt-admin-summary { font-size: 11px; }
   .pt-admin-mode-tabs { padding: 8px 14px 0; }
   .pt-admin-nav { padding: 10px 14px; }

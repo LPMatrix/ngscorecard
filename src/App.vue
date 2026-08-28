@@ -461,6 +461,7 @@ const filteredBills = computed(() => {
           <div class="pt-eyebrow">Civic Accountability · Nigeria</div>
           <h1 class="pt-headline">NGScorecard</h1>
         </div>
+        <a href="/developers" class="pt-header-docs-link">Developers →</a>
         <div class="pt-admin-summary">
           <span>{{ currentAdmin.title || currentAdmin.name }}</span>
           <strong>{{ currentAdmin.term }}</strong>
@@ -566,7 +567,6 @@ const filteredBills = computed(() => {
           <span class="pt-freshness-dot"></span>
           Updated <strong>{{ LAST_REVIEWED }}</strong>
           <span class="pt-sidebar-footer-sub">Sources linked on each card</span>
-          <span class="pt-sidebar-footer-sub"><a href="/developers" class="pt-footer-link">API &amp; widget docs →</a></span>
         </div>
       </aside>
 
