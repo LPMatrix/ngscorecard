@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NGScorecard — Press &amp; Media Kit</title>
+  <meta name="description" content="Boilerplate, key facts, and brand assets for journalists and civic-tech writers covering NGScorecard, the independent Nigerian government accountability tracker." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://ngscorecard.com/press" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,400&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --g900: #073f2a; --g800: #075236; --g700: #006b45; --g600: #008751; --g100: #dff5e8; --g050: #f1fbf5;
+      --gold: #c7931d; --red: #a2261b;
+      --ink: #1b2720; --muted: #5f6f66; --faint: #7f8c84;
+      --line: #d9e2dc; --line-strong: #b9cbc1;
+      --bg: #f6f8f3; --surface: #fffef9;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: "Instrument Sans", "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    a { color: var(--g700); }
+    header.hero {
+      border-bottom: 1px solid var(--line-strong);
+      background: var(--surface);
+      padding: 28px 24px;
+    }
+    .wrap { max-width: 860px; margin: 0 auto; }
+    .eyebrow {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--g700);
+    }
+    h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 800; font-size: 34px; margin: 6px 0 8px;
+    }
+    .lede { color: var(--muted); font-size: 16px; max-width: 620px; }
+    .back-link { display: inline-block; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; }
+    .back-link:hover { color: var(--g700); }
+
+    main { padding: 40px 24px 80px; }
+    section { margin-bottom: 52px; }
+    h2 {
+      font-size: 20px; font-weight: 800; color: var(--g800); margin: 0 0 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    h2 .num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--g100); color: var(--g700); font-size: 12px; font-weight: 800;
+    }
+    section > p.section-lede { color: var(--muted); margin: 0 0 16px; max-width: 640px; }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px;
+    }
+
+    /* Boilerplate blocks */
+    .quote-block { margin-bottom: 14px; }
+    .quote-block-label {
+      font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--faint); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .quote-block p { margin: 0; font-size: 15px; color: var(--ink); }
+    .quote-block.long p { font-size: 14px; color: var(--muted); }
+    .copy-btn {
+      border: 1px solid var(--line-strong); background: #fff; color: var(--muted);
+      font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 5px; cursor: pointer; font-family: inherit;
+    }
+    .copy-btn:hover { border-color: var(--g700); color: var(--g700); }
+    .copy-btn.copied { border-color: var(--g700); background: var(--g100); color: var(--g800); }
+
+    /* Facts grid */
+    .facts-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+    }
+    .fact { background: var(--surface); padding: 18px 16px; }
+    .fact-value { font-family: "Playfair Display", Georgia, serif; font-size: 28px; font-weight: 800; color: var(--g800); line-height: 1; }
+    .fact-label { font-size: 11.5px; color: var(--faint); margin-top: 6px; }
+    ul.point-list { margin: 14px 0 0; padding: 0 0 0 18px; color: var(--muted); font-size: 14px; }
+    ul.point-list li { margin-bottom: 6px; }
+    ul.point-list strong { color: var(--ink); }
+
+    /* Assets */
+    .asset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .asset-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; text-align: center;
+    }
+    .asset-preview {
+      display: flex; align-items: center; justify-content: center; height: 88px; margin-bottom: 12px;
+      background: repeating-conic-gradient(#eef2ec 0% 25%, #fff 0% 50%) 50% / 14px 14px; border-radius: 6px;
+    }
+    .asset-preview img { max-height: 64px; max-width: 84%; }
+    .asset-preview.dark { background: #0f1a14; }
+    .asset-preview.dark img { max-height: 88px; max-width: 100%; }
+    .asset-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .asset-meta { font-size: 11px; color: var(--faint); margin-bottom: 10px; }
+    .asset-dl {
+      display: inline-block; font-size: 12px; font-weight: 700; color: var(--g700);
+      border: 1px solid var(--line-strong); border-radius: 6px; padding: 6px 12px; text-decoration: none;
+    }
+    .asset-dl:hover { border-color: var(--g700); background: var(--g050); }
+    .usage-note { margin-top: 14px; font-size: 12.5px; color: var(--faint); }
+
+    .screenshot-wrap { border: 1px solid var(--line-strong); border-radius: 10px; overflow: hidden; }
+    .screenshot-wrap img { display: block; width: 100%; height: auto; }
+
+    footer {
+      border-top: 1px solid var(--line-strong); padding: 24px; text-align: center;
+      color: var(--faint); font-size: 12.5px;
+    }
+    footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <a href="/" class="back-link">← NGScorecard</a>
+      <div class="eyebrow">Press &amp; Media</div>
+      <h1>Press Kit</h1>
+      <p class="lede">Boilerplate copy, key facts, and brand assets for anyone writing about NGScorecard. For anything not covered here, email <a href="mailto:mubaraqsanusi908@gmail.com">mubaraqsanusi908@gmail.com</a>.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section id="boilerplate">
+      <h2><span class="num">1</span> Boilerplate</h2>
+      <p class="section-lede">Copy-paste descriptions, short and long.</p>
+      <div class="card">
+        <div class="quote-block">
+          <div class="quote-block-label">
+            <span>Short (1 sentence)</span>
+            <button class="copy-btn" data-copy-target="short-blurb">Copy</button>
+          </div>
+          <p id="short-blurb">NGScorecard is a free, independent tracker of what Nigerian presidents and governors promised versus what they actually delivered — every entry sourced and dated.</p>
+        </div>
+        <div class="quote-block long">
+          <div class="quote-block-label">
+            <span>Long (one paragraph)</span>
+            <button class="copy-btn" data-copy-target="long-blurb">Copy</button>
+          </div>
+          <p id="long-blurb">NGScorecard is a free, independent civic-accountability tracker covering Nigeria's five most recent presidents and all 36 sitting state governors. It records what each administration promised and what actually happened — kept, partial, or broken — alongside budget allocations, fraud allegations and their outcomes, executive orders, bills, appointments, and court judgments, each entry dated and linked to its original source. Where an official figure (such as a state budget line) hasn't actually been published, NGScorecard marks it as unavailable rather than estimating one. The dataset is also available as a free public API and as an embeddable widget for newsrooms and civic-tech projects.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="facts">
+      <h2><span class="num">2</span> Key facts</h2>
+      <div class="facts-grid">
+        <div class="fact"><div class="fact-value">41</div><div class="fact-label">Administrations tracked</div></div>
+        <div class="fact"><div class="fact-value">5 / 36</div><div class="fact-label">Federal presidents / state governors</div></div>
+        <div class="fact"><div class="fact-value">7</div><div class="fact-label">Categories per administration</div></div>
+      </div>
+      <ul class="point-list">
+        <li><strong>Categories tracked:</strong> promises, budget, fraud cases, executive orders, bills, appointments, and court judgments.</li>
+        <li><strong>Every entry is sourced and dated</strong> — no claim without a linked reference.</li>
+        <li><strong>No derived numbers:</strong> when a real figure (e.g. an unpublished state budget line) doesn't exist, the field is left blank rather than estimated.</li>
+        <li><strong>Free to use:</strong> the site, the public API, and the embeddable widget are all free, with no paywall or account requirement to read.</li>
+      </ul>
+    </section>
+
+    <section id="assets">
+      <h2><span class="num">3</span> Brand assets</h2>
+      <p class="section-lede">Right-click or use the download link. Please use these unmodified.</p>
+      <div class="asset-grid">
+        <div class="asset-card">
+          <div class="asset-preview"><img src="/pwa-512x512.png" alt="NGScorecard logo mark" /></div>
+          <div class="asset-name">Logo mark</div>
+          <div class="asset-meta">PNG · 512×512</div>
+          <a class="asset-dl" href="/pwa-512x512.png" target="_blank" rel="noopener">Open PNG</a>
+        </div>
+        <div class="asset-card">
+          <div class="asset-preview"><img src="/favicon.svg" alt="NGScorecard vector mark" /></div>
+          <div class="asset-name">Vector mark</div>
+          <div class="asset-meta">SVG · scalable</div>
+          <a class="asset-dl" href="/favicon.svg" target="_blank" rel="noopener">Open SVG</a>
+        </div>
+        <div class="asset-card">
+          <div class="asset-preview dark"><img src="/og-image.png" alt="NGScorecard brand card" /></div>
+          <div class="asset-name">Brand card</div>
+          <div class="asset-meta">PNG · 1200×630</div>
+          <a class="asset-dl" href="/og-image.png" target="_blank" rel="noopener">Open PNG</a>
+        </div>
+      </div>
+      <p class="usage-note">These marks may be used to identify NGScorecard in editorial coverage (articles, embeds, citations). They don't imply NGScorecard's endorsement of any publication, product, or campaign.</p>
+    </section>
+
+    <section id="screenshot">
+      <h2><span class="num">4</span> Product view</h2>
+      <p class="section-lede">The live tracker — visit <a href="https://ngscorecard.com" target="_blank" rel="noopener">ngscorecard.com</a> for a current view, or email us for a custom screenshot of a specific administration or category.</p>
+    </section>
+
+    <section id="sourcing">
+      <h2><span class="num">5</span> On sourcing</h2>
+      <p class="section-lede">Worth knowing if you're citing figures from the site: every promise, fraud case, budget line, and order is dated and links to its original source — a government release, court filing, or reporting from an established outlet. NGScorecard doesn't publish estimates dressed up as facts; where a real number isn't publicly available, that field is left empty rather than filled in with a guess. If you find something that looks wrong or out of date, email us — we correct promptly and note the correction.</p>
+    </section>
+
+    <section id="contact">
+      <h2><span class="num">6</span> Contact</h2>
+      <div class="card">
+        <p style="margin:0 0 8px;">For interviews, data requests, embed help, or corrections:</p>
+        <p style="margin:0;"><a href="mailto:mubaraqsanusi908@gmail.com" style="font-weight:700;">mubaraqsanusi908@gmail.com</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    NGScorecard is an independent project, not affiliated with the Nigerian government. ·
+    <a href="/developers">API &amp; widget docs</a> · <a href="/">ngscorecard.com</a>
+  </footer>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = document.getElementById(btn.dataset.copyTarget)
+      var text = target ? target.textContent : ''
+      navigator.clipboard.writeText(text).then(function () {
+        var original = btn.textContent
+        btn.textContent = 'Copied'
+        btn.classList.add('copied')
+        setTimeout(function () {
+          btn.textContent = original
+          btn.classList.remove('copied')
+        }, 1600)
+      })
+    })
+  })
+</script>
+</body>
+</html>

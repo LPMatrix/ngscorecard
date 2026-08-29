@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NGScorecard — Glossary &amp; Methodology</title>
+  <meta name="description" content="What every status label and budget term on NGScorecard means, and how ratings, sourcing, and corrections work." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://ngscorecard.com/guide" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,400&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --g900: #073f2a; --g800: #075236; --g700: #006b45; --g600: #008751; --g100: #dff5e8; --g050: #f1fbf5;
+      --gold: #c7931d; --red: #a2261b;
+      --ink: #1b2720; --muted: #5f6f66; --faint: #7f8c84;
+      --line: #d9e2dc; --line-strong: #b9cbc1;
+      --bg: #f6f8f3; --surface: #fffef9;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: "Instrument Sans", "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    a { color: var(--g700); }
+    header.hero {
+      border-bottom: 1px solid var(--line-strong);
+      background: var(--surface);
+      padding: 28px 24px;
+    }
+    .wrap { max-width: 860px; margin: 0 auto; }
+    .eyebrow {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--g700);
+    }
+    h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 800; font-size: 34px; margin: 6px 0 8px;
+    }
+    .lede { color: var(--muted); font-size: 16px; max-width: 620px; }
+    .back-link { display: inline-block; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; }
+    .back-link:hover { color: var(--g700); }
+
+    nav.toc {
+      background: var(--surface); border-bottom: 1px solid var(--line);
+      padding: 10px 24px; overflow-x: auto; white-space: nowrap;
+    }
+    nav.toc .wrap { display: flex; gap: 18px; }
+    nav.toc a { font-size: 13px; font-weight: 700; color: var(--muted); text-decoration: none; }
+    nav.toc a:hover { color: var(--g700); }
+
+    main { padding: 40px 24px 80px; }
+    section { margin-bottom: 52px; }
+    h2 {
+      font-size: 20px; font-weight: 800; color: var(--g800); margin: 0 0 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    h2 .num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--g100); color: var(--g700); font-size: 12px; font-weight: 800;
+    }
+    section > p.section-lede { color: var(--muted); margin: 0 0 16px; max-width: 640px; }
+
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 20px; }
+
+    dl.term-list { margin: 0; }
+    dl.term-list dt {
+      display: inline-block; font-weight: 800; color: var(--ink); font-size: 14px;
+      padding: 14px 0 2px;
+    }
+    dl.term-list dt .badge {
+      display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.03em;
+      padding: 1px 7px; border-radius: 999px; margin-left: 8px; text-transform: uppercase;
+      background: var(--g100); color: var(--g800); vertical-align: middle;
+    }
+    dl.term-list dd { margin: 0 0 14px; padding-bottom: 14px; color: var(--muted); font-size: 13.5px; border-bottom: 1px solid var(--line); }
+    dl.term-list dd:last-of-type { border-bottom: none; }
+
+    .subgroup-label {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--faint); margin: 22px 0 4px;
+    }
+    .subgroup-label:first-child { margin-top: 0; }
+
+    .zone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+    .zone-chip {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+      padding: 8px 12px; font-size: 13px; font-weight: 700; text-align: center;
+    }
+
+    footer {
+      border-top: 1px solid var(--line-strong); padding: 24px; text-align: center;
+      color: var(--faint); font-size: 12.5px;
+    }
+    footer a { color: var(--muted); }
+
+    @media (max-width: 600px) {
+      .zone-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <a href="/" class="back-link">← NGScorecard</a>
+      <div class="eyebrow">Reference</div>
+      <h1>Glossary &amp; Methodology</h1>
+      <p class="lede">What every status label and budget term on NGScorecard means, and how ratings, sourcing, and corrections actually work.</p>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="wrap">
+      <a href="#ratings">Promise ratings</a>
+      <a href="#statuses">Status terms</a>
+      <a href="#budget">Budget terms</a>
+      <a href="#other">Other terms</a>
+      <a href="#methodology">Sourcing &amp; corrections</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <section id="ratings">
+      <h2><span class="num">1</span> Promise ratings</h2>
+      <p class="section-lede">Every tracked promise — and every entry in Inherited Fixes — gets one of four ratings, based on the evidence linked to it.</p>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Kept</dt>
+          <dd>The promise was fulfilled, based on verifiable evidence — an official report, government data, or credible reporting.</dd>
+          <dt>Partial</dt>
+          <dd>Meaningful progress was made, but delivery fell short of what was promised, or only part of it was carried out.</dd>
+          <dt>Broken</dt>
+          <dd>No meaningful action was taken, the promise was explicitly abandoned, or the outcome contradicts what was promised.</dd>
+          <dt>In progress</dt>
+          <dd>It's too early to assess — the stated timeline for delivery hasn't passed, or the process is still underway. Shown as "Pending" in raw data.</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section id="statuses">
+      <h2><span class="num">2</span> Status terms by category</h2>
+      <p class="section-lede">Every other category has its own status vocabulary, since "kept vs. broken" doesn't fit a court case or an appointment.</p>
+
+      <div class="subgroup-label">Fraud cases</div>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Convicted</dt><dd>A court has returned a guilty verdict.</dd>
+          <dt>Ongoing</dt><dd>Investigation or prosecution is still in progress.</dd>
+          <dt>Dismissed</dt><dd>Charges were dropped or the case was thrown out.</dd>
+          <dt>Acquitted</dt><dd>A court found the accused not guilty.</dd>
+        </dl>
+      </div>
+      <p style="font-size:12.5px;color:var(--faint);margin:8px 0 0;">Each fraud case also carries a separate <strong>government response</strong> rating — Pursuing, Stalled, Politicised, Abandoned, or No interference — describing how the government itself has handled the allegation, independent of the case's legal outcome.</p>
+
+      <div class="subgroup-label">Executive orders</div>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Implemented</dt><dd>The order has been executed and had a real, observable effect.</dd>
+          <dt>Partial</dt><dd>The order or its enforcement is incomplete.</dd>
+          <dt>Reversed</dt><dd>Overturned by the same administration, a later one, or a court.</dd>
+          <dt>Ignored</dt><dd>Issued but not enforced.</dd>
+        </dl>
+      </div>
+
+      <div class="subgroup-label">Ministers &amp; commissioners</div>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Good / Fair / Poor</dt><dd>A qualitative read on delivery against the ministry's stated mandate, based on reported outcomes.</dd>
+          <dt>Sacked</dt><dd>Removed from office by the president or governor.</dd>
+          <dt>Resigned</dt><dd>Left the role voluntarily.</dd>
+        </dl>
+      </div>
+
+      <div class="subgroup-label">Bills</div>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Passed</dt><dd>Signed into law.</dd>
+          <dt>Partial</dt><dd>Passed one chamber, heavily amended, or stalled after passing.</dd>
+          <dt>Pending</dt><dd>Still moving through the legislative process.</dd>
+          <dt>Abandoned</dt><dd>Withdrawn, or lapsed without further action.</dd>
+        </dl>
+      </div>
+
+      <div class="subgroup-label">Appointments</div>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Serving</dt><dd>Currently in the role.</dd>
+          <dt>Resigned</dt><dd>Left voluntarily.</dd>
+          <dt>Sacked</dt><dd>Removed from the role.</dd>
+        </dl>
+      </div>
+
+      <div class="subgroup-label">Court judgments</div>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Govt Won / Govt Lost</dt><dd>The outcome of the ruling, from the government's side.</dd>
+          <dt>Settled</dt><dd>Resolved outside a verdict — e.g. a negotiated settlement.</dd>
+          <dt>Ongoing</dt><dd>Still before the court.</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section id="budget">
+      <h2><span class="num">3</span> Budget terms</h2>
+      <p class="section-lede">Where a figure isn't publicly available, the field is left blank rather than estimated — see <a href="#methodology">Sourcing &amp; corrections</a>.</p>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Total budget</dt><dd>The full amount appropriated for the year.</dd>
+          <dt>Revenue (projected)</dt><dd>The income the budget assumes will come in, set when the budget was passed.</dd>
+          <dt>Revenue (actual)</dt><dd>What was actually collected, once officially reported.</dd>
+          <dt>Deficit</dt><dd>The gap between spending and revenue, typically covered by borrowing.</dd>
+          <dt>Debt service</dt><dd>The portion of the budget spent servicing existing debt, before anything else is funded.</dd>
+          <dt>Implementation rate</dt><dd>The share of the appropriated budget actually spent or released.</dd>
+          <dt>Allocation vs. Released</dt><dd>Per ministry: Allocation is what was budgeted to it; Released is what was actually disbursed.</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section id="other">
+      <h2><span class="num">4</span> Other terms</h2>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Geopolitical zone</dt>
+          <dd>Nigeria's six informal regional groupings, used mainly in Appointments to check regional balance:</dd>
+        </dl>
+      </div>
+      <div class="zone-grid">
+        <div class="zone-chip">North Central</div>
+        <div class="zone-chip">North East</div>
+        <div class="zone-chip">North West</div>
+        <div class="zone-chip">South East</div>
+        <div class="zone-chip">South South</div>
+        <div class="zone-chip">South West</div>
+      </div>
+    </section>
+
+    <section id="methodology">
+      <h2><span class="num">5</span> Sourcing &amp; corrections</h2>
+      <p class="section-lede">
+        Every entry on NGScorecard — a promise, a fraud case, a budget line, an order — is dated and linked to its original source: a government release, a court filing, or reporting from an established outlet. Nothing is rated without a linked reference.
+      </p>
+      <p class="section-lede">
+        On numbers specifically: NGScorecard doesn't publish estimates dressed up as facts. Where an official figure hasn't actually been published — an unreleased state budget line, for instance — that field is left blank rather than filled in with a computed guess.
+      </p>
+      <p class="section-lede">
+        Ratings are a judgment call made against the linked evidence, not an automated calculation. If you think an entry is wrong, outdated, or missing context, email <a href="mailto:mubaraqsanusi908@gmail.com">mubaraqsanusi908@gmail.com</a> — corrections are made promptly and noted on the entry.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <a href="/">ngscorecard.com</a> · <a href="/developers">API &amp; widget docs</a> · <a href="/press">Press</a>
+  </footer>
+
+</body>
+</html>

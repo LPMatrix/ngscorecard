@@ -32,6 +32,12 @@ async function createDevServer() {
   app.get('/admin', (_req, res) => {
     res.sendFile(path.join(root, 'public/admin.html'))
   })
+  app.get('/press', (_req, res) => {
+    res.sendFile(path.join(root, 'public/press.html'))
+  })
+  app.get('/guide', (_req, res) => {
+    res.sendFile(path.join(root, 'public/guide.html'))
+  })
   app.use(vite.middlewares)
 
   app.use(async (req, res) => {

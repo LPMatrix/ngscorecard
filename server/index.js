@@ -21,6 +21,12 @@ app.get('/developers', (_req, res) => {
 app.get('/admin', (_req, res) => {
   res.sendFile(path.join(__dirname, '../dist/client/admin.html'))
 })
+app.get('/press', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/client/press.html'))
+})
+app.get('/guide', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/client/guide.html'))
+})
 app.use(express.static(path.join(__dirname, '../dist/client'), { index: false }))
 
 app.use(async (req, res) => {

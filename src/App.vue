@@ -22,6 +22,7 @@ const stateAdmins    = computed(() => ADMINISTRATIONS.value.filter(a => a.level 
 
 const viewMode = ref('single') // 'single' | 'compare'
 const compareInitial = ref({ a: null, b: null, tab: 'promises' })
+const headerMenuOpen = ref(false) // mobile-only hamburger for Developers/Press links
 
 const activeAdmin = ref(initial?.admin ?? 'tinubu')
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
@@ -461,7 +462,27 @@ const filteredBills = computed(() => {
           <div class="pt-eyebrow">Civic Accountability · Nigeria</div>
           <h1 class="pt-headline">NGScorecard</h1>
         </div>
-        <a href="/developers" class="pt-header-docs-link">Developers →</a>
+        <div class="pt-header-links">
+          <a href="/guide" class="pt-header-docs-link">Guide</a>
+          <a href="/developers" class="pt-header-docs-link">Developers</a>
+          <a href="/press" class="pt-header-docs-link">Press</a>
+        </div>
+        <div class="pt-header-menu">
+          <button
+            class="pt-header-menu-btn"
+            aria-label="More links"
+            :aria-expanded="headerMenuOpen"
+            @click="headerMenuOpen = !headerMenuOpen"
+          >☰</button>
+          <template v-if="headerMenuOpen">
+            <div class="pt-header-menu-backdrop" @click="headerMenuOpen = false"></div>
+            <div class="pt-header-menu-panel">
+              <a href="/guide" class="pt-header-menu-link" @click="headerMenuOpen = false">Guide</a>
+              <a href="/developers" class="pt-header-menu-link" @click="headerMenuOpen = false">Developers</a>
+              <a href="/press" class="pt-header-menu-link" @click="headerMenuOpen = false">Press</a>
+            </div>
+          </template>
+        </div>
         <div class="pt-admin-summary">
           <span>{{ currentAdmin.title || currentAdmin.name }}</span>
           <strong>{{ currentAdmin.term }}</strong>
