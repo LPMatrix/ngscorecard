@@ -102,6 +102,15 @@
     td.actions { white-space: nowrap; text-align: right; }
     td.actions .btn { margin-left: 6px; }
     .empty-state { padding: 40px; text-align: center; color: var(--faint); font-size: 13.5px; }
+    .pagination {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+      padding: 10px 2px 0; font-size: 12.5px; color: var(--muted);
+    }
+    .pagination .pager { display: flex; align-items: center; gap: 8px; }
+    .pagination .page-current { font-weight: 700; color: var(--ink); min-width: 84px; text-align: center; }
+    .pagination select { padding: 5px 8px; font-size: 12.5px; }
+    .pagination .btn[disabled] { opacity: 0.4; cursor: default; }
+    .pagination .btn[disabled]:hover { border-color: var(--line-strong); color: var(--ink); }
     .badge { display: inline-block; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 999px; background: var(--g100); color: var(--g800); }
     .badge.revoked { background: var(--red-bg); color: var(--red); }
 
@@ -404,7 +413,11 @@
     },
   }
 
-  var state = { table: null, administration: '', administrations: [], rows: [], editingId: null }
+  var DEFAULT_PAGE_SIZE = 100
+  var state = {
+    table: null, administration: '', administrations: [], rows: [], editingId: null,
+    page: 1, pageSize: DEFAULT_PAGE_SIZE, total: 0, pageCount: 1,
+  }
 
   var $ = function (sel, root) { return (root || document).querySelector(sel) }
   var $$ = function (sel, root) { return Array.from((root || document).querySelectorAll(sel)) }
@@ -496,6 +509,7 @@
   async function selectTable(name) {
     state.table = name
     state.editingId = null
+    state.page = 1
     setActiveNav(name)
     var cfg = TABLES[name]
     $('#section-title').textContent = cfg.label
@@ -509,7 +523,7 @@
       sel.innerHTML = '<option value="">All administrations</option>' +
         state.administrations.map(function (a) { return '<option value="' + esc(a.key) + '">' + esc(a.name) + '</option>' }).join('')
       sel.value = state.administration
-      sel.addEventListener('change', function () { state.administration = sel.value; loadRows() })
+      sel.addEventListener('change', function () { state.administration = sel.value; state.page = 1; loadRows() })
       controls.appendChild(sel)
     }
     var addBtn = document.createElement('button')
@@ -521,18 +535,41 @@
     await loadRows()
   }
 
-  async function loadRows() {
-    $('#content').innerHTML = '<div class="loading">Loading…</div>'
+  function pageQueryString() {
     var cfg = TABLES[state.table]
-    var qs = cfg.adminScoped && state.administration ? '?administration=' + encodeURIComponent(state.administration) : ''
-    state.rows = await api('/' + state.table + qs)
+    var parts = []
+    if (cfg.adminScoped && state.administration) parts.push('administration=' + encodeURIComponent(state.administration))
+    parts.push('page=' + state.page)
+    parts.push('pageSize=' + state.pageSize)
+    return '?' + parts.join('&')
+  }
+
+  function applyPageResult(result) {
+    state.rows = result.rows
+    state.total = result.total
+    state.page = result.page
+    state.pageSize = result.pageSize
+    state.pageCount = result.pageCount
+  }
+
+  async function loadRows() {
+    state.reload = loadRows
+    $('#content').innerHTML = '<div class="loading">Loading…</div>'
+    var result = await api('/' + state.table + pageQueryString())
+    // If we deleted the last row on a page beyond page 1, step back rather
+    // than show a blank page.
+    if (!result.rows.length && result.page > 1 && result.total > 0) {
+      state.page = Math.max(1, result.pageCount)
+      result = await api('/' + state.table + pageQueryString())
+    }
+    applyPageResult(result)
     renderTable()
   }
 
   function renderTable() {
     var cfg = TABLES[state.table]
     var cols = cfg.list
-    if (!state.rows.length) {
+    if (!state.total) {
       $('#content').innerHTML = '<div class="table-scroll"><div class="empty-state">No rows yet. Click "+ Add" to create one.</div></div>'
       return
     }
@@ -552,12 +589,48 @@
         '<button class="btn small danger" data-del="' + row.id + '">Delete</button></td></tr>'
     })
     html += '</tbody></table></div>'
+    html += renderPagination()
     $('#content').innerHTML = html
     $$('[data-edit]').forEach(function (b) {
       b.addEventListener('click', function () { openForm(Number(b.dataset.edit)) })
     })
     $$('[data-del]').forEach(function (b) {
       b.addEventListener('click', function () { deleteRow(Number(b.dataset.del)) })
+    })
+    wirePagination()
+  }
+
+  function renderPagination() {
+    var start = state.total ? (state.page - 1) * state.pageSize + 1 : 0
+    var end = Math.min(state.page * state.pageSize, state.total)
+    var sizes = [25, 50, 100, 200, 500]
+    if (sizes.indexOf(state.pageSize) === -1) sizes.push(state.pageSize)
+    sizes.sort(function (a, b) { return a - b })
+    var html = '<div class="pagination">'
+    html += '<span>Rows ' + start + '–' + end + ' of ' + state.total + '</span>'
+    html += '<div class="pager">'
+    html += '<button class="btn small" id="page-prev" ' + (state.page <= 1 ? 'disabled' : '') + '>← Prev</button>'
+    html += '<span class="page-current">Page ' + state.page + ' of ' + state.pageCount + '</span>'
+    html += '<button class="btn small" id="page-next" ' + (state.page >= state.pageCount ? 'disabled' : '') + '>Next →</button>'
+    html += '</div>'
+    html += '<select id="page-size-select">' + sizes.map(function (s) {
+      return '<option value="' + s + '" ' + (s === state.pageSize ? 'selected' : '') + '>' + s + ' / page</option>'
+    }).join('') + '</select>'
+    html += '</div>'
+    return html
+  }
+
+  function wirePagination() {
+    var prev = $('#page-prev')
+    var next = $('#page-next')
+    var sizeSel = $('#page-size-select')
+    var reload = state.reload || loadRows
+    if (prev) prev.addEventListener('click', function () { if (state.page > 1) { state.page -= 1; reload() } })
+    if (next) next.addEventListener('click', function () { if (state.page < state.pageCount) { state.page += 1; reload() } })
+    if (sizeSel) sizeSel.addEventListener('change', function () {
+      state.pageSize = Number(sizeSel.value)
+      state.page = 1
+      reload()
     })
   }
 
@@ -673,19 +746,26 @@
   })
 
   // ---------- API Keys ----------
-  async function selectKeys() {
+  async function selectKeys(keepPage) {
     state.table = '__keys'
+    state.reload = function () { selectKeys(true) }
+    if (!keepPage) state.page = 1
     setActiveNav('__keys')
     $('#section-title').textContent = 'API Keys'
     $('#section-controls').innerHTML = ''
     $('#content').innerHTML = '<div class="loading">Loading…</div>'
-    var keys = await api('/keys')
-    if (!keys.length) {
+    var result = await api('/keys?page=' + state.page + '&pageSize=' + state.pageSize)
+    if (!result.rows.length && result.page > 1 && result.total > 0) {
+      state.page = Math.max(1, result.pageCount)
+      result = await api('/keys?page=' + state.page + '&pageSize=' + state.pageSize)
+    }
+    applyPageResult(result)
+    if (!state.total) {
       $('#content').innerHTML = '<div class="table-scroll"><div class="empty-state">No API keys issued yet.</div></div>'
       return
     }
     var html = '<div class="table-scroll"><table><thead><tr><th>Email</th><th>Tier</th><th>Created</th><th>Last used</th><th>Requests</th><th>Status</th><th></th></tr></thead><tbody>'
-    keys.forEach(function (k) {
+    state.rows.forEach(function (k) {
       html += '<tr><td>' + esc(k.email) + '</td><td>' + esc(k.tier) + '</td><td>' + esc(k.createdAt) + '</td>' +
         '<td>' + esc(k.lastUsedAt || '—') + '</td><td>' + esc(k.requestCount) + '</td>' +
         '<td><span class="badge ' + (k.revoked ? 'revoked' : '') + '">' + (k.revoked ? 'revoked' : 'active') + '</span></td>' +
@@ -693,21 +773,23 @@
         '<button class="btn small danger" data-delkey="' + k.id + '">Delete</button></td></tr>'
     })
     html += '</tbody></table></div>'
+    html += renderPagination()
     $('#content').innerHTML = html
     $$('[data-toggle]').forEach(function (b) {
       b.addEventListener('click', async function () {
         var revoked = b.dataset.revoked === 'true'
         await api('/keys/' + b.dataset.toggle + '/' + (revoked ? 'unrevoke' : 'revoke'), { method: 'POST' })
-        selectKeys()
+        selectKeys(true)
       })
     })
     $$('[data-delkey]').forEach(function (b) {
       b.addEventListener('click', async function () {
         if (!confirm('Permanently delete this API key?')) return
         await api('/keys/' + b.dataset.delkey, { method: 'DELETE' })
-        selectKeys()
+        selectKeys(true)
       })
     })
+    wirePagination()
   }
 
   // ---------- Boot ----------

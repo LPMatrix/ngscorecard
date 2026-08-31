@@ -96,6 +96,7 @@ function seedPromises(rows, admin) {
     administration: admin, title: r.title, category: r.category,
     status: r.status, promise: r.promise, assessment: r.assessment,
     source: r.source, sourceLabel: r.sourceLabel, updated: r.updated,
+    flag: r.flag ?? null, related: r.related ?? null,
   }))
 }
 

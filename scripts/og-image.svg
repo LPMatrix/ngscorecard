@@ -34,7 +34,7 @@
 
   <!-- Tagline -->
   <text x="112" y="406" font-family="'Helvetica Neue', Arial, sans-serif" font-size="26" fill="#a09080" font-weight="400">Tracking promises, performance &amp; policy</text>
-  <text x="112" y="442" font-family="'Helvetica Neue', Arial, sans-serif" font-size="26" fill="#a09080" font-weight="400">of the Tinubu administration · 2023–2027</text>
+  <text x="112" y="442" font-family="'Helvetica Neue', Arial, sans-serif" font-size="26" fill="#a09080" font-weight="400">of Nigeria's presidents &amp; governors</text>
 
   <!-- Category tags -->
   <!-- Promises -->
@@ -64,12 +64,11 @@
   <!-- Full decorative ring -->
   <circle cx="980" cy="280" r="100" fill="none" stroke="#c8922a" stroke-opacity="0.3" stroke-width="1.5"/>
 
-  <!-- Term label -->
-  <text x="980" y="248" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#a09080" text-anchor="middle" letter-spacing="2">PRESIDENTIAL</text>
-  <text x="980" y="268" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#a09080" text-anchor="middle" letter-spacing="2">TERM</text>
-  <text x="980" y="316" font-family="Georgia, serif" font-size="38" font-weight="700" fill="#f5f0e8" text-anchor="middle">2023</text>
-  <line x1="930" y1="328" x2="1030" y2="328" stroke="#c8922a" stroke-opacity="0.5" stroke-width="1"/>
-  <text x="980" y="352" font-family="Georgia, serif" font-size="38" font-weight="700" fill="#c8922a" text-anchor="middle">2027</text>
+  <!-- Scope label -->
+  <text x="980" y="295" font-family="Georgia, serif" font-size="44" font-weight="700" fill="#f5f0e8" text-anchor="middle">36</text>
+  <line x1="930" y1="312" x2="1030" y2="312" stroke="#c8922a" stroke-opacity="0.5" stroke-width="1"/>
+  <text x="980" y="334" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#a09080" text-anchor="middle" letter-spacing="2">STATES</text>
+  <text x="980" y="352" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#a09080" text-anchor="middle" letter-spacing="2">TRACKED</text>
 
   <!-- Domain watermark -->
   <text x="1160" y="600" font-family="'Helvetica Neue', Arial, sans-serif" font-size="18" fill="#ffffff" fill-opacity="0.2" text-anchor="end" letter-spacing="1">ngscorecard.com</text>

@@ -1,9 +1,23 @@
 import { Router, json } from 'express'
-import { eq, desc } from 'drizzle-orm'
+import { eq, desc, count } from 'drizzle-orm'
 import { db } from './db.js'
 import * as t from './schema.js'
 import * as q from './queries.js'
 import { checkPassword, setAdminCookie, clearAdminCookie, isAuthed, requireAdmin } from './adminAuth.js'
+
+// Admin table listings are paginated so a table with hundreds of rows (e.g.
+// promises, ministers) never ships as one giant unpaginated response.
+const DEFAULT_PAGE_SIZE = 100
+const MAX_PAGE_SIZE = 500
+
+function parsePagination(req) {
+  let pageSize = parseInt(req.query.pageSize, 10)
+  if (!Number.isFinite(pageSize) || pageSize <= 0) pageSize = DEFAULT_PAGE_SIZE
+  pageSize = Math.min(pageSize, MAX_PAGE_SIZE)
+  let page = parseInt(req.query.page, 10)
+  if (!Number.isFinite(page) || page <= 0) page = 1
+  return { page, pageSize, offset: (page - 1) * pageSize }
+}
 
 // Whitelist of tables the admin UI is allowed to touch, and which column
 // scopes them to one administration (if any). Keeps /api/admin/:table from
@@ -61,9 +75,13 @@ export function createAdminRouter() {
     )
   })
 
-  router.get('/keys', async (_req, res) => {
-    const rows = await db.select().from(t.apiKeys).orderBy(desc(t.apiKeys.createdAt))
-    res.json(rows)
+  router.get('/keys', async (req, res) => {
+    const { page, pageSize, offset } = parsePagination(req)
+    const [rows, [{ value: total }]] = await Promise.all([
+      db.select().from(t.apiKeys).orderBy(desc(t.apiKeys.createdAt)).limit(pageSize).offset(offset),
+      db.select({ value: count() }).from(t.apiKeys),
+    ])
+    res.json({ rows, total, page, pageSize, pageCount: Math.max(1, Math.ceil(total / pageSize)) })
   })
 
   router.post('/keys/:id/revoke', async (req, res) => {
@@ -87,10 +105,24 @@ export function createAdminRouter() {
 
   router.get('/:table', resolveTable, async (req, res) => {
     const { table, adminCol } = req.tableEntry
-    if (adminCol && req.query.administration) {
-      return res.json(await db.select().from(table).where(eq(table[adminCol], req.query.administration)))
+    const { page, pageSize, offset } = parsePagination(req)
+    const where = adminCol && req.query.administration
+      ? eq(table[adminCol], req.query.administration)
+      : undefined
+
+    let rowsQuery = db.select().from(table)
+    let countQuery = db.select({ value: count() }).from(table)
+    if (where) {
+      rowsQuery = rowsQuery.where(where)
+      countQuery = countQuery.where(where)
     }
-    res.json(await db.select().from(table))
+
+    const [rows, [{ value: total }]] = await Promise.all([
+      rowsQuery.orderBy(table.id).limit(pageSize).offset(offset),
+      countQuery,
+    ])
+
+    res.json({ rows, total, page, pageSize, pageCount: Math.max(1, Math.ceil(total / pageSize)) })
   })
 
   router.post('/:table', resolveTable, async (req, res) => {

@@ -114,10 +114,13 @@
     .screenshot-wrap img { display: block; width: 100%; height: auto; }
 
     footer {
-      border-top: 1px solid var(--line-strong); padding: 24px; text-align: center;
+      border-top: 1px solid var(--line-strong); padding: 28px 24px; text-align: center;
       color: var(--faint); font-size: 12.5px;
     }
-    footer a { color: var(--muted); }
+    footer .footer-tag { margin: 0 0 10px; }
+    footer .footer-links { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; }
+    footer .footer-links a { color: var(--muted); font-weight: 600; text-decoration: none; }
+    footer .footer-links a:hover { color: var(--g700); }
   </style>
 </head>
 <body>
@@ -157,7 +160,7 @@
     <section id="facts">
       <h2><span class="num">2</span> Key facts</h2>
       <div class="facts-grid">
-        <div class="fact"><div class="fact-value">41</div><div class="fact-label">Administrations tracked</div></div>
+        <div class="fact"><div class="fact-value">36</div><div class="fact-label">States tracked</div></div>
         <div class="fact"><div class="fact-value">5 / 36</div><div class="fact-label">Federal presidents / state governors</div></div>
         <div class="fact"><div class="fact-value">7</div><div class="fact-label">Categories per administration</div></div>
       </div>
@@ -216,8 +219,15 @@
   </main>
 
   <footer>
-    NGScorecard is an independent project, not affiliated with the Nigerian government. ·
-    <a href="/developers">API &amp; widget docs</a> · <a href="/">ngscorecard.com</a>
+    <div class="wrap">
+      <p class="footer-tag">NGScorecard is an independent project, not affiliated with the Nigerian government.</p>
+      <nav class="footer-links" aria-label="More about NGScorecard">
+        <a href="/">ngscorecard.com</a>
+        <a href="/guide">Guide</a>
+        <a href="/developers">API &amp; widget docs</a>
+        <a href="/press">Press</a>
+      </nav>
+    </div>
   </footer>
 
 <script>

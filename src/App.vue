@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch, inject } from 'vue'
+import { ref, computed, onMounted, watch, inject, nextTick } from 'vue'
 import PromiseCard  from './components/PromiseCard.vue'
 import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
@@ -30,6 +30,27 @@ const headerMenuOpen = ref(false) // mobile-only hamburger for Developers/Press 
 const activeAdmin = ref(initial?.admin ?? 'tinubu')
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
+
+// "Month YYYY" / "YYYY" → months elapsed since, or null if unparseable.
+function monthsSinceLabel(s) {
+  const m = String(s ?? '').trim().match(/^(?:([A-Za-z]+)\s+)?(\d{4})$/)
+  if (!m) return null
+  const mon = m[1]
+    ? ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(m[1].slice(0, 3).toLowerCase())
+    : 0
+  if (mon === -1) return null
+  const then = new Date(Number(m[2]), mon, 1)
+  const now = new Date()
+  return (now.getFullYear() - then.getFullYear()) * 12 + (now.getMonth() - then.getMonth())
+}
+// Sitting administrations should be re-reviewed at least twice a year (see
+// /guide §6). Past ~9 months the freshness indicator flips to "review due".
+const REVIEW_DUE_MONTHS = 9
+const reviewDue = computed(() => {
+  if (currentAdmin.value.isCurrent === false) return false
+  const months = monthsSinceLabel(LAST_REVIEWED.value)
+  return months != null && months >= REVIEW_DUE_MONTHS
+})
 const isStateLevel = computed(() => currentAdmin.value.level === 'state')
 const formerGovernorsForState = computed(() => {
   if (!isStateLevel.value || !currentAdmin.value.state) return []
@@ -212,6 +233,24 @@ function setExpanded(id) {
 
 function handleToggle(id) {
   setExpanded(expandedId.value === id ? null : id)
+}
+
+// "See also" navigation: expand the linked promise and scroll it into view.
+function goto(id) {
+  setExpanded(id)
+  nextTick(() => {
+    document.getElementById(`pt-card-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  })
+}
+
+// Resolve a promise's `related` id list to { id, title } targets that still
+// exist in the current list. Empty for every promise until seed data uses it.
+function relatedFor(p) {
+  if (!Array.isArray(p.related) || !p.related.length) return []
+  return p.related
+    .map(id => promises.value.find(x => x.id === id))
+    .filter(Boolean)
+    .map(x => ({ id: x.id, title: x.title }))
 }
 
 async function handleShare(id) {
@@ -603,10 +642,11 @@ const filteredBills = computed(() => {
           </div>
         </nav>
 
-        <div class="pt-sidebar-footer">
+        <div :class="['pt-sidebar-footer', { 'review-due': reviewDue }]">
           <span class="pt-freshness-dot"></span>
-          Updated <strong>{{ LAST_REVIEWED }}</strong>
-          <span class="pt-sidebar-footer-sub">Sources linked on each card</span>
+          <template v-if="reviewDue">Review due — last checked <strong>{{ LAST_REVIEWED }}</strong></template>
+          <template v-else>Updated <strong>{{ LAST_REVIEWED }}</strong></template>
+          <span class="pt-sidebar-footer-sub">Sources linked on each card · <a href="/guide#methodology">how this is reviewed</a></span>
         </div>
       </aside>
 
@@ -681,14 +721,17 @@ const filteredBills = computed(() => {
         <PromiseCard
           v-for="p in filteredPromises"
           :key="p.id"
+          :id="`pt-card-${p.id}`"
           :item="p"
           :field1="p.promise"
           :field2="p.assessment"
           label1="The promise"
           label2="Assessment"
+          :related="relatedFor(p)"
           :isExpanded="expandedId === p.id"
           @toggle="handleToggle"
           @share="handleShare"
+          @goto="goto"
         />
         <div v-if="!filteredPromises.length" class="pt-empty">
           No promises match your filters.

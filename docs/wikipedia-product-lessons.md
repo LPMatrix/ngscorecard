@@ -153,28 +153,43 @@ admin UI.
 
 ## Smaller borrows
 
-- **Standardised status banners** — "disputed", "needs updating", "verified
-  April 2026" — instead of ad-hoc prose per card.
-- **Summary-first progressive disclosure** — headline kept/broken counts →
-  card → full assessment → sources. Largely already the shape; keep the top
-  skimmable and honest.
-- **Language editions** — methodology + headline verdicts in Hausa / Yoruba /
-  Igbo / Nigerian Pidgin widens both reach and perceived legitimacy. Static
-  per-locale pages before any full i18n effort.
-- **"What links here"** — for overlapping promises (multiple energy/oil
-  entries), a "related promises" link group, per the `FEATURES.md` "related
-  promises grouping" note.
+- **Standardised status banners** — *Done.* PromiseCard renders a fixed banner
+  keyed off an optional `flag` field on a promise (`disputed` | `correction` |
+  `review`). Ships dormant — nothing shows until seed data sets `flag`. Plus a
+  **derived staleness marker**: cards not updated in ≥18 months show
+  "· needs review" in the footer, and the sidebar freshness indicator flips to
+  "Review due" (amber) once an administration's `reviewed` date is ≥9 months
+  old. No data field for the staleness part — it's computed from the existing
+  `updated` / `reviewed` labels. See `PromiseCard.vue` FLAG_META / `isStale`
+  and `App.vue` `reviewDue`.
+- **Summary-first progressive disclosure** — *Already the shape.* Headline
+  stat tiles → progress bar → collapsed cards → expand for assessment →
+  sources in the card footer. Nothing to build; keep the top skimmable.
+- **Language editions** — *Scaffold done.* `public/guide.<ha|yo|ig|pcm>.html`
+  shells + shared `guide-i18n.css`, `hreflang` alternates and a language
+  switcher on `public/guide.html`. Translations not started — see
+  `docs/i18n-plan.md` for the plan and next steps (headline verdict labels
+  next, pretty URLs optional).
+- **"What links here" / related promises** — *Done (dormant).* Optional
+  `related` field on a promise (JSON array of sibling ids) → a "See also" chip
+  group in PromiseCard that expands and scrolls to the linked card
+  (`App.vue` `goto` / `relatedFor`). Renders nothing until seed data links
+  promises. `FEATURES.md`'s "related promises grouping" note.
 
 ---
 
 ## Rough priority
 
 1. ~~**#3 methodology page**~~ — done (`public/guide.html`).
-2. **#2 staleness banner** from the `reviewed` date — cheap, pure trust; now
-   also referenced by the published methodology, so worth wiring up.
+2. ~~**staleness banner**~~ + ~~status-flag infra~~ + ~~related-promises infra~~
+   + ~~language scaffold~~ — done (see Smaller borrows above).
 3. **#1 unsourced badge + source tiers** — makes the existing `source` field
    earn its keep, and the source hierarchy is now documented in guide §6.
+   The `flag` infra from the smaller borrows can carry an `unsourced` value.
 4. **#2 per-row history table** — unlocks #6 permalinks for free.
-5. **#7 public correction queue** — scales the data work.
+5. **#7 public correction queue** — scales the data work; a natural producer
+   of `flag: 'correction'` and `flag: 'review'` values.
 6. **#4 funding/independence statement** — a paragraph, do it anytime.
-7. **#5** — flip the flag when the audience and cadence justify it.
+7. **Seed the dormant fields** — start setting `flag` / `related` on real
+   promises, and translate the `/guide` locale shells.
+8. **#5** — flip the flag when the audience and cadence justify it.

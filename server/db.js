@@ -13,6 +13,8 @@ function ensureLocalSchema(client) {
   ensureColumn(client, 'fraud', 'response_verdict', 'TEXT')
   ensureColumn(client, 'fraud', 'govt_response', 'TEXT')
   ensureColumn(client, 'indicators', 'higher_is_better', 'INTEGER')
+  ensureColumn(client, 'promises', 'flag', 'TEXT')
+  ensureColumn(client, 'promises', 'related', 'TEXT')
   client.prepare(`
     CREATE TABLE IF NOT EXISTS api_keys (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

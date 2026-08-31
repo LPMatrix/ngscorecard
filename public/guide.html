@@ -7,6 +7,12 @@
   <meta name="description" content="What NGScorecard tracks, what every status label and budget term means, and how ratings, sourcing, review, and corrections work. Versioned methodology with a change log." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://ngscorecard.com/guide" />
+  <link rel="alternate" hreflang="en" href="https://ngscorecard.com/guide" />
+  <link rel="alternate" hreflang="ha" href="https://ngscorecard.com/guide.ha.html" />
+  <link rel="alternate" hreflang="yo" href="https://ngscorecard.com/guide.yo.html" />
+  <link rel="alternate" hreflang="ig" href="https://ngscorecard.com/guide.ig.html" />
+  <link rel="alternate" hreflang="pcm" href="https://ngscorecard.com/guide.pcm.html" />
+  <link rel="alternate" hreflang="x-default" href="https://ngscorecard.com/guide" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,6 +52,10 @@
     .back-link:hover { color: var(--g700); }
     .version { font-family: var(--mono); font-size: 12px; color: var(--faint); margin: 12px 0 0; }
     .version a { color: var(--faint); }
+    .langpick { margin: 14px 0 0; font-size: 12.5px; color: var(--faint); }
+    .langpick a { color: var(--muted); font-weight: 600; text-decoration: none; margin-left: 10px; }
+    .langpick a:first-of-type { margin-left: 6px; }
+    .langpick a[aria-current="true"] { color: var(--g800); text-decoration: underline; }
 
     nav.toc {
       background: var(--surface); border-bottom: 1px solid var(--line);
@@ -96,10 +106,13 @@
     }
 
     footer {
-      border-top: 1px solid var(--line-strong); padding: 24px; text-align: center;
+      border-top: 1px solid var(--line-strong); padding: 28px 24px; text-align: center;
       color: var(--faint); font-size: 12.5px;
     }
-    footer a { color: var(--muted); }
+    footer .footer-tag { margin: 0 0 10px; }
+    footer .footer-links { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; }
+    footer .footer-links a { color: var(--muted); font-weight: 600; text-decoration: none; }
+    footer .footer-links a:hover { color: var(--g700); }
 
     @media (max-width: 600px) {
       .zone-grid { grid-template-columns: repeat(2, 1fr); }
@@ -115,6 +128,13 @@
       <h1>Glossary &amp; Methodology</h1>
       <p class="lede">What NGScorecard tracks, what every status label and budget term means, and how ratings, sourcing, and corrections actually work.</p>
       <p class="version">Methodology v1.0 · last reviewed 31 August 2026 · <a href="#changes">change log</a></p>
+      <p class="langpick">Language:
+        <a href="/guide" aria-current="true">English</a>
+        <a href="/guide.ha.html" hreflang="ha">Hausa</a>
+        <a href="/guide.yo.html" hreflang="yo">Yorùbá</a>
+        <a href="/guide.ig.html" hreflang="ig">Igbo</a>
+        <a href="/guide.pcm.html" hreflang="pcm">Naijá</a>
+      </p>
     </div>
   </header>
 
@@ -303,7 +323,15 @@
   </main>
 
   <footer>
-    <a href="/">ngscorecard.com</a> · <a href="/developers">API &amp; widget docs</a> · <a href="/press">Press</a>
+    <div class="wrap">
+      <p class="footer-tag">NGScorecard is an independent project, not affiliated with the Nigerian government.</p>
+      <nav class="footer-links" aria-label="More about NGScorecard">
+        <a href="/">ngscorecard.com</a>
+        <a href="/guide">Guide</a>
+        <a href="/developers">API &amp; widget docs</a>
+        <a href="/press">Press</a>
+      </nav>
+    </div>
   </footer>
 
 </body>

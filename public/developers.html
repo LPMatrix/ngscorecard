@@ -115,10 +115,13 @@
 
     .widget-demo { margin-top: 14px; }
     footer {
-      border-top: 1px solid var(--line-strong); padding: 24px; text-align: center;
+      border-top: 1px solid var(--line-strong); padding: 28px 24px; text-align: center;
       color: var(--faint); font-size: 12.5px;
     }
-    footer a { color: var(--g700); font-weight: 700; }
+    footer .footer-tag { margin: 0 0 10px; }
+    footer .footer-links { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; }
+    footer .footer-links a { color: var(--muted); font-weight: 600; text-decoration: none; }
+    footer .footer-links a:hover { color: var(--g700); }
   </style>
 </head>
 <body>
@@ -255,8 +258,15 @@ curl https://ngscorecard.com/api/v1/tinubu/promises \
   </main>
 
   <footer>
-    Built and maintained as part of <a href="/">NGScorecard</a> — independent Nigerian government accountability tracking.
-    Questions or found a data issue? Every claim links to its source — check there first.
+    <div class="wrap">
+      <p class="footer-tag">NGScorecard is an independent project, not affiliated with the Nigerian government.</p>
+      <nav class="footer-links" aria-label="More about NGScorecard">
+        <a href="/">ngscorecard.com</a>
+        <a href="/guide">Guide</a>
+        <a href="/developers">API &amp; widget docs</a>
+        <a href="/press">Press</a>
+      </nav>
+    </div>
   </footer>
 
   <script>

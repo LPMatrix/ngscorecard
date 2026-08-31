@@ -35,6 +35,13 @@ export const promises = sqliteTable('promises', {
   source:         text('source').notNull(),
   sourceLabel:    text('source_label').notNull(),
   updated:        text('updated').notNull(),
+  // Optional editorial banner on the card: 'disputed' | 'correction' | 'review'
+  // | null. Nullable and unseeded — ships dormant; the frontend renders nothing
+  // until a promise's JSON sets it. See PromiseCard.vue FLAG_META.
+  flag:           text('flag'),
+  // Optional "See also" links: a JSON array of other promise ids in the same
+  // administration (e.g. [2, 7]). Also dormant until seed data uses it.
+  related:        text('related', { mode: 'json' }),
 })
 
 export const inherited = sqliteTable('inherited', {

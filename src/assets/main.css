@@ -574,6 +574,19 @@ a:focus-visible {
 .pt-card:hover { background: var(--pt-surface-hover); }
 .pt-card.expanded { box-shadow: inset 5px 0 0 var(--pt-green-600); }
 
+/* Standardised editorial banner (PromiseCard FLAG_META) — dormant until a
+   promise sets `flag`. */
+.pt-card-flag {
+  padding: 8px 20px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-bottom: 1px solid var(--pt-border-light);
+}
+.pt-card-flag strong { font-weight: 800; }
+.pt-card-flag-disputed   { background: var(--pt-broken-bg);  color: var(--pt-broken); }
+.pt-card-flag-correction { background: var(--pt-partial-bg); color: var(--pt-gold-700); }
+.pt-card-flag-review     { background: var(--pt-pending-bg); color: var(--pt-pending); }
+
 .pt-card-header {
   display: flex;
   align-items: flex-start;
@@ -749,12 +762,37 @@ a:focus-visible {
 }
 .pt-source-link:hover { color: var(--pt-green-900); }
 
+.pt-stale-note { color: var(--pt-gold-700); font-weight: 700; }
+
+/* "See also" related-promise links (PromiseCard) */
+.pt-see-also { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+.pt-see-also .pt-detail-label { width: 100%; }
+.pt-see-also-link {
+  padding: 4px 10px;
+  border: 1px solid var(--pt-line);
+  border-radius: 999px;
+  background: var(--pt-surface);
+  color: var(--pt-link);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+.pt-see-also-link:hover { border-color: var(--pt-green-600); background: var(--pt-green-050); }
+
 .pt-freshness-dot {
   width: 9px;
   height: 9px;
   border-radius: 50%;
   background: var(--pt-kept-bar);
   box-shadow: 0 0 0 3px rgba(0, 135, 81, 0.16);
+}
+.pt-sidebar-footer.review-due { color: var(--pt-gold-700); }
+.pt-sidebar-footer.review-due strong { color: var(--pt-gold-700); }
+.pt-sidebar-footer.review-due .pt-freshness-dot {
+  background: var(--pt-gold-500);
+  box-shadow: 0 0 0 3px rgba(199, 147, 29, 0.18);
 }
 
 .pt-toast {
