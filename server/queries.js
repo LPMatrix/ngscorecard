@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { eq, and } from 'drizzle-orm'
 import { db } from './db.js'
 import * as t from './schema.js'
 
@@ -25,8 +25,11 @@ export async function getFederalPresidents() {
 // unrelated resource: the historical state-governor list nested under a
 // federal president's own profile (GET /:admin/governors), not this —
 // the registry of governor *administrations* themselves (Otti, Ododo, etc.).
+// Current governors only — former governors (isCurrent: false) stay off this
+// list, same as the frontend's own State tab. They're still fully fetchable
+// by key (GET /api/v1/:admin/promises etc.), just not listed here.
 export async function getStateGovernorAdmins() {
-  return withTerm(await db.select().from(t.presidents).where(eq(t.presidents.level, 'state')))
+  return withTerm(await db.select().from(t.presidents).where(and(eq(t.presidents.level, 'state'), eq(t.presidents.isCurrent, true))))
 }
 
 export async function isValidAdmin(admin) {
@@ -73,6 +76,17 @@ export async function getIndicators(admin) {
     byId[p.indicatorId].push({ label: p.label, value: p.value })
   }
   return inds.map(({ id, key, ...rest }) => ({ id: key, ...rest, points: byId[id] || [] }))
+}
+
+// The complete tracker as one structure: every administration (federal and
+// state) with all of its category data nested under `data`, mirroring the
+// per-admin files in data/seed/. Powers the public /api/v1/dump export and
+// the static public/ngscorecard-dataset.json mirror — see server/dataExport.js.
+export async function getFullDataset() {
+  const admins = await getPresidents()
+  return Promise.all(
+    admins.map(async (a) => ({ ...a, data: await getAllDataForAdmin(a.key) })),
+  )
 }
 
 // Matches the shape App.vue's loadData() assembles client-side, so the same

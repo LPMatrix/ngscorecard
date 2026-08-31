@@ -9,6 +9,7 @@ function ensureColumn(client, table, column, definition) {
 function ensureLocalSchema(client) {
   ensureColumn(client, 'presidents', 'level', "TEXT NOT NULL DEFAULT 'federal'")
   ensureColumn(client, 'presidents', 'state', 'TEXT')
+  ensureColumn(client, 'presidents', 'is_current', 'INTEGER NOT NULL DEFAULT 1')
   ensureColumn(client, 'fraud', 'response_verdict', 'TEXT')
   ensureColumn(client, 'fraud', 'govt_response', 'TEXT')
   ensureColumn(client, 'indicators', 'higher_is_better', 'INTEGER')

@@ -76,8 +76,9 @@ async function seedPresidents(rows) {
     const values = {
       key: r.key, name: r.name, fullName: r.fullName,
       termStart: r.termStart, termEnd: r.termEnd ?? null,
-      tagline: r.tagline, party: r.party ?? null, reviewed: r.reviewed,
+      tagline: r.tagline ?? null, party: r.party ?? null, reviewed: r.reviewed,
       level: r.level ?? 'federal', state: r.state ?? null,
+      isCurrent: r.isCurrent ?? true,
     }
     if (seen.has(r.key)) {
       await db.update(t.presidents).set(values).where(eq(t.presidents.key, r.key))
@@ -226,7 +227,23 @@ if (process.argv.includes('--reset')) {
   await clearAll()
 }
 
-const administrations = readJson('presidents.json')
+// Optional targeted mode: `node server/seed.js <key> [<key> ...]` seeds only
+// the given administrations instead of the whole dataset. Without this, every
+// run re-checks every administration in presidents.json against Turso — ~10
+// existence-check SELECTs per admin, plus an unconditional UPDATE per admin
+// in seedPresidents — regardless of whether that admin's data changed at all.
+// That cost grows with the total dataset size, not with what's actually new,
+// so targeting keeps a single-batch content update cheap as the dataset grows.
+const targetKeys = process.argv.slice(2).filter(arg => !arg.startsWith('--'))
+
+let administrations = readJson('presidents.json')
+if (targetKeys.length) {
+  const known = new Set(administrations.map(a => a.key))
+  const unknown = targetKeys.filter(k => !known.has(k))
+  if (unknown.length) console.warn(`Unknown admin key(s), skipping: ${unknown.join(', ')}`)
+  administrations = administrations.filter(a => targetKeys.includes(a.key))
+  console.log(`Targeted seed: ${administrations.map(a => a.key).join(', ') || '(none matched)'}`)
+}
 
 await seedPresidents(administrations)
 

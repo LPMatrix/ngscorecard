@@ -12,7 +12,8 @@
     "db:push": "drizzle-kit push",
     "db:seed": "node --env-file=.env server/seed.js",
     "db:seed:reset": "node --env-file=.env server/seed.js --reset",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "export:dataset": "node --env-file=.env scripts/export-dataset.mjs"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",

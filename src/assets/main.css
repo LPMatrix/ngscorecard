@@ -181,6 +181,7 @@ a:focus-visible {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 8px;
   padding-top: 10px;
@@ -191,6 +192,14 @@ a:focus-visible {
 
 .pt-admin-summary span { font-weight: 700; color: var(--pt-text); }
 .pt-admin-summary strong { color: var(--pt-green-700); font-weight: 800; }
+
+.pt-prev-gov-label { font-weight: 400 !important; color: var(--pt-text-faint) !important; }
+.pt-prev-gov-link {
+  border: none; background: none; padding: 0; margin: 0;
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  color: var(--pt-green-700); text-decoration: underline; cursor: pointer;
+}
+.pt-prev-gov-link:hover { color: var(--pt-green-900); }
 
 .pt-admin-nav {
   display: flex;

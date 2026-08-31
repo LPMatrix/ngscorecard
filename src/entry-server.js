@@ -47,6 +47,7 @@ export async function render({ admin, tab, id } = {}) {
     presidents: presidents.map(p => ({
       key: p.key, name: p.name, title: p.fullName, term: p.term,
       tagline: p.tagline, reviewed: p.reviewed, level: p.level, state: p.state,
+      isCurrent: p.isCurrent !== false,
     })),
     data,
   }

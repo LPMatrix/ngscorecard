@@ -7,12 +7,21 @@ export const presidents = sqliteTable('presidents', {
   fullName:  text('full_name').notNull(),
   termStart: text('term_start').notNull(),
   termEnd:   text('term_end'),
-  tagline:   text('tagline').notNull(),
+  // Nullable: a real, verified slogan/agenda name, never a guessed one. Left
+  // blank for scaffolded former-governor profiles until one's confirmed.
+  tagline:   text('tagline'),
   party:     text('party'),
   reviewed:  text('reviewed').notNull(),
   // 'federal' (president) or 'state' (governor). state holds e.g. 'Oyo' for governors.
   level:     text('level').notNull().default('federal'),
   state:     text('state'),
+  // State governors only: is this the sitting governor? Federal presidents are
+  // all shown regardless (the Federal tab is an intentional full history), but
+  // the State tab shows one governor per state, so former governors need this
+  // to stay out of it while still being reachable from the current governor's
+  // profile. Defaults true so existing rows (and every federal president)
+  // don't need a backfill.
+  isCurrent: integer('is_current', { mode: 'boolean' }).notNull().default(true),
 })
 
 export const promises = sqliteTable('promises', {

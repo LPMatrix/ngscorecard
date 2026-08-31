@@ -18,7 +18,10 @@ const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])
 
 const ADMINISTRATIONS = ref(initial?.presidents ?? [])
 const federalAdmins = computed(() => ADMINISTRATIONS.value.filter(a => (a.level ?? 'federal') === 'federal'))
-const stateAdmins    = computed(() => ADMINISTRATIONS.value.filter(a => a.level === 'state'))
+// Former governors stay out of the State tab (one entry per state there) but
+// remain fully trackable — reachable via the "Previously" link on their
+// state's current governor page. See formerGovernorsForState below.
+const stateAdmins = computed(() => ADMINISTRATIONS.value.filter(a => a.level === 'state' && a.isCurrent !== false))
 
 const viewMode = ref('single') // 'single' | 'compare'
 const compareInitial = ref({ a: null, b: null, tab: 'promises' })
@@ -28,6 +31,12 @@ const activeAdmin = ref(initial?.admin ?? 'tinubu')
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
 const isStateLevel = computed(() => currentAdmin.value.level === 'state')
+const formerGovernorsForState = computed(() => {
+  if (!isStateLevel.value || !currentAdmin.value.state) return []
+  return ADMINISTRATIONS.value
+    .filter(a => a.level === 'state' && a.isCurrent === false && a.state === currentAdmin.value.state && a.key !== currentAdmin.value.key)
+    .sort((a, b) => (b.term || '').localeCompare(a.term || ''))
+})
 const ministerLabel = computed(() => isStateLevel.value ? 'Commissioners' : 'Ministers')
 
 const adminNavMode = ref(isStateLevel.value ? 'state' : 'federal')
@@ -153,6 +162,7 @@ function mapPresident(p) {
     reviewed: p.reviewed,
     level:    p.level,
     state:    p.state,
+    isCurrent: p.isCurrent !== false,
   }
 }
 
@@ -486,6 +496,15 @@ const filteredBills = computed(() => {
         <div class="pt-admin-summary">
           <span>{{ currentAdmin.title || currentAdmin.name }}</span>
           <strong>{{ currentAdmin.term }}</strong>
+          <template v-if="formerGovernorsForState.length">
+            <span class="pt-prev-gov-label">Previously:</span>
+            <button
+              v-for="g in formerGovernorsForState"
+              :key="g.key"
+              class="pt-prev-gov-link"
+              @click="activeAdmin = g.key"
+            >{{ g.name }} ({{ g.term }})</button>
+          </template>
         </div>
         <button v-if="viewMode === 'single'" class="pt-compare-btn" @click="enterCompareMode">Compare ⇄</button>
       </div>
