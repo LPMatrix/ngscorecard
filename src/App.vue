@@ -63,6 +63,51 @@ const ministerLabel = computed(() => isStateLevel.value ? 'Commissioners' : 'Min
 const adminNavMode = ref(isStateLevel.value ? 'state' : 'federal')
 const visibleAdmins = computed(() => adminNavMode.value === 'state' ? stateAdmins.value : federalAdmins.value)
 
+// ── Find-an-administration search ──────────────────────
+// The chip nav only ever shows the 5 presidents or the 36 sitting governors
+// — the 36 former governors are otherwise reachable only by first opening
+// their state's current governor and clicking "Previously". This searches
+// every administration (current and former, federal and state) by name so
+// any of the 77 tracked administrations is one search away.
+const adminFinderQuery = ref('')
+const adminFinderInput = ref(null)
+const ADMIN_FINDER_LIMIT = 8
+
+const adminFinderResults = computed(() => {
+  const q = adminFinderQuery.value.trim().toLowerCase()
+  if (!q) return []
+  const scored = []
+  for (const a of ADMINISTRATIONS.value) {
+    const haystacks = [a.name, a.title, a.state].filter(Boolean).map(s => s.toLowerCase())
+    const hit = haystacks.find(h => h.includes(q))
+    if (!hit) continue
+    // Rank name-starts-with above name-contains above state/title-only matches.
+    const nameLower = (a.name || '').toLowerCase()
+    let score = 3
+    if (nameLower.startsWith(q)) score = 1
+    else if (nameLower.includes(q)) score = 2
+    scored.push({ admin: a, score })
+  }
+  scored.sort((x, y) => x.score - y.score || (x.admin.name || '').localeCompare(y.admin.name || ''))
+  return scored.slice(0, ADMIN_FINDER_LIMIT).map(s => s.admin)
+})
+
+function selectAdminFromFinder(admin) {
+  adminNavMode.value = admin.level === 'state' ? 'state' : 'federal'
+  activeAdmin.value = admin.key
+  adminFinderQuery.value = ''
+  adminFinderInput.value?.blur()
+}
+
+function submitAdminFinder() {
+  if (adminFinderResults.value.length) selectAdminFromFinder(adminFinderResults.value[0])
+}
+
+function clearAdminFinder() {
+  adminFinderQuery.value = ''
+  adminFinderInput.value?.blur()
+}
+
 const STATUSES = [
   { key: 'all',     label: 'All' },
   { key: 'kept',    label: 'Kept' },
@@ -548,19 +593,52 @@ const filteredBills = computed(() => {
         <button v-if="viewMode === 'single'" class="pt-compare-btn" @click="enterCompareMode">Compare ⇄</button>
       </div>
       <div v-if="viewMode === 'single'" class="pt-admin-nav-wrap">
-        <div v-if="stateAdmins.length" class="pt-admin-mode-tabs" role="tablist" aria-label="Government level">
-          <button
-            role="tab"
-            :aria-selected="adminNavMode === 'federal'"
-            :class="['pt-admin-mode-tab', { active: adminNavMode === 'federal' }]"
-            @click="adminNavMode = 'federal'"
-          >Federal</button>
-          <button
-            role="tab"
-            :aria-selected="adminNavMode === 'state'"
-            :class="['pt-admin-mode-tab', { active: adminNavMode === 'state' }]"
-            @click="adminNavMode = 'state'"
-          >State</button>
+        <div class="pt-admin-toolbar">
+          <div v-if="stateAdmins.length" class="pt-admin-mode-tabs" role="tablist" aria-label="Government level">
+            <button
+              role="tab"
+              :aria-selected="adminNavMode === 'federal'"
+              :class="['pt-admin-mode-tab', { active: adminNavMode === 'federal' }]"
+              @click="adminNavMode = 'federal'"
+            >Federal</button>
+            <button
+              role="tab"
+              :aria-selected="adminNavMode === 'state'"
+              :class="['pt-admin-mode-tab', { active: adminNavMode === 'state' }]"
+              @click="adminNavMode = 'state'"
+            >State</button>
+          </div>
+          <div class="pt-admin-finder">
+            <input
+              ref="adminFinderInput"
+              v-model="adminFinderQuery"
+              type="text"
+              class="pt-admin-finder-input"
+              placeholder="Find a president or governor…"
+              aria-label="Find an administration by name or state"
+              role="combobox"
+              :aria-expanded="adminFinderQuery.trim().length > 0"
+              @keydown.enter.prevent="submitAdminFinder"
+              @keydown.esc="clearAdminFinder"
+            />
+            <span v-if="adminFinderQuery" class="pt-admin-finder-icon" aria-hidden="true">⌕</span>
+            <div v-if="adminFinderQuery.trim()" class="pt-admin-finder-results" @mousedown.prevent>
+              <button
+                v-for="a in adminFinderResults"
+                :key="a.key"
+                type="button"
+                class="pt-admin-finder-result"
+                @click="selectAdminFromFinder(a)"
+              >
+                <span class="pt-admin-finder-result-name">{{ a.name }}</span>
+                <span class="pt-admin-finder-result-meta">
+                  <template v-if="a.level === 'state'">{{ a.state }} · </template>{{ a.term }}
+                  <span v-if="!a.isCurrent" class="pt-admin-finder-badge">Former</span>
+                </span>
+              </button>
+              <div v-if="!adminFinderResults.length" class="pt-admin-finder-empty">No match for "{{ adminFinderQuery }}"</div>
+            </div>
+          </div>
         </div>
         <nav class="pt-admin-nav" aria-label="Administration">
           <button

@@ -23,17 +23,25 @@ three major languages plus Nigerian Pidgin.
   switcher were added to the English `public/guide.html`.
 - **`pcm` (Nigerian Pidgin) — full draft translation done.**
   `public/guide.pcm.html` carries all seven sections translated into Naijá,
-  matching the English structure and anchors. It's a **draft pending native
-  review**: a `.draft-note` at the top says the English page is authoritative
-  for disputes, and glossary term names (`<dt>` — "Kept", "Convicted",
-  "Deficit"…) stay in English because that's the vocabulary the app UI shows.
-  Institution names (NBS, CBN, DMO, BudgIT, EFCC) and agenda names are left
-  as-is.
-- **`ha` / `yo` / `ig` — still shells.** English inside a `lang="<code>"`
-  page, with untranslated strings marked `lang="en"`, plus a "sections to
-  translate" table. Use `guide.pcm.html` as the structural template when
-  filling these in. Do not machine-translate civic/legal terms without a
-  human check.
+  matching the English structure and anchors. **Draft pending native review.**
+- **`yo` (Yorùbá) — full machine draft done.** `public/guide.yo.html`, all
+  seven sections. Higher risk than `pcm`: Yoruba is not English-lexified, so
+  expect tone-mark slips and unidiomatic phrasing. Its `.draft-note` says so
+  explicitly. **Needs a Yoruba speaker's pass before it can be treated as
+  production copy.**
+- **`ig` (Igbo) — full machine draft done.** `public/guide.ig.html`, all
+  seven sections. Same risk profile as `yo` — dotted vowels (ị ọ ụ), ṅ, and
+  tone; unreviewed. Its `.draft-note` says so. **Needs an Igbo speaker's
+  pass.**
+- **`ha` (Hausa) — still a shell.** English inside `lang="ha"`, untranslated
+  strings marked `lang="en"`, plus a "sections to translate" table.
+
+  In every translated page, glossary term names (`<dt>` — "Kept",
+  "Convicted", "Deficit"…) stay in English because that's the vocabulary the
+  app UI shows; institution names (NBS, CBN, DMO, BudgIT, EFCC) and agenda
+  names are left as-is. Use `guide.pcm.html` / `guide.yo.html` / `guide.ig.html`
+  as the structural template. Do not machine-translate civic/legal terms
+  without a human check.
 
 ## URL scheme
 
@@ -47,14 +55,16 @@ and a `vercel.json` rewrite per locale. Not required for the scaffold.
 
 ## Next steps, in order
 
-1. Native-speaker review of `guide.pcm.html`.
-2. Translate `guide.ha.html`, `guide.yo.html`, `guide.ig.html` bodies, using
-   `guide.pcm.html` as the structural template — only the prose changes.
+1. Native-speaker review of `guide.pcm.html`, `guide.yo.html` and
+   `guide.ig.html` (the `yo` / `ig` ones especially — tone marks and idiom).
+2. Translate the `guide.ha.html` body, using `guide.pcm.html` /
+   `guide.yo.html` / `guide.ig.html` as the structural template — only the
+   prose changes.
 3. Localise the **headline verdict strip** in the app (the kept/partial/broken
    counts + labels in `src/App.vue`). Smallest useful in-app i18n: a
    `?lang=` param selecting a small label dictionary — no full framework.
-4. Add `guide.pcm.html` to `public/sitemap.xml` now (it has real content); add
-   the others as they're filled in.
+4. Add `guide.pcm.html`, `guide.yo.html`, `guide.ig.html` to
+   `public/sitemap.xml` after their review; add `ha` when it's filled in.
 5. Consider a language switcher in the main app header, not just on `/guide`.
 
 ## Non-goals for now
