@@ -202,6 +202,16 @@
     return { key: 'status', label: 'Status', type: 'status', options: STATUS_OPTIONS[table] || [], required: required !== false }
   }
 
+  // Source tier (methodology §6). Blank = unclassified (frontend falls back to
+  // the .gov URL check). 'weak' flags a source as insufficient on its own.
+  function sourceTierField() {
+    return {
+      key: 'sourceTier', label: 'Source tier', type: 'select',
+      options: ['', 'official', 'reporting', 'analysis', 'weak'],
+      hint: 'official = govt/primary · reporting = established news · analysis = expert/CSO · weak = flagged',
+    }
+  }
+
   var TABLES = {
     presidents: {
       label: 'Administrations', adminScoped: false,
@@ -230,6 +240,7 @@
         { key: 'assessment', label: 'Assessment', type: 'textarea', required: true },
         { key: 'source', label: 'Source URL', type: 'text', required: true },
         { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        sourceTierField(),
         { key: 'updated', label: 'Updated', type: 'text', required: true, hint: 'YYYY-MM-DD' },
       ],
     },
@@ -244,6 +255,7 @@
         { key: 'resolution', label: 'Resolution', type: 'textarea', required: true },
         { key: 'source', label: 'Source URL', type: 'text', required: true },
         { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        sourceTierField(),
         { key: 'updated', label: 'Updated', type: 'text', required: true },
       ],
     },
@@ -262,6 +274,7 @@
         { key: 'govtResponse', label: 'Government response', type: 'textarea' },
         { key: 'source', label: 'Source URL', type: 'text', required: true },
         { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        sourceTierField(),
         { key: 'updated', label: 'Updated', type: 'text', required: true },
       ],
     },
@@ -277,6 +290,7 @@
         { key: 'effect', label: 'Effect', type: 'textarea', required: true },
         { key: 'source', label: 'Source URL', type: 'text', required: true },
         { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        sourceTierField(),
         { key: 'updated', label: 'Updated', type: 'text', required: true },
       ],
     },
@@ -293,6 +307,7 @@
         { key: 'performance', label: 'Performance', type: 'textarea', required: true },
         { key: 'source', label: 'Source URL', type: 'text' },
         { key: 'sourceLabel', label: 'Source label', type: 'text' },
+        sourceTierField(),
         { key: 'updated', label: 'Updated', type: 'text' },
       ],
     },
@@ -310,6 +325,7 @@
         { key: 'outcome', label: 'Outcome', type: 'textarea', required: true },
         { key: 'source', label: 'Source URL', type: 'text', required: true },
         { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        sourceTierField(),
         { key: 'updated', label: 'Updated', type: 'text', required: true },
       ],
     },
@@ -342,6 +358,7 @@
         { key: 'outcome', label: 'Outcome', type: 'textarea', required: true },
         { key: 'source', label: 'Source URL', type: 'text' },
         { key: 'sourceLabel', label: 'Source label', type: 'text' },
+        sourceTierField(),
       ],
     },
     budget: {

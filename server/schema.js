@@ -42,6 +42,11 @@ export const promises = sqliteTable('promises', {
   // Optional "See also" links: a JSON array of other promise ids in the same
   // administration (e.g. [2, 7]). Also dormant until seed data uses it.
   related:        text('related', { mode: 'json' }),
+  // Editor-set source classification (the middle tiers aren't detectable from
+  // a URL): 'official' | 'reporting' | 'analysis' | 'weak' | null. When null
+  // the frontend falls back to the .gov URL heuristic. See the methodology,
+  // "What counts as a source".
+  sourceTier:     text('source_tier'),
 })
 
 export const inherited = sqliteTable('inherited', {
@@ -55,6 +60,7 @@ export const inherited = sqliteTable('inherited', {
   source:         text('source').notNull(),
   sourceLabel:    text('source_label').notNull(),
   updated:        text('updated').notNull(),
+  sourceTier:     text('source_tier'), // see promises.sourceTier
 })
 
 export const fraud = sqliteTable('fraud', {
@@ -72,6 +78,7 @@ export const fraud = sqliteTable('fraud', {
   source:         text('source').notNull(),
   sourceLabel:    text('source_label').notNull(),
   updated:        text('updated').notNull(),
+  sourceTier:     text('source_tier'), // see promises.sourceTier
 })
 
 export const orders = sqliteTable('orders', {
@@ -86,6 +93,7 @@ export const orders = sqliteTable('orders', {
   source:         text('source').notNull(),
   sourceLabel:    text('source_label').notNull(),
   updated:        text('updated').notNull(),
+  sourceTier:     text('source_tier'), // see promises.sourceTier
 })
 
 export const ministers = sqliteTable('ministers', {
@@ -101,6 +109,7 @@ export const ministers = sqliteTable('ministers', {
   source:         text('source'),
   sourceLabel:    text('source_label'),
   updated:        text('updated'),
+  sourceTier:     text('source_tier'), // see promises.sourceTier
 })
 
 export const bills = sqliteTable('bills', {
@@ -117,6 +126,7 @@ export const bills = sqliteTable('bills', {
   source:         text('source').notNull(),
   sourceLabel:    text('source_label').notNull(),
   updated:        text('updated').notNull(),
+  sourceTier:     text('source_tier'), // see promises.sourceTier
 })
 
 export const appointments = sqliteTable('appointments', {
@@ -146,6 +156,7 @@ export const judgments = sqliteTable('judgments', {
   outcome:        text('outcome').notNull(),
   source:         text('source'),
   sourceLabel:    text('source_label'),
+  sourceTier:     text('source_tier'), // see promises.sourceTier
 })
 
 export const history = sqliteTable('history', {

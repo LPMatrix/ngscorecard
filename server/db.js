@@ -15,6 +15,9 @@ function ensureLocalSchema(client) {
   ensureColumn(client, 'indicators', 'higher_is_better', 'INTEGER')
   ensureColumn(client, 'promises', 'flag', 'TEXT')
   ensureColumn(client, 'promises', 'related', 'TEXT')
+  for (const tbl of ['promises', 'inherited', 'fraud', 'orders', 'ministers', 'bills', 'judgments']) {
+    ensureColumn(client, tbl, 'source_tier', 'TEXT')
+  }
   client.prepare(`
     CREATE TABLE IF NOT EXISTS api_keys (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

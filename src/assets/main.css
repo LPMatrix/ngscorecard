@@ -874,7 +874,8 @@ a:focus-visible {
 
 .pt-stale-note { color: var(--pt-gold-700); font-weight: 700; }
 
-/* Verifiability signals in the card footer (derived from the source URL) */
+/* Verifiability signal in the card footer — source tier (methodology §6),
+   editor-set with a .gov URL fallback for "Primary". */
 .pt-source-flag {
   display: inline-block;
   padding: 0 6px;
@@ -887,6 +888,9 @@ a:focus-visible {
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
+.pt-source-flag--reporting { border-color: #a9c9ef; background: var(--pt-blue-100); color: var(--pt-blue-700); }
+.pt-source-flag--analysis  { border-color: #e6ca7a; background: var(--pt-gold-100); color: var(--pt-gold-700); }
+.pt-source-flag--weak      { border-color: #efb0aa; background: var(--pt-broken-bg); color: var(--pt-broken); }
 .pt-source-none { color: var(--pt-gold-700); font-weight: 700; }
 .pt-report-link {
   border: none;

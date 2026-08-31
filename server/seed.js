@@ -96,7 +96,7 @@ function seedPromises(rows, admin) {
     administration: admin, title: r.title, category: r.category,
     status: r.status, promise: r.promise, assessment: r.assessment,
     source: r.source, sourceLabel: r.sourceLabel, updated: r.updated,
-    flag: r.flag ?? null, related: r.related ?? null,
+    flag: r.flag ?? null, related: r.related ?? null, sourceTier: r.sourceTier ?? null,
   }))
 }
 
@@ -105,6 +105,7 @@ function seedInherited(rows, admin) {
     administration: admin, title: r.title, category: r.category,
     status: r.status, problem: r.problem, resolution: r.resolution,
     source: r.source, sourceLabel: r.sourceLabel, updated: r.updated,
+    sourceTier: r.sourceTier ?? null,
   }))
 }
 
@@ -115,6 +116,7 @@ function seedFraud(rows, admin) {
     allegation: r.allegation, outcome: r.outcome,
     responseVerdict: r.responseVerdict ?? null, govtResponse: r.govtResponse ?? null,
     source: r.source, sourceLabel: r.sourceLabel, updated: r.updated,
+    sourceTier: r.sourceTier ?? null,
   }))
 }
 
@@ -124,6 +126,7 @@ function seedOrders(rows, admin) {
     status: r.status, signed: r.signed ?? null,
     directive: r.directive, effect: r.effect,
     source: r.source, sourceLabel: r.sourceLabel, updated: r.updated,
+    sourceTier: r.sourceTier ?? null,
   }))
 }
 
@@ -133,6 +136,7 @@ function seedMinisters(rows, admin) {
     appointed: r.appointed ?? null, status: r.status, serving: r.serving ?? null,
     mandate: r.mandate, performance: r.performance,
     source: r.source ?? null, sourceLabel: r.sourceLabel ?? null, updated: r.updated ?? null,
+    sourceTier: r.sourceTier ?? null,
   }))
 }
 
@@ -143,6 +147,7 @@ function seedBills(rows, admin) {
     introduced: r.introduced ?? null, signed: r.signed ?? null,
     summary: r.summary, outcome: r.outcome,
     source: r.source, sourceLabel: r.sourceLabel, updated: r.updated,
+    sourceTier: r.sourceTier ?? null,
   }))
 }
 
@@ -160,6 +165,7 @@ function seedJudgments(rows, admin) {
     category: r.category, status: r.status, compliance: r.compliance ?? null,
     ruled: r.ruled, issue: r.issue, outcome: r.outcome,
     source: r.source ?? null, sourceLabel: r.sourceLabel ?? null,
+    sourceTier: r.sourceTier ?? null,
   }))
 }
 

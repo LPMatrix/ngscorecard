@@ -9,27 +9,34 @@ Status legend: **Done** · **Planned** · **Idea**
 
 ---
 
-## 1. Verifiability as a UI primitive, not a footer — *Partly done*
+## 1. Verifiability as a UI primitive, not a footer — *Mostly done*
 
 **Wikipedia:** every claim carries an inline citation; the *absence* of one is
 visibly flagged ("citation needed").
 
-**Here (done — no data change):** `PromiseCard.vue`'s footer now derives a
-signal from the source URL host alone:
+**Here — done:**
 
-- **`Primary`** pill when the host is a government/official domain
-  (`.gov(.ng)` etc.) — a positive "strongest basis for a rating" mark.
-- **`Source: not linked`** (amber) instead of an empty link when a record
-  carries no source at all (appointments, some ministers/judgments).
+- **Card-footer signal.** `PromiseCard.vue` shows a source-tier pill:
+  `Primary` (green), `Reporting` (blue), `Analysis` (gold), `Weak source`
+  (red), and `Source: not linked` (amber) when there's no source at all.
+- **Stored classification.** New nullable `source_tier` column on `promises`,
+  `inherited`, `fraud`, `orders`, `ministers`, `bills`, `judgments`
+  (`'official' | 'reporting' | 'analysis' | 'weak' | null`), pushed to Turso;
+  seed pipeline carries it; the admin editor has a **Source tier** select on
+  each of those tables. When it's unset the frontend still shows `Primary`
+  for a `.gov` host from the URL heuristic — so unclassified rows aren't blank.
+- **Admin-side source gate** (`server/adminRoutes.js`). Creating a row in
+  `promises` / `inherited` / `fraud` / `orders` / `bills` requires a
+  `source` + `sourceLabel` (422 otherwise); updating one of those rows in a
+  way that changes `status` / `responseVerdict` is rejected if the row would
+  be left without a source.
 
-**Still open (needs schema / admin work — deferred):**
+**Still open:**
 
-- Full source *tiers* beyond "official vs other" — the middle tiers
-  (reputable reporting vs commentary) aren't reliably detectable from a URL;
-  they'd need a stored classification.
 - Dead-link detection (needs a fetch/crawl pass).
-- Admin-side gate: reject a status change that isn't accompanied by a source
-  on the change itself (`server/adminRoutes.js`).
+- Extending the gate to `ministers` / `judgments` (their schema allows a null
+  source, so retrofitting risks breaking legitimate edits — needs a data
+  pass first).
 
 ---
 
@@ -189,10 +196,10 @@ review view in the existing admin dashboard (`server/adminRoutes.js`,
 
 ## Rough priority
 
-Done so far (no reseed required): ~~#3 methodology page~~, ~~#4 Independence
-statement~~, ~~staleness banner~~, ~~status-flag infra~~, ~~related-promises
-infra~~, ~~language scaffold~~, ~~#1 official-source pill + "not linked"~~,
-~~#7 Report-an-issue mailto~~.
+Done so far: ~~#3 methodology page~~, ~~#4 Independence statement~~,
+~~staleness banner~~, ~~status-flag infra~~, ~~related-promises infra~~,
+~~language scaffold~~, ~~#1 source-tier pill + "not linked" + `source_tier`
+column + admin gate~~, ~~#7 Report-an-issue mailto~~.
 
 Still to do, roughly in order:
 
@@ -201,9 +208,10 @@ Still to do, roughly in order:
    log *and* #6 citable permalinks.
 2. **#7 public correction queue** — a real moderation table + admin review
    view; the mailto is only the stopgap.
-3. **#1 admin-side source gate** + fuller source tiers (a stored
-   classification, since the middle tiers aren't URL-detectable).
-4. **Seed the dormant fields** — start setting `flag` / `related` on real
+3. **Dead-link detection** for sources (a periodic fetch/crawl pass); extend
+   the source gate to `ministers` / `judgments` after a data pass.
+4. **Seed the dormant fields** — start setting `flag` / `related` /
+   `source_tier` on real
    promises; get the four `guide.<locale>.html` drafts natively reviewed;
    confirm the #4 funding wording against reality.
 5. **#5** — flip `DATASET_DUMP_PUBLIC` when the audience and cadence justify

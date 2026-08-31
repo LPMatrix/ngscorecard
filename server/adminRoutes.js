@@ -46,6 +46,15 @@ function resolveTable(req, res, next) {
   next()
 }
 
+// Tables where every rated row must carry a source (schema already declares
+// `source`/`sourceLabel` NOT NULL). We enforce it at the write boundary too,
+// with a clear message — and, on updates, specifically block changing a
+// rating while leaving the row unsourced. Mirrors the methodology: "nothing
+// is rated without a linked reference."
+const SOURCE_REQUIRED = new Set(['promises', 'inherited', 'fraud', 'orders', 'bills'])
+const RATING_FIELDS = ['status', 'responseVerdict']
+const isBlank = (v) => v == null || (typeof v === 'string' && v.trim() === '')
+
 export function createAdminRouter() {
   const router = Router()
   router.use(json())
@@ -128,6 +137,9 @@ export function createAdminRouter() {
   router.post('/:table', resolveTable, async (req, res) => {
     const { table } = req.tableEntry
     const { id, ...values } = req.body || {}
+    if (SOURCE_REQUIRED.has(req.params.table) && (isBlank(values.source) || isBlank(values.sourceLabel))) {
+      return res.status(422).json({ error: 'A source URL and a source label are required for every rated entry.' })
+    }
     const [row] = await db.insert(table).values(values).returning()
     res.status(201).json(row)
   })
@@ -135,6 +147,19 @@ export function createAdminRouter() {
   router.put('/:table/:id', resolveTable, async (req, res) => {
     const { table } = req.tableEntry
     const { id, ...values } = req.body || {}
+
+    // Block changing a rating while the row would be left without a source.
+    if (SOURCE_REQUIRED.has(req.params.table) && RATING_FIELDS.some(f => f in values)) {
+      const [cur] = await db
+        .select({ source: table.source, sourceLabel: table.sourceLabel })
+        .from(table).where(eq(table.id, Number(req.params.id))).limit(1)
+      const source      = 'source'      in values ? values.source      : cur?.source
+      const sourceLabel = 'sourceLabel' in values ? values.sourceLabel : cur?.sourceLabel
+      if (isBlank(source) || isBlank(sourceLabel)) {
+        return res.status(422).json({ error: 'This entry has no source. Add a source URL and label in the same edit that changes the rating.' })
+      }
+    }
+
     const [row] = await db.update(table).set(values).where(eq(table.id, Number(req.params.id))).returning()
     if (!row) return res.status(404).json({ error: 'Not found' })
     res.json(row)

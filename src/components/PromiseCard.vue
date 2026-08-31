@@ -90,9 +90,8 @@ const isStale = computed(() => {
   return months >= STALE_MONTHS
 })
 
-// Verifiability signal, derived purely from the source URL host — no data
-// change. Conservative: only a government/official host earns the "Primary"
-// mark. 'none' means the entry carries no source at all.
+// 'none' means the entry carries no source at all; 'official' means the host
+// is a government domain; 'linked' is any other source.
 const OFFICIAL_HOST = /(^|\.)gov(\.[a-z]{2})?$/i
 const sourceKind = computed(() => {
   const url = props.item.source
@@ -102,6 +101,20 @@ const sourceKind = computed(() => {
   } catch {
     return 'linked'
   }
+})
+
+// The methodology's source tiers (guide §6). Editor-set `sourceTier` wins;
+// when it's unset we still show "Primary" for a .gov host from the heuristic.
+const SOURCE_TIER = {
+  official:  { label: 'Primary',     cls: 'primary',   title: 'Government or official record — the strongest basis for a rating.' },
+  reporting: { label: 'Reporting',   cls: 'reporting', title: 'Established independent reporting with editorial standards.' },
+  analysis:  { label: 'Analysis',    cls: 'analysis',  title: 'Named expert or civil-society research — used for context and cross-checks.' },
+  weak:      { label: 'Weak source', cls: 'weak',      title: 'Flagged as a weak source — not a sufficient basis on its own.' },
+}
+const sourceBadge = computed(() => {
+  const tier = props.item.sourceTier
+  if (tier && SOURCE_TIER[tier]) return SOURCE_TIER[tier]
+  return sourceKind.value === 'official' ? SOURCE_TIER.official : null
 })
 
 // Low-friction correction path (Wikipedia's "something wrong?" affordance),
@@ -199,10 +212,10 @@ function reportIssue() {
                 {{ item.sourceLabel || item.source }}
               </a>
               <span
-                v-if="sourceKind === 'official'"
-                class="pt-source-flag"
-                title="Government or official record — the strongest basis for a rating (see the methodology)"
-              >Primary</span>
+                v-if="sourceBadge"
+                :class="['pt-source-flag', `pt-source-flag--${sourceBadge.cls}`]"
+                :title="sourceBadge.title"
+              >{{ sourceBadge.label }}</span>
             </template>
             <span v-if="item.updated">· Updated {{ item.updated }}</span>
             <span v-if="isStale" class="pt-stale-note" title="Not updated in over 18 months — may not reflect the latest evidence">· needs review</span>
