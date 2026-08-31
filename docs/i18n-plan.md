@@ -17,16 +17,23 @@ three major languages plus Nigerian Pidgin.
 
 ## Status
 
-- **Scaffold — done.** `public/guide.<code>.html` shells exist for all four
-  locales, sharing `public/guide-i18n.css`. Each shows a "translation in
-  progress" notice, the seven methodology section titles + one-line summaries
-  (the text a translator needs to render), a language switcher, and a link to
-  the English source. `hreflang` alternates + a language switcher were added
-  to the English `public/guide.html`.
-- **Translations — not started.** The shells are deliberately English inside a
-  `lang="<code>"` page, with the untranslated strings marked `lang="en"`.
-  Fill them in from a native speaker or a reviewed translation; do not
-  machine-translate civic/legal terms without a human check.
+- **Scaffold — done.** `public/guide.<code>.html` pages exist for all four
+  locales, sharing `public/guide-i18n.css` (a superset that styles both a
+  shell and a fully translated page). `hreflang` alternates + a language
+  switcher were added to the English `public/guide.html`.
+- **`pcm` (Nigerian Pidgin) — full draft translation done.**
+  `public/guide.pcm.html` carries all seven sections translated into Naijá,
+  matching the English structure and anchors. It's a **draft pending native
+  review**: a `.draft-note` at the top says the English page is authoritative
+  for disputes, and glossary term names (`<dt>` — "Kept", "Convicted",
+  "Deficit"…) stay in English because that's the vocabulary the app UI shows.
+  Institution names (NBS, CBN, DMO, BudgIT, EFCC) and agenda names are left
+  as-is.
+- **`ha` / `yo` / `ig` — still shells.** English inside a `lang="<code>"`
+  page, with untranslated strings marked `lang="en"`, plus a "sections to
+  translate" table. Use `guide.pcm.html` as the structural template when
+  filling these in. Do not machine-translate civic/legal terms without a
+  human check.
 
 ## URL scheme
 
@@ -40,13 +47,15 @@ and a `vercel.json` rewrite per locale. Not required for the scaffold.
 
 ## Next steps, in order
 
-1. Translate `guide.ha.html` … `guide.pcm.html` bodies. Keep the shared
-   structure; only the prose changes.
-2. Localise the **headline verdict strip** in the app (the kept/partial/broken
+1. Native-speaker review of `guide.pcm.html`.
+2. Translate `guide.ha.html`, `guide.yo.html`, `guide.ig.html` bodies, using
+   `guide.pcm.html` as the structural template — only the prose changes.
+3. Localise the **headline verdict strip** in the app (the kept/partial/broken
    counts + labels in `src/App.vue`). Smallest useful in-app i18n: a
    `?lang=` param selecting a small label dictionary — no full framework.
-3. Add the locale pages to `public/sitemap.xml` once they hold real content.
-4. Consider a language switcher in the main app header, not just on `/guide`.
+4. Add `guide.pcm.html` to `public/sitemap.xml` now (it has real content); add
+   the others as they're filled in.
+5. Consider a language switcher in the main app header, not just on `/guide`.
 
 ## Non-goals for now
 

@@ -165,11 +165,12 @@ admin UI.
 - **Summary-first progressive disclosure** — *Already the shape.* Headline
   stat tiles → progress bar → collapsed cards → expand for assessment →
   sources in the card footer. Nothing to build; keep the top skimmable.
-- **Language editions** — *Scaffold done.* `public/guide.<ha|yo|ig|pcm>.html`
-  shells + shared `guide-i18n.css`, `hreflang` alternates and a language
-  switcher on `public/guide.html`. Translations not started — see
-  `docs/i18n-plan.md` for the plan and next steps (headline verdict labels
-  next, pretty URLs optional).
+- **Language editions** — *Scaffold done; `pcm` fully drafted.*
+  `public/guide.<ha|yo|ig|pcm>.html` + shared `guide-i18n.css`, `hreflang`
+  alternates and a language switcher on `public/guide.html`.
+  `guide.pcm.html` (Nigerian Pidgin) is a full draft translation of all seven
+  sections, pending native review (English stays authoritative — noted on the
+  page). `ha` / `yo` / `ig` are still shells. See `docs/i18n-plan.md`.
 - **"What links here" / related promises** — *Done (dormant).* Optional
   `related` field on a promise (JSON array of sibling ids) → a "See also" chip
   group in PromiseCard that expands and scrolls to the linked card
@@ -191,5 +192,6 @@ admin UI.
    of `flag: 'correction'` and `flag: 'review'` values.
 6. **#4 funding/independence statement** — a paragraph, do it anytime.
 7. **Seed the dormant fields** — start setting `flag` / `related` on real
-   promises, and translate the `/guide` locale shells.
+   promises. Get `guide.pcm.html` natively reviewed, then fill the `ha` / `yo`
+   / `ig` shells from it.
 8. **#5** — flip the flag when the audience and cadence justify it.
