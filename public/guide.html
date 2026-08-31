@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NGScorecard — Glossary &amp; Methodology</title>
-  <meta name="description" content="What every status label and budget term on NGScorecard means, and how ratings, sourcing, and corrections work." />
+  <meta name="description" content="What NGScorecard tracks, what every status label and budget term means, and how ratings, sourcing, review, and corrections work. Versioned methodology with a change log." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://ngscorecard.com/guide" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -44,6 +44,8 @@
     .lede { color: var(--muted); font-size: 16px; max-width: 620px; }
     .back-link { display: inline-block; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; }
     .back-link:hover { color: var(--g700); }
+    .version { font-family: var(--mono); font-size: 12px; color: var(--faint); margin: 12px 0 0; }
+    .version a { color: var(--faint); }
 
     nav.toc {
       background: var(--surface); border-bottom: 1px solid var(--line);
@@ -111,41 +113,63 @@
       <a href="/" class="back-link">← NGScorecard</a>
       <div class="eyebrow">Reference</div>
       <h1>Glossary &amp; Methodology</h1>
-      <p class="lede">What every status label and budget term on NGScorecard means, and how ratings, sourcing, and corrections actually work.</p>
+      <p class="lede">What NGScorecard tracks, what every status label and budget term means, and how ratings, sourcing, and corrections actually work.</p>
+      <p class="version">Methodology v1.0 · last reviewed 31 August 2026 · <a href="#changes">change log</a></p>
     </div>
   </header>
 
   <nav class="toc">
     <div class="wrap">
+      <a href="#scope">What we track</a>
       <a href="#ratings">Promise ratings</a>
       <a href="#statuses">Status terms</a>
       <a href="#budget">Budget terms</a>
       <a href="#other">Other terms</a>
-      <a href="#methodology">Sourcing &amp; corrections</a>
+      <a href="#methodology">Sourcing &amp; review</a>
+      <a href="#changes">Change log</a>
     </div>
   </nav>
 
   <main class="wrap">
 
+    <section id="scope">
+      <h2><span class="num">1</span> What counts as a trackable promise</h2>
+      <p class="section-lede">The same test is applied to every president and governor, so the counts on one scorecard mean the same thing as the counts on another.</p>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Included</dt>
+          <dd>A specific, public commitment the officeholder or their campaign made before or at the start of the term — from a manifesto, the inauguration address, an official agenda document (the Renewed Hope Agenda, the Seven-Point Agenda, and so on), a budget speech, or a pledge widely reported at the time. It has to be concrete enough to check: a target, a project, a named reform.</dd>
+          <dt>Tracked separately</dt>
+          <dd>Problems the administration did not create but publicly took ownership of appear under <strong>Inherited Fixes</strong> — rated on the same four-point scale, but kept apart from campaign promises.</dd>
+          <dt>Excluded</dt>
+          <dd>Aspirational rhetoric with nothing measurable in it; one-off remarks that were never part of a documented platform; commitments made by party figures who did not hold the office; and statements made after the fact to describe policy that already existed.</dd>
+          <dt>Selection within a term</dt>
+          <dd>We track the most prominent and consequential promises across a fixed set of areas — economy, security, governance, infrastructure, power, health, education, and rights. Where an agenda has official pillars, we track against those pillars rather than picking a favourable subset.</dd>
+        </dl>
+      </div>
+      <p style="font-size:12.5px;color:var(--faint);margin:8px 0 0;">A promise being hard to assess is not a reason to leave it out — it's a reason to rate it <em>In progress</em> and keep checking.</p>
+    </section>
+
     <section id="ratings">
-      <h2><span class="num">1</span> Promise ratings</h2>
+      <h2><span class="num">2</span> Promise ratings</h2>
       <p class="section-lede">Every tracked promise — and every entry in Inherited Fixes — gets one of four ratings, based on the evidence linked to it.</p>
       <div class="card">
         <dl class="term-list">
           <dt>Kept</dt>
-          <dd>The promise was fulfilled, based on verifiable evidence — an official report, government data, or credible reporting.</dd>
+          <dd>The promised thing actually happened, at roughly the promised scale, confirmed by an official record or by independent reporting that agrees. An announcement or a launch is not "kept" — delivery is.</dd>
           <dt>Partial</dt>
-          <dd>Meaningful progress was made, but delivery fell short of what was promised, or only part of it was carried out.</dd>
+          <dd>There is documented progress — money released, a project under way, a bill introduced, a measurable but incomplete improvement — that falls short of the promise's scale, scope, or timeline.</dd>
           <dt>Broken</dt>
-          <dd>No meaningful action was taken, the promise was explicitly abandoned, or the outcome contradicts what was promised.</dd>
+          <dd>The term, or the promise's own deadline, has passed with no meaningful action; or the promise was explicitly abandoned; or the measured outcome moved in the opposite direction.</dd>
           <dt>In progress</dt>
-          <dd>It's too early to assess — the stated timeline for delivery hasn't passed, or the process is still underway. Shown as "Pending" in raw data.</dd>
+          <dd>The stated timeline hasn't passed and work is genuinely under way. Used sparingly and revisited every review cycle — it is not a permanent resting place. Shown as "Pending" in raw data.</dd>
         </dl>
       </div>
+      <p class="section-lede" style="margin-top:16px;">When sources disagree, the more independent and more recent one is preferred, and the disagreement is noted in the assessment. Absence of evidence is not treated as failure: if nothing is verifiable either way and the deadline hasn't passed, the rating stays <em>In progress</em>; if the deadline has passed with no sign of action, that is <em>Broken</em>.</p>
     </section>
 
     <section id="statuses">
-      <h2><span class="num">2</span> Status terms by category</h2>
+      <h2><span class="num">3</span> Status terms by category</h2>
       <p class="section-lede">Every other category has its own status vocabulary, since "kept vs. broken" doesn't fit a court case or an appointment.</p>
 
       <div class="subgroup-label">Fraud cases</div>
@@ -208,8 +232,8 @@
     </section>
 
     <section id="budget">
-      <h2><span class="num">3</span> Budget terms</h2>
-      <p class="section-lede">Where a figure isn't publicly available, the field is left blank rather than estimated — see <a href="#methodology">Sourcing &amp; corrections</a>.</p>
+      <h2><span class="num">4</span> Budget terms</h2>
+      <p class="section-lede">Where a figure isn't publicly available, the field is left blank rather than estimated — see <a href="#methodology">Sourcing &amp; review</a>.</p>
       <div class="card">
         <dl class="term-list">
           <dt>Total budget</dt><dd>The full amount appropriated for the year.</dd>
@@ -224,7 +248,7 @@
     </section>
 
     <section id="other">
-      <h2><span class="num">4</span> Other terms</h2>
+      <h2><span class="num">5</span> Other terms</h2>
       <div class="card">
         <dl class="term-list">
           <dt>Geopolitical zone</dt>
@@ -242,16 +266,38 @@
     </section>
 
     <section id="methodology">
-      <h2><span class="num">5</span> Sourcing &amp; corrections</h2>
-      <p class="section-lede">
-        Every entry on NGScorecard — a promise, a fraud case, a budget line, an order — is dated and linked to its original source: a government release, a court filing, or reporting from an established outlet. Nothing is rated without a linked reference.
-      </p>
-      <p class="section-lede">
-        On numbers specifically: NGScorecard doesn't publish estimates dressed up as facts. Where an official figure hasn't actually been published — an unreleased state budget line, for instance — that field is left blank rather than filled in with a computed guess.
-      </p>
-      <p class="section-lede">
-        Ratings are a judgment call made against the linked evidence, not an automated calculation. If you think an entry is wrong, outdated, or missing context, email <a href="mailto:mubaraqsanusi908@gmail.com">mubaraqsanusi908@gmail.com</a> — corrections are made promptly and noted on the entry.
-      </p>
+      <h2><span class="num">6</span> Sourcing &amp; review</h2>
+      <p class="section-lede">Every entry — a promise, a fraud case, a budget line, an order — is dated and linked to its original source. Nothing is rated without a linked reference, and ratings are a judgment call made against that evidence, not an automated calculation.</p>
+
+      <div class="subgroup-label">What counts as a source</div>
+      <div class="card">
+        <dl class="term-list">
+          <dt>Primary &amp; official records</dt><dd>Government gazettes and budget documents, data from the NBS, CBN and DMO, court filings and judgments, official agency reports. The strongest basis for a rating.</dd>
+          <dt>Established independent reporting</dt><dd>Nigerian and international outlets with editorial standards and a public corrections process.</dd>
+          <dt>Named expert &amp; civil-society research</dt><dd>Analysis from bodies such as BudgIT or transparency organisations — used for context and to cross-check the records above.</dd>
+          <dt>Not used on its own</dt><dd>Anonymous social media, partisan press releases, and government or opposition claims that can't be independently checked. A government's own claim may be quoted, but is labelled as a claim, not as confirmation.</dd>
+        </dl>
+      </div>
+
+      <div class="subgroup-label">On numbers</div>
+      <p class="section-lede">NGScorecard doesn't publish estimates dressed up as facts. Where an official figure hasn't been published — an unreleased state budget line, for instance — the field is left blank rather than filled with a computed guess. Blank means "not published," not "zero."</p>
+
+      <div class="subgroup-label">Review cadence</div>
+      <p class="section-lede">Each administration carries a <strong>reviewed</strong> date: the last time every entry under it was re-checked against current evidence. Sitting administrations are re-reviewed on a rolling basis — at least twice a year, and after major events such as a budget, an election, or a significant court ruling. Former administrations stay frozen at their final review unless new evidence emerges.</p>
+
+      <div class="subgroup-label">Corrections &amp; re-rating</div>
+      <p class="section-lede">If you think an entry is wrong, outdated, or missing context, email <a href="mailto:mubaraqsanusi908@gmail.com">mubaraqsanusi908@gmail.com</a> — corrections are made promptly and noted on the entry. If this methodology itself changes in a way that affects existing ratings, those ratings are re-checked against the new standard within one review cycle, and the change is recorded in the <a href="#changes">change log</a> below.</p>
+    </section>
+
+    <section id="changes">
+      <h2><span class="num">7</span> Change log</h2>
+      <p class="section-lede">Material changes to how promises are selected or rated are recorded here, newest first. Wording fixes and clarifications that don't move any rating are not logged.</p>
+      <div class="card">
+        <dl class="term-list">
+          <dt>v1.0 <span class="badge">31 Aug 2026</span></dt>
+          <dd>First published methodology. Writes down the standard already in use: the inclusion test for promises (section 1), the evidence bar for the four ratings (section 2), the source hierarchy, and the review cadence. No ratings changed as a result.</dd>
+        </dl>
+      </div>
     </section>
 
   </main>

@@ -58,23 +58,29 @@ a table + a small UI. Dispute threads are a real feature — scope later.
 
 ---
 
-## 3. A written, versioned methodology — *Idea*
+## 3. A written, versioned methodology — *Done*
 
 **Wikipedia:** NPOV and notability are *documented, enforceable policies*, not
 vibes.
 
-**Here:** `public/guide.html` is the place. It should state:
+**Here:** `public/guide.html` now carries the full methodology:
 
-- How kept / partial / broken / pending are decided, and the evidence bar for
-  each.
-- **What counts as a trackable promise** — manifesto only? campaign speeches?
-  a tweet? Without an explicit inclusion rule, the *selection* of promises
-  looks biased even when every individual rating is fair.
-- A "last changed" date on the rubric itself. When the criteria change, say so
-  (and ideally note which past ratings were re-checked against the new bar).
+- **Section 1 "What counts as a trackable promise"** — the inclusion test
+  (included / tracked separately / excluded / selection within a term),
+  applied identically to every administration so counts are comparable.
+- **Section 2 "Promise ratings"** — an explicit evidence bar for kept /
+  partial / broken / in-progress, plus the tie-break rule when sources
+  disagree and the "absence of evidence isn't failure" rule.
+- **Section 6 "Sourcing & review"** — a four-tier source hierarchy, the
+  "blank means not published, not zero" rule, and the review cadence (what the
+  `reviewed` date means; sitting administrations re-reviewed ≥2×/year).
+- **Section 7 "Change log"** — versioned (`Methodology v1.0 · 31 Aug 2026`,
+  stamped in the page hero), newest-first, with the re-rating commitment when
+  the rubric changes.
 
-**Effort:** writing, not code. One page. Highest credibility-per-hour on this
-list.
+**Maintenance:** bump the version stamp in the hero and add a `<dt>/<dd>` to
+the section 7 change log whenever the inclusion test or the evidence bar
+changes.
 
 ---
 
@@ -163,10 +169,12 @@ admin UI.
 
 ## Rough priority
 
-1. **#3 methodology page** and **#2 staleness banner** — cheap, pure trust.
-2. **#1 unsourced badge + source tiers** — makes the existing `source` field
-   earn its keep.
-3. **#2 per-row history table** — unlocks #6 permalinks for free.
-4. **#7 public correction queue** — scales the data work.
-5. **#4 funding/independence statement** — a paragraph, do it anytime.
-6. **#5** — flip the flag when the audience and cadence justify it.
+1. ~~**#3 methodology page**~~ — done (`public/guide.html`).
+2. **#2 staleness banner** from the `reviewed` date — cheap, pure trust; now
+   also referenced by the published methodology, so worth wiring up.
+3. **#1 unsourced badge + source tiers** — makes the existing `source` field
+   earn its keep, and the source hierarchy is now documented in guide §6.
+4. **#2 per-row history table** — unlocks #6 permalinks for free.
+5. **#7 public correction queue** — scales the data work.
+6. **#4 funding/independence statement** — a paragraph, do it anytime.
+7. **#5** — flip the flag when the audience and cadence justify it.
