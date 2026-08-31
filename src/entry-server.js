@@ -10,7 +10,25 @@ const VALID_TABS = new Set([
 
 const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])
 
-function buildMeta(admin) {
+// Fields, in priority order, that carry the human-readable gist of a record
+// across the different tabs (promise, fraud case, order, bill, minister…).
+const DETAIL_FIELDS = ['promise', 'assessment', 'allegation', 'directive', 'summary', 'mandate', 'issue', 'problem', 'outcome', 'note']
+
+function buildMeta(admin, deepItem) {
+  // A shared/deep link to one card (?id=…) — describe that card, not the tab.
+  if (admin && deepItem) {
+    const label = deepItem.title || deepItem.name
+    if (label) {
+      const detailSrc = DETAIL_FIELDS.map(f => deepItem[f]).find(Boolean)
+      const detail = detailSrc
+        ? String(detailSrc).replace(/\s+/g, ' ').trim().slice(0, 200)
+        : `${admin.fullName} — tracked on NGScorecard.`
+      return {
+        title: `${label} — ${admin.fullName} | NGScorecard`,
+        description: detail,
+      }
+    }
+  }
   if (!admin) {
     return {
       title: 'NGScorecard — Nigeria Government Accountability Tracker',
@@ -56,7 +74,13 @@ export async function render({ admin, tab, id } = {}) {
   app.provide('initialData', initialData)
 
   const html = await renderToString(app)
-  const meta = buildMeta(adminRecord)
+
+  // If the URL deep-links a specific card, give it its own title/description
+  // so shared links render a meaningful preview.
+  const deepItem = Number.isFinite(id) && Array.isArray(data[resolvedTab])
+    ? data[resolvedTab].find(x => x.id === id)
+    : null
+  const meta = buildMeta(adminRecord, deepItem)
 
   return { html, initialData, meta }
 }

@@ -89,6 +89,40 @@ const isStale = computed(() => {
   const months = (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth())
   return months >= STALE_MONTHS
 })
+
+// Verifiability signal, derived purely from the source URL host — no data
+// change. Conservative: only a government/official host earns the "Primary"
+// mark. 'none' means the entry carries no source at all.
+const OFFICIAL_HOST = /(^|\.)gov(\.[a-z]{2})?$/i
+const sourceKind = computed(() => {
+  const url = props.item.source
+  if (!url) return props.item.sourceLabel ? 'linked' : 'none'
+  try {
+    return OFFICIAL_HOST.test(new URL(url).hostname) ? 'official' : 'linked'
+  } catch {
+    return 'linked'
+  }
+})
+
+// Low-friction correction path (Wikipedia's "something wrong?" affordance),
+// with no backend: open a pre-filled email carrying the entry's context.
+function reportIssue() {
+  const it = props.item
+  const body = [
+    `Entry: ${it.title || it.name || '(untitled)'}`,
+    `Administration: ${it.administration || ''}`,
+    it.category ? `Category: ${it.category}` : null,
+    it.status ? `Current: ${BADGE_LABEL[it.status] || it.status}` : null,
+    `Link: ${window.location.href}`,
+    '',
+    'What looks wrong, and a source if you have one:',
+    '',
+  ].filter(l => l !== null).join('\n')
+  const href = 'mailto:mubaraqsanusi908@gmail.com'
+    + `?subject=${encodeURIComponent('NGScorecard correction — ' + (it.title || it.name || 'entry'))}`
+    + `&body=${encodeURIComponent(body)}`
+  window.location.href = href
+}
 </script>
 
 <template>
@@ -158,12 +192,21 @@ const isStale = computed(() => {
             >{{ r.title }}</button>
           </div>
           <div class="pt-detail-footer">
-            <span>Source:</span>
-            <a class="pt-source-link" :href="item.source" target="_blank" @click.stop>
-              {{ item.sourceLabel }}
-            </a>
-            <span>· Updated {{ item.updated }}</span>
+            <span v-if="sourceKind === 'none'" class="pt-source-none" title="This entry has no linked source yet">Source: not linked</span>
+            <template v-else>
+              <span>Source:</span>
+              <a class="pt-source-link" :href="item.source" target="_blank" rel="noopener" @click.stop>
+                {{ item.sourceLabel || item.source }}
+              </a>
+              <span
+                v-if="sourceKind === 'official'"
+                class="pt-source-flag"
+                title="Government or official record — the strongest basis for a rating (see the methodology)"
+              >Primary</span>
+            </template>
+            <span v-if="item.updated">· Updated {{ item.updated }}</span>
             <span v-if="isStale" class="pt-stale-note" title="Not updated in over 18 months — may not reflect the latest evidence">· needs review</span>
+            <button class="pt-report-link" @click.stop="reportIssue" title="Email a correction for this entry">· Report an issue</button>
           </div>
         </div>
       </div>

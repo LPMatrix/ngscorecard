@@ -9,24 +9,27 @@ Status legend: **Done** · **Planned** · **Idea**
 
 ---
 
-## 1. Verifiability as a UI primitive, not a footer — *Idea*
+## 1. Verifiability as a UI primitive, not a footer — *Partly done*
 
 **Wikipedia:** every claim carries an inline citation; the *absence* of one is
 visibly flagged ("citation needed").
 
-**Here:** promise / inherited / fraud / order / bill rows already have `source`
-and `sourceLabel` (`server/schema.js`). Push it from "a field" to "a visible
-contract":
+**Here (done — no data change):** `PromiseCard.vue`'s footer now derives a
+signal from the source URL host alone:
 
-- Render a **"unsourced" / "weak source" badge** on any card whose `source` is
-  empty, a dead link, or a low-tier domain.
-- In the admin editor (`server/adminRoutes.js`), **reject a status change that
-  isn't accompanied by a source** on the change itself — not just on the row.
-- Introduce a **source tier** (primary government data / court record >
-  reputable reporting > commentary) and show it as a small indicator.
+- **`Primary`** pill when the host is a government/official domain
+  (`.gov(.ng)` etc.) — a positive "strongest basis for a rating" mark.
+- **`Source: not linked`** (amber) instead of an empty link when a record
+  carries no source at all (appointments, some ministers/judgments).
 
-**Effort:** badge + tier field is ~½ day; the admin-side gate is a validation
-rule.
+**Still open (needs schema / admin work — deferred):**
+
+- Full source *tiers* beyond "official vs other" — the middle tiers
+  (reputable reporting vs commentary) aren't reliably detectable from a URL;
+  they'd need a stored classification.
+- Dead-link detection (needs a fetch/crawl pass).
+- Admin-side gate: reject a status change that isn't accompanied by a source
+  on the change itself (`server/adminRoutes.js`).
 
 ---
 
@@ -84,18 +87,21 @@ changes.
 
 ---
 
-## 4. Neutral governance, visibly — *Idea*
+## 4. Neutral governance, visibly — *Done*
 
 **Wikipedia:** part of its authority is being non-commercial and un-ownable.
 
-**Here:** `docs/monetization-strategy-review.md` exists. The lesson: whatever
-pays the bills (API tiers, sponsorship, grants), **wall the rating layer off
-from it and say so on the page.** Any hint that a score tracks who's paying
-kills the product. A short "How this is funded / who decides ratings"
-statement — linked from the footer and `press.html` — pre-empts the
-accusation.
+**Here:** `public/guide.html` now has a section 7, **Independence** —
+who decides ratings (editors, against the methodology; no subject/source/
+sponsor pre-approval), funding policy (no money from any government, party,
+candidate or campaign; any revenue kept separate from ratings and
+disclosed), ownership, and "corrections over reputation". Added as methodology
+v1.1 (change log, section 8).
 
-**Effort:** a paragraph + a link.
+**Note for the maintainer:** the funding wording is written as *policy*, not a
+disclosure of current backers — confirm it matches reality (and whatever
+`docs/monetization-strategy-review.md` plans, e.g. sponsored reports) before
+relying on it.
 
 ---
 
@@ -134,20 +140,21 @@ on #2's history table existing (a permalink is just a pointer into it).
 
 ---
 
-## 7. Low-friction contribution + a review gate — *Idea*
+## 7. Low-friction contribution + a review gate — *Lightweight version done*
 
 **Wikipedia:** anyone can edit, but sensitive pages go through pending-changes
 review.
 
-**Here:** there's already an admin dashboard (`server/adminRoutes.js`,
-`server/adminAuth.js`, `public/admin.html`). Add a **public "submit a
-correction / evidence" form** that lands in a moderation queue rather than
-writing directly. Scales sourcing without opening the gates. The `press.html`
-/ `developers.html` footers already invite "found a data issue?" — this gives
-that invitation a real destination.
+**Here (done — no backend):** every card footer has a **Report an issue**
+link that opens a pre-filled email carrying the entry's title, administration,
+category, current rating, and the deep link — so "this looks wrong" reaches a
+human with the context attached. `PromiseCard.vue` `reportIssue()`.
 
-**Effort:** one public form + one queue table + a review view in the existing
-admin UI.
+**Full version (deferred — needs schema + admin work):** a public "submit a
+correction / evidence" form landing in a moderation queue (new table) with a
+review view in the existing admin dashboard (`server/adminRoutes.js`,
+`server/adminAuth.js`, `public/admin.html`). That's the version that actually
+*scales* sourcing; the mailto is the stopgap.
 
 ---
 
@@ -182,16 +189,24 @@ admin UI.
 
 ## Rough priority
 
-1. ~~**#3 methodology page**~~ — done (`public/guide.html`).
-2. ~~**staleness banner**~~ + ~~status-flag infra~~ + ~~related-promises infra~~
-   + ~~language scaffold~~ — done (see Smaller borrows above).
-3. **#1 unsourced badge + source tiers** — makes the existing `source` field
-   earn its keep, and the source hierarchy is now documented in guide §6.
-   The `flag` infra from the smaller borrows can carry an `unsourced` value.
-4. **#2 per-row history table** — unlocks #6 permalinks for free.
-5. **#7 public correction queue** — scales the data work; a natural producer
-   of `flag: 'correction'` and `flag: 'review'` values.
-6. **#4 funding/independence statement** — a paragraph, do it anytime.
-7. **Seed the dormant fields** — start setting `flag` / `related` on real
-   promises. Get the four `guide.<locale>.html` drafts natively reviewed.
-8. **#5** — flip the flag when the audience and cadence justify it.
+Done so far (no reseed required): ~~#3 methodology page~~, ~~#4 Independence
+statement~~, ~~staleness banner~~, ~~status-flag infra~~, ~~related-promises
+infra~~, ~~language scaffold~~, ~~#1 official-source pill + "not linked"~~,
+~~#7 Report-an-issue mailto~~.
+
+Still to do, roughly in order:
+
+1. **#2 per-row history table** (`promise_history`: record, old/new status,
+   date, note) — needs a `drizzle-kit push`. Unlocks the on-card status change
+   log *and* #6 citable permalinks.
+2. **#7 public correction queue** — a real moderation table + admin review
+   view; the mailto is only the stopgap.
+3. **#1 admin-side source gate** + fuller source tiers (a stored
+   classification, since the middle tiers aren't URL-detectable).
+4. **Seed the dormant fields** — start setting `flag` / `related` on real
+   promises; get the four `guide.<locale>.html` drafts natively reviewed;
+   confirm the #4 funding wording against reality.
+5. **#5** — flip `DATASET_DUMP_PUBLIC` when the audience and cadence justify
+   it.
+6. **Progress-over-time chart** — start monthly `history` snapshots now; build
+   the chart once there are several points.

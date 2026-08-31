@@ -130,6 +130,7 @@ const governors    = ref(initial?.data?.governors ?? [])
 const activeTab      = ref(initial?.tab ?? 'promises')
 const activeStatus   = ref('all')
 const activeCategory = ref('all')
+const activeResponse = ref('all') // fraud tab: government-response filter
 const searchQuery    = ref('')
 const expandedId     = ref(initial?.expandedId ?? null)
 const copied         = ref(false)
@@ -191,6 +192,16 @@ onMounted(async () => {
     const id = parseInt(params.get('id'))
     if (id) expandedId.value = id
   }
+
+  // Restore filter state from the URL. Runs last, and whether or not SSR gave
+  // us initial data — the server always renders with default filters, and the
+  // activeAdmin watcher (SPA path) resets them, so this is the final word.
+  // Values aren't hard-validated: an unknown status/category just yields an
+  // empty list, which the "no matches" state already handles.
+  if (params.get('status')) activeStatus.value = params.get('status')
+  if (params.get('cat')) activeCategory.value = params.get('cat')
+  if (params.get('q')) searchQuery.value = params.get('q')
+  if (params.get('response')) activeResponse.value = params.get('response')
 })
 
 function enterCompareMode() {
@@ -255,14 +266,38 @@ function switchTab(tab) {
 }
 
 // ── URL sync ────────────────────────────────────────────
-// Keeps ?admin=&tab=&id= in sync with the current view so it's shareable,
-// bookmarkable, and — since these are read server-side too — crawlable.
+// Keeps ?admin=&tab=&id= plus the active filters (&status=&cat=&q=&response=)
+// in sync with the current view so the exact filtered view is shareable,
+// bookmarkable, and — since admin/tab are read server-side too — crawlable.
+// `id` is managed separately by setExpanded().
 
 function syncUrl() {
+  if (viewMode.value === 'compare') return
   const url = new URL(window.location)
   url.searchParams.set('admin', activeAdmin.value)
   url.searchParams.set('tab', activeTab.value)
+  const setOrDrop = (key, value, dflt) => {
+    if (value == null || value === dflt) url.searchParams.delete(key)
+    else url.searchParams.set(key, value)
+  }
+  setOrDrop('status', activeStatus.value, 'all')
+  setOrDrop('cat', activeCategory.value, 'all')
+  setOrDrop('q', searchQuery.value.trim(), '')
+  setOrDrop('response', activeResponse.value, 'all')
   window.history.replaceState(null, '', url)
+}
+
+// Filter changes are shareable too — keep the URL in step with them.
+watch([activeStatus, activeCategory, searchQuery, activeResponse], syncUrl)
+
+// "Copy link to this view" — the whole current URL (admin, tab, filters, and
+// an expanded card if any).
+async function copyViewLink() {
+  try {
+    await navigator.clipboard.writeText(window.location.href)
+    copied.value = true
+    setTimeout(() => { copied.value = false }, 2000)
+  } catch { /* clipboard unavailable — silently ignore */ }
 }
 
 function setExpanded(id) {
@@ -310,6 +345,12 @@ async function handleShare(id) {
 
 const categories = computed(() =>
   [...new Set(promises.value.map(p => p.category))].sort()
+)
+
+// True when the promises list is narrowed by search, status, or category —
+// drives the "showing N of M" line.
+const promisesFiltered = computed(() =>
+  activeStatus.value !== 'all' || activeCategory.value !== 'all' || searchQuery.value.trim() !== ''
 )
 
 const promiseCounts = computed(() => {
@@ -363,8 +404,6 @@ const FRAUD_RESPONSES = [
   { key: 'abandoned', label: 'Abandoned' },
   { key: 'complied',  label: 'No interference' },
 ]
-
-const activeResponse = ref('all')
 
 const fraudCategories = computed(() =>
   [...new Set(fraud.value.map(f => f.category))].sort()
@@ -590,7 +629,14 @@ const filteredBills = computed(() => {
             >{{ g.name }} ({{ g.term }})</button>
           </template>
         </div>
-        <button v-if="viewMode === 'single'" class="pt-compare-btn" @click="enterCompareMode">Compare ⇄</button>
+        <div v-if="viewMode === 'single'" class="pt-view-actions">
+          <button class="pt-compare-btn" @click="enterCompareMode">Compare ⇄</button>
+          <button
+            class="pt-viewlink-btn"
+            @click="copyViewLink"
+            title="Copy a link to this exact view — administration, tab, and filters"
+          >Copy link</button>
+        </div>
       </div>
       <div v-if="viewMode === 'single'" class="pt-admin-nav-wrap">
         <div class="pt-admin-toolbar">
@@ -793,6 +839,10 @@ const filteredBills = computed(() => {
           <option value="all">All categories</option>
           <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
         </select>
+      </div>
+
+      <div v-if="promisesFiltered" class="pt-result-count">
+        Showing {{ filteredPromises.length }} of {{ promises.length }}
       </div>
 
       <div class="pt-list">

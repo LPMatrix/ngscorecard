@@ -729,18 +729,21 @@ a:focus-visible {
   justify-content: flex-end;
 }
 
+/* Pill-shaped and border-free-by-default so a status label reads as
+   informational, not as another clickable rectangle like .pt-filter-btn /
+   .pt-share-btn sitting right next to it. */
 .pt-badge,
 .gov-party-badge,
 .bv-pct {
   display: inline-flex;
   align-items: center;
-  min-height: 24px;
-  padding: 3px 8px;
+  min-height: 22px;
+  padding: 3px 10px;
   border: 1px solid transparent;
-  border-radius: 0;
+  border-radius: 999px;
   font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.03em;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
@@ -870,6 +873,33 @@ a:focus-visible {
 .pt-source-link:hover { color: var(--pt-green-900); }
 
 .pt-stale-note { color: var(--pt-gold-700); font-weight: 700; }
+
+/* Verifiability signals in the card footer (derived from the source URL) */
+.pt-source-flag {
+  display: inline-block;
+  padding: 0 6px;
+  border: 1px solid #a8d8ba;
+  border-radius: 999px;
+  background: var(--pt-kept-bg);
+  color: var(--pt-kept);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.pt-source-none { color: var(--pt-gold-700); font-weight: 700; }
+.pt-report-link {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 12px;
+  color: var(--pt-text-faint);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.pt-report-link:hover { color: var(--pt-green-700); }
 
 /* "See also" related-promise links (PromiseCard) */
 .pt-see-also { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
@@ -1162,9 +1192,15 @@ a:focus-visible {
 
 /* ── Compare view ─────────────────────────────────────────────────────── */
 
-.pt-compare-btn {
+.pt-view-actions {
   grid-column: 1 / -1;
-  justify-self: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pt-compare-btn,
+.pt-viewlink-btn {
   min-height: 36px;
   padding: 7px 14px;
   border: 1px solid var(--pt-line-strong);
@@ -1176,7 +1212,15 @@ a:focus-visible {
   cursor: pointer;
   white-space: nowrap;
 }
-.pt-compare-btn:hover { border-color: var(--pt-green-900); color: var(--pt-green-900); }
+.pt-compare-btn:hover,
+.pt-viewlink-btn:hover { border-color: var(--pt-green-900); color: var(--pt-green-900); }
+
+.pt-result-count {
+  margin: -12px 0 16px;
+  color: var(--pt-text-faint);
+  font-size: 12.5px;
+  font-weight: 600;
+}
 
 .cmp-wrap { padding: clamp(18px, 3vw, 40px) clamp(16px, 4vw, 48px) 72px; }
 

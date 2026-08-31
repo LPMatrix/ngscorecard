@@ -21,3 +21,42 @@
 ## Biggest Single Win
 
 Deep-link + shareable filtered URL. ~20 lines of JS, makes the tracker dramatically more useful as a reference tool heading into the 2027 election.
+
+---
+
+## Status (updated Aug 2026)
+
+**Shipped**
+
+- **Deep-link per promise** — `?id=<pk>` opens a card expanded, read on the
+  server too; the share button on each card copies that URL. Shared links now
+  also get a per-promise `<title>` / OpenGraph / Twitter card (the promise
+  text), built in `src/entry-server.js` → `buildMeta()`.
+- **Last updated banner** — `LAST_REVIEWED` in the sidebar, plus a "Review
+  due" (amber) state once an administration's `reviewed` date is ≥9 months
+  old. See `docs/wikipedia-product-lessons.md`.
+- **Shareable filtered URL** — `syncUrl()` now mirrors `&status=&cat=&q=&response=`
+  into the query string, restored on load; a **Copy link** button sits next to
+  Compare.
+- **Result count** — "Showing N of M" under the promises filters when a
+  search/filter is active.
+- **Related promises "See also"** — mechanism shipped (`related` column +
+  chips in `PromiseCard`); dormant until seed data links promises.
+
+**Deliberately not doing** (see the discussion that produced this list)
+
+- **Dedicated `/promise/N` routes** — superseded by `?id=` + the OG tags
+  above; promise `id` isn't globally unique anyway.
+- **Search autocomplete / suggestions** — the result count is the right-sized
+  version for ~50 items per tab.
+- **Print / PDF stylesheet** — low real usage; `@media print` blocks rot
+  silently. Browser print-to-PDF is the fallback. Revisit only on request.
+
+**Deferred**
+
+- **Progress-over-time chart** — needs historical snapshots first. Start a
+  monthly job writing current counts to the `history` table; build the chart
+  once there are several data points.
+- **Status change log per card** — only worth it as the proper per-row history
+  table (which also unlocks citable permalinks), with an admin workflow that
+  logs changes. A dateline with no real history behind it is theatre.
