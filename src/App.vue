@@ -5,6 +5,8 @@ import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
 import GovernorsView   from './components/GovernorsView.vue'
 import CompareView     from './components/CompareView.vue'
+import CorrectionForm  from './components/CorrectionForm.vue'
+import { downloadScorecard } from './lib/scorecardImage.js'
 
 // Populated server-side (entry-server.js) or client-side from
 // window.__INITIAL_STATE__ (entry-client.js) — null in a plain SPA fallback.
@@ -129,6 +131,7 @@ const indicators   = ref(initial?.data?.indicators ?? [])
 const appointments = ref(initial?.data?.appointments ?? [])
 const judgments    = ref(initial?.data?.judgments ?? [])
 const governors    = ref(initial?.data?.governors ?? [])
+const history      = ref(initial?.data?.history ?? []) // public per-entry change log
 const activeTab      = ref(initial?.tab ?? 'promises')
 const activeStatus   = ref('all')
 const activeCategory = ref('all')
@@ -139,10 +142,10 @@ const copied         = ref(false)
 
 async function loadData(admin) {
   const get = (name) => fetch(`/api/${admin}/${name}`).then(r => r.json()).catch(() => [])
-  const [p, i, f, o, m, bu, bi, ind, ap, j, g] = await Promise.all([
+  const [p, i, f, o, m, bu, bi, ind, ap, j, g, hist] = await Promise.all([
     get('promises'), get('inherited'), get('fraud'),
     get('orders'), get('ministers'), get('budget'), get('bills'),
-    get('indicators'), get('appointments'), get('judgments'), get('governors'),
+    get('indicators'), get('appointments'), get('judgments'), get('governors'), get('history'),
   ])
   promises.value     = p
   inherited.value    = i
@@ -155,6 +158,24 @@ async function loadData(admin) {
   appointments.value = ap
   judgments.value    = j
   governors.value    = g
+  history.value      = hist
+}
+
+// Reader "suggest a correction" modal — opened from any card's Report button.
+const reportOpen = ref(false)
+const reportContext = ref(null)
+function openReport(ctx) {
+  reportContext.value = ctx || null
+  reportOpen.value = true
+}
+
+// Logged changes for one card, newest first. Empty until an editor has
+// changed the entry through the admin editor.
+function historyFor(item, entryTable) {
+  return history.value
+    .filter(h => h.entryTable === entryTable && h.entryId === item.id)
+    .slice()
+    .reverse()
 }
 
 onMounted(async () => {
@@ -313,6 +334,28 @@ async function copyViewLink() {
     copied.value = true
     setTimeout(() => { copied.value = false }, 2000)
   } catch { /* clipboard unavailable — silently ignore */ }
+}
+
+// "Print scorecard" — a shareable PNG built client-side from whatever this
+// administration actually has tracked (see src/lib/scorecardImage.js).
+// Uses the tab data already loaded in this component, not a fresh fetch.
+const generatingCard = ref(false)
+async function downloadCard() {
+  if (generatingCard.value) return
+  generatingCard.value = true
+  try {
+    await downloadScorecard(currentAdmin.value, {
+      promises: promises.value,
+      fraud: fraud.value,
+      judgments: judgments.value,
+      indicators: indicators.value,
+      orders: orders.value,
+    })
+  } catch (e) {
+    console.error('Scorecard generation failed', e)
+  } finally {
+    generatingCard.value = false
+  }
 }
 
 function setExpanded(id) {
@@ -651,6 +694,12 @@ const filteredBills = computed(() => {
             @click="copyViewLink"
             title="Copy a link to this exact view — administration, tab, and filters"
           >Copy link</button>
+          <button
+            class="pt-viewlink-btn"
+            :disabled="generatingCard"
+            @click="downloadCard"
+            title="Download a shareable scorecard image for this administration"
+          >{{ generatingCard ? 'Generating…' : 'Print scorecard' }}</button>
         </div>
       </div>
       <div v-if="viewMode === 'single' && !notFound" class="pt-admin-nav-wrap">
@@ -834,6 +883,13 @@ const filteredBills = computed(() => {
         <div v-if="copied" class="pt-toast">Link copied to clipboard</div>
       </Transition>
 
+      <!-- Suggest-a-correction modal -->
+      <div v-if="reportOpen" class="pt-modal-backdrop" @click.self="reportOpen = false">
+        <div class="pt-modal" role="dialog" aria-modal="true">
+          <CorrectionForm :context="reportContext" @close="reportOpen = false" />
+        </div>
+      </div>
+
     <!-- ── PROMISES TAB ── -->
     <template v-if="activeTab === 'promises'">
 
@@ -903,6 +959,9 @@ const filteredBills = computed(() => {
           :key="p.id"
           :id="`pt-card-${p.id}`"
           :item="p"
+          :history="historyFor(p, 'promises')"
+          entry-table="promises"
+          @report="openReport"
           :field1="p.promise"
           :field2="p.assessment"
           label1="The promise"
@@ -953,6 +1012,9 @@ const filteredBills = computed(() => {
           v-for="p in inherited"
           :key="p.id"
           :item="p"
+          :history="historyFor(p, 'inherited')"
+          entry-table="inherited"
+          @report="openReport"
           :field1="p.problem"
           :field2="p.resolution"
           label1="The problem"
@@ -1031,6 +1093,9 @@ const filteredBills = computed(() => {
           v-for="f in filteredFraud"
           :key="f.id"
           :item="f"
+          :history="historyFor(f, 'fraud')"
+          entry-table="fraud"
+          @report="openReport"
           :field1="f.allegation"
           :field2="f.outcome"
           :field3="f.govtResponse"
@@ -1093,6 +1158,9 @@ const filteredBills = computed(() => {
         <PromiseCard
           v-for="o in filteredOrders" :key="o.id"
           :item="o"
+          :history="historyFor(o, 'orders')"
+          entry-table="orders"
+          @report="openReport"
           :field1="o.directive"
           :field2="o.effect"
           label1="The directive"
@@ -1147,6 +1215,9 @@ const filteredBills = computed(() => {
         <PromiseCard
           v-for="m in filteredMinisters" :key="m.id"
           :item="{ ...m, title: m.name, category: m.ministry }"
+          :history="historyFor(m, 'ministers')"
+          entry-table="ministers"
+          @report="openReport"
           :field1="m.mandate"
           :field2="m.performance"
           label1="Mandate"
@@ -1216,6 +1287,9 @@ const filteredBills = computed(() => {
         <PromiseCard
           v-for="b in filteredBills" :key="b.id"
           :item="b"
+          :history="historyFor(b, 'bills')"
+          entry-table="bills"
+          @report="openReport"
           :field1="b.summary"
           :field2="b.outcome"
           label1="What it proposes"
@@ -1287,6 +1361,9 @@ const filteredBills = computed(() => {
         <PromiseCard
           v-for="a in filteredAppointments" :key="a.id"
           :item="{ ...a, title: a.name, category: a.role }"
+          :history="historyFor(a, 'appointments')"
+          entry-table="appointments"
+          @report="openReport"
           :field1="`${a.agency} · ${a.state} (${a.geopolitical}) · Appointed ${a.appointed}`"
           :field2="a.note"
           label1="Details"
@@ -1354,6 +1431,9 @@ const filteredBills = computed(() => {
           v-for="j in filteredJudgments" :key="j.id"
           :item="{ ...j, title: j.title, category: j.category,
                    updated: j.ruled, source: '#', sourceLabel: j.court }"
+          :history="historyFor(j, 'judgments')"
+          entry-table="judgments"
+          @report="openReport"
           :field1="j.issue"
           :field2="j.outcome"
           label1="What the case is about"

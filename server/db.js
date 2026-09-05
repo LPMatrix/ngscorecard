@@ -19,6 +19,29 @@ function ensureLocalSchema(client) {
     ensureColumn(client, tbl, 'source_tier', 'TEXT')
   }
   client.prepare(`
+    CREATE TABLE IF NOT EXISTS entry_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      entry_table TEXT NOT NULL,
+      entry_id INTEGER NOT NULL,
+      administration TEXT,
+      kind TEXT NOT NULL,
+      field TEXT NOT NULL,
+      old_value TEXT,
+      new_value TEXT,
+      note TEXT,
+      changed_at TEXT NOT NULL
+    )
+  `).run()
+  client.prepare(`
+    CREATE TABLE IF NOT EXISTS corrections (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      entry_table TEXT, entry_id INTEGER, administration TEXT, url TEXT,
+      kind TEXT NOT NULL DEFAULT 'other', body TEXT NOT NULL, source_url TEXT,
+      email TEXT, status TEXT NOT NULL DEFAULT 'new', admin_note TEXT,
+      ip_hash TEXT, created_at TEXT NOT NULL
+    )
+  `).run()
+  client.prepare(`
     CREATE TABLE IF NOT EXISTS api_keys (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       key TEXT NOT NULL UNIQUE,

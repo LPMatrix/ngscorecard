@@ -243,3 +243,37 @@ export const governors = sqliteTable('governors', {
   status:         text('status').notNull(),
   note:           text('note'),
 })
+
+// Public, append-only record of every change to a rated entry — "correct in
+// the open" (see PRINCIPLES.md). One row per changed substantive field,
+// written by the admin editor on save. Never edited or deleted.
+export const entryHistory = sqliteTable('entry_history', {
+  id:             integer('id').primaryKey({ autoIncrement: true }),
+  entryTable:     text('entry_table').notNull(),      // 'promises' | 'fraud' | …
+  entryId:        integer('entry_id').notNull(),
+  administration: text('administration'),             // for per-admin fetches
+  kind:           text('kind').notNull(),             // 'rating_change' | 'reclassify' | 'correction'
+  field:          text('field').notNull(),            // e.g. 'status', 'assessment'
+  oldValue:       text('old_value'),
+  newValue:       text('new_value'),
+  note:           text('note'),                       // editor's reason, optional
+  changedAt:      text('changed_at').notNull(),       // ISO timestamp
+})
+
+// Public-submitted corrections / evidence. Nothing here is ever shown on the
+// site — it's a moderation inbox. Spam guards live in server/correctionsRoutes.js.
+export const corrections = sqliteTable('corrections', {
+  id:             integer('id').primaryKey({ autoIncrement: true }),
+  entryTable:     text('entry_table'),   // which card it's about, if any
+  entryId:        integer('entry_id'),
+  administration: text('administration'),
+  url:            text('url'),            // page the reporter was on
+  kind:           text('kind').notNull().default('other'), // error|outdated|missing_source|other
+  body:           text('body').notNull(),
+  sourceUrl:      text('source_url'),     // optional supporting link
+  email:          text('email'),          // optional, for follow-up
+  status:         text('status').notNull().default('new'), // new|reviewing|actioned|declined
+  adminNote:      text('admin_note'),
+  ipHash:         text('ip_hash'),        // pseudonymous — salted hash, for spotting floods only
+  createdAt:      text('created_at').notNull(),
+})

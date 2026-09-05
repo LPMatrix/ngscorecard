@@ -146,6 +146,7 @@
       <a href="#endpoints">Endpoints</a>
       <a href="#widget">Embeddable widget</a>
       <a href="#example">Example response</a>
+      <a href="#stability">Stability &amp; deprecation</a>
     </div>
   </nav>
 
@@ -195,13 +196,13 @@ curl https://ngscorecard.com/api/v1/tinubu/promises \
       <h2><span class="num">3</span>Endpoints</h2>
       <p>Presidents and governors are separate lists, each with their own valid <code>:admin</code> keys
         (e.g. <code>tinubu</code> is a president, <code>otti</code> and <code>ododo</code> are governors) —
-        <code>GET /api/v1/presidents</code> for the 5 federal presidents, <code>GET /api/v1/governors</code> for the 35 state governors.
+        <code>GET /api/v1/presidents</code> for the 5 federal presidents, <code>GET /api/v1/governors</code> for the 36 state governors.
         Every other data route takes either kind of key and follows the same shape: <code>/api/v1/:admin/:category</code>.</p>
       <div class="table-scroll">
         <table>
           <tr><th>Method</th><th>Path</th><th>Returns</th></tr>
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/presidents</code></td><td>The 5 federal presidents and their <code>:admin</code> keys</td></tr>
-          <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/governors</code></td><td>The 35 state governors and their <code>:admin</code> keys</td></tr>
+          <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/governors</code></td><td>The 36 state governors and their <code>:admin</code> keys</td></tr>
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/promises</code></td><td>Campaign promises, status, and sourcing</td></tr>
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/inherited</code></td><td>Inherited problems and their resolution status</td></tr>
           <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/fraud</code></td><td>Fraud allegations, amounts, and outcomes</td></tr>
@@ -255,11 +256,23 @@ curl https://ngscorecard.com/api/v1/tinubu/promises \
 ]</pre>
     </section>
 
+    <section id="stability">
+      <h2><span class="num">6</span>Stability &amp; deprecation</h2>
+      <p>This API is public infrastructure. Downstream users shouldn't be broken without warning.</p>
+      <ul>
+        <li><strong>Additive changes are not breaking.</strong> New fields on a response, new endpoints, and new optional parameters can land in <code>v1</code> at any time — write clients that ignore fields they don't recognise.</li>
+        <li><strong>Breaking changes get a new version.</strong> Removing or renaming a field, changing a type, or changing the meaning of a value happens under <code>/api/v2</code>, never in place.</li>
+        <li><strong>Old versions stay up for at least 12 months</strong> after a successor ships.</li>
+        <li><strong>Sunsets are announced,</strong> not silent — in this page's change history, in the <code>GET /api/v1</code> index response, and via a <code>Sunset</code> HTTP header (RFC&nbsp;8594) on the affected endpoints for the whole deprecation window.</li>
+      </ul>
+      <p class="try-note">Nothing is deprecated today. The dataset and its licence are covered separately in <a href="/guide#independence">the methodology</a> and <code>DATA-LICENSE.md</code>.</p>
+    </section>
+
   </main>
 
   <footer>
     <div class="wrap">
-      <p class="footer-tag">NGScorecard is an independent project, not affiliated with the Nigerian government.</p>
+      <p class="footer-tag">NGScorecard is a free, open, independent project — not affiliated with the Nigerian government. Data CC&nbsp;BY&nbsp;4.0 · code AGPL-3.0.</p>
       <nav class="footer-links" aria-label="More about NGScorecard">
         <a href="/">ngscorecard.com</a>
         <a href="/guide">Guide</a>

@@ -1,4 +1,4 @@
-import { eq, and } from 'drizzle-orm'
+import { eq, and, asc } from 'drizzle-orm'
 import { db } from './db.js'
 import * as t from './schema.js'
 
@@ -52,6 +52,13 @@ export const getAppointments = (admin) => db.select().from(t.appointments).where
 export const getJudgments    = (admin) => db.select().from(t.judgments).where(eq(t.judgments.administration, admin))
 export const getGovernors    = (admin) => db.select().from(t.governors).where(eq(t.governors.administration, admin))
 
+// Every logged change under one administration, oldest first. The frontend
+// groups these by entryTable + entryId onto each card.
+export const getEntryHistory = (admin) =>
+  db.select().from(t.entryHistory)
+    .where(eq(t.entryHistory.administration, admin))
+    .orderBy(asc(t.entryHistory.changedAt), asc(t.entryHistory.id))
+
 export async function getBudget(admin) {
   const [budgets, ministries] = await Promise.all([
     db.select().from(t.budget).where(eq(t.budget.administration, admin)),
@@ -94,11 +101,12 @@ export async function getFullDataset() {
 export async function getAllDataForAdmin(admin) {
   const [
     promises, inherited, fraud, orders, ministers,
-    budget, bills, indicators, appointments, judgments, governors,
+    budget, bills, indicators, appointments, judgments, governors, history,
   ] = await Promise.all([
     getPromises(admin), getInherited(admin), getFraud(admin),
     getOrders(admin), getMinisters(admin), getBudget(admin), getBills(admin),
     getIndicators(admin), getAppointments(admin), getJudgments(admin), getGovernors(admin),
+    getEntryHistory(admin),
   ])
-  return { promises, inherited, fraud, orders, ministers, budget, bills, indicators, appointments, judgments, governors }
+  return { promises, inherited, fraud, orders, ministers, budget, bills, indicators, appointments, judgments, governors, history }
 }

@@ -2,6 +2,7 @@ import express from 'express'
 import { createApiRouter } from './api.js'
 import { createPublicApiRouter } from './publicApi.js'
 import { createAdminRouter } from './adminRoutes.js'
+import { createCorrectionsRouter } from './correctionsRoutes.js'
 
 // Single source of truth for how the API routers are mounted, used by both
 // the Vercel serverless entrypoint (api/index.js) and the standalone Express
@@ -20,6 +21,7 @@ export function createApiApp() {
   // names (e.g. /api/v1/governors misread as :admin="v1", category="governors").
   app.use('/api/v1', createPublicApiRouter())
   app.use('/api/admin', createAdminRouter())
+  app.use('/api/corrections', createCorrectionsRouter())
   app.use('/api', createApiRouter())
 
   return app

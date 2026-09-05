@@ -37,6 +37,7 @@ const TABLES = {
   indicators:       { table: t.indicators,       adminCol: 'administration' },
   indicatorPoints:  { table: t.indicatorPoints,  adminCol: 'administration' },
   governors:        { table: t.governors,        adminCol: 'administration' },
+  corrections:      { table: t.corrections,      adminCol: null }, // reader-submitted moderation queue
 }
 
 function resolveTable(req, res, next) {
@@ -54,6 +55,23 @@ function resolveTable(req, res, next) {
 const SOURCE_REQUIRED = new Set(['promises', 'inherited', 'fraud', 'orders', 'bills'])
 const RATING_FIELDS = ['status', 'responseVerdict']
 const isBlank = (v) => v == null || (typeof v === 'string' && v.trim() === '')
+
+// Substantive fields whose changes are written to entry_history — "correct in
+// the open" (PRINCIPLES.md). Timestamps, titles, categories and dates are not
+// logged. An optional `__note` on the request body is attached as the reason.
+const HISTORY_FIELDS = {
+  promises:     ['status', 'assessment', 'promise', 'sourceTier'],
+  inherited:    ['status', 'resolution', 'problem', 'sourceTier'],
+  fraud:        ['status', 'responseVerdict', 'outcome', 'allegation', 'sourceTier'],
+  orders:       ['status', 'effect', 'directive', 'sourceTier'],
+  ministers:    ['status', 'performance', 'mandate', 'sourceTier'],
+  bills:        ['status', 'outcome', 'summary', 'sourceTier'],
+  judgments:    ['status', 'outcome', 'issue', 'sourceTier'],
+  appointments: ['status', 'note'],
+}
+const historyKind = (f) =>
+  f === 'sourceTier' ? 'reclassify' : RATING_FIELDS.includes(f) ? 'rating_change' : 'correction'
+const norm = (v) => (v == null ? '' : String(v))
 
 export function createAdminRouter() {
   const router = Router()
@@ -136,7 +154,7 @@ export function createAdminRouter() {
 
   router.post('/:table', resolveTable, async (req, res) => {
     const { table } = req.tableEntry
-    const { id, ...values } = req.body || {}
+    const { id, __note, ...values } = req.body || {}
     if (SOURCE_REQUIRED.has(req.params.table) && (isBlank(values.source) || isBlank(values.sourceLabel))) {
       return res.status(422).json({ error: 'A source URL and a source label are required for every rated entry.' })
     }
@@ -146,22 +164,44 @@ export function createAdminRouter() {
 
   router.put('/:table/:id', resolveTable, async (req, res) => {
     const { table } = req.tableEntry
-    const { id, ...values } = req.body || {}
+    const tableName = req.params.table
+    const id = Number(req.params.id)
+    const { id: _dropId, __note, ...values } = req.body || {}
+    const note = typeof __note === 'string' && __note.trim() ? __note.trim() : null
+
+    const logged = HISTORY_FIELDS[tableName] || []
+    const touchesRating = RATING_FIELDS.some(f => f in values)
+    const needCurrent = logged.some(f => f in values) || (SOURCE_REQUIRED.has(tableName) && touchesRating)
+    const [cur] = needCurrent
+      ? await db.select().from(table).where(eq(table.id, id)).limit(1)
+      : []
+    if (needCurrent && !cur) return res.status(404).json({ error: 'Not found' })
 
     // Block changing a rating while the row would be left without a source.
-    if (SOURCE_REQUIRED.has(req.params.table) && RATING_FIELDS.some(f => f in values)) {
-      const [cur] = await db
-        .select({ source: table.source, sourceLabel: table.sourceLabel })
-        .from(table).where(eq(table.id, Number(req.params.id))).limit(1)
-      const source      = 'source'      in values ? values.source      : cur?.source
-      const sourceLabel = 'sourceLabel' in values ? values.sourceLabel : cur?.sourceLabel
+    if (SOURCE_REQUIRED.has(tableName) && touchesRating) {
+      const source      = 'source'      in values ? values.source      : cur.source
+      const sourceLabel = 'sourceLabel' in values ? values.sourceLabel : cur.sourceLabel
       if (isBlank(source) || isBlank(sourceLabel)) {
         return res.status(422).json({ error: 'This entry has no source. Add a source URL and label in the same edit that changes the rating.' })
       }
     }
 
-    const [row] = await db.update(table).set(values).where(eq(table.id, Number(req.params.id))).returning()
+    // Diff the logged fields for the public change history.
+    const historyRows = []
+    for (const f of logged) {
+      if (!(f in values) || norm(values[f]) === norm(cur[f])) continue
+      historyRows.push({
+        entryTable: tableName, entryId: id, administration: cur.administration ?? null,
+        kind: historyKind(f), field: f,
+        oldValue: cur[f] == null ? null : String(cur[f]),
+        newValue: values[f] == null ? null : String(values[f]),
+        note, changedAt: new Date().toISOString(),
+      })
+    }
+
+    const [row] = await db.update(table).set(values).where(eq(table.id, id)).returning()
     if (!row) return res.status(404).json({ error: 'Not found' })
+    if (historyRows.length) await db.insert(t.entryHistory).values(historyRows)
     res.json(row)
   })
 

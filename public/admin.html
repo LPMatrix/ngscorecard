@@ -202,6 +202,9 @@
     return { key: 'status', label: 'Status', type: 'status', options: STATUS_OPTIONS[table] || [], required: required !== false }
   }
 
+  // Tables whose edits are written to the public entry_history log.
+  var HISTORY_TABLES = new Set(['promises', 'inherited', 'fraud', 'orders', 'ministers', 'bills', 'judgments', 'appointments'])
+
   // Source tier (methodology §6). Blank = unclassified (frontend falls back to
   // the .gov URL check). 'weak' flags a source as insufficient on its own.
   function sourceTierField() {
@@ -426,6 +429,24 @@
         { key: 'termEnd', label: 'Term end', type: 'text' },
         statusField('governors'),
         { key: 'note', label: 'Note', type: 'text' },
+      ],
+    },
+    corrections: {
+      label: 'Corrections inbox', adminScoped: false,
+      list: ['createdAt', 'kind', 'status', 'entryTable', 'body'],
+      columns: [
+        { key: 'status', label: 'Status', type: 'select', required: true, options: ['new', 'reviewing', 'actioned', 'declined'] },
+        { key: 'adminNote', label: 'Moderator note', type: 'textarea' },
+        { key: 'kind', label: 'Kind', type: 'text' },
+        { key: 'entryTable', label: 'Entry table', type: 'text' },
+        { key: 'entryId', label: 'Entry id', type: 'number' },
+        { key: 'administration', label: 'Administration', type: 'text' },
+        { key: 'url', label: 'Page URL', type: 'text' },
+        { key: 'body', label: 'Message', type: 'textarea' },
+        { key: 'sourceUrl', label: 'Supporting link', type: 'text' },
+        { key: 'email', label: 'Reporter email', type: 'text' },
+        { key: 'ipHash', label: 'Source hash', type: 'text', hint: 'pseudonymous — same value = same source' },
+        { key: 'createdAt', label: 'Received', type: 'text' },
       ],
     },
   }
@@ -715,6 +736,16 @@
       fields.appendChild(wrap)
     })
 
+    // Optional public change note — logged to entry_history on save. Only
+    // shown when editing a rated table (a change to record, not a new one).
+    if (id && HISTORY_TABLES.has(state.table)) {
+      var nw = document.createElement('div')
+      nw.className = 'field'
+      nw.innerHTML = '<label>Change note — <span style="text-transform:none;font-weight:400;color:var(--faint)">optional, shown publicly on the card next to the change</span></label>' +
+        '<input type="text" data-field="__note" value="" placeholder="e.g. re-reviewed against Q2 budget data">'
+      fields.appendChild(nw)
+    }
+
     $('#overlay').classList.add('show')
   }
 
@@ -748,6 +779,8 @@
       else { v = el.value === '' ? (col.required ? '' : null) : el.value }
       values[col.key] = v
     })
+    var noteEl = $('[data-field="__note"]', form)
+    if (noteEl && noteEl.value.trim()) values.__note = noteEl.value.trim()
 
     try {
       if (state.editingId) {

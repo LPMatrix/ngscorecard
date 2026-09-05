@@ -14,9 +14,14 @@ const props = defineProps({
   // the parent passes them (currently only the Promises tab). Dormant until
   // seed data sets a promise's `related` array.
   related:    { type: Array,   default: () => [] },
+  // Public change log for this entry, newest first — from entry_history.
+  // Empty until an editor has changed the entry.
+  history:    { type: Array,   default: () => [] },
+  // Which table this card is from — lets "Report an issue" attach context.
+  entryTable: { type: String,  default: null },
 })
 
-const emit = defineEmits(['toggle', 'share', 'goto'])
+const emit = defineEmits(['toggle', 'share', 'goto', 'report'])
 
 const BADGE_LABEL = {
   // promises
@@ -117,24 +122,32 @@ const sourceBadge = computed(() => {
   return sourceKind.value === 'official' ? SOURCE_TIER.official : null
 })
 
-// Low-friction correction path (Wikipedia's "something wrong?" affordance),
-// with no backend: open a pre-filled email carrying the entry's context.
+// Public change history (entry_history) — "correct in the open".
+const HIST_KIND_LABEL = { rating_change: 'Rating', reclassify: 'Source tier', correction: 'Correction' }
+function histValue(v) {
+  if (v == null || v === '') return '—'
+  return BADGE_LABEL[v] || v
+}
+function fmtHistDate(iso) {
+  const d = new Date(iso)
+  return Number.isNaN(d.getTime()) ? String(iso) : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+const historyItems = computed(() => props.history.map(h => ({
+  date: fmtHistDate(h.changedAt),
+  line: h.kind === 'correction'
+    ? `Corrected — ${h.field}`
+    : `${HIST_KIND_LABEL[h.kind] || h.field}: ${histValue(h.oldValue)} → ${histValue(h.newValue)}`,
+  note: h.note || null,
+})))
+
+// Ask the app to open the "suggest a correction" modal for this entry.
 function reportIssue() {
-  const it = props.item
-  const body = [
-    `Entry: ${it.title || it.name || '(untitled)'}`,
-    `Administration: ${it.administration || ''}`,
-    it.category ? `Category: ${it.category}` : null,
-    it.status ? `Current: ${BADGE_LABEL[it.status] || it.status}` : null,
-    `Link: ${window.location.href}`,
-    '',
-    'What looks wrong, and a source if you have one:',
-    '',
-  ].filter(l => l !== null).join('\n')
-  const href = 'mailto:mubaraqsanusi908@gmail.com'
-    + `?subject=${encodeURIComponent('NGScorecard correction — ' + (it.title || it.name || 'entry'))}`
-    + `&body=${encodeURIComponent(body)}`
-  window.location.href = href
+  emit('report', {
+    entryTable: props.entryTable,
+    entryId: props.item.id,
+    title: props.item.title || props.item.name || null,
+    administration: props.item.administration || null,
+  })
 }
 </script>
 
@@ -204,6 +217,15 @@ function reportIssue() {
               @click.stop="emit('goto', r.id)"
             >{{ r.title }}</button>
           </div>
+          <!-- Public change history for this entry -->
+          <div v-if="historyItems.length" class="pt-detail-response pt-history">
+            <div class="pt-detail-label">Change history</div>
+            <div v-for="(h, i) in historyItems" :key="i" class="pt-history-row">
+              <span class="pt-history-date">{{ h.date }}</span>
+              <span class="pt-history-line">{{ h.line }}</span>
+              <span v-if="h.note" class="pt-history-note"> — {{ h.note }}</span>
+            </div>
+          </div>
           <div class="pt-detail-footer">
             <span v-if="sourceKind === 'none'" class="pt-source-none" title="This entry has no linked source yet">Source: not linked</span>
             <template v-else>
@@ -219,7 +241,7 @@ function reportIssue() {
             </template>
             <span v-if="item.updated">· Updated {{ item.updated }}</span>
             <span v-if="isStale" class="pt-stale-note" title="Not updated in over 18 months — may not reflect the latest evidence">· needs review</span>
-            <button class="pt-report-link" @click.stop="reportIssue" title="Email a correction for this entry">· Report an issue</button>
+            <button class="pt-report-link" @click.stop="reportIssue" title="Suggest a correction for this entry">· Report an issue</button>
           </div>
         </div>
       </div>

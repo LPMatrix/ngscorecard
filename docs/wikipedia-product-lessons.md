@@ -40,28 +40,28 @@ visibly flagged ("citation needed").
 
 ---
 
-## 2. Make the process public, not just the verdict — *Planned (partly scaffolded)*
+## 2. Make the process public, not just the verdict — *Mostly done*
 
 **Wikipedia:** trust comes as much from visible revision history + talk pages
 as from the articles themselves.
 
-**Here:**
+**Here — done:**
 
-- **Public per-promise changelog.** A permanent, append-only log —
-  "pending → broken, April 2026, +2 sources, editor note" — with a diff view.
-  Bigger than the single "status changed" line in `FEATURES.md`.
-  - The `history` table in `server/schema.js` (`administration`, `label`,
-    `kept`, `partial`, `broken`, `pending`) already exists for the aggregate
-    "progress over time" chart. A per-row `promise_history` table is the
-    natural extension.
-- **A dispute space per rating.** The kept/partial/broken call is a judgement;
-  give readers a structured "contest this rating" thread that lives *beside*
-  the card, not in it (Wikipedia's article/talk split keeps the main view
-  clean while making disagreement legible). Could start as moderated
-  submissions surfaced read-only.
-- **Staleness banner from `reviewed`.** Each administration row has a
-  `reviewed` date. Surface it: "Buhari — not reviewed since May 2023", the way
-  Wikipedia flags out-of-date sections.
+- **Public per-entry change history.** New append-only `entry_history` table
+  (`server/schema.js`), written by the admin editor on every change to a
+  status, source tier, or assessment, with the editor's optional reason. Shown
+  as a "Change history" block on the expanded card (`PromiseCard.vue`), newest
+  first; read via `GET /api/[v1/]:admin/history`. Governance for it in
+  `GOVERNANCE.md`; direction in `PRINCIPLES.md`.
+- **Staleness banner from `reviewed`** — done earlier (see Smaller borrows).
+
+**Still open:**
+
+- **A dispute space per rating.** A structured "contest this rating" thread
+  beside the card (Wikipedia's article/talk split). Overlaps with the
+  corrections queue — needs the same "public write surface, moderated" call.
+- **Citable permalinks** (#6) — the change history is the substrate; still
+  need a `?asof=<date>` render that reconstructs an entry as it read then.
 
 **Effort:** staleness banner is trivial and high-trust-per-line. Changelog is
 a table + a small UI. Dispute threads are a real feature — scope later.
@@ -98,17 +98,18 @@ changes.
 
 **Wikipedia:** part of its authority is being non-commercial and un-ownable.
 
-**Here:** `public/guide.html` now has a section 7, **Independence** —
+**Here:** `public/guide.html` section 7, **"Independence & openness"**
+(methodology v1.2) — what it is (a free, open public good, not a business),
 who decides ratings (editors, against the methodology; no subject/source/
-sponsor pre-approval), funding policy (no money from any government, party,
-candidate or campaign; any revenue kept separate from ratings and
-disclosed), ownership, and "corrections over reputation". Added as methodology
-v1.1 (change log, section 8).
+sponsor pre-approval), funding (not for profit; no money from any government,
+party, candidate or campaign; a paid layer, if any, only sustains the free
+version and stays separate from ratings), open-by-default licensing, and
+ownership. Backed by a repo-root `LICENSE` (AGPL-3.0), `DATA-LICENSE.md`
+(CC BY 4.0), a `README.md`, and updated footers across the static pages.
 
-**Note for the maintainer:** the funding wording is written as *policy*, not a
-disclosure of current backers — confirm it matches reality (and whatever
-`docs/monetization-strategy-review.md` plans, e.g. sponsored reports) before
-relying on it.
+**Note for the maintainer:** the funding wording is *policy*, not a
+disclosure of current backers — keep it true as `docs/monetization-strategy-review.md`
+plans (e.g. sponsored reports) become real.
 
 ---
 
@@ -196,18 +197,28 @@ review view in the existing admin dashboard (`server/adminRoutes.js`,
 
 ## Rough priority
 
-Done so far: ~~#3 methodology page~~, ~~#4 Independence statement~~,
-~~staleness banner~~, ~~status-flag infra~~, ~~related-promises infra~~,
-~~language scaffold~~, ~~#1 source-tier pill + "not linked" + `source_tier`
-column + admin gate~~, ~~#7 Report-an-issue mailto~~.
+> The project's directional commitments now live in [`PRINCIPLES.md`](../PRINCIPLES.md)
+> (aligned with the Open Definition, the Principles for Digital Development,
+> and the independent-accountability-project tradition). Its "what this
+> implies next" section is the canonical roadmap; the list below is the
+> implementation backlog.
+
+Done so far: ~~#3 methodology page~~, ~~#4 Independence + `PRINCIPLES.md` +
+`GOVERNANCE.md`~~, ~~staleness banner~~, ~~status-flag infra~~,
+~~related-promises infra~~, ~~language scaffold~~, ~~#1 source-tier pill +
+"not linked" + `source_tier` column + admin gate~~, ~~#7 correction queue
+(mailto → "Suggest a correction" modal → `POST /api/corrections` with spam
+guards → `/admin` inbox)~~, ~~#2 per-entry change history (`entry_history` +
+card block)~~, ~~API deprecation policy (`/developers` §6)~~.
 
 Still to do, roughly in order:
 
-1. **#2 per-row history table** (`promise_history`: record, old/new status,
-   date, note) — needs a `drizzle-kit push`. Unlocks the on-card status change
-   log *and* #6 citable permalinks.
-2. **#7 public correction queue** — a real moderation table + admin review
-   view; the mailto is only the stopgap.
+1. **Dispute thread** — the correction *queue* is done (`POST /api/corrections`
+   → `/admin` inbox, with spam guards). What's left is Wikipedia's talk-page
+   equivalent: a visible back-and-forth beside a contested rating, and a
+   decision on how much of that is public vs. moderated.
+2. **#6 citable permalinks** — `?asof=<date>` reconstructs an entry from
+   `entry_history`. The substrate now exists.
 3. **Dead-link detection** for sources (a periodic fetch/crawl pass); extend
    the source gate to `ministers` / `judgments` after a data pass.
 4. **Seed the dormant fields** — start setting `flag` / `related` /
