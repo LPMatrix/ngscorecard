@@ -31,8 +31,9 @@ app.use(express.static(path.join(__dirname, '../dist/client'), { index: false })
 
 app.use(async (req, res) => {
   try {
-    const html = await renderHtml(req.originalUrl, template, loadEntryServer)
-    res.status(200).set('Content-Type', 'text/html').end(html)
+    const { status, redirect, html } = await renderHtml(req.originalUrl, template, loadEntryServer)
+    if (redirect) { res.redirect(status, redirect); return }
+    res.status(status).set('Content-Type', 'text/html').end(html)
   } catch (e) {
     console.error(e)
     res.status(500).end('Internal Server Error')

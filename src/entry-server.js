@@ -14,7 +14,13 @@ const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])
 // across the different tabs (promise, fraud case, order, bill, minister…).
 const DETAIL_FIELDS = ['promise', 'assessment', 'allegation', 'directive', 'summary', 'mandate', 'issue', 'problem', 'outcome', 'note']
 
-function buildMeta(admin, deepItem) {
+function buildMeta(admin, deepItem, notFound) {
+  if (notFound) {
+    return {
+      title: 'Administration not found | NGScorecard',
+      description: 'That page doesn’t match any tracked Nigerian president or governor. Use the search on NGScorecard to find the one you’re after.',
+    }
+  }
   // A shared/deep link to one card (?id=…) — describe that card, not the tab.
   if (admin && deepItem) {
     const label = deepItem.title || deepItem.name
@@ -50,7 +56,12 @@ function buildMeta(admin, deepItem) {
 export async function render({ admin, tab, id } = {}) {
   const presidents = await getPresidents()
 
-  const resolvedAdmin = presidents.some(p => p.key === admin) ? admin : 'tinubu'
+  // `admin` is null on the bare homepage (default to Tinubu) but a
+  // non-matching *non-null* value means the path segment itself is bogus
+  // (e.g. /nosuchperson) — that's a real 404, not a silent fallback.
+  const adminKnown = presidents.some(p => p.key === admin)
+  const notFound = admin != null && !adminKnown
+  const resolvedAdmin = adminKnown ? admin : 'tinubu'
   const adminRecord = presidents.find(p => p.key === resolvedAdmin)
 
   const tabInvalidForLevel = adminRecord?.level === 'state' && FEDERAL_ONLY_TABS.has(tab)
@@ -61,6 +72,8 @@ export async function render({ admin, tab, id } = {}) {
   const initialData = {
     admin: resolvedAdmin,
     tab: resolvedTab,
+    notFound,
+    requestedAdmin: notFound ? admin : null,
     expandedId: Number.isFinite(id) ? id : null,
     presidents: presidents.map(p => ({
       key: p.key, name: p.name, title: p.fullName, term: p.term,
@@ -80,7 +93,7 @@ export async function render({ admin, tab, id } = {}) {
   const deepItem = Number.isFinite(id) && Array.isArray(data[resolvedTab])
     ? data[resolvedTab].find(x => x.id === id)
     : null
-  const meta = buildMeta(adminRecord, deepItem)
+  const meta = buildMeta(adminRecord, deepItem, notFound)
 
-  return { html, initialData, meta }
+  return { html, initialData, meta, notFound }
 }

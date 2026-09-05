@@ -45,8 +45,9 @@ async function createDevServer() {
     try {
       const rawHtml = readFileSync(path.join(root, 'index.html'), 'utf-8')
       const template = await vite.transformIndexHtml(url, rawHtml)
-      const html = await renderHtml(url, template, () => vite.ssrLoadModule('/src/entry-server.js'))
-      res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
+      const { status, redirect, html } = await renderHtml(url, template, () => vite.ssrLoadModule('/src/entry-server.js'))
+      if (redirect) { res.redirect(status, redirect); return }
+      res.status(status).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
       vite.ssrFixStacktrace(e)
       console.error(e)

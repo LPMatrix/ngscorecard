@@ -27,6 +27,8 @@ const viewMode = ref('single') // 'single' | 'compare'
 const compareInitial = ref({ a: null, b: null, tab: 'promises' })
 const headerMenuOpen = ref(false) // mobile-only hamburger for Developers/Press links
 
+const notFound = ref(initial?.notFound ?? false)
+const requestedAdmin = ref(initial?.requestedAdmin ?? null)
 const activeAdmin = ref(initial?.admin ?? 'tinubu')
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
@@ -180,9 +182,14 @@ onMounted(async () => {
     const presidents = await fetch('/api/presidents').then(r => r.json()).catch(() => [])
     ADMINISTRATIONS.value = presidents.map(mapPresident)
 
-    const admin = params.get('admin')
-    const tab   = params.get('tab')
-    if (admin) activeAdmin.value = admin
+    // Path-based routing (/admin/tab), falling back to the legacy
+    // ?admin=&tab= query form for anything that reaches this SPA-only
+    // bootstrap (SSR normally handles both — see server/render.js).
+    const [pathAdmin, pathTab] = window.location.pathname.split('/').filter(Boolean)
+    const admin = pathAdmin || params.get('admin')
+    const tab   = pathTab || params.get('tab')
+    if (admin && presidents.some(p => p.key === admin)) activeAdmin.value = admin
+    else if (admin) { notFound.value = true; requestedAdmin.value = admin }
     const adminLevel = presidents.find(p => p.key === activeAdmin.value)?.level
     const tabInvalidForLevel = adminLevel === 'state' && FEDERAL_ONLY_TABS.has(tab)
     if (tab && VALID_TABS.has(tab) && !tabInvalidForLevel) activeTab.value = tab
@@ -210,7 +217,7 @@ function enterCompareMode() {
   compareInitial.value = { a: activeAdmin.value, b: sameLevelOther?.key, tab: 'promises' }
   viewMode.value = 'compare'
   const url = new URL(window.location)
-  url.searchParams.delete('admin')
+  url.pathname = '/'
   url.searchParams.set('mode', 'compare')
   url.searchParams.set('a', compareInitial.value.a)
   url.searchParams.set('b', compareInitial.value.b)
@@ -224,8 +231,8 @@ function exitCompareMode() {
   url.searchParams.delete('mode')
   url.searchParams.delete('a')
   url.searchParams.delete('b')
-  url.searchParams.set('admin', activeAdmin.value)
-  url.searchParams.set('tab', activeTab.value)
+  url.searchParams.delete('tab')
+  url.pathname = adminPath(activeAdmin.value, activeTab.value)
   window.history.replaceState(null, '', url)
 }
 
@@ -266,16 +273,24 @@ function switchTab(tab) {
 }
 
 // ── URL sync ────────────────────────────────────────────
-// Keeps ?admin=&tab=&id= plus the active filters (&status=&cat=&q=&response=)
-// in sync with the current view so the exact filtered view is shareable,
-// bookmarkable, and — since admin/tab are read server-side too — crawlable.
-// `id` is managed separately by setExpanded().
+// Keeps /admin/tab plus ?id= and the active filters
+// (&status=&cat=&q=&response=) in sync with the current view so the exact
+// filtered view is shareable, bookmarkable, and — since admin/tab are read
+// server-side too — crawlable. `id` is managed separately by setExpanded().
+
+// Only bare tinubu+promises (the homepage default) elides to '/' — every
+// other admin/tab combination, tinubu included, gets its own explicit path
+// segment(s). Mirrors server/render.js's canonicalPath() exactly, since
+// that's what the SSR layer will declare as canonical for this same view.
+function adminPath(admin, tab) {
+  if (admin === 'tinubu' && tab === 'promises') return '/'
+  return tab === 'promises' ? `/${admin}` : `/${admin}/${tab}`
+}
 
 function syncUrl() {
   if (viewMode.value === 'compare') return
   const url = new URL(window.location)
-  url.searchParams.set('admin', activeAdmin.value)
-  url.searchParams.set('tab', activeTab.value)
+  url.pathname = adminPath(activeAdmin.value, activeTab.value)
   const setOrDrop = (key, value, dflt) => {
     if (value == null || value === dflt) url.searchParams.delete(key)
     else url.searchParams.set(key, value)
@@ -616,7 +631,7 @@ const filteredBills = computed(() => {
             </div>
           </template>
         </div>
-        <div class="pt-admin-summary">
+        <div v-if="!notFound" class="pt-admin-summary">
           <span>{{ currentAdmin.title || currentAdmin.name }}</span>
           <strong>{{ currentAdmin.term }}</strong>
           <template v-if="formerGovernorsForState.length">
@@ -629,7 +644,7 @@ const filteredBills = computed(() => {
             >{{ g.name }} ({{ g.term }})</button>
           </template>
         </div>
-        <div v-if="viewMode === 'single'" class="pt-view-actions">
+        <div v-if="viewMode === 'single' && !notFound" class="pt-view-actions">
           <button class="pt-compare-btn" @click="enterCompareMode">Compare ⇄</button>
           <button
             class="pt-viewlink-btn"
@@ -638,7 +653,7 @@ const filteredBills = computed(() => {
           >Copy link</button>
         </div>
       </div>
-      <div v-if="viewMode === 'single'" class="pt-admin-nav-wrap">
+      <div v-if="viewMode === 'single' && !notFound" class="pt-admin-nav-wrap">
         <div class="pt-admin-toolbar">
           <div v-if="stateAdmins.length" class="pt-admin-mode-tabs" role="tablist" aria-label="Government level">
             <button
@@ -699,7 +714,7 @@ const filteredBills = computed(() => {
         </nav>
       </div>
       <!-- Mobile-only section nav -->
-      <select v-if="viewMode === 'single'" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
+      <select v-if="viewMode === 'single' && !notFound" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup label="Government">
           <option value="promises">Promises</option>
           <option value="ministers">{{ ministerLabel }}</option>
@@ -722,9 +737,46 @@ const filteredBills = computed(() => {
       </select>
     </header>
 
+    <!-- ── Not found: the URL's admin segment matches no tracked
+         administration (see server/entry-server.js's notFound flag) ── -->
+    <div v-if="notFound" class="pt-notfound">
+      <div class="pt-notfound-card">
+        <div class="pt-eyebrow">404 · Not tracked</div>
+        <h2>"{{ requestedAdmin }}" isn't a Nigerian president or governor we track</h2>
+        <p>Double-check the link, or search for the administration you're after:</p>
+        <div class="pt-admin-finder pt-notfound-finder">
+          <input
+            v-model="adminFinderQuery"
+            type="text"
+            class="pt-admin-finder-input"
+            placeholder="Find a president or governor…"
+            aria-label="Find an administration by name or state"
+            @keydown.enter.prevent="submitAdminFinder"
+          >
+          <div v-if="adminFinderQuery.trim()" class="pt-admin-finder-results" @mousedown.prevent>
+            <button
+              v-for="a in adminFinderResults"
+              :key="a.key"
+              type="button"
+              class="pt-admin-finder-result"
+              @click="selectAdminFromFinder(a); notFound = false"
+            >
+              <span class="pt-admin-finder-result-name">{{ a.name }}</span>
+              <span class="pt-admin-finder-result-meta">
+                <template v-if="a.level === 'state'">{{ a.state }} · </template>{{ a.term }}
+                <span v-if="!a.isCurrent" class="pt-admin-finder-badge">Former</span>
+              </span>
+            </button>
+            <div v-if="!adminFinderResults.length" class="pt-admin-finder-empty">No match for "{{ adminFinderQuery }}"</div>
+          </div>
+        </div>
+        <a href="/" class="pt-notfound-home">← Back to the homepage</a>
+      </div>
+    </div>
+
     <!-- ── Compare mode ── -->
     <CompareView
-      v-if="viewMode === 'compare'"
+      v-else-if="viewMode === 'compare'"
       :presidents="ADMINISTRATIONS"
       :initialA="compareInitial.a"
       :initialB="compareInitial.b"

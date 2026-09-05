@@ -1358,3 +1358,43 @@ a:focus-visible {
   .cmp-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cmp-stat:nth-child(2n) { border-right: 0; }
 }
+
+/* ── 404: unknown /admin path segment ── */
+.pt-notfound {
+  display: flex;
+  justify-content: center;
+  padding: 64px 20px 96px;
+}
+.pt-notfound-card {
+  max-width: 460px;
+  width: 100%;
+  text-align: center;
+}
+.pt-notfound-card h2 {
+  margin: 10px 0 8px;
+  font-size: 22px;
+  line-height: 1.35;
+  color: var(--pt-text);
+}
+.pt-notfound-card p {
+  margin: 0 0 20px;
+  color: var(--pt-text-muted);
+  font-size: 14px;
+}
+.pt-notfound-finder {
+  position: relative;
+  text-align: left;
+}
+.pt-notfound-finder .pt-admin-finder-results {
+  position: static;
+  margin-top: 6px;
+  box-shadow: var(--pt-shadow);
+}
+.pt-notfound-home {
+  display: inline-block;
+  margin-top: 24px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--pt-link);
+}
+.pt-notfound-home:hover { text-decoration: underline; }
