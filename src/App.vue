@@ -64,18 +64,19 @@ const formerGovernorsForState = computed(() => {
 })
 const ministerLabel = computed(() => isStateLevel.value ? 'Commissioners' : 'Ministers')
 
+// Drives which roster the picker panel previews when its search box is empty
+// ('federal' → the presidents, 'state' → sitting governors grouped by zone).
 const adminNavMode = ref(isStateLevel.value ? 'state' : 'federal')
-const visibleAdmins = computed(() => adminNavMode.value === 'state' ? stateAdmins.value : federalAdmins.value)
 
 // ── Find-an-administration search ──────────────────────
-// The chip nav only ever shows the 5 presidents or the 36 sitting governors
-// — the 36 former governors are otherwise reachable only by first opening
-// their state's current governor and clicking "Previously". This searches
-// every administration (current and former, federal and state) by name so
-// any of the 77 tracked administrations is one search away.
+// There are 200+ tracked administrations (5 presidents, 36 sitting governors,
+// and every former governor), far too many for a visible strip. The picker is
+// search-first instead: this scores every administration — current and former,
+// federal and state — by name, title, or state so any one of them is a single
+// query away.
 const adminFinderQuery = ref('')
 const adminFinderInput = ref(null)
-const ADMIN_FINDER_LIMIT = 8
+const ADMIN_FINDER_LIMIT = 12
 
 const adminFinderResults = computed(() => {
   const q = adminFinderQuery.value.trim().toLowerCase()
@@ -100,6 +101,9 @@ function selectAdminFromFinder(admin) {
   adminNavMode.value = admin.level === 'state' ? 'state' : 'federal'
   activeAdmin.value = admin.key
   adminFinderQuery.value = ''
+  pushRecent(admin.key)
+  pickerOpen.value = false
+  pickerCursor.value = -1
   adminFinderInput.value?.blur()
 }
 
@@ -107,10 +111,101 @@ function submitAdminFinder() {
   if (adminFinderResults.value.length) selectAdminFromFinder(adminFinderResults.value[0])
 }
 
-function clearAdminFinder() {
+// ── Command-bar picker ────────────────────────────────
+// A persistent search field with a dropdown panel: search hits (split
+// Federal / State), or — with an empty box — a preview of the roster for the
+// active Federal/State mode, presidents flat and governors grouped by
+// Nigeria's six geopolitical zones. A short "recent" list is kept per browser.
+const pickerOpen = ref(false)
+const pickerCursor = ref(-1) // index into visiblePickerOptions for ↑/↓ nav
+
+const NG_ZONES = {
+  Benue: 'North Central', Kogi: 'North Central', Kwara: 'North Central',
+  Nasarawa: 'North Central', Niger: 'North Central', Plateau: 'North Central',
+  Adamawa: 'North East', Bauchi: 'North East', Borno: 'North East',
+  Gombe: 'North East', Taraba: 'North East', Yobe: 'North East',
+  Jigawa: 'North West', Kaduna: 'North West', Kano: 'North West',
+  Katsina: 'North West', Kebbi: 'North West', Sokoto: 'North West', Zamfara: 'North West',
+  Abia: 'South East', Anambra: 'South East', Ebonyi: 'South East',
+  Enugu: 'South East', Imo: 'South East',
+  'Akwa Ibom': 'South South', Bayelsa: 'South South', 'Cross River': 'South South',
+  Delta: 'South South', Edo: 'South South', Rivers: 'South South',
+  Ekiti: 'South West', Lagos: 'South West', Ogun: 'South West',
+  Ondo: 'South West', Osun: 'South West', Oyo: 'South West',
+}
+const NG_ZONE_ORDER = ['North Central', 'North East', 'North West', 'South East', 'South South', 'South West']
+
+const RECENTS_KEY = 'ngsc:recent-admins'
+const RECENTS_MAX = 4
+const recentAdminKeys = ref([])
+const recentAdmins = computed(() =>
+  recentAdminKeys.value
+    .map(k => ADMINISTRATIONS.value.find(a => a.key === k))
+    .filter(Boolean)
+)
+function pushRecent(key) {
+  recentAdminKeys.value = [key, ...recentAdminKeys.value.filter(k => k !== key)].slice(0, RECENTS_MAX)
+  try { localStorage.setItem(RECENTS_KEY, JSON.stringify(recentAdminKeys.value)) } catch { /* private mode — skip */ }
+}
+
+const pickerPlaceholder = computed(() => {
+  const n = ADMINISTRATIONS.value.length
+  return n ? `Jump to any of ${n} administrations…` : 'Jump to a president or governor…'
+})
+
+const pickerGroups = computed(() => {
+  if (adminFinderQuery.value.trim()) {
+    const fed = adminFinderResults.value.filter(a => a.level !== 'state')
+    const st  = adminFinderResults.value.filter(a => a.level === 'state')
+    const groups = []
+    if (fed.length) groups.push({ label: 'Federal', items: fed })
+    if (st.length)  groups.push({ label: 'State', items: st })
+    return groups
+  }
+  if (adminNavMode.value === 'federal' || !stateAdmins.value.length) {
+    return [{ label: 'Federal · Presidents', items: federalAdmins.value }]
+  }
+  const byZone = NG_ZONE_ORDER
+    .map(z => ({ label: z, items: stateAdmins.value.filter(a => NG_ZONES[a.state] === z) }))
+    .filter(g => g.items.length)
+  const rest = stateAdmins.value.filter(a => !NG_ZONES[a.state])
+  if (rest.length) byZone.push({ label: 'Other', items: rest })
+  return byZone
+})
+const visiblePickerOptions = computed(() => pickerGroups.value.flatMap(g => g.items))
+
+function openPicker() {
+  if (pickerOpen.value) return
+  pickerOpen.value = true
+  pickerCursor.value = adminFinderQuery.value.trim() ? 0 : -1
+  nextTick(() => adminFinderInput.value?.focus())
+}
+function closePicker() {
+  pickerOpen.value = false
+  pickerCursor.value = -1
   adminFinderQuery.value = ''
   adminFinderInput.value?.blur()
 }
+function movePickerCursor(delta) {
+  const n = visiblePickerOptions.value.length
+  if (!n) return
+  const from = pickerCursor.value < 0 ? (delta > 0 ? -1 : 0) : pickerCursor.value
+  pickerCursor.value = Math.max(0, Math.min(n - 1, from + delta))
+  nextTick(() => document.querySelector('.pt-picker-opt.cursor')?.scrollIntoView({ block: 'nearest' }))
+}
+function onPickerKeydown(e) {
+  if (e.key === 'ArrowDown')     { e.preventDefault(); movePickerCursor(1) }
+  else if (e.key === 'ArrowUp')  { e.preventDefault(); movePickerCursor(-1) }
+  else if (e.key === 'Enter')    {
+    e.preventDefault()
+    const pick = visiblePickerOptions.value[pickerCursor.value] ?? visiblePickerOptions.value[0]
+    if (pick) selectAdminFromFinder(pick)
+  }
+  else if (e.key === 'Escape')   { e.preventDefault(); closePicker() }
+}
+
+// Reset the keyboard cursor to the first hit whenever the query changes.
+watch(adminFinderQuery, () => { if (pickerOpen.value) pickerCursor.value = 0 })
 
 const STATUSES = [
   { key: 'all',     label: 'All' },
@@ -180,6 +275,22 @@ function historyFor(item, entryTable) {
 
 onMounted(async () => {
   const params = new URLSearchParams(window.location.search)
+
+  // Restore the per-browser "recent administrations" list for the picker.
+  try {
+    const saved = JSON.parse(localStorage.getItem(RECENTS_KEY) || '[]')
+    if (Array.isArray(saved)) {
+      recentAdminKeys.value = saved.filter(k => typeof k === 'string').slice(0, RECENTS_MAX)
+    }
+  } catch { /* no/blocked storage — start empty */ }
+
+  // ⌘K / Ctrl-K opens the administration picker from anywhere.
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault()
+      openPicker()
+    }
+  })
 
   // Compare mode is client-only: SSR always renders the normal single-admin
   // view, and — regardless of whether SSR gave us initial single-admin data
@@ -702,65 +813,101 @@ const filteredBills = computed(() => {
           >{{ generatingCard ? 'Generating…' : 'Print scorecard' }}</button>
         </div>
       </div>
-      <div v-if="viewMode === 'single' && !notFound" class="pt-admin-nav-wrap">
-        <div class="pt-admin-toolbar">
-          <div v-if="stateAdmins.length" class="pt-admin-mode-tabs" role="tablist" aria-label="Government level">
-            <button
-              role="tab"
-              :aria-selected="adminNavMode === 'federal'"
-              :class="['pt-admin-mode-tab', { active: adminNavMode === 'federal' }]"
-              @click="adminNavMode = 'federal'"
-            >Federal</button>
-            <button
-              role="tab"
-              :aria-selected="adminNavMode === 'state'"
-              :class="['pt-admin-mode-tab', { active: adminNavMode === 'state' }]"
-              @click="adminNavMode = 'state'"
-            >State</button>
-          </div>
-          <div class="pt-admin-finder">
+      <div v-if="viewMode === 'single' && !notFound" class="pt-picker">
+        <div class="pt-picker-bar">
+          <div :class="['pt-picker-field', { open: pickerOpen }]">
+            <span class="pt-picker-mag" aria-hidden="true">⌕</span>
             <input
               ref="adminFinderInput"
               v-model="adminFinderQuery"
               type="text"
-              class="pt-admin-finder-input"
-              placeholder="Find a president or governor…"
-              aria-label="Find an administration by name or state"
+              class="pt-picker-input"
+              :placeholder="pickerPlaceholder"
+              aria-label="Find a president or governor by name or state"
               role="combobox"
-              :aria-expanded="adminFinderQuery.trim().length > 0"
-              @keydown.enter.prevent="submitAdminFinder"
-              @keydown.esc="clearAdminFinder"
+              aria-autocomplete="list"
+              aria-controls="pt-picker-panel"
+              :aria-expanded="pickerOpen"
+              :aria-activedescendant="pickerOpen && visiblePickerOptions[pickerCursor] ? `pt-picker-opt-${visiblePickerOptions[pickerCursor].key}` : null"
+              @focus="openPicker"
+              @keydown="onPickerKeydown"
             />
-            <span v-if="adminFinderQuery" class="pt-admin-finder-icon" aria-hidden="true">⌕</span>
-            <div v-if="adminFinderQuery.trim()" class="pt-admin-finder-results" @mousedown.prevent>
-              <button
-                v-for="a in adminFinderResults"
-                :key="a.key"
-                type="button"
-                class="pt-admin-finder-result"
-                @click="selectAdminFromFinder(a)"
-              >
-                <span class="pt-admin-finder-result-name">{{ a.name }}</span>
-                <span class="pt-admin-finder-result-meta">
-                  <template v-if="a.level === 'state'">{{ a.state }} · </template>{{ a.term }}
-                  <span v-if="!a.isCurrent" class="pt-admin-finder-badge">Former</span>
-                </span>
-              </button>
-              <div v-if="!adminFinderResults.length" class="pt-admin-finder-empty">No match for "{{ adminFinderQuery }}"</div>
-            </div>
+            <kbd v-if="!pickerOpen" class="pt-picker-kbd" aria-hidden="true">⌘K</kbd>
+            <button
+              v-if="pickerOpen && adminFinderQuery"
+              type="button"
+              class="pt-picker-clear"
+              aria-label="Clear search"
+              @click="adminFinderQuery = ''"
+            >✕</button>
+          </div>
+          <div v-if="recentAdmins.length && !pickerOpen" class="pt-picker-recents">
+            <span class="pt-picker-recents-label">Recent</span>
+            <button
+              v-for="a in recentAdmins"
+              :key="a.key"
+              :class="['pt-picker-chip', { active: activeAdmin === a.key }]"
+              @click="selectAdminFromFinder(a)"
+            >{{ a.level === 'state' ? `${a.name} · ${a.state}` : a.name }}</button>
           </div>
         </div>
-        <nav class="pt-admin-nav" aria-label="Administration">
-          <button
-            v-for="a in visibleAdmins"
-            :key="a.key"
-            :class="['pt-admin-tab', { active: activeAdmin === a.key }]"
-            @click="activeAdmin = a.key"
-          >
-            <span class="pt-admin-tab-name">{{ adminNavMode === 'state' ? `${a.name} (${a.state})` : a.name }}</span>
-            <span class="pt-admin-tab-term">{{ a.term }}</span>
-          </button>
-        </nav>
+
+        <template v-if="pickerOpen">
+          <div class="pt-picker-backdrop" @click="closePicker"></div>
+          <div id="pt-picker-panel" class="pt-picker-panel" role="dialog" aria-label="Choose an administration">
+            <div class="pt-picker-panel-head">
+              <div v-if="stateAdmins.length && !adminFinderQuery.trim()" class="pt-admin-mode-tabs" role="tablist" aria-label="Government level">
+                <button
+                  role="tab"
+                  :aria-selected="adminNavMode === 'federal'"
+                  :class="['pt-admin-mode-tab', { active: adminNavMode === 'federal' }]"
+                  @click="adminNavMode = 'federal'"
+                >Federal</button>
+                <button
+                  role="tab"
+                  :aria-selected="adminNavMode === 'state'"
+                  :class="['pt-admin-mode-tab', { active: adminNavMode === 'state' }]"
+                  @click="adminNavMode = 'state'"
+                >State</button>
+              </div>
+              <span v-else class="pt-picker-scope">Search results</span>
+              <span class="pt-picker-count">{{ visiblePickerOptions.length }} shown</span>
+            </div>
+            <div class="pt-picker-list" role="listbox" aria-label="Administrations" @mousedown.prevent>
+              <template v-for="g in pickerGroups" :key="g.label">
+                <div class="pt-picker-group-label" role="presentation">{{ g.label }}</div>
+                <button
+                  v-for="a in g.items"
+                  :id="`pt-picker-opt-${a.key}`"
+                  :key="a.key"
+                  type="button"
+                  role="option"
+                  :aria-selected="activeAdmin === a.key"
+                  :class="['pt-picker-opt', {
+                    cursor: visiblePickerOptions[pickerCursor]?.key === a.key,
+                    active: activeAdmin === a.key,
+                  }]"
+                  @click="selectAdminFromFinder(a)"
+                  @mouseenter="pickerCursor = visiblePickerOptions.findIndex(o => o.key === a.key)"
+                >
+                  <span class="pt-picker-opt-name">{{ a.name }}</span>
+                  <span class="pt-picker-opt-meta">
+                    <template v-if="a.level === 'state'">{{ a.state }} · </template>{{ a.term }}
+                    <span v-if="!a.isCurrent" class="pt-admin-finder-badge">Former</span>
+                  </span>
+                </button>
+              </template>
+              <div v-if="!visiblePickerOptions.length" class="pt-admin-finder-empty">
+                No match for "{{ adminFinderQuery }}"
+              </div>
+            </div>
+            <div class="pt-picker-foot">
+              <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
+              <span><kbd>↵</kbd> open</span>
+              <span><kbd>esc</kbd> close</span>
+            </div>
+          </div>
+        </template>
       </div>
       <!-- Mobile-only section nav -->
       <select v-if="viewMode === 'single' && !notFound" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">

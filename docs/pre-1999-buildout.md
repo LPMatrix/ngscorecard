@@ -44,9 +44,73 @@ the missing $12.4bn Gulf windfall; the 82-day ING and the court that voided it;
 Vision 2010, the Ogoni Nine and phantom-coup tribunals, the Abacha loot and its
 recovery; and the 11-month Abdulsalami transition and the 1999 Constitution.
 
+## Done — pre-1999 elected state governors (49 administrations)
+
+Only the **elected civilian** governorships, the clean parallel to the federal
+set. Military-appointed state administrators (1967–79, 1984–99) are deliberately
+excluded: most served 1–2 years with no manifesto or mandate, and there were
+200-plus of them.
+
+### Second Republic (1979–1983) — 19 states
+
+| Key | State | Governor | Party |
+|---|---|---|---|
+| `jakande` | Lagos | Lateef Jakande | UPN |
+| `onabanjo` | Ogun | Bisi Onabanjo | UPN |
+| `bolaige` | Oyo | Bola Ige | UPN |
+| `ajasin` | Ondo | Michael Ajasin | UPN |
+| `alli` | Bendel | Ambrose Alli | UPN |
+| `nwobodo` | Anambra | Jim Nwobodo | NPP |
+| `mbakwe` | Imo | Sam Mbakwe | NPP |
+| `lar` | Plateau | Solomon Lar | NPP |
+| `rimi` | Kano | Abubakar Rimi | PRP |
+| `balarabemusa` | Kaduna | Abdulkadir Balarabe Musa | PRP (impeached 1981) |
+| `goni` | Borno | Mohammed Goni | GNPP |
+| `barde` | Gongola | Abubakar Barde | GNPP |
+| `okilo` | Rivers | Melford Okilo | NPN |
+| `isong` | Cross River | Clement Isong | NPN |
+| `aku` | Benue | Aper Aku | NPN |
+| `tatariali` | Bauchi | Tatari Ali | NPN |
+| `kangiwa` | Sokoto | Shehu Kangiwa (d. 1981) → Garba Nadama | NPN |
+| `awwalibrahim` | Niger | Awwal Ibrahim | NPN |
+| `adamuatta` | Kwara | Adamu Atta | NPN |
+
+State names are the historical ones (Bendel = Edo + Delta; Gongola = Adamawa +
+Taraba; the old Anambra/Borno/Cross River/Imo/Ondo/Oyo/Plateau/Rivers/Sokoto
+were larger than today's). All terms ended at the 31 December 1983 coup;
+`balarabemusa` ended earlier, at the first gubernatorial impeachment in Nigerian
+history. Three-month October 1983 NPN successors (Onoh, Ogbemudia, Bakin Zuwo,
+Olunloyo, Etiebet, Christian Onoh, Bamanga Tukur, Adebayo) are noted inside the
+principal's file rather than given their own scorecards.
+
+### Third Republic (January 1992 – November 1993) — 30 states
+
+All 30 states of the time, one governor each, SDP or NRC only. Keys collide with
+Fourth-Republic namesakes for five men who governed the same state twice —
+suffixed `92`: `audu92` (Kogi), `osoba92` (Ogun), `nyame92` (Taraba),
+`adeleke92` (Osun), `bukarabbaibrahim92` (Yobe). `lafiagi` is the real Shaaba
+Lafiagi (Kwara 1992–93), distinct from the Kwara APP governor-elect of 1999.
+
+Other keys: `onu` Abia, `michika` Adamawa, `isemin` Akwa Ibom, `ezeife` Anambra,
+`dahirumohammed` Bauchi, `adasu` Benue, `mainalawan` Borno, `ebri` Cross River,
+`ibru` Delta, `oyegun` Edo, `nwodo` Enugu, `enwerem` Imo, `birninkudu` Jigawa,
+`lere` Kaduna, `gaya` Kano, `barda` Katsina, `abubakarmusa` Kebbi, `otedola`
+Lagos, `musainuwa` Niger, `olumilua` Ondo, `ishola` Oyo, `tapgun` Plateau,
+`adageorge` Rivers, `abdulkarim` Sokoto.
+
+Every term ends at the same point: removed on 17 November 1993 when the Abacha
+coup dissolved all elected governments. The 11 states created on 27 August 1991
+(Abia, Adamawa, Delta, Edo, Enugu, Jigawa, Kebbi, Kogi, Osun, Taraba, Yobe) get
+an `inherited` entry on building a state from nothing in under two years; the
+rest get one on governing inside the collapsing Babangida transition. Files with
+a thin public record carry a stated "not available in the summary record" note
+rather than invented detail.
+
+Every `source` URL verified to resolve. Combined pre-1999 total: **11 federal +
+49 state = 60 new administrations.** Dataset total: **211** (16 federal, 195
+state).
+
 ## Not yet done
 
-- **Governors before 1999** — Second Republic (1979–83) and military-era state
-  administrators. A parallel to the Obasanjo-era governor build-out, if
-  state-level pre-1999 coverage is wanted.
 - Deeper `ministers` sections on the pre-1999 files (currently empty).
+- Military-appointed state administrators — deliberately out of scope.
