@@ -759,11 +759,13 @@ const filteredBills = computed(() => {
 
     <header class="pt-header">
       <div class="pt-header-brand">
-        <div class="pt-crest" aria-hidden="true">NG</div>
-        <div>
-          <div class="pt-eyebrow">Civic Accountability · Nigeria</div>
-          <h1 class="pt-headline">NGScorecard</h1>
-        </div>
+        <a href="/" class="pt-header-home" aria-label="NGScorecard — home">
+          <div class="pt-crest" aria-hidden="true">NG</div>
+          <div>
+            <div class="pt-eyebrow">Civic Accountability · Nigeria</div>
+            <h1 class="pt-headline">NGScorecard</h1>
+          </div>
+        </a>
         <div class="pt-header-links">
           <a href="/guide" class="pt-header-docs-link">Guide</a>
           <a href="/developers" class="pt-header-docs-link">Developers</a>
@@ -785,18 +787,14 @@ const filteredBills = computed(() => {
             </div>
           </template>
         </div>
-        <div v-if="!notFound" class="pt-admin-summary">
-          <span>{{ currentAdmin.title || currentAdmin.name }}</span>
-          <strong>{{ currentAdmin.term }}</strong>
-          <template v-if="formerGovernorsForState.length">
-            <span class="pt-prev-gov-label">Previously:</span>
-            <button
-              v-for="g in formerGovernorsForState"
-              :key="g.key"
-              class="pt-prev-gov-link"
-              @click="activeAdmin = g.key"
-            >{{ g.name }} ({{ g.term }})</button>
-          </template>
+        <div v-if="!notFound && formerGovernorsForState.length" class="pt-admin-summary">
+          <span class="pt-prev-gov-label">Previously in {{ currentAdmin.state }}:</span>
+          <button
+            v-for="g in formerGovernorsForState"
+            :key="g.key"
+            class="pt-prev-gov-link"
+            @click="activeAdmin = g.key"
+          >{{ g.name }} ({{ g.term }})</button>
         </div>
         <div v-if="viewMode === 'single' && !notFound" class="pt-view-actions">
           <button class="pt-compare-btn" @click="enterCompareMode">Compare ⇄</button>
@@ -817,7 +815,19 @@ const filteredBills = computed(() => {
         <div class="pt-picker-bar">
           <div :class="['pt-picker-field', { open: pickerOpen }]">
             <span class="pt-picker-mag" aria-hidden="true">⌕</span>
+            <button
+              v-show="!pickerOpen"
+              type="button"
+              class="pt-picker-trigger"
+              :aria-label="`Change administration — currently ${currentAdmin.title || currentAdmin.name}`"
+              @click="openPicker"
+            >
+              <span class="pt-picker-trigger-label">Viewing</span>
+              <span class="pt-picker-trigger-name">{{ currentAdmin.title || currentAdmin.name }}</span>
+              <span class="pt-picker-trigger-meta">{{ isStateLevel ? `${currentAdmin.state} State` : 'Federal' }} · {{ currentAdmin.term }}</span>
+            </button>
             <input
+              v-show="pickerOpen"
               ref="adminFinderInput"
               v-model="adminFinderQuery"
               type="text"
