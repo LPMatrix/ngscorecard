@@ -15,7 +15,9 @@
     "db:seed": "node --env-file=.env server/seed.js",
     "db:seed:reset": "node --env-file=.env server/seed.js --reset",
     "db:studio": "drizzle-kit studio",
-    "export:dataset": "node --env-file=.env scripts/export-dataset.mjs"
+    "export:dataset": "node --env-file=.env scripts/export-dataset.mjs",
+    "sitemap": "node --env-file=.env scripts/generate-sitemap.mjs",
+    "guide:check": "node scripts/check-guide-translations.mjs"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
