@@ -11,7 +11,7 @@ const SITE_ORIGIN = 'https://ngscorecard.com'
 // note) so every filtered/deep-linked view still declares the same
 // canonical as its plain tab page.
 function canonicalPath(admin, tab) {
-  if (admin === 'tinubu' && tab === 'promises') return '/'
+  if (!admin) return '/' // the neutral landing page
   return tab === 'promises' ? `/${admin}` : `/${admin}/${tab}`
 }
 

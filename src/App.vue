@@ -5,6 +5,7 @@ import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
 import GovernorsView   from './components/GovernorsView.vue'
 import CompareView     from './components/CompareView.vue'
+import LandingView     from './components/LandingView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
 import { downloadScorecard } from './lib/scorecardImage.js'
 
@@ -31,7 +32,10 @@ const headerMenuOpen = ref(false) // mobile-only hamburger for Developers/Press 
 
 const notFound = ref(initial?.notFound ?? false)
 const requestedAdmin = ref(initial?.requestedAdmin ?? null)
-const activeAdmin = ref(initial?.admin ?? 'tinubu')
+// Bare "/" is the neutral landing page: no administration is selected until
+// the reader picks one. Everywhere else, an admin is always active.
+const isLanding = ref(initial?.landing === true)
+const activeAdmin = ref(isLanding.value ? null : (initial?.admin ?? 'tinubu'))
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
 
@@ -99,6 +103,7 @@ const adminFinderResults = computed(() => {
 
 function selectAdminFromFinder(admin) {
   adminNavMode.value = admin.level === 'state' ? 'state' : 'federal'
+  isLanding.value = false
   activeAdmin.value = admin.key
   adminFinderQuery.value = ''
   pushRecent(admin.key)
@@ -109,6 +114,16 @@ function selectAdminFromFinder(admin) {
 
 function submitAdminFinder() {
   if (adminFinderResults.value.length) selectAdminFromFinder(adminFinderResults.value[0])
+}
+
+// Leaving the landing page for a specific administration. The activeAdmin
+// watcher loads that admin's data and syncs the URL; if it somehow already
+// holds this key, load explicitly so the (empty) landing payload is replaced.
+function goToAdminFromLanding(key) {
+  isLanding.value = false
+  if (activeAdmin.value === key) { loadData(key); syncUrl() }
+  else activeAdmin.value = key
+  if (typeof window !== 'undefined') window.scrollTo(0, 0)
 }
 
 // ── Command-bar picker ────────────────────────────────
@@ -374,6 +389,8 @@ function mapPresident(p) {
     name:     p.name,
     title:    p.fullName,
     term:     p.term,
+    party:    p.party,
+    termStart: p.termStart,
     tagline:  p.tagline,
     reviewed: p.reviewed,
     level:    p.level,
@@ -410,12 +427,12 @@ function switchTab(tab) {
 // filtered view is shareable, bookmarkable, and — since admin/tab are read
 // server-side too — crawlable. `id` is managed separately by setExpanded().
 
-// Only bare tinubu+promises (the homepage default) elides to '/' — every
-// other admin/tab combination, tinubu included, gets its own explicit path
-// segment(s). Mirrors server/render.js's canonicalPath() exactly, since
-// that's what the SSR layer will declare as canonical for this same view.
+// "/" is the neutral landing page; every administration — Tinubu included —
+// gets its own explicit path segment(s). Mirrors server/render.js's
+// canonicalPath() exactly, since that's what the SSR layer declares as
+// canonical for this same view.
 function adminPath(admin, tab) {
-  if (admin === 'tinubu' && tab === 'promises') return '/'
+  if (!admin) return '/'
   return tab === 'promises' ? `/${admin}` : `/${admin}/${tab}`
 }
 
@@ -796,7 +813,7 @@ const filteredBills = computed(() => {
             @click="activeAdmin = g.key"
           >{{ g.name }} ({{ g.term }})</button>
         </div>
-        <div v-if="viewMode === 'single' && !notFound" class="pt-view-actions">
+        <div v-if="viewMode === 'single' && !notFound && !isLanding" class="pt-view-actions">
           <button class="pt-compare-btn" @click="enterCompareMode">Compare ⇄</button>
           <button
             class="pt-viewlink-btn"
@@ -819,12 +836,18 @@ const filteredBills = computed(() => {
               v-show="!pickerOpen"
               type="button"
               class="pt-picker-trigger"
-              :aria-label="`Change administration — currently ${currentAdmin.title || currentAdmin.name}`"
+              :aria-label="isLanding ? 'Find an administration' : `Change administration — currently ${currentAdmin.title || currentAdmin.name}`"
               @click="openPicker"
             >
-              <span class="pt-picker-trigger-label">Viewing</span>
-              <span class="pt-picker-trigger-name">{{ currentAdmin.title || currentAdmin.name }}</span>
-              <span class="pt-picker-trigger-meta">{{ isStateLevel ? `${currentAdmin.state} State` : 'Federal' }} · {{ currentAdmin.term }}</span>
+              <template v-if="isLanding">
+                <span class="pt-picker-trigger-name">Find an administration</span>
+                <span class="pt-picker-trigger-meta">{{ ADMINISTRATIONS.length }} tracked · federal &amp; state · 1960–present</span>
+              </template>
+              <template v-else>
+                <span class="pt-picker-trigger-label">Viewing</span>
+                <span class="pt-picker-trigger-name">{{ currentAdmin.title || currentAdmin.name }}</span>
+                <span class="pt-picker-trigger-meta">{{ isStateLevel ? `${currentAdmin.state} State` : 'Federal' }} · {{ currentAdmin.term }}</span>
+              </template>
             </button>
             <input
               v-show="pickerOpen"
@@ -920,7 +943,7 @@ const filteredBills = computed(() => {
         </template>
       </div>
       <!-- Mobile-only section nav -->
-      <select v-if="viewMode === 'single' && !notFound" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
+      <select v-if="viewMode === 'single' && !notFound && !isLanding" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup label="Government">
           <option value="promises">Promises</option>
           <option value="ministers">{{ ministerLabel }}</option>
@@ -988,6 +1011,14 @@ const filteredBills = computed(() => {
       :initialB="compareInitial.b"
       :initialTab="compareInitial.tab"
       @exit="exitCompareMode"
+    />
+
+    <!-- ── Neutral landing page (bare "/") ── -->
+    <LandingView
+      v-else-if="isLanding"
+      :administrations="ADMINISTRATIONS"
+      @select="goToAdminFromLanding"
+      @open-picker="openPicker"
     />
 
     <!-- ── Body: sidebar + content ── -->

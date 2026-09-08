@@ -38,7 +38,7 @@ function buildMeta(admin, deepItem, notFound) {
   if (!admin) {
     return {
       title: 'NGScorecard — Nigeria Government Accountability Tracker',
-      description: 'Independent tracker for Nigerian presidential administrations — campaign promises, fraud cases, executive orders, ministerial performance, budgets, and legislation, covering Tinubu, Buhari, Jonathan, Yar’Adua, and Obasanjo since 1999.',
+      description: 'Independent, non-partisan tracker of Nigerian governments — campaign promises, fraud cases, executive orders, ministerial performance, budgets and court judgments. Every federal administration since 1960 and elected state governors back to 1979, every claim sourced.',
     }
   }
   if (admin.level === 'state') {
@@ -56,11 +56,35 @@ function buildMeta(admin, deepItem, notFound) {
 export async function render({ admin, tab, id } = {}) {
   const presidents = await getPresidents()
 
-  // `admin` is null on the bare homepage (default to Tinubu) but a
-  // non-matching *non-null* value means the path segment itself is bogus
-  // (e.g. /nosuchperson) — that's a real 404, not a silent fallback.
+  const projectedPresidents = presidents.map(p => ({
+    key: p.key, name: p.name, title: p.fullName, term: p.term,
+    party: p.party, termStart: p.termStart, termEnd: p.termEnd,
+    tagline: p.tagline, reviewed: p.reviewed, level: p.level, state: p.state,
+    isCurrent: p.isCurrent !== false,
+  }))
+
+  // Bare "/" (admin === null) is the neutral landing page — no administration
+  // selected, no per-admin data loaded, generic site meta. A non-null admin
+  // that matches nothing (e.g. /nosuchperson) is a real 404, handled below.
+  if (admin == null) {
+    const initialData = {
+      landing: true,
+      admin: null,
+      tab: 'promises',
+      notFound: false,
+      requestedAdmin: null,
+      expandedId: null,
+      presidents: projectedPresidents,
+      data: {},
+    }
+    const app = createSSRApp(App)
+    app.provide('initialData', initialData)
+    const html = await renderToString(app)
+    return { html, initialData, meta: buildMeta(null, null, false), notFound: false }
+  }
+
   const adminKnown = presidents.some(p => p.key === admin)
-  const notFound = admin != null && !adminKnown
+  const notFound = !adminKnown
   const resolvedAdmin = adminKnown ? admin : 'tinubu'
   const adminRecord = presidents.find(p => p.key === resolvedAdmin)
 
@@ -75,11 +99,7 @@ export async function render({ admin, tab, id } = {}) {
     notFound,
     requestedAdmin: notFound ? admin : null,
     expandedId: Number.isFinite(id) ? id : null,
-    presidents: presidents.map(p => ({
-      key: p.key, name: p.name, title: p.fullName, term: p.term,
-      tagline: p.tagline, reviewed: p.reviewed, level: p.level, state: p.state,
-      isCurrent: p.isCurrent !== false,
-    })),
+    presidents: projectedPresidents,
     data,
   }
 
