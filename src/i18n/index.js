@@ -18,16 +18,33 @@ import pcm from './pcm.js'
 
 // Ordered for the language switcher. `name` is the endonym shown in the UI;
 // `htmlLang` is the BCP-47 tag for <html lang> and hreflang.
+//
+// Two independent gates:
+//   `ready`   — SEO exposure. A locale's routes are always reachable (not
+//               404), but are NOT advertised in the sitemap or hreflang
+//               cluster until `ready`. Flip on only after native review.
+//   `preview` — shows the locale in the in-header language switcher so
+//               readers can opt into an unreviewed machine draft. Google is
+//               still not told about it. A `ready` locale is switchable too.
 export const LOCALES = [
-  { code: 'en',  name: 'English', htmlLang: 'en' },
-  { code: 'ha',  name: 'Hausa',   htmlLang: 'ha' },
-  { code: 'yo',  name: 'Yorùbá',  htmlLang: 'yo' },
-  { code: 'ig',  name: 'Igbo',    htmlLang: 'ig' },
-  { code: 'pcm', name: 'Naijá',   htmlLang: 'pcm' },
+  { code: 'en',  name: 'English', htmlLang: 'en',  ready: true },
+  { code: 'ha',  name: 'Hausa',   htmlLang: 'ha',  ready: false, preview: true },
+  { code: 'yo',  name: 'Yorùbá',  htmlLang: 'yo',  ready: false },
+  { code: 'ig',  name: 'Igbo',    htmlLang: 'ig',  ready: false },
+  { code: 'pcm', name: 'Naijá',   htmlLang: 'pcm', ready: false },
 ]
 
 export const DEFAULT_LOCALE = 'en'
 export const LOCALE_CODES = LOCALES.map(l => l.code)
+export const READY_LOCALES = LOCALES.filter(l => l.ready)
+export const READY_LOCALE_CODES = READY_LOCALES.map(l => l.code)
+// Offered in the language switcher: fully-ready locales plus preview drafts.
+export const SWITCHABLE_LOCALES = LOCALES.filter(l => l.ready || l.preview)
+// A locale a reader can switch to but that isn't natively reviewed yet.
+export const PREVIEW_LOCALE_CODES = LOCALES.filter(l => l.preview && !l.ready).map(l => l.code)
+export function isPreviewLocale(code) {
+  return PREVIEW_LOCALE_CODES.includes(code)
+}
 
 const MESSAGES = { en, ha, yo, ig, pcm }
 

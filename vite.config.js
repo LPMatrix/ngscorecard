@@ -14,8 +14,12 @@ export default defineConfig(({ isSsrBuild }) => ({
       // linked in index.html) instead of having the plugin generate one.
       manifest: false,
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest}'],
-        navigateFallbackDenylist: [/^\/api\//],
+        // Asset cache only — no HTML is precached and there is NO navigation
+        // fallback: every navigation goes to the server so visitors always
+        // get fresh SSR HTML (title/meta/canonical), never a stale shell.
+        globPatterns: ['**/*.{js,css,svg,png,ico,webmanifest}'],
+        globIgnores: ['**/index.html', '**/ssr-template.html'],
+        navigateFallback: null,
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/api/'),

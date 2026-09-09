@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "buildCommand": "npm run build && cp dist/client/index.html dist/ssr-template.html",
+  "buildCommand": "npm run build && mv dist/client/index.html dist/ssr-template.html",
   "outputDirectory": "dist/client",
   "functions": {
     "api/ssr.js": { "includeFiles": "dist/**" }

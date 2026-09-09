@@ -136,7 +136,7 @@ export async function render({ route, id } = {}) {
       : null
     const meta = buildMeta(t, adminRecord, deepItem, notFound)
     const canonical = notFound ? (route.path || '/') : routePath('scorecard', { admin: resolvedAdmin, tab: resolvedTab })
-    return { html, initialData, meta, notFound, canonical }
+    return { html, initialData, meta, notFound, canonical, reviewed: notFound ? null : (adminRecord?.reviewed ?? null) }
   }
 
   // ── Anything else — a genuine 404 ────────────────────────────────────

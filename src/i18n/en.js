@@ -412,4 +412,7 @@ export default {
   'themes.footPrefix': 'Each entry is one rated promise — follow it to that administration’s full scorecard. Ratings use the four verdicts defined in the ',
   'themes.footMethodology': 'methodology',
   'themes.footSuffix': '.',
+
+  // ── i18n / language switcher ──────────────────────────────────────
+  'i18n.previewNote': 'This translation is an unreviewed early draft. Some text is still in English, and wording may be rough. Switch back to English for the definitive version.',
 }

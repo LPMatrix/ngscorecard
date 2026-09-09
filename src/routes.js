@@ -91,6 +91,16 @@ export function withLocale(rest, locale) {
   return `/${locale}${rest === '/' ? '' : rest}`
 }
 
+// Re-point a full pathname at a different locale, keeping the rest of the
+// path intact. Used by the in-header language switcher.
+//   swapLocale("/tinubu/orders", "ha")  → "/ha/tinubu/orders"
+//   swapLocale("/ha/tinubu", "en")      → "/tinubu"
+//   swapLocale("/ha/guide", "yo")       → "/yo/guide"
+export function swapLocale(pathname, newLocale) {
+  const { rest } = stripLocale(pathname)
+  return withLocale(rest, newLocale)
+}
+
 // The file to serve for a static-page route, honoring locale where the page
 // has translations. Returns null for an unknown page.
 export function staticFileFor(page, locale = DEFAULT_LOCALE) {

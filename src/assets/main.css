@@ -154,6 +154,23 @@ a:focus-visible {
 }
 .pt-header-menu-link:hover { background: var(--pt-green-050); color: var(--pt-green-700); }
 .pt-header-menu-link + .pt-header-menu-link { border-top: 1px solid var(--pt-line); }
+.pt-header-menu-lang {
+  padding: 10px 14px;
+  border-top: 1px solid var(--pt-line);
+}
+
+/* Draft-locale notice — the reader opted into an unreviewed machine
+   translation (see PREVIEW_LOCALE_CODES / LangSwitcher.vue). */
+.pt-draft-note {
+  padding: 8px 24px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--pt-gold-700);
+  background: var(--pt-gold-100);
+  border-bottom: 1px solid var(--pt-line);
+  text-align: center;
+}
 
 .pt-crest {
   display: grid;
@@ -235,6 +252,7 @@ a:focus-visible {
   align-items: center;
   gap: 8px;
   flex: 1 1 320px;
+  min-width: 0;
   max-width: 520px;
   padding: 9px 12px;
   border: 1.5px solid var(--pt-line-strong);
@@ -293,7 +311,10 @@ a:focus-visible {
   color: var(--pt-text);
 }
 .pt-picker-trigger-meta {
-  flex: none;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 11.5px;
   color: var(--pt-text-faint);
   font-variant-numeric: tabular-nums;

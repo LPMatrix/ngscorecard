@@ -10,7 +10,13 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 const CLIENT_DIR = path.join(__dirname, '../dist/client')
-const template = readFileSync(path.join(CLIENT_DIR, 'index.html'), 'utf-8')
+// The build moves index.html out of the static dir (dist/ssr-template.html)
+// so "/" is served by SSR, not as a raw shell; fall back to dist/client for a
+// plain `vite build` that didn't run that step.
+const template = [
+  path.join(__dirname, '../dist/ssr-template.html'),
+  path.join(CLIENT_DIR, 'index.html'),
+].map((p) => { try { return readFileSync(p, 'utf-8') } catch { return null } }).find(Boolean)
 const loadEntryServer = () => import('../dist/server/entry-server.js')
 
 // Same API app used by the Vercel serverless entrypoint (api/index.js) — see

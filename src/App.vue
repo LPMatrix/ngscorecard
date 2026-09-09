@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch, inject, provide, nextTick } from 'vue'
-import { createT, localizePath } from './i18n/index.js'
+import { createT, localizePath, isPreviewLocale } from './i18n/index.js'
 import { matchRoute, buildPath } from './routes.js'
 import { canonicalizeCategory } from './i18n/categories.js'
 import PromiseCard  from './components/PromiseCard.vue'
@@ -11,6 +11,7 @@ import CompareView     from './components/CompareView.vue'
 import LandingView     from './components/LandingView.vue'
 import ThemesView      from './components/ThemesView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
+import LangSwitcher    from './components/LangSwitcher.vue'
 import { downloadScorecard } from './lib/scorecardImage.js'
 
 // Populated server-side (entry-server.js) or client-side from
@@ -27,6 +28,9 @@ const lp = (path) => localizePath(path, locale.value)
 provide('t', t)
 provide('lp', lp)
 provide('locale', locale.value)
+// True when the reader has opted into a machine-drafted, not-yet-reviewed
+// locale (see PREVIEW_LOCALE_CODES) — drives the draft-quality notice strip.
+const isDraftLocale = isPreviewLocale(locale.value)
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
@@ -123,6 +127,7 @@ const adminFinderResults = computed(() => {
 function selectAdminFromFinder(admin) {
   adminNavMode.value = admin.level === 'state' ? 'state' : 'federal'
   isLanding.value = false
+  isThemes.value = false
   activeAdmin.value = admin.key
   adminFinderQuery.value = ''
   pushRecent(admin.key)
@@ -140,6 +145,7 @@ function submitAdminFinder() {
 // holds this key, load explicitly so the (empty) landing payload is replaced.
 function goToAdminFromLanding(key) {
   isLanding.value = false
+  isThemes.value = false
   if (activeAdmin.value === key) { loadData(key); syncUrl() }
   else activeAdmin.value = key
   if (typeof window !== 'undefined') window.scrollTo(0, 0)
@@ -473,7 +479,9 @@ function adminPath(admin, tab) {
 }
 
 function syncUrl() {
-  if (viewMode.value === 'compare') return
+  // Landing / themes / compare are SSR-canonical views with fixed URLs and no
+  // client-synced filters — never let a stray watcher rewrite their address.
+  if (viewMode.value === 'compare' || isLanding.value || isThemes.value) return
   const url = new URL(window.location)
   url.pathname = adminPath(activeAdmin.value, activeTab.value)
   const setOrDrop = (key, value, dflt) => {
@@ -823,6 +831,7 @@ const filteredBills = computed(() => {
           <a href="/guide" class="pt-header-docs-link">{{ t('header.guide') }}</a>
           <a href="/developers" class="pt-header-docs-link">{{ t('header.developers') }}</a>
           <a href="/press" class="pt-header-docs-link">{{ t('header.press') }}</a>
+          <LangSwitcher />
         </div>
         <div class="pt-header-menu">
           <button
@@ -837,6 +846,7 @@ const filteredBills = computed(() => {
               <a href="/guide" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.guide') }}</a>
               <a href="/developers" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.developers') }}</a>
               <a href="/press" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.press') }}</a>
+              <div class="pt-header-menu-lang"><LangSwitcher /></div>
             </div>
           </template>
         </div>
@@ -1001,6 +1011,12 @@ const filteredBills = computed(() => {
         </optgroup>
       </select>
     </header>
+
+    <!-- ── Draft-locale notice: the reader opted into a machine translation
+         that hasn't had a native review yet (see PREVIEW_LOCALE_CODES) ── -->
+    <div v-if="isDraftLocale" class="pt-draft-note" role="note">
+      {{ t('i18n.previewNote') }}
+    </div>
 
     <!-- ── Not found: the URL's admin segment matches no tracked
          administration (see server/entry-server.js's notFound flag) ── -->
