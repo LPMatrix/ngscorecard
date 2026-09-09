@@ -1,5 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+
+const t = inject('t', (k) => k)
 
 const props = defineProps({
   // { entryTable, entryId, title, administration } — or null for a general note.
@@ -8,10 +10,10 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const KINDS = [
-  { v: 'error',          t: 'A rating or fact looks wrong' },
-  { v: 'outdated',       t: "It's out of date" },
-  { v: 'missing_source', t: 'The source is missing, broken, or weak' },
-  { v: 'other',          t: 'Something else' },
+  { v: 'error',          k: 'correction.kind.error' },
+  { v: 'outdated',       k: 'correction.kind.outdated' },
+  { v: 'missing_source', k: 'correction.kind.missing_source' },
+  { v: 'other',          k: 'correction.kind.other' },
 ]
 
 const kind = ref('error')
@@ -27,7 +29,7 @@ const errorMsg = ref('')
 async function submit() {
   if (body.value.trim().length < 15) {
     state.value = 'error'
-    errorMsg.value = 'Please describe the problem in a sentence or two.'
+    errorMsg.value = t('correction.errShort')
     return
   }
   state.value = 'sending'
@@ -51,47 +53,47 @@ async function submit() {
     if (!res.ok) {
       const j = await res.json().catch(() => ({}))
       state.value = 'error'
-      errorMsg.value = j.error || 'Could not submit. Please try again shortly.'
+      errorMsg.value = j.error || t('correction.errSubmit')
       return
     }
     state.value = 'done'
   } catch {
     state.value = 'error'
-    errorMsg.value = 'Could not submit — check your connection and try again.'
+    errorMsg.value = t('correction.errConnection')
   }
 }
 </script>
 
 <template>
   <div class="cf">
-    <h3 class="cf-title">Suggest a correction</h3>
+    <h3 class="cf-title">{{ t('correction.title') }}</h3>
     <p class="cf-context">
-      <template v-if="context?.title">About: <strong>{{ context.title }}</strong></template>
-      <template v-else>A general correction, or something missing.</template>
+      <template v-if="context?.title">{{ t('correction.aboutPrefix') }}<strong>{{ context.title }}</strong></template>
+      <template v-else>{{ t('correction.general') }}</template>
     </p>
 
     <template v-if="state === 'done'">
-      <p class="cf-done">Thank you — this has gone to the moderation queue. Every submission is read; it isn't published, it's checked.</p>
+      <p class="cf-done">{{ t('correction.done') }}</p>
       <div class="cf-actions">
-        <button type="button" class="cf-btn" @click="emit('close')">Close</button>
+        <button type="button" class="cf-btn" @click="emit('close')">{{ t('correction.close') }}</button>
       </div>
     </template>
 
     <form v-else @submit.prevent="submit">
-      <label class="cf-label">What's the issue?</label>
+      <label class="cf-label">{{ t('correction.whatIssue') }}</label>
       <select v-model="kind" class="cf-input">
-        <option v-for="k in KINDS" :key="k.v" :value="k.v">{{ k.t }}</option>
+        <option v-for="opt in KINDS" :key="opt.v" :value="opt.v">{{ t(opt.k) }}</option>
       </select>
 
-      <label class="cf-label">Details <span class="cf-req">*</span></label>
+      <label class="cf-label">{{ t('correction.details') }} <span class="cf-req">*</span></label>
       <textarea v-model="body" class="cf-input cf-textarea" rows="4"
-        placeholder="What's wrong, and what should it say instead?"></textarea>
+        :placeholder="t('correction.detailsPlaceholder')"></textarea>
 
-      <label class="cf-label">Supporting link (optional)</label>
-      <input v-model="sourceUrl" type="url" class="cf-input" placeholder="https://…" />
+      <label class="cf-label">{{ t('correction.supportingLink') }}</label>
+      <input v-model="sourceUrl" type="url" class="cf-input" :placeholder="t('correction.linkPlaceholder')" />
 
-      <label class="cf-label">Your email (optional — only if you want a reply)</label>
-      <input v-model="email" type="email" class="cf-input" placeholder="you@example.com" />
+      <label class="cf-label">{{ t('correction.yourEmail') }}</label>
+      <input v-model="email" type="email" class="cf-input" :placeholder="t('correction.emailPlaceholder')" />
 
       <div class="cf-hp" aria-hidden="true">
         <label>Company<input v-model="company" type="text" tabindex="-1" autocomplete="off" /></label>
@@ -100,12 +102,12 @@ async function submit() {
       <p v-if="state === 'error'" class="cf-error">{{ errorMsg }}</p>
 
       <div class="cf-actions">
-        <button type="button" class="cf-btn cf-btn-ghost" @click="emit('close')">Cancel</button>
+        <button type="button" class="cf-btn cf-btn-ghost" @click="emit('close')">{{ t('correction.cancel') }}</button>
         <button type="submit" class="cf-btn" :disabled="state === 'sending'">
-          {{ state === 'sending' ? 'Sending…' : 'Send' }}
+          {{ state === 'sending' ? t('correction.sending') : t('correction.send') }}
         </button>
       </div>
-      <p class="cf-note">Prefer email? <a href="mailto:mubaraqsanusi908@gmail.com">mubaraqsanusi908@gmail.com</a></p>
+      <p class="cf-note">{{ t('correction.preferEmail') }} <a href="mailto:mubaraqsanusi908@gmail.com">mubaraqsanusi908@gmail.com</a></p>
     </form>
   </div>
 </template>

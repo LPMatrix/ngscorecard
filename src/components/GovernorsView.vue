@@ -1,5 +1,8 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, inject } from 'vue'
+
+const t = inject('t', (k) => k)
+const zoneLabel = (z) => t(`zone.${z}`)
 
 const props = defineProps({
   governors: { type: Array, required: true },
@@ -23,10 +26,10 @@ const PARTY_COLORS = {
 }
 
 const STATUS_META = {
-  serving:   { label: 'Serving',   cls: 'gov-status-serving'   },
-  completed: { label: 'Completed', cls: 'gov-status-completed' },
-  deceased:  { label: 'Deceased',  cls: 'gov-status-deceased'  },
-  removed:   { label: 'Removed',   cls: 'gov-status-removed'   },
+  serving:   { label: () => t('status.serving'),   cls: 'gov-status-serving'   },
+  completed: { label: () => t('status.completed'), cls: 'gov-status-completed' },
+  deceased:  { label: () => t('status.deceased'),  cls: 'gov-status-deceased'  },
+  removed:   { label: () => t('status.removed'),   cls: 'gov-status-removed'   },
 }
 
 const searchQuery  = ref('')
@@ -101,7 +104,7 @@ function termLabel(g) {
   <div class="pt-stats">
     <div class="pt-stat">
       <div class="pt-stat-value total">{{ stats.total }}</div>
-      <div class="pt-stat-label">Governor records</div>
+      <div class="pt-stat-label">{{ t('stats.governorRecords') }}</div>
     </div>
     <div v-for="(count, party) in stats.byParty" :key="party" class="pt-stat">
       <div class="pt-stat-value" :style="{ color: (PARTY_COLORS[party] || {}).text || 'var(--pt-text-muted)' }">
@@ -111,15 +114,15 @@ function termLabel(g) {
     </div>
     <div v-if="stats.serving" class="pt-stat">
       <div class="pt-stat-value kept">{{ stats.serving }}</div>
-      <div class="pt-stat-label">Still serving</div>
+      <div class="pt-stat-label">{{ t('stats.stillServing') }}</div>
     </div>
     <div v-if="stats.deceased" class="pt-stat">
       <div class="pt-stat-value" style="color:var(--pt-text-muted)">{{ stats.deceased }}</div>
-      <div class="pt-stat-label">Deceased</div>
+      <div class="pt-stat-label">{{ t('stats.deceased') }}</div>
     </div>
     <div v-if="stats.removed" class="pt-stat">
       <div class="pt-stat-value broken">{{ stats.removed }}</div>
-      <div class="pt-stat-label">Removed</div>
+      <div class="pt-stat-label">{{ t('stats.removed') }}</div>
     </div>
   </div>
 
@@ -129,25 +132,25 @@ function termLabel(g) {
       v-model="searchQuery"
       type="text"
       class="pt-search"
-      placeholder="Search by name or state…"
+      :placeholder="t('search.nameOrState')"
     />
 
     <div class="gov-filter-row">
-      <span class="gov-filter-label">Zone</span>
+      <span class="gov-filter-label">{{ t('filter.zone') }}</span>
       <div class="pt-filter-group">
-        <button :class="['pt-filter-btn', { active: activeZone === 'all' }]"   @click="activeZone = 'all'">All</button>
+        <button :class="['pt-filter-btn', { active: activeZone === 'all' }]"   @click="activeZone = 'all'">{{ t('status.all') }}</button>
         <button
           v-for="z in ZONES" :key="z"
           :class="['pt-filter-btn', { active: activeZone === z }]"
           @click="activeZone = z"
-        >{{ z.replace('South-', 'S-').replace('North-', 'N-') }}</button>
+        >{{ zoneLabel(z).replace('South-', 'S-').replace('North-', 'N-') }}</button>
       </div>
     </div>
 
     <div class="gov-filter-row">
-      <span class="gov-filter-label">Party</span>
+      <span class="gov-filter-label">{{ t('filter.party') }}</span>
       <div class="pt-filter-group">
-        <button :class="['pt-filter-btn', { active: activeParty === 'all' }]"  @click="activeParty = 'all'">All</button>
+        <button :class="['pt-filter-btn', { active: activeParty === 'all' }]"  @click="activeParty = 'all'">{{ t('status.all') }}</button>
         <button
           v-for="p in parties" :key="p"
           :class="['pt-filter-btn', { active: activeParty === p }]"
@@ -157,24 +160,24 @@ function termLabel(g) {
     </div>
 
     <div class="gov-filter-row">
-      <span class="gov-filter-label">Status</span>
+      <span class="gov-filter-label">{{ t('filter.status') }}</span>
       <div class="pt-filter-group">
-        <button :class="['pt-filter-btn', { active: activeStatus === 'all' }]"       @click="activeStatus = 'all'">All</button>
-        <button :class="['pt-filter-btn', { active: activeStatus === 'serving' }]"   @click="activeStatus = 'serving'">Serving</button>
-        <button :class="['pt-filter-btn', { active: activeStatus === 'completed' }]" @click="activeStatus = 'completed'">Completed</button>
-        <button :class="['pt-filter-btn', { active: activeStatus === 'deceased' }]"  @click="activeStatus = 'deceased'">Deceased</button>
-        <button :class="['pt-filter-btn', { active: activeStatus === 'removed' }]"   @click="activeStatus = 'removed'">Removed</button>
+        <button :class="['pt-filter-btn', { active: activeStatus === 'all' }]"       @click="activeStatus = 'all'">{{ t('status.all') }}</button>
+        <button :class="['pt-filter-btn', { active: activeStatus === 'serving' }]"   @click="activeStatus = 'serving'">{{ t('status.serving') }}</button>
+        <button :class="['pt-filter-btn', { active: activeStatus === 'completed' }]" @click="activeStatus = 'completed'">{{ t('status.completed') }}</button>
+        <button :class="['pt-filter-btn', { active: activeStatus === 'deceased' }]"  @click="activeStatus = 'deceased'">{{ t('status.deceased') }}</button>
+        <button :class="['pt-filter-btn', { active: activeStatus === 'removed' }]"   @click="activeStatus = 'removed'">{{ t('status.removed') }}</button>
       </div>
     </div>
   </div>
 
   <!-- ── Zones ── -->
-  <div v-if="!Object.keys(grouped).length" class="pt-empty">No governors match your filters.</div>
+  <div v-if="!Object.keys(grouped).length" class="pt-empty">{{ t('empty.governors') }}</div>
 
   <div v-for="(states, zone) in grouped" :key="zone" class="gov-zone">
     <div class="gov-zone-header">
-      <span class="gov-zone-name">{{ zone }}</span>
-      <span class="gov-zone-count">{{ states.length }} states</span>
+      <span class="gov-zone-name">{{ zoneLabel(zone) }}</span>
+      <span class="gov-zone-count">{{ t('stats.nStates', { n: states.length }) }}</span>
     </div>
 
     <div class="gov-state-grid">
@@ -196,7 +199,7 @@ function termLabel(g) {
                 <span class="gov-party-badge" :style="partyStyle(g.party)">{{ g.party }}</span>
                 <span class="gov-term">{{ termLabel(g) }}</span>
                 <span :class="['gov-status-dot', STATUS_META[g.status]?.cls]"
-                      :title="STATUS_META[g.status]?.label"></span>
+                      :title="STATUS_META[g.status] ? STATUS_META[g.status].label() : ''"></span>
               </div>
               <div v-if="g.note" class="gov-note">{{ g.note }}</div>
             </div>

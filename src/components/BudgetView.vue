@@ -1,5 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, inject } from 'vue'
+
+const t = inject('t', (k) => k)
 
 const props = defineProps({
   budgets: { type: Array, required: true },
@@ -33,8 +35,8 @@ function barClass(pct) {
 }
 
 function releaseLabel(pct) {
-  if (pct == null) return 'Data pending'
-  return pct + '% released'
+  if (pct == null) return t('budget.dataPending')
+  return t('budget.pctReleased', { pct })
 }
 </script>
 
@@ -48,34 +50,34 @@ function releaseLabel(pct) {
         :key="yr"
         :class="['bv-yr-btn', { active: (activeYear ?? years[0]) === yr }]"
         @click="activeYear = yr"
-      >{{ yr }} Budget</button>
+      >{{ t('budget.yearBtn', { year: yr }) }}</button>
     </div>
 
     <!-- Top-line stats -->
     <div class="bv-top-stats">
       <div class="bv-top-stat">
         <div class="bv-top-val">{{ fmt(current.totalBn) }}</div>
-        <div class="bv-top-lbl">Total budget</div>
+        <div class="bv-top-lbl">{{ t('budget.totalBudget') }}</div>
       </div>
       <div class="bv-top-stat">
         <div class="bv-top-val">{{ fmt(current.revenueBn) }}</div>
-        <div class="bv-top-lbl">Revenue projected</div>
+        <div class="bv-top-lbl">{{ t('budget.revenueProjected') }}</div>
       </div>
       <div class="bv-top-stat">
         <div class="bv-top-val">{{ current.actualRevenueBn ? fmt(current.actualRevenueBn) : '—' }}</div>
-        <div class="bv-top-lbl">Revenue actual</div>
+        <div class="bv-top-lbl">{{ t('budget.revenueActual') }}</div>
       </div>
       <div class="bv-top-stat">
         <div class="bv-top-val deficit">{{ fmt(current.deficitBn) }}</div>
-        <div class="bv-top-lbl">Deficit</div>
+        <div class="bv-top-lbl">{{ t('budget.deficit') }}</div>
       </div>
       <div class="bv-top-stat">
         <div class="bv-top-val debt">{{ fmt(current.debtServiceBn) }}</div>
-        <div class="bv-top-lbl">Debt service</div>
+        <div class="bv-top-lbl">{{ t('budget.debtService') }}</div>
       </div>
       <div class="bv-top-stat">
         <div class="bv-top-val">{{ current.implementationPct != null ? current.implementationPct + '%' : '—' }}</div>
-        <div class="bv-top-lbl">Implementation rate</div>
+        <div class="bv-top-lbl">{{ t('budget.implementationRate') }}</div>
       </div>
     </div>
 
@@ -84,8 +86,8 @@ function releaseLabel(pct) {
 
     <!-- Ministry bars -->
     <div class="bv-legend-row">
-      <span class="bv-legend-item"><span class="bv-swatch alloc"></span>Allocation</span>
-      <span class="bv-legend-item"><span class="bv-swatch released"></span>Released</span>
+      <span class="bv-legend-item"><span class="bv-swatch alloc"></span>{{ t('budget.allocation') }}</span>
+      <span class="bv-legend-item"><span class="bv-swatch released"></span>{{ t('budget.released') }}</span>
     </div>
 
     <div class="bv-bars">
@@ -111,7 +113,7 @@ function releaseLabel(pct) {
     </div>
 
     <div class="bv-source">
-      Source: <a :href="current.source" target="_blank" class="pt-source-link">{{ current.sourceLabel }}</a>
+      {{ t('budget.source') }} <a :href="current.source" target="_blank" class="pt-source-link">{{ current.sourceLabel }}</a>
     </div>
   </div>
 </template>

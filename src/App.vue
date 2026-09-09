@@ -1,5 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, watch, inject, nextTick } from 'vue'
+import { ref, computed, onMounted, watch, inject, provide, nextTick } from 'vue'
+import { createT, localizePath, splitLocalePath } from './i18n/index.js'
+import { canonicalizeCategory } from './i18n/categories.js'
 import PromiseCard  from './components/PromiseCard.vue'
 import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
@@ -13,6 +15,17 @@ import { downloadScorecard } from './lib/scorecardImage.js'
 // Populated server-side (entry-server.js) or client-side from
 // window.__INITIAL_STATE__ (entry-client.js) — null in a plain SPA fallback.
 const initial = inject('initialData', null)
+
+// Active UI locale (Phase 1: routing/plumbing only — strings are still English
+// until the Phase 2 extraction sweep). `t` translates; `lp` prefixes an
+// internal path with the locale ("/tinubu" → "/ha/tinubu"). Child components
+// inject `lp` for their own links.
+const locale = ref(initial?.locale ?? 'en')
+const t = inject('t', createT(locale.value))
+const lp = (path) => localizePath(path, locale.value)
+provide('t', t)
+provide('lp', lp)
+provide('locale', locale.value)
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
@@ -71,7 +84,7 @@ const formerGovernorsForState = computed(() => {
     .filter(a => a.level === 'state' && a.isCurrent === false && a.state === currentAdmin.value.state && a.key !== currentAdmin.value.key)
     .sort((a, b) => (b.term || '').localeCompare(a.term || ''))
 })
-const ministerLabel = computed(() => isStateLevel.value ? 'Commissioners' : 'Ministers')
+const ministerLabel = computed(() => isStateLevel.value ? t('tab.commissioners') : t('tab.ministers'))
 
 // Drives which roster the picker panel previews when its search box is empty
 // ('federal' → the presidents, 'state' → sitting governors grouped by zone).
@@ -170,7 +183,7 @@ function pushRecent(key) {
 
 const pickerPlaceholder = computed(() => {
   const n = ADMINISTRATIONS.value.length
-  return n ? `Jump to any of ${n} administrations…` : 'Jump to a president or governor…'
+  return n ? t('picker.placeholder', { n }) : t('picker.placeholderShort')
 })
 
 const pickerGroups = computed(() => {
@@ -178,18 +191,18 @@ const pickerGroups = computed(() => {
     const fed = adminFinderResults.value.filter(a => a.level !== 'state')
     const st  = adminFinderResults.value.filter(a => a.level === 'state')
     const groups = []
-    if (fed.length) groups.push({ label: 'Federal', items: fed })
-    if (st.length)  groups.push({ label: 'State', items: st })
+    if (fed.length) groups.push({ label: t('picker.federal'), items: fed })
+    if (st.length)  groups.push({ label: t('picker.state'), items: st })
     return groups
   }
   if (adminNavMode.value === 'federal' || !stateAdmins.value.length) {
-    return [{ label: 'Federal · Presidents', items: federalAdmins.value }]
+    return [{ label: t('picker.federalPresidents'), items: federalAdmins.value }]
   }
   const byZone = NG_ZONE_ORDER
-    .map(z => ({ label: z, items: stateAdmins.value.filter(a => NG_ZONES[a.state] === z) }))
+    .map(z => ({ label: t('zone.' + z), items: stateAdmins.value.filter(a => NG_ZONES[a.state] === z) }))
     .filter(g => g.items.length)
   const rest = stateAdmins.value.filter(a => !NG_ZONES[a.state])
-  if (rest.length) byZone.push({ label: 'Other', items: rest })
+  if (rest.length) byZone.push({ label: t('zone.Other'), items: rest })
   return byZone
 })
 const visiblePickerOptions = computed(() => pickerGroups.value.flatMap(g => g.items))
@@ -227,13 +240,13 @@ function onPickerKeydown(e) {
 // Reset the keyboard cursor to the first hit whenever the query changes.
 watch(adminFinderQuery, () => { if (pickerOpen.value) pickerCursor.value = 0 })
 
-const STATUSES = [
-  { key: 'all',     label: 'All' },
-  { key: 'kept',    label: 'Kept' },
-  { key: 'partial', label: 'Partial' },
-  { key: 'broken',  label: 'Broken' },
-  { key: 'pending', label: 'In progress' },
-]
+const STATUSES = computed(() => [
+  { key: 'all',     label: t('status.all') },
+  { key: 'kept',    label: t('status.kept') },
+  { key: 'partial', label: t('status.partial') },
+  { key: 'broken',  label: t('status.broken') },
+  { key: 'pending', label: t('status.pending') },
+])
 
 const promises     = ref(initial?.data?.promises ?? [])
 const inherited    = ref(initial?.data?.inherited ?? [])
@@ -337,7 +350,9 @@ onMounted(async () => {
     // Path-based routing (/admin/tab), falling back to the legacy
     // ?admin=&tab= query form for anything that reaches this SPA-only
     // bootstrap (SSR normally handles both — see server/render.js).
-    const [pathAdmin, pathTab] = window.location.pathname.split('/').filter(Boolean)
+    const { locale: pathLocale, rest } = splitLocalePath(window.location.pathname)
+    locale.value = pathLocale
+    const [pathAdmin, pathTab] = rest.split('/').filter(Boolean)
     const admin = pathAdmin || params.get('admin')
     const tab   = pathTab || params.get('tab')
     if (admin && presidents.some(p => p.key === admin)) activeAdmin.value = admin
@@ -369,7 +384,7 @@ function enterCompareMode() {
   compareInitial.value = { a: activeAdmin.value, b: sameLevelOther?.key, tab: 'promises' }
   viewMode.value = 'compare'
   const url = new URL(window.location)
-  url.pathname = '/'
+  url.pathname = lp('/')
   url.searchParams.set('mode', 'compare')
   url.searchParams.set('a', compareInitial.value.a)
   url.searchParams.set('b', compareInitial.value.b)
@@ -437,8 +452,8 @@ function switchTab(tab) {
 // canonicalPath() exactly, since that's what the SSR layer declares as
 // canonical for this same view.
 function adminPath(admin, tab) {
-  if (!admin) return '/'
-  return tab === 'promises' ? `/${admin}` : `/${admin}/${tab}`
+  const bare = !admin ? '/' : (tab === 'promises' ? `/${admin}` : `/${admin}/${tab}`)
+  return lp(bare)
 }
 
 function syncUrl() {
@@ -579,22 +594,22 @@ function iPct(n) { return ((n / (inheritedCounts.value.total || 1)) * 100).toFix
 
 // ── Fraud tab ─────────────────────────────────────────
 
-const FRAUD_STATUSES = [
-  { key: 'all',       label: 'All' },
-  { key: 'convicted', label: 'Convicted' },
-  { key: 'ongoing',   label: 'Ongoing' },
-  { key: 'dismissed', label: 'Dismissed' },
-  { key: 'acquitted', label: 'Acquitted' },
-]
+const FRAUD_STATUSES = computed(() => [
+  { key: 'all',       label: t('status.all') },
+  { key: 'convicted', label: t('status.convicted') },
+  { key: 'ongoing',   label: t('status.ongoing') },
+  { key: 'dismissed', label: t('status.dismissed') },
+  { key: 'acquitted', label: t('status.acquitted') },
+])
 
-const FRAUD_RESPONSES = [
-  { key: 'all',       label: 'All responses' },
-  { key: 'pursuing',  label: 'Pursuing' },
-  { key: 'stalled',   label: 'Stalled' },
-  { key: 'political', label: 'Politicised' },
-  { key: 'abandoned', label: 'Abandoned' },
-  { key: 'complied',  label: 'No interference' },
-]
+const FRAUD_RESPONSES = computed(() => [
+  { key: 'all',       label: t('response.all') },
+  { key: 'pursuing',  label: t('response.pursuing') },
+  { key: 'stalled',   label: t('response.stalled') },
+  { key: 'political', label: t('response.political') },
+  { key: 'abandoned', label: t('response.abandoned') },
+  { key: 'complied',  label: t('response.complied') },
+])
 
 const fraudCategories = computed(() =>
   [...new Set(fraud.value.map(f => f.category))].sort()
@@ -622,13 +637,13 @@ const filteredFraud = computed(() => {
 
 // ── Executive Orders tab ───────────────────────────────
 
-const ORDER_STATUSES = [
-  { key: 'all',         label: 'All' },
-  { key: 'implemented', label: 'Implemented' },
-  { key: 'partial',     label: 'Partial' },
-  { key: 'reversed',    label: 'Reversed' },
-  { key: 'ignored',     label: 'Ignored' },
-]
+const ORDER_STATUSES = computed(() => [
+  { key: 'all',         label: t('status.all') },
+  { key: 'implemented', label: t('status.implemented') },
+  { key: 'partial',     label: t('status.partial') },
+  { key: 'reversed',    label: t('status.reversed') },
+  { key: 'ignored',     label: t('status.ignored') },
+])
 
 const orderCategories = computed(() =>
   [...new Set(orders.value.map(o => o.category))].sort()
@@ -655,14 +670,14 @@ const filteredOrders = computed(() => {
 
 // ── Ministers tab ──────────────────────────────────────
 
-const MINISTER_STATUSES = [
-  { key: 'all',      label: 'All' },
-  { key: 'good',     label: 'Good' },
-  { key: 'fair',     label: 'Fair' },
-  { key: 'poor',     label: 'Poor' },
-  { key: 'sacked',   label: 'Sacked' },
-  { key: 'resigned', label: 'Resigned' },
-]
+const MINISTER_STATUSES = computed(() => [
+  { key: 'all',      label: t('status.all') },
+  { key: 'good',     label: t('status.good') },
+  { key: 'fair',     label: t('status.fair') },
+  { key: 'poor',     label: t('status.poor') },
+  { key: 'sacked',   label: t('status.sacked') },
+  { key: 'resigned', label: t('status.resigned') },
+])
 
 const ministerCounts = computed(() => {
   const c = { good: 0, fair: 0, poor: 0, sacked: 0, resigned: 0 }
@@ -684,13 +699,13 @@ const filteredMinisters = computed(() => {
 
 // ── Bills tab ──────────────────────────────────────────
 
-const BILL_STATUSES = [
-  { key: 'all',       label: 'All' },
-  { key: 'passed',    label: 'Passed' },
-  { key: 'partial',   label: 'Partial' },
-  { key: 'pending',   label: 'Pending' },
-  { key: 'abandoned', label: 'Abandoned' },
-]
+const BILL_STATUSES = computed(() => [
+  { key: 'all',       label: t('status.all') },
+  { key: 'passed',    label: t('status.passed') },
+  { key: 'partial',   label: t('status.partial') },
+  { key: 'pending',   label: t('stats.pending') },
+  { key: 'abandoned', label: t('status.abandoned') },
+])
 
 const billCategories = computed(() =>
   [...new Set(bills.value.map(b => b.category))].sort()
@@ -704,12 +719,12 @@ const billCounts = computed(() => {
 
 // ── Appointments tab ──────────────────────────────────
 
-const APPOINTMENT_STATUSES = [
-  { key: 'all',      label: 'All' },
-  { key: 'serving',  label: 'Serving' },
-  { key: 'resigned', label: 'Resigned' },
-  { key: 'sacked',   label: 'Sacked' },
-]
+const APPOINTMENT_STATUSES = computed(() => [
+  { key: 'all',      label: t('status.all') },
+  { key: 'serving',  label: t('status.serving') },
+  { key: 'resigned', label: t('status.resigned') },
+  { key: 'sacked',   label: t('status.sacked') },
+])
 
 const appointmentCategories = computed(() =>
   [...new Set(appointments.value.map(a => a.category))].sort()
@@ -731,13 +746,13 @@ const filteredAppointments = computed(() => {
 
 // ── Judgments tab ─────────────────────────────────────
 
-const JUDGMENT_STATUSES = [
-  { key: 'all',     label: 'All' },
-  { key: 'lost',    label: 'Govt Lost' },
-  { key: 'won',     label: 'Govt Won' },
-  { key: 'settled', label: 'Settled' },
-  { key: 'ongoing', label: 'Ongoing' },
-]
+const JUDGMENT_STATUSES = computed(() => [
+  { key: 'all',     label: t('status.all') },
+  { key: 'lost',    label: t('status.lost') },
+  { key: 'won',     label: t('status.won') },
+  { key: 'settled', label: t('status.settled') },
+  { key: 'ongoing', label: t('status.ongoing') },
+])
 
 const judgmentCategories = computed(() =>
   [...new Set(judgments.value.map(j => j.category))].sort()
@@ -781,36 +796,36 @@ const filteredBills = computed(() => {
 
     <header class="pt-header">
       <div class="pt-header-brand">
-        <a href="/" class="pt-header-home" aria-label="NGScorecard — home">
+        <a :href="lp('/')" class="pt-header-home" :aria-label="t('header.home')">
           <div class="pt-crest" aria-hidden="true">NG</div>
           <div>
-            <div class="pt-eyebrow">Civic Accountability · Nigeria</div>
+            <div class="pt-eyebrow">{{ t('header.eyebrow') }}</div>
             <h1 class="pt-headline">NGScorecard</h1>
           </div>
         </a>
         <div class="pt-header-links">
-          <a href="/guide" class="pt-header-docs-link">Guide</a>
-          <a href="/developers" class="pt-header-docs-link">Developers</a>
-          <a href="/press" class="pt-header-docs-link">Press</a>
+          <a href="/guide" class="pt-header-docs-link">{{ t('header.guide') }}</a>
+          <a href="/developers" class="pt-header-docs-link">{{ t('header.developers') }}</a>
+          <a href="/press" class="pt-header-docs-link">{{ t('header.press') }}</a>
         </div>
         <div class="pt-header-menu">
           <button
             class="pt-header-menu-btn"
-            aria-label="More links"
+            :aria-label="t('header.moreLinks')"
             :aria-expanded="headerMenuOpen"
             @click="headerMenuOpen = !headerMenuOpen"
           >☰</button>
           <template v-if="headerMenuOpen">
             <div class="pt-header-menu-backdrop" @click="headerMenuOpen = false"></div>
             <div class="pt-header-menu-panel">
-              <a href="/guide" class="pt-header-menu-link" @click="headerMenuOpen = false">Guide</a>
-              <a href="/developers" class="pt-header-menu-link" @click="headerMenuOpen = false">Developers</a>
-              <a href="/press" class="pt-header-menu-link" @click="headerMenuOpen = false">Press</a>
+              <a href="/guide" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.guide') }}</a>
+              <a href="/developers" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.developers') }}</a>
+              <a href="/press" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.press') }}</a>
             </div>
           </template>
         </div>
         <div v-if="!notFound && formerGovernorsForState.length" class="pt-admin-summary">
-          <span class="pt-prev-gov-label">Previously in {{ currentAdmin.state }}:</span>
+          <span class="pt-prev-gov-label">{{ t('header.previouslyIn', { state: currentAdmin.state }) }}</span>
           <button
             v-for="g in formerGovernorsForState"
             :key="g.key"
@@ -819,18 +834,18 @@ const filteredBills = computed(() => {
           >{{ g.name }} ({{ g.term }})</button>
         </div>
         <div v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes" class="pt-view-actions">
-          <button class="pt-compare-btn" @click="enterCompareMode">Compare ⇄</button>
+          <button class="pt-compare-btn" @click="enterCompareMode">{{ t('viewActions.compare') }}</button>
           <button
             class="pt-viewlink-btn"
             @click="copyViewLink"
-            title="Copy a link to this exact view — administration, tab, and filters"
-          >Copy link</button>
+            :title="t('viewActions.copyLinkTitle')"
+          >{{ t('viewActions.copyLink') }}</button>
           <button
             class="pt-viewlink-btn"
             :disabled="generatingCard"
             @click="downloadCard"
-            title="Download a shareable scorecard image for this administration"
-          >{{ generatingCard ? 'Generating…' : 'Print scorecard' }}</button>
+            :title="t('viewActions.printTitle')"
+          >{{ generatingCard ? t('viewActions.generating') : t('viewActions.printScorecard') }}</button>
         </div>
       </div>
       <div v-if="viewMode === 'single' && !notFound" class="pt-picker">
@@ -841,17 +856,17 @@ const filteredBills = computed(() => {
               v-show="!pickerOpen"
               type="button"
               class="pt-picker-trigger"
-              :aria-label="isLanding ? 'Find an administration' : `Change administration — currently ${currentAdmin.title || currentAdmin.name}`"
+              :aria-label="isLanding ? t('picker.findAdmin') : t('picker.changeAdmin', { name: currentAdmin.title || currentAdmin.name })"
               @click="openPicker"
             >
               <template v-if="isLanding">
-                <span class="pt-picker-trigger-name">Find an administration</span>
-                <span class="pt-picker-trigger-meta">{{ ADMINISTRATIONS.length }} tracked · federal &amp; state · 1960–present</span>
+                <span class="pt-picker-trigger-name">{{ t('picker.findAdmin') }}</span>
+                <span class="pt-picker-trigger-meta">{{ t('picker.triggerMeta', { n: ADMINISTRATIONS.length }) }}</span>
               </template>
               <template v-else>
-                <span class="pt-picker-trigger-label">Viewing</span>
+                <span class="pt-picker-trigger-label">{{ t('picker.viewing') }}</span>
                 <span class="pt-picker-trigger-name">{{ currentAdmin.title || currentAdmin.name }}</span>
-                <span class="pt-picker-trigger-meta">{{ isStateLevel ? `${currentAdmin.state} State` : 'Federal' }} · {{ currentAdmin.term }}</span>
+                <span class="pt-picker-trigger-meta">{{ isStateLevel ? t('picker.stateLabel', { state: currentAdmin.state }) : t('picker.federalLabel') }} · {{ currentAdmin.term }}</span>
               </template>
             </button>
             <input
@@ -861,7 +876,7 @@ const filteredBills = computed(() => {
               type="text"
               class="pt-picker-input"
               :placeholder="pickerPlaceholder"
-              aria-label="Find a president or governor by name or state"
+              :aria-label="t('picker.findByName')"
               role="combobox"
               aria-autocomplete="list"
               aria-controls="pt-picker-panel"
@@ -875,12 +890,12 @@ const filteredBills = computed(() => {
               v-if="pickerOpen && adminFinderQuery"
               type="button"
               class="pt-picker-clear"
-              aria-label="Clear search"
+              :aria-label="t('picker.clearSearch')"
               @click="adminFinderQuery = ''"
             >✕</button>
           </div>
           <div v-if="recentAdmins.length && !pickerOpen" class="pt-picker-recents">
-            <span class="pt-picker-recents-label">Recent</span>
+            <span class="pt-picker-recents-label">{{ t('picker.recent') }}</span>
             <button
               v-for="a in recentAdmins"
               :key="a.key"
@@ -892,26 +907,26 @@ const filteredBills = computed(() => {
 
         <template v-if="pickerOpen">
           <div class="pt-picker-backdrop" @click="closePicker"></div>
-          <div id="pt-picker-panel" class="pt-picker-panel" role="dialog" aria-label="Choose an administration">
+          <div id="pt-picker-panel" class="pt-picker-panel" role="dialog" :aria-label="t('picker.chooseAdmin')">
             <div class="pt-picker-panel-head">
-              <div v-if="stateAdmins.length && !adminFinderQuery.trim()" class="pt-admin-mode-tabs" role="tablist" aria-label="Government level">
+              <div v-if="stateAdmins.length && !adminFinderQuery.trim()" class="pt-admin-mode-tabs" role="tablist" :aria-label="t('picker.govLevel')">
                 <button
                   role="tab"
                   :aria-selected="adminNavMode === 'federal'"
                   :class="['pt-admin-mode-tab', { active: adminNavMode === 'federal' }]"
                   @click="adminNavMode = 'federal'"
-                >Federal</button>
+                >{{ t('picker.federal') }}</button>
                 <button
                   role="tab"
                   :aria-selected="adminNavMode === 'state'"
                   :class="['pt-admin-mode-tab', { active: adminNavMode === 'state' }]"
                   @click="adminNavMode = 'state'"
-                >State</button>
+                >{{ t('picker.state') }}</button>
               </div>
-              <span v-else class="pt-picker-scope">Search results</span>
-              <span class="pt-picker-count">{{ visiblePickerOptions.length }} shown</span>
+              <span v-else class="pt-picker-scope">{{ t('picker.searchResults') }}</span>
+              <span class="pt-picker-count">{{ t('picker.shown', { n: visiblePickerOptions.length }) }}</span>
             </div>
-            <div class="pt-picker-list" role="listbox" aria-label="Administrations" @mousedown.prevent>
+            <div class="pt-picker-list" role="listbox" :aria-label="t('picker.chooseAdmin')" @mousedown.prevent>
               <template v-for="g in pickerGroups" :key="g.label">
                 <div class="pt-picker-group-label" role="presentation">{{ g.label }}</div>
                 <button
@@ -931,42 +946,42 @@ const filteredBills = computed(() => {
                   <span class="pt-picker-opt-name">{{ a.name }}</span>
                   <span class="pt-picker-opt-meta">
                     <template v-if="a.level === 'state'">{{ a.state }} · </template>{{ a.term }}
-                    <span v-if="!a.isCurrent" class="pt-admin-finder-badge">Former</span>
+                    <span v-if="!a.isCurrent" class="pt-admin-finder-badge">{{ t('picker.former') }}</span>
                   </span>
                 </button>
               </template>
               <div v-if="!visiblePickerOptions.length" class="pt-admin-finder-empty">
-                No match for "{{ adminFinderQuery }}"
+                {{ t('picker.noMatch', { q: adminFinderQuery }) }}
               </div>
             </div>
             <div class="pt-picker-foot">
-              <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
-              <span><kbd>↵</kbd> open</span>
-              <span><kbd>esc</kbd> close</span>
+              <span><kbd>↑</kbd><kbd>↓</kbd> {{ t('picker.keyMove') }}</span>
+              <span><kbd>↵</kbd> {{ t('picker.keyOpen') }}</span>
+              <span><kbd>esc</kbd> {{ t('picker.keyClose') }}</span>
             </div>
           </div>
         </template>
       </div>
       <!-- Mobile-only section nav -->
       <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
-        <optgroup label="Government">
-          <option value="promises">Promises</option>
+        <optgroup :label="t('nav.group.government')">
+          <option value="promises">{{ t('tab.promises') }}</option>
           <option value="ministers">{{ ministerLabel }}</option>
-          <option value="orders">Orders &amp; Policy</option>
-          <option value="appointments">Appointments</option>
-          <option v-if="!isStateLevel" value="governors">Governors</option>
+          <option value="orders">{{ t('tab.orders') }}</option>
+          <option value="appointments">{{ t('tab.appointments') }}</option>
+          <option v-if="!isStateLevel" value="governors">{{ t('tab.governors') }}</option>
         </optgroup>
-        <optgroup label="Accountability">
-          <option value="fraud">Fraud</option>
-          <option value="judgments">Court Judgments</option>
-          <option value="inherited">Inherited Fixes</option>
+        <optgroup :label="t('nav.group.accountability')">
+          <option value="fraud">{{ t('tab.fraud') }}</option>
+          <option value="judgments">{{ t('tab.judgments') }}</option>
+          <option value="inherited">{{ t('tab.inherited') }}</option>
         </optgroup>
-        <optgroup label="Economy">
-          <option value="budget">Budget</option>
-          <option value="indicators">Key Indicators</option>
+        <optgroup :label="t('nav.group.economy')">
+          <option value="budget">{{ t('tab.budget') }}</option>
+          <option value="indicators">{{ t('tab.indicators') }}</option>
         </optgroup>
-        <optgroup v-if="!isStateLevel" label="Legislature">
-          <option value="bills">Bills Watch</option>
+        <optgroup v-if="!isStateLevel" :label="t('nav.group.legislature')">
+          <option value="bills">{{ t('tab.bills') }}</option>
         </optgroup>
       </select>
     </header>
@@ -975,16 +990,16 @@ const filteredBills = computed(() => {
          administration (see server/entry-server.js's notFound flag) ── -->
     <div v-if="notFound" class="pt-notfound">
       <div class="pt-notfound-card">
-        <div class="pt-eyebrow">404 · Not tracked</div>
-        <h2>"{{ requestedAdmin }}" isn't a Nigerian president or governor we track</h2>
-        <p>Double-check the link, or search for the administration you're after:</p>
+        <div class="pt-eyebrow">{{ t('notFound.eyebrow') }}</div>
+        <h2>{{ t('notFound.heading', { key: requestedAdmin }) }}</h2>
+        <p>{{ t('notFound.body') }}</p>
         <div class="pt-admin-finder pt-notfound-finder">
           <input
             v-model="adminFinderQuery"
             type="text"
             class="pt-admin-finder-input"
-            placeholder="Find a president or governor…"
-            aria-label="Find an administration by name or state"
+            :placeholder="t('picker.finderPlaceholder')"
+            :aria-label="t('picker.finderAria')"
             @keydown.enter.prevent="submitAdminFinder"
           >
           <div v-if="adminFinderQuery.trim()" class="pt-admin-finder-results" @mousedown.prevent>
@@ -998,13 +1013,13 @@ const filteredBills = computed(() => {
               <span class="pt-admin-finder-result-name">{{ a.name }}</span>
               <span class="pt-admin-finder-result-meta">
                 <template v-if="a.level === 'state'">{{ a.state }} · </template>{{ a.term }}
-                <span v-if="!a.isCurrent" class="pt-admin-finder-badge">Former</span>
+                <span v-if="!a.isCurrent" class="pt-admin-finder-badge">{{ t('picker.former') }}</span>
               </span>
             </button>
-            <div v-if="!adminFinderResults.length" class="pt-admin-finder-empty">No match for "{{ adminFinderQuery }}"</div>
+            <div v-if="!adminFinderResults.length" class="pt-admin-finder-empty">{{ t('picker.noMatch', { q: adminFinderQuery }) }}</div>
           </div>
         </div>
-        <a href="/" class="pt-notfound-home">← Back to the homepage</a>
+        <a :href="lp('/')" class="pt-notfound-home">{{ t('notFound.backHome') }}</a>
       </div>
     </div>
 
@@ -1036,38 +1051,38 @@ const filteredBills = computed(() => {
       <aside class="pt-sidebar">
         <nav class="pt-nav">
           <div class="pt-nav-group">
-            <div class="pt-nav-group-label">Government</div>
-            <button :class="['pt-nav-btn', { active: activeTab === 'promises' }]"     @click="switchTab('promises')">Promises <span class="pt-nav-count">{{ promises.length }}</span></button>
+            <div class="pt-nav-group-label">{{ t('nav.group.government') }}</div>
+            <button :class="['pt-nav-btn', { active: activeTab === 'promises' }]"     @click="switchTab('promises')">{{ t('tab.promises') }} <span class="pt-nav-count">{{ promises.length }}</span></button>
             <button :class="['pt-nav-btn', { active: activeTab === 'ministers' }]"    @click="switchTab('ministers')">{{ ministerLabel }} <span class="pt-nav-count">{{ ministers.length }}</span></button>
-            <button :class="['pt-nav-btn', { active: activeTab === 'orders' }]"       @click="switchTab('orders')">Orders &amp; Policy <span class="pt-nav-count">{{ orders.length }}</span></button>
-            <button :class="['pt-nav-btn', { active: activeTab === 'appointments' }]" @click="switchTab('appointments')">Appointments <span class="pt-nav-count">{{ appointments.length }}</span></button>
-            <button v-if="!isStateLevel" :class="['pt-nav-btn', { active: activeTab === 'governors' }]"    @click="switchTab('governors')">Governors <span class="pt-nav-count">{{ governors.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'orders' }]"       @click="switchTab('orders')">{{ t('tab.orders') }} <span class="pt-nav-count">{{ orders.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'appointments' }]" @click="switchTab('appointments')">{{ t('tab.appointments') }} <span class="pt-nav-count">{{ appointments.length }}</span></button>
+            <button v-if="!isStateLevel" :class="['pt-nav-btn', { active: activeTab === 'governors' }]"    @click="switchTab('governors')">{{ t('tab.governors') }} <span class="pt-nav-count">{{ governors.length }}</span></button>
           </div>
 
           <div class="pt-nav-group">
-            <div class="pt-nav-group-label">Accountability</div>
-            <button :class="['pt-nav-btn', { active: activeTab === 'fraud' }]"     @click="switchTab('fraud')">Fraud <span class="pt-nav-count">{{ fraud.length }}</span></button>
-            <button :class="['pt-nav-btn', { active: activeTab === 'judgments' }]" @click="switchTab('judgments')">Court Judgments <span class="pt-nav-count">{{ judgments.length }}</span></button>
-            <button :class="['pt-nav-btn', { active: activeTab === 'inherited' }]" @click="switchTab('inherited')">Inherited Fixes <span class="pt-nav-count">{{ inherited.length }}</span></button>
+            <div class="pt-nav-group-label">{{ t('nav.group.accountability') }}</div>
+            <button :class="['pt-nav-btn', { active: activeTab === 'fraud' }]"     @click="switchTab('fraud')">{{ t('tab.fraud') }} <span class="pt-nav-count">{{ fraud.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'judgments' }]" @click="switchTab('judgments')">{{ t('tab.judgments') }} <span class="pt-nav-count">{{ judgments.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'inherited' }]" @click="switchTab('inherited')">{{ t('tab.inherited') }} <span class="pt-nav-count">{{ inherited.length }}</span></button>
           </div>
 
           <div class="pt-nav-group">
-            <div class="pt-nav-group-label">Economy</div>
-            <button :class="['pt-nav-btn', { active: activeTab === 'budget' }]"     @click="switchTab('budget')">Budget</button>
-            <button :class="['pt-nav-btn', { active: activeTab === 'indicators' }]" @click="switchTab('indicators')">Key Indicators</button>
+            <div class="pt-nav-group-label">{{ t('nav.group.economy') }}</div>
+            <button :class="['pt-nav-btn', { active: activeTab === 'budget' }]"     @click="switchTab('budget')">{{ t('tab.budget') }}</button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'indicators' }]" @click="switchTab('indicators')">{{ t('tab.indicators') }}</button>
           </div>
 
           <div v-if="!isStateLevel" class="pt-nav-group">
-            <div class="pt-nav-group-label">Legislature</div>
-            <button :class="['pt-nav-btn', { active: activeTab === 'bills' }]" @click="switchTab('bills')">Bills Watch <span class="pt-nav-count">{{ bills.length }}</span></button>
+            <div class="pt-nav-group-label">{{ t('nav.group.legislature') }}</div>
+            <button :class="['pt-nav-btn', { active: activeTab === 'bills' }]" @click="switchTab('bills')">{{ t('tab.bills') }} <span class="pt-nav-count">{{ bills.length }}</span></button>
           </div>
         </nav>
 
         <div :class="['pt-sidebar-footer', { 'review-due': reviewDue }]">
           <span class="pt-freshness-dot"></span>
-          <template v-if="reviewDue">Review due — last checked <strong>{{ LAST_REVIEWED }}</strong></template>
-          <template v-else>Updated <strong>{{ LAST_REVIEWED }}</strong></template>
-          <span class="pt-sidebar-footer-sub">Sources linked on each card · <a href="/guide#methodology">how this is reviewed</a></span>
+          <template v-if="reviewDue">{{ t('freshness.reviewDue') }} <strong>{{ LAST_REVIEWED }}</strong></template>
+          <template v-else>{{ t('freshness.updated') }} <strong>{{ LAST_REVIEWED }}</strong></template>
+          <span class="pt-sidebar-footer-sub">{{ t('freshness.sourcesPrefix') }}<a href="/guide#methodology">{{ t('freshness.howReviewed') }}</a></span>
         </div>
       </aside>
 
@@ -1076,7 +1091,7 @@ const filteredBills = computed(() => {
 
       <!-- Copied toast -->
       <Transition name="toast">
-        <div v-if="copied" class="pt-toast">Link copied to clipboard</div>
+        <div v-if="copied" class="pt-toast">{{ t('viewActions.linkCopied') }}</div>
       </Transition>
 
       <!-- Suggest-a-correction modal -->
@@ -1092,19 +1107,19 @@ const filteredBills = computed(() => {
       <div class="pt-stats">
         <div class="pt-stat">
           <div class="pt-stat-value total">{{ promiseTotal }}</div>
-          <div class="pt-stat-label">Total tracked</div>
+          <div class="pt-stat-label">{{ t('stats.totalTracked') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value kept">{{ promiseCounts.kept }}</div>
-          <div class="pt-stat-label">Kept</div>
+          <div class="pt-stat-label">{{ t('stats.kept') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value partial">{{ promiseCounts.partial }}</div>
-          <div class="pt-stat-label">Partial / mixed</div>
+          <div class="pt-stat-label">{{ t('stats.partialMixed') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value broken">{{ promiseCounts.broken }}</div>
-          <div class="pt-stat-label">Broken</div>
+          <div class="pt-stat-label">{{ t('stats.broken') }}</div>
         </div>
       </div>
 
@@ -1116,10 +1131,10 @@ const filteredBills = computed(() => {
           <div class="pt-bar-pending" :style="{ width: pct(promiseCounts.pending) }"></div>
         </div>
         <div class="pt-legend">
-          <div class="pt-legend-item"><span class="pt-legend-dot kept"></span> Kept</div>
-          <div class="pt-legend-item"><span class="pt-legend-dot partial"></span> Partial / mixed</div>
-          <div class="pt-legend-item"><span class="pt-legend-dot broken"></span> Broken</div>
-          <div class="pt-legend-item"><span class="pt-legend-dot pending"></span> In progress</div>
+          <div class="pt-legend-item"><span class="pt-legend-dot kept"></span> {{ t('legend.kept') }}</div>
+          <div class="pt-legend-item"><span class="pt-legend-dot partial"></span> {{ t('legend.partialMixed') }}</div>
+          <div class="pt-legend-item"><span class="pt-legend-dot broken"></span> {{ t('legend.broken') }}</div>
+          <div class="pt-legend-item"><span class="pt-legend-dot pending"></span> {{ t('legend.pending') }}</div>
         </div>
       </div>
 
@@ -1129,7 +1144,7 @@ const filteredBills = computed(() => {
           v-model="searchQuery"
           type="text"
           class="pt-search"
-          placeholder="Search promises…"
+          :placeholder="t('search.promises')"
         />
         <div class="pt-filter-group">
           <button
@@ -1140,13 +1155,13 @@ const filteredBills = computed(() => {
           >{{ s.label }}</button>
         </div>
         <select v-model="activeCategory" class="pt-cat-filter">
-          <option value="all">All categories</option>
-          <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
+          <option value="all">{{ t('filter.allCategories') }}</option>
+          <option v-for="cat in categories" :key="cat" :value="cat">{{ t('category.' + canonicalizeCategory(cat)) }}</option>
         </select>
       </div>
 
       <div v-if="promisesFiltered" class="pt-result-count">
-        Showing {{ filteredPromises.length }} of {{ promises.length }}
+        {{ t('result.showing', { n: filteredPromises.length, m: promises.length }) }}
       </div>
 
       <div class="pt-list">
@@ -1160,8 +1175,8 @@ const filteredBills = computed(() => {
           @report="openReport"
           :field1="p.promise"
           :field2="p.assessment"
-          label1="The promise"
-          label2="Assessment"
+          :label1="t('card.label.thePromise')"
+          :label2="t('card.label.assessment')"
           :related="relatedFor(p)"
           :isExpanded="expandedId === p.id"
           @toggle="handleToggle"
@@ -1169,7 +1184,7 @@ const filteredBills = computed(() => {
           @goto="goto"
         />
         <div v-if="!filteredPromises.length" class="pt-empty">
-          No promises match your filters.
+          {{ t('empty.promises') }}
         </div>
       </div>
     </template>
@@ -1180,15 +1195,15 @@ const filteredBills = computed(() => {
       <div class="pt-stats">
         <div class="pt-stat">
           <div class="pt-stat-value total">{{ inheritedCounts.total }}</div>
-          <div class="pt-stat-label">Inherited problems</div>
+          <div class="pt-stat-label">{{ t('stats.inheritedProblems') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value kept">{{ inheritedCounts.fixed }}</div>
-          <div class="pt-stat-label">Fixed</div>
+          <div class="pt-stat-label">{{ t('stats.fixed') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value partial">{{ inheritedCounts.partial }}</div>
-          <div class="pt-stat-label">Partial progress</div>
+          <div class="pt-stat-label">{{ t('stats.partialProgress') }}</div>
         </div>
       </div>
 
@@ -1213,8 +1228,8 @@ const filteredBills = computed(() => {
           @report="openReport"
           :field1="p.problem"
           :field2="p.resolution"
-          label1="The problem"
-          label2="What was done"
+          :label1="t('card.label.theProblem')"
+          :label2="t('card.label.whatWasDone')"
           :isExpanded="expandedId === p.id"
           @toggle="handleToggle"
           @share="handleShare"
@@ -1235,19 +1250,19 @@ const filteredBills = computed(() => {
       <div class="pt-stats">
         <div class="pt-stat">
           <div class="pt-stat-value total">{{ fraud.length }}</div>
-          <div class="pt-stat-label">Total cases</div>
+          <div class="pt-stat-label">{{ t('stats.totalCases') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value broken">{{ fraudCounts.convicted }}</div>
-          <div class="pt-stat-label">Convicted</div>
+          <div class="pt-stat-label">{{ t('stats.convicted') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value pending">{{ fraudCounts.ongoing }}</div>
-          <div class="pt-stat-label">Ongoing</div>
+          <div class="pt-stat-label">{{ t('stats.ongoing') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value total">{{ fraudCounts.dismissed }}</div>
-          <div class="pt-stat-label">Dismissed</div>
+          <div class="pt-stat-label">{{ t('stats.dismissed') }}</div>
         </div>
       </div>
 
@@ -1257,7 +1272,7 @@ const filteredBills = computed(() => {
           v-model="searchQuery"
           type="text"
           class="pt-search"
-          placeholder="Search cases…"
+          :placeholder="t('search.cases')"
         />
         <div class="pt-filter-group">
           <button
@@ -1268,8 +1283,8 @@ const filteredBills = computed(() => {
           >{{ s.label }}</button>
         </div>
         <select v-model="activeCategory" class="pt-cat-filter">
-          <option value="all">All categories</option>
-          <option v-for="cat in fraudCategories" :key="cat" :value="cat">{{ cat }}</option>
+          <option value="all">{{ t('filter.allCategories') }}</option>
+          <option v-for="cat in fraudCategories" :key="cat" :value="cat">{{ t('category.' + canonicalizeCategory(cat)) }}</option>
         </select>
       </div>
       <div class="pt-controls pt-controls-response">
@@ -1295,15 +1310,15 @@ const filteredBills = computed(() => {
           :field1="f.allegation"
           :field2="f.outcome"
           :field3="f.govtResponse"
-          label1="Allegation"
-          label2="Outcome / Status"
-          label3="Administration's response"
+          :label1="t('card.label.allegation')"
+          :label2="t('card.label.outcomeStatus')"
+          :label3="t('card.label.administrationResponse')"
           :isExpanded="expandedId === f.id"
           @toggle="handleToggle"
           @share="handleShare"
         />
         <div v-if="!filteredFraud.length" class="pt-empty">
-          No cases match your filters.
+          {{ t('empty.cases') }}
         </div>
       </div>
     </template>
@@ -1319,24 +1334,24 @@ const filteredBills = computed(() => {
       <div class="pt-stats">
         <div class="pt-stat">
           <div class="pt-stat-value total">{{ orders.length }}</div>
-          <div class="pt-stat-label">Total orders</div>
+          <div class="pt-stat-label">{{ t('stats.totalOrders') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value kept">{{ orderCounts.implemented }}</div>
-          <div class="pt-stat-label">Implemented</div>
+          <div class="pt-stat-label">{{ t('stats.implemented') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value partial">{{ orderCounts.partial }}</div>
-          <div class="pt-stat-label">Partial</div>
+          <div class="pt-stat-label">{{ t('stats.partial') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value broken">{{ orderCounts.reversed }}</div>
-          <div class="pt-stat-label">Reversed</div>
+          <div class="pt-stat-label">{{ t('stats.reversed') }}</div>
         </div>
       </div>
 
       <div class="pt-controls">
-        <input v-model="searchQuery" type="text" class="pt-search" placeholder="Search orders…" />
+        <input v-model="searchQuery" type="text" class="pt-search" :placeholder="t('search.orders')" />
         <div class="pt-filter-group">
           <button
             v-for="s in ORDER_STATUSES" :key="s.key"
@@ -1345,8 +1360,8 @@ const filteredBills = computed(() => {
           >{{ s.label }}</button>
         </div>
         <select v-model="activeCategory" class="pt-cat-filter">
-          <option value="all">All categories</option>
-          <option v-for="cat in orderCategories" :key="cat" :value="cat">{{ cat }}</option>
+          <option value="all">{{ t('filter.allCategories') }}</option>
+          <option v-for="cat in orderCategories" :key="cat" :value="cat">{{ t('category.' + canonicalizeCategory(cat)) }}</option>
         </select>
       </div>
 
@@ -1359,13 +1374,13 @@ const filteredBills = computed(() => {
           @report="openReport"
           :field1="o.directive"
           :field2="o.effect"
-          label1="The directive"
-          label2="Real-world effect"
+          :label1="t('card.label.theDirective')"
+          :label2="t('card.label.realWorldEffect')"
           :isExpanded="expandedId === o.id"
           @toggle="handleToggle"
           @share="handleShare"
         />
-        <div v-if="!filteredOrders.length" class="pt-empty">No orders match your filters.</div>
+        <div v-if="!filteredOrders.length" class="pt-empty">{{ t('empty.orders') }}</div>
       </div>
     </template>
 
@@ -1380,24 +1395,24 @@ const filteredBills = computed(() => {
       <div class="pt-stats">
         <div class="pt-stat">
           <div class="pt-stat-value total">{{ ministers.length }}</div>
-          <div class="pt-stat-label">{{ ministerLabel }} tracked</div>
+          <div class="pt-stat-label">{{ t('stats.labelTracked', { label: ministerLabel }) }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value kept">{{ ministerCounts.good }}</div>
-          <div class="pt-stat-label">Good</div>
+          <div class="pt-stat-label">{{ t('stats.good') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value partial">{{ ministerCounts.fair }}</div>
-          <div class="pt-stat-label">Fair</div>
+          <div class="pt-stat-label">{{ t('stats.fair') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value broken">{{ ministerCounts.poor }}</div>
-          <div class="pt-stat-label">Poor</div>
+          <div class="pt-stat-label">{{ t('stats.poor') }}</div>
         </div>
       </div>
 
       <div class="pt-controls">
-        <input v-model="searchQuery" type="text" class="pt-search" :placeholder="`Search ${ministerLabel.toLowerCase()}…`" />
+        <input v-model="searchQuery" type="text" class="pt-search" :placeholder="t('search.label', { label: ministerLabel.toLowerCase() })" />
         <div class="pt-filter-group">
           <button
             v-for="s in MINISTER_STATUSES" :key="s.key"
@@ -1416,13 +1431,13 @@ const filteredBills = computed(() => {
           @report="openReport"
           :field1="m.mandate"
           :field2="m.performance"
-          label1="Mandate"
-          label2="Performance assessment"
+          :label1="t('card.label.mandate')"
+          :label2="t('card.label.performanceAssessment')"
           :isExpanded="expandedId === m.id"
           @toggle="handleToggle"
           @share="handleShare"
         />
-        <div v-if="!filteredMinisters.length" class="pt-empty">No {{ ministerLabel.toLowerCase() }} match your filters.</div>
+        <div v-if="!filteredMinisters.length" class="pt-empty">{{ t('empty.ministers', { label: ministerLabel.toLowerCase() }) }}</div>
       </div>
     </template>
 
@@ -1448,24 +1463,24 @@ const filteredBills = computed(() => {
       <div class="pt-stats">
         <div class="pt-stat">
           <div class="pt-stat-value total">{{ bills.length }}</div>
-          <div class="pt-stat-label">Bills tracked</div>
+          <div class="pt-stat-label">{{ t('stats.billsTracked') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value kept">{{ billCounts.passed }}</div>
-          <div class="pt-stat-label">Passed</div>
+          <div class="pt-stat-label">{{ t('stats.passed') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value pending">{{ billCounts.pending }}</div>
-          <div class="pt-stat-label">Pending</div>
+          <div class="pt-stat-label">{{ t('stats.pending') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value broken">{{ billCounts.abandoned }}</div>
-          <div class="pt-stat-label">Abandoned</div>
+          <div class="pt-stat-label">{{ t('stats.abandoned') }}</div>
         </div>
       </div>
 
       <div class="pt-controls">
-        <input v-model="searchQuery" type="text" class="pt-search" placeholder="Search bills…" />
+        <input v-model="searchQuery" type="text" class="pt-search" :placeholder="t('search.bills')" />
         <div class="pt-filter-group">
           <button
             v-for="s in BILL_STATUSES" :key="s.key"
@@ -1474,8 +1489,8 @@ const filteredBills = computed(() => {
           >{{ s.label }}</button>
         </div>
         <select v-model="activeCategory" class="pt-cat-filter">
-          <option value="all">All categories</option>
-          <option v-for="cat in billCategories" :key="cat" :value="cat">{{ cat }}</option>
+          <option value="all">{{ t('filter.allCategories') }}</option>
+          <option v-for="cat in billCategories" :key="cat" :value="cat">{{ t('category.' + canonicalizeCategory(cat)) }}</option>
         </select>
       </div>
 
@@ -1488,13 +1503,13 @@ const filteredBills = computed(() => {
           @report="openReport"
           :field1="b.summary"
           :field2="b.outcome"
-          label1="What it proposes"
-          label2="Outcome"
+          :label1="t('card.label.whatItProposes')"
+          :label2="t('card.label.outcome')"
           :isExpanded="expandedId === b.id"
           @toggle="handleToggle"
           @share="handleShare"
         />
-        <div v-if="!filteredBills.length" class="pt-empty">No bills match your filters.</div>
+        <div v-if="!filteredBills.length" class="pt-empty">{{ t('empty.bills') }}</div>
       </div>
     </template>
 
@@ -1522,24 +1537,24 @@ const filteredBills = computed(() => {
       <div class="pt-stats">
         <div class="pt-stat">
           <div class="pt-stat-value total">{{ appointments.length }}</div>
-          <div class="pt-stat-label">Tracked</div>
+          <div class="pt-stat-label">{{ t('stats.tracked') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value kept">{{ appointments.filter(a => a.status === 'serving').length }}</div>
-          <div class="pt-stat-label">Still serving</div>
+          <div class="pt-stat-label">{{ t('stats.stillServing') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value broken">{{ appointments.filter(a => a.status === 'sacked').length }}</div>
-          <div class="pt-stat-label">Sacked</div>
+          <div class="pt-stat-label">{{ t('status.sacked') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value partial">{{ appointments.filter(a => a.status === 'resigned').length }}</div>
-          <div class="pt-stat-label">Resigned</div>
+          <div class="pt-stat-label">{{ t('status.resigned') }}</div>
         </div>
       </div>
 
       <div class="pt-controls">
-        <input v-model="searchQuery" type="text" class="pt-search" placeholder="Search name, role, state…" />
+        <input v-model="searchQuery" type="text" class="pt-search" :placeholder="t('search.appointments')" />
         <div class="pt-filter-group">
           <button
             v-for="s in APPOINTMENT_STATUSES" :key="s.key"
@@ -1548,8 +1563,8 @@ const filteredBills = computed(() => {
           >{{ s.label }}</button>
         </div>
         <select v-model="activeCategory" class="pt-cat-filter">
-          <option value="all">All categories</option>
-          <option v-for="cat in appointmentCategories" :key="cat" :value="cat">{{ cat }}</option>
+          <option value="all">{{ t('filter.allCategories') }}</option>
+          <option v-for="cat in appointmentCategories" :key="cat" :value="cat">{{ t('category.' + canonicalizeCategory(cat)) }}</option>
         </select>
       </div>
 
@@ -1562,13 +1577,13 @@ const filteredBills = computed(() => {
           @report="openReport"
           :field1="`${a.agency} · ${a.state} (${a.geopolitical}) · Appointed ${a.appointed}`"
           :field2="a.note"
-          label1="Details"
-          label2="Assessment"
+          :label1="t('card.label.details')"
+          :label2="t('card.label.assessment')"
           :isExpanded="expandedId === a.id"
           @toggle="handleToggle"
           @share="handleShare"
         />
-        <div v-if="!filteredAppointments.length" class="pt-empty">No appointments match your filters.</div>
+        <div v-if="!filteredAppointments.length" class="pt-empty">{{ t('empty.appointments') }}</div>
       </div>
     </template>
 
@@ -1591,24 +1606,24 @@ const filteredBills = computed(() => {
       <div class="pt-stats">
         <div class="pt-stat">
           <div class="pt-stat-value total">{{ judgments.length }}</div>
-          <div class="pt-stat-label">Cases tracked</div>
+          <div class="pt-stat-label">{{ t('stats.casesTracked') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value broken">{{ judgmentCounts.lost }}</div>
-          <div class="pt-stat-label">Govt lost</div>
+          <div class="pt-stat-label">{{ t('stats.govtLost') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value kept">{{ judgmentCounts.won }}</div>
-          <div class="pt-stat-label">Govt won</div>
+          <div class="pt-stat-label">{{ t('stats.govtWon') }}</div>
         </div>
         <div class="pt-stat">
           <div class="pt-stat-value partial">{{ judgmentCounts.settled }}</div>
-          <div class="pt-stat-label">Settled</div>
+          <div class="pt-stat-label">{{ t('stats.settled') }}</div>
         </div>
       </div>
 
       <div class="pt-controls">
-        <input v-model="searchQuery" type="text" class="pt-search" placeholder="Search cases…" />
+        <input v-model="searchQuery" type="text" class="pt-search" :placeholder="t('search.cases')" />
         <div class="pt-filter-group">
           <button
             v-for="s in JUDGMENT_STATUSES" :key="s.key"
@@ -1617,8 +1632,8 @@ const filteredBills = computed(() => {
           >{{ s.label }}</button>
         </div>
         <select v-model="activeCategory" class="pt-cat-filter">
-          <option value="all">All categories</option>
-          <option v-for="cat in judgmentCategories" :key="cat" :value="cat">{{ cat }}</option>
+          <option value="all">{{ t('filter.allCategories') }}</option>
+          <option v-for="cat in judgmentCategories" :key="cat" :value="cat">{{ t('category.' + canonicalizeCategory(cat)) }}</option>
         </select>
       </div>
 
@@ -1632,13 +1647,13 @@ const filteredBills = computed(() => {
           @report="openReport"
           :field1="j.issue"
           :field2="j.outcome"
-          label1="What the case is about"
-          label2="Ruling & compliance"
+          :label1="t('card.label.caseAbout')"
+          :label2="t('card.label.rulingCompliance')"
           :isExpanded="expandedId === j.id"
           @toggle="handleToggle"
           @share="handleShare"
         />
-        <div v-if="!filteredJudgments.length" class="pt-empty">No cases match your filters.</div>
+        <div v-if="!filteredJudgments.length" class="pt-empty">{{ t('empty.cases') }}</div>
       </div>
     </template>
 

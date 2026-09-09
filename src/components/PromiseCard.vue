@@ -1,14 +1,18 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
+
+const t = inject('t', (k) => k)
+// Prefixes an internal path with the active locale (identity for `en`).
+const lp = inject('lp', (p) => p)
 
 const props = defineProps({
   item:       { type: Object,  required: true },
   field1:     { type: String,  required: true },
   field2:     { type: String,  required: true },
   field3:     { type: String,  default: null },
-  label1:     { type: String,  default: 'The promise' },
-  label2:     { type: String,  default: 'Assessment' },
-  label3:     { type: String,  default: 'Govt response' },
+  label1:     { type: String,  default: '' },
+  label2:     { type: String,  default: '' },
+  label3:     { type: String,  default: '' },
   isExpanded: { type: Boolean, default: false },
   // Resolved "See also" targets for this card: [{ id, title }]. Empty unless
   // the parent passes them (currently only the Promises tab). Dormant until
@@ -23,52 +27,36 @@ const props = defineProps({
 
 const emit = defineEmits(['toggle', 'share', 'goto', 'report'])
 
-const BADGE_LABEL = {
-  // promises
-  kept:         'Kept',
-  broken:       'Broken',
-  partial:      'Partial',
-  pending:      'In progress',
-  fixed:        'Fixed',
-  // fraud case status
-  convicted:    'Convicted',
-  ongoing:      'Ongoing',
-  dismissed:    'Dismissed',
-  acquitted:    'Acquitted',
-  // fraud govt response
-  pursuing:     'Pursuing',
-  stalled:      'Stalled',
-  political:    'Politicised',
-  abandoned:    'Abandoned',
-  complied:     'No interference',
-  // orders
-  implemented:  'Implemented',
-  reversed:     'Reversed',
-  ignored:      'Ignored',
-  // ministers
-  good:         'Good',
-  fair:         'Fair',
-  poor:         'Poor',
-  sacked:       'Sacked',
-  resigned:     'Resigned',
-  // bills
-  passed:       'Passed',
-  // judgments
-  won:          'Govt Won',
-  lost:         'Govt Lost',
-  settled:      'Settled',
-  // appointments
-  serving:      'Serving',
+// Status/verdict → catalogue key. Covers every section's status vocabulary
+// plus the fraud government-response verdicts.
+const BADGE_KEY = {
+  kept: 'status.kept', broken: 'status.broken', partial: 'status.partial',
+  pending: 'status.pending', fixed: 'status.fixed',
+  convicted: 'status.convicted', ongoing: 'status.ongoing',
+  dismissed: 'status.dismissed', acquitted: 'status.acquitted',
+  pursuing: 'response.pursuing', stalled: 'response.stalled',
+  political: 'response.political', abandoned: 'response.abandoned',
+  complied: 'response.complied',
+  implemented: 'status.implemented', reversed: 'status.reversed', ignored: 'status.ignored',
+  good: 'status.good', fair: 'status.fair', poor: 'status.poor',
+  sacked: 'status.sacked', resigned: 'status.resigned',
+  passed: 'status.passed',
+  won: 'status.won', lost: 'status.lost', settled: 'status.settled',
+  serving: 'status.serving',
 }
+const badgeLabel = (v) => (BADGE_KEY[v] ? t(BADGE_KEY[v]) : v)
 
 // Standardised editorial banners — Wikipedia-style status notices instead of
 // ad-hoc prose. Keyed off item.flag; nothing renders when it's absent.
 const FLAG_META = {
-  disputed:   { cls: 'disputed',   label: 'Rating disputed', text: 'This rating is contested. See the sources and judge for yourself.' },
-  correction: { cls: 'correction', label: 'Corrected',       text: 'This entry was recently corrected.' },
-  review:     { cls: 'review',     label: 'Under review',     text: 'This entry is being re-checked against newer evidence.' },
+  disputed:   { cls: 'disputed',   labelKey: 'flag.disputed.label',   textKey: 'flag.disputed.text' },
+  correction: { cls: 'correction', labelKey: 'flag.correction.label', textKey: 'flag.correction.text' },
+  review:     { cls: 'review',     labelKey: 'flag.review.label',     textKey: 'flag.review.text' },
 }
-const flag = computed(() => FLAG_META[props.item.flag] || null)
+const flag = computed(() => {
+  const f = FLAG_META[props.item.flag]
+  return f ? { cls: f.cls, label: t(f.labelKey), text: t(f.textKey) } : null
+})
 
 // "Month YYYY" (e.g. "May 2025") or bare "YYYY" → Date, else null.
 function parseMonthYear(s) {
@@ -111,22 +99,22 @@ const sourceKind = computed(() => {
 // The methodology's source tiers (guide §6). Editor-set `sourceTier` wins;
 // when it's unset we still show "Primary" for a .gov host from the heuristic.
 const SOURCE_TIER = {
-  official:  { label: 'Primary',     cls: 'primary',   title: 'Government or official record — the strongest basis for a rating.' },
-  reporting: { label: 'Reporting',   cls: 'reporting', title: 'Established independent reporting with editorial standards.' },
-  analysis:  { label: 'Analysis',    cls: 'analysis',  title: 'Named expert or civil-society research — used for context and cross-checks.' },
-  weak:      { label: 'Weak source', cls: 'weak',      title: 'Flagged as a weak source — not a sufficient basis on its own.' },
+  official:  { cls: 'primary',   labelKey: 'sourceTier.primary.label',   titleKey: 'sourceTier.primary.title' },
+  reporting: { cls: 'reporting', labelKey: 'sourceTier.reporting.label', titleKey: 'sourceTier.reporting.title' },
+  analysis:  { cls: 'analysis',  labelKey: 'sourceTier.analysis.label',  titleKey: 'sourceTier.analysis.title' },
+  weak:      { cls: 'weak',      labelKey: 'sourceTier.weak.label',      titleKey: 'sourceTier.weak.title' },
 }
 const sourceBadge = computed(() => {
   const tier = props.item.sourceTier
-  if (tier && SOURCE_TIER[tier]) return SOURCE_TIER[tier]
-  return sourceKind.value === 'official' ? SOURCE_TIER.official : null
+  const meta = (tier && SOURCE_TIER[tier]) || (sourceKind.value === 'official' ? SOURCE_TIER.official : null)
+  return meta ? { cls: meta.cls, label: t(meta.labelKey), title: t(meta.titleKey) } : null
 })
 
 // Public change history (entry_history) — "correct in the open".
-const HIST_KIND_LABEL = { rating_change: 'Rating', reclassify: 'Source tier', correction: 'Correction' }
+const HIST_KIND_KEY = { rating_change: 'card.hist.rating', reclassify: 'card.hist.tier', correction: 'card.hist.correction' }
 function histValue(v) {
   if (v == null || v === '') return '—'
-  return BADGE_LABEL[v] || v
+  return badgeLabel(v)
 }
 function fmtHistDate(iso) {
   const d = new Date(iso)
@@ -135,8 +123,8 @@ function fmtHistDate(iso) {
 const historyItems = computed(() => props.history.map(h => ({
   date: fmtHistDate(h.changedAt),
   line: h.kind === 'correction'
-    ? `Corrected — ${h.field}`
-    : `${HIST_KIND_LABEL[h.kind] || h.field}: ${histValue(h.oldValue)} → ${histValue(h.newValue)}`,
+    ? t('card.hist.corrected', { field: h.field })
+    : t('card.hist.line', { kind: HIST_KIND_KEY[h.kind] ? t(HIST_KIND_KEY[h.kind]) : h.field, old: histValue(h.oldValue), new: histValue(h.newValue) }),
   note: h.note || null,
 })))
 
@@ -165,16 +153,16 @@ function reportIssue() {
       <div class="pt-card-right">
         <!-- Primary status badge -->
         <span :class="['pt-badge', `pt-badge-${item.status}`]">
-          {{ BADGE_LABEL[item.status] }}
+          {{ badgeLabel(item.status) }}
         </span>
         <!-- Secondary response verdict badge (fraud tab) -->
         <span
           v-if="item.responseVerdict"
           :class="['pt-badge', 'pt-badge-response', `pt-badge-rv-${item.responseVerdict}`]"
-        >{{ BADGE_LABEL[item.responseVerdict] }}</span>
+        >{{ badgeLabel(item.responseVerdict) }}</span>
         <button
           class="pt-share-btn"
-          :title="`Copy link to #${item.id}`"
+          :title="t('card.copyLinkTitle', { id: item.id })"
           @click.stop="emit('share', item.id)"
         >
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
@@ -209,13 +197,13 @@ function reportIssue() {
           </div>
           <!-- Recurring commitment: this promise recurs across administrations -->
           <div v-if="item.theme" class="pt-detail-response pt-lineage">
-            <a class="pt-lineage-link" :href="`/themes/${item.theme}`" @click.stop>
-              Part of a recurring commitment — see the full lineage →
+            <a class="pt-lineage-link" :href="lp(`/themes/${item.theme}`)" @click.stop>
+              {{ t('card.recurringCommitment') }}
             </a>
           </div>
           <!-- See also: related promises in the same administration -->
           <div v-if="related.length" class="pt-detail-response pt-see-also">
-            <div class="pt-detail-label">See also</div>
+            <div class="pt-detail-label">{{ t('card.seeAlso') }}</div>
             <button
               v-for="r in related"
               :key="r.id"
@@ -225,7 +213,7 @@ function reportIssue() {
           </div>
           <!-- Public change history for this entry -->
           <div v-if="historyItems.length" class="pt-detail-response pt-history">
-            <div class="pt-detail-label">Change history</div>
+            <div class="pt-detail-label">{{ t('card.changeHistory') }}</div>
             <div v-for="(h, i) in historyItems" :key="i" class="pt-history-row">
               <span class="pt-history-date">{{ h.date }}</span>
               <span class="pt-history-line">{{ h.line }}</span>
@@ -233,9 +221,9 @@ function reportIssue() {
             </div>
           </div>
           <div class="pt-detail-footer">
-            <span v-if="sourceKind === 'none'" class="pt-source-none" title="This entry has no linked source yet">Source: not linked</span>
+            <span v-if="sourceKind === 'none'" class="pt-source-none" :title="t('card.sourceNotLinkedTitle')">{{ t('card.sourceNotLinked') }}</span>
             <template v-else>
-              <span>Source:</span>
+              <span>{{ t('card.source') }}</span>
               <a class="pt-source-link" :href="item.source" target="_blank" rel="noopener" @click.stop>
                 {{ item.sourceLabel || item.source }}
               </a>
@@ -245,9 +233,9 @@ function reportIssue() {
                 :title="sourceBadge.title"
               >{{ sourceBadge.label }}</span>
             </template>
-            <span v-if="item.updated">· Updated {{ item.updated }}</span>
-            <span v-if="isStale" class="pt-stale-note" title="Not updated in over 18 months — may not reflect the latest evidence">· needs review</span>
-            <button class="pt-report-link" @click.stop="reportIssue" title="Suggest a correction for this entry">· Report an issue</button>
+            <span v-if="item.updated">{{ t('card.updated', { date: item.updated }) }}</span>
+            <span v-if="isStale" class="pt-stale-note" :title="t('card.needsReviewTitle')">{{ t('card.needsReview') }}</span>
+            <button class="pt-report-link" @click.stop="reportIssue" :title="t('card.reportIssueTitle')">{{ t('card.reportIssue') }}</button>
           </div>
         </div>
       </div>

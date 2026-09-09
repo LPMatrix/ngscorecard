@@ -1,8 +1,10 @@
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, inject } from 'vue'
 import PromiseCard from './PromiseCard.vue'
 import BudgetView from './BudgetView.vue'
 import IndicatorsView from './IndicatorsView.vue'
+
+const t = inject('t', (k) => k)
 
 const props = defineProps({
   admin:         { type: Object, required: true }, // { key, name, title, term, tagline, level, state }
@@ -13,7 +15,7 @@ const props = defineProps({
 })
 
 const isStateLevel = computed(() => props.admin.level === 'state')
-const ministerLabel = computed(() => isStateLevel.value ? 'Commissioners' : 'Ministers')
+const ministerLabel = computed(() => isStateLevel.value ? t('tab.commissioners') : t('tab.ministers'))
 
 const loading = ref(true)
 const promises = ref([])
@@ -122,21 +124,21 @@ watch(() => props.tab, () => { expandedId.value = null })
       <div class="cmp-col-name">{{ admin.title || admin.name }}</div>
       <div class="cmp-col-meta">
         <span>{{ admin.term }}</span>
-        <span v-if="admin.state">· {{ admin.state }} State</span>
+        <span v-if="admin.state">· {{ admin.state }} {{ t('picker.stateWord') }}</span>
         <span v-if="admin.tagline">· "{{ admin.tagline }}"</span>
       </div>
     </div>
 
-    <div v-if="loading" class="cmp-loading">Loading…</div>
+    <div v-if="loading" class="cmp-loading">{{ t('compare.loading') }}</div>
 
     <template v-else>
       <!-- PROMISES -->
       <template v-if="tab === 'promises'">
         <div class="cmp-stats">
-          <div class="cmp-stat"><div class="cmp-stat-val total">{{ promises.length }}</div><div class="cmp-stat-lbl">Total</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ promiseCounts.kept }}</div><div class="cmp-stat-lbl">Kept</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ promiseCounts.partial }}</div><div class="cmp-stat-lbl">Partial</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ promiseCounts.broken }}</div><div class="cmp-stat-lbl">Broken</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val total">{{ promises.length }}</div><div class="cmp-stat-lbl">{{ t('stats.total') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ promiseCounts.kept }}</div><div class="cmp-stat-lbl">{{ t('stats.kept') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ promiseCounts.partial }}</div><div class="cmp-stat-lbl">{{ t('stats.partial') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ promiseCounts.broken }}</div><div class="cmp-stat-lbl">{{ t('stats.broken') }}</div></div>
         </div>
         <div class="cmp-progress-bar">
           <div class="cmp-bar-kept" :style="{ width: pct(promiseCounts.kept, promises.length) }"></div>
@@ -145,49 +147,49 @@ watch(() => props.tab, () => { expandedId.value = null })
           <div class="cmp-bar-pending" :style="{ width: pct(promiseCounts.pending, promises.length) }"></div>
         </div>
         <div class="cmp-list">
-          <PromiseCard v-for="p in filteredPromises" :key="p.id" :item="p" :field1="p.promise" :field2="p.assessment" label1="The promise" label2="Assessment" :isExpanded="expandedId === p.id" @toggle="handleToggle" />
-          <div v-if="!filteredPromises.length" class="cmp-empty">No promises match your filters.</div>
+          <PromiseCard v-for="p in filteredPromises" :key="p.id" :item="p" :field1="p.promise" :field2="p.assessment" :label1="t('card.label.thePromise')" :label2="t('card.label.assessment')" :isExpanded="expandedId === p.id" @toggle="handleToggle" />
+          <div v-if="!filteredPromises.length" class="cmp-empty">{{ t('empty.promises') }}</div>
         </div>
       </template>
 
       <!-- INHERITED -->
       <template v-else-if="tab === 'inherited'">
         <div class="cmp-stats">
-          <div class="cmp-stat"><div class="cmp-stat-val total">{{ inheritedCounts.total }}</div><div class="cmp-stat-lbl">Inherited</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ inheritedCounts.fixed }}</div><div class="cmp-stat-lbl">Fixed</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ inheritedCounts.partial }}</div><div class="cmp-stat-lbl">Partial</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val total">{{ inheritedCounts.total }}</div><div class="cmp-stat-lbl">{{ t('stats.inherited') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ inheritedCounts.fixed }}</div><div class="cmp-stat-lbl">{{ t('stats.fixed') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ inheritedCounts.partial }}</div><div class="cmp-stat-lbl">{{ t('stats.partial') }}</div></div>
         </div>
         <div class="cmp-list">
-          <PromiseCard v-for="p in filteredInherited" :key="p.id" :item="p" :field1="p.problem" :field2="p.resolution" label1="The problem" label2="What was done" :isExpanded="expandedId === p.id" @toggle="handleToggle" />
-          <div v-if="!filteredInherited.length" class="cmp-empty">No inherited issues match your filters.</div>
+          <PromiseCard v-for="p in filteredInherited" :key="p.id" :item="p" :field1="p.problem" :field2="p.resolution" :label1="t('card.label.theProblem')" :label2="t('card.label.whatWasDone')" :isExpanded="expandedId === p.id" @toggle="handleToggle" />
+          <div v-if="!filteredInherited.length" class="cmp-empty">{{ t('empty.inherited') }}</div>
         </div>
       </template>
 
       <!-- FRAUD -->
       <template v-else-if="tab === 'fraud'">
         <div class="cmp-stats">
-          <div class="cmp-stat"><div class="cmp-stat-val total">{{ fraud.length }}</div><div class="cmp-stat-lbl">Cases</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ fraudCounts.convicted }}</div><div class="cmp-stat-lbl">Convicted</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val pending">{{ fraudCounts.ongoing }}</div><div class="cmp-stat-lbl">Ongoing</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val total">{{ fraudCounts.dismissed }}</div><div class="cmp-stat-lbl">Dismissed</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val total">{{ fraud.length }}</div><div class="cmp-stat-lbl">{{ t('stats.cases') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ fraudCounts.convicted }}</div><div class="cmp-stat-lbl">{{ t('stats.convicted') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val pending">{{ fraudCounts.ongoing }}</div><div class="cmp-stat-lbl">{{ t('stats.ongoing') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val total">{{ fraudCounts.dismissed }}</div><div class="cmp-stat-lbl">{{ t('stats.dismissed') }}</div></div>
         </div>
         <div class="cmp-list">
-          <PromiseCard v-for="f in filteredFraud" :key="f.id" :item="f" :field1="f.allegation" :field2="f.outcome" :field3="f.govtResponse" label1="Allegation" label2="Outcome / Status" label3="Admin's response" :isExpanded="expandedId === f.id" @toggle="handleToggle" />
-          <div v-if="!filteredFraud.length" class="cmp-empty">No cases match your filters.</div>
+          <PromiseCard v-for="f in filteredFraud" :key="f.id" :item="f" :field1="f.allegation" :field2="f.outcome" :field3="f.govtResponse" :label1="t('card.label.allegation')" :label2="t('card.label.outcomeStatus')" :label3="t('card.label.adminResponse')" :isExpanded="expandedId === f.id" @toggle="handleToggle" />
+          <div v-if="!filteredFraud.length" class="cmp-empty">{{ t('empty.cases') }}</div>
         </div>
       </template>
 
       <!-- ORDERS -->
       <template v-else-if="tab === 'orders'">
         <div class="cmp-stats">
-          <div class="cmp-stat"><div class="cmp-stat-val total">{{ orders.length }}</div><div class="cmp-stat-lbl">Total</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ orderCounts.implemented }}</div><div class="cmp-stat-lbl">Implemented</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ orderCounts.partial }}</div><div class="cmp-stat-lbl">Partial</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ orderCounts.reversed }}</div><div class="cmp-stat-lbl">Reversed</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val total">{{ orders.length }}</div><div class="cmp-stat-lbl">{{ t('stats.total') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ orderCounts.implemented }}</div><div class="cmp-stat-lbl">{{ t('stats.implemented') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ orderCounts.partial }}</div><div class="cmp-stat-lbl">{{ t('stats.partial') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ orderCounts.reversed }}</div><div class="cmp-stat-lbl">{{ t('stats.reversed') }}</div></div>
         </div>
         <div class="cmp-list">
-          <PromiseCard v-for="o in filteredOrders" :key="o.id" :item="o" :field1="o.directive" :field2="o.effect" label1="The directive" label2="Real-world effect" :isExpanded="expandedId === o.id" @toggle="handleToggle" />
-          <div v-if="!filteredOrders.length" class="cmp-empty">No orders match your filters.</div>
+          <PromiseCard v-for="o in filteredOrders" :key="o.id" :item="o" :field1="o.directive" :field2="o.effect" :label1="t('card.label.theDirective')" :label2="t('card.label.realWorldEffect')" :isExpanded="expandedId === o.id" @toggle="handleToggle" />
+          <div v-if="!filteredOrders.length" class="cmp-empty">{{ t('empty.orders') }}</div>
         </div>
       </template>
 
@@ -195,60 +197,60 @@ watch(() => props.tab, () => { expandedId.value = null })
       <template v-else-if="tab === 'ministers'">
         <div class="cmp-stats">
           <div class="cmp-stat"><div class="cmp-stat-val total">{{ ministers.length }}</div><div class="cmp-stat-lbl">{{ ministerLabel }}</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ ministerCounts.good }}</div><div class="cmp-stat-lbl">Good</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ ministerCounts.fair }}</div><div class="cmp-stat-lbl">Fair</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ ministerCounts.poor }}</div><div class="cmp-stat-lbl">Poor</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ ministerCounts.good }}</div><div class="cmp-stat-lbl">{{ t('stats.good') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ ministerCounts.fair }}</div><div class="cmp-stat-lbl">{{ t('stats.fair') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ ministerCounts.poor }}</div><div class="cmp-stat-lbl">{{ t('stats.poor') }}</div></div>
         </div>
         <div class="cmp-list">
-          <PromiseCard v-for="m in filteredMinisters" :key="m.id" :item="{ ...m, title: m.name, category: m.ministry }" :field1="m.mandate" :field2="m.performance" label1="Mandate" label2="Performance" :isExpanded="expandedId === m.id" @toggle="handleToggle" />
-          <div v-if="!filteredMinisters.length" class="cmp-empty">No {{ ministerLabel.toLowerCase() }} match your filters.</div>
+          <PromiseCard v-for="m in filteredMinisters" :key="m.id" :item="{ ...m, title: m.name, category: m.ministry }" :field1="m.mandate" :field2="m.performance" :label1="t('card.label.mandate')" :label2="t('card.label.performance')" :isExpanded="expandedId === m.id" @toggle="handleToggle" />
+          <div v-if="!filteredMinisters.length" class="cmp-empty">{{ t('empty.ministers', { label: ministerLabel.toLowerCase() }) }}</div>
         </div>
       </template>
 
       <!-- APPOINTMENTS -->
       <template v-else-if="tab === 'appointments'">
         <div class="cmp-stats">
-          <div class="cmp-stat"><div class="cmp-stat-val total">{{ appointments.length }}</div><div class="cmp-stat-lbl">Tracked</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ appointmentCounts.serving }}</div><div class="cmp-stat-lbl">Serving</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ appointmentCounts.sacked }}</div><div class="cmp-stat-lbl">Sacked</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ appointmentCounts.resigned }}</div><div class="cmp-stat-lbl">Resigned</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val total">{{ appointments.length }}</div><div class="cmp-stat-lbl">{{ t('stats.tracked') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ appointmentCounts.serving }}</div><div class="cmp-stat-lbl">{{ t('status.serving') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ appointmentCounts.sacked }}</div><div class="cmp-stat-lbl">{{ t('status.sacked') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ appointmentCounts.resigned }}</div><div class="cmp-stat-lbl">{{ t('status.resigned') }}</div></div>
         </div>
         <div class="cmp-list">
-          <PromiseCard v-for="a in filteredAppointments" :key="a.id" :item="{ ...a, title: a.name, category: a.role }" :field1="`${a.agency} · ${a.state} (${a.geopolitical}) · Appointed ${a.appointed}`" :field2="a.note" label1="Details" label2="Assessment" :isExpanded="expandedId === a.id" @toggle="handleToggle" />
-          <div v-if="!filteredAppointments.length" class="cmp-empty">No appointments match your filters.</div>
+          <PromiseCard v-for="a in filteredAppointments" :key="a.id" :item="{ ...a, title: a.name, category: a.role }" :field1="`${a.agency} · ${a.state} (${a.geopolitical}) · Appointed ${a.appointed}`" :field2="a.note" :label1="t('card.label.details')" :label2="t('card.label.assessment')" :isExpanded="expandedId === a.id" @toggle="handleToggle" />
+          <div v-if="!filteredAppointments.length" class="cmp-empty">{{ t('empty.appointments') }}</div>
         </div>
       </template>
 
       <!-- JUDGMENTS -->
       <template v-else-if="tab === 'judgments'">
         <div class="cmp-stats">
-          <div class="cmp-stat"><div class="cmp-stat-val total">{{ judgments.length }}</div><div class="cmp-stat-lbl">Cases</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ judgmentCounts.lost }}</div><div class="cmp-stat-lbl">Govt lost</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ judgmentCounts.won }}</div><div class="cmp-stat-lbl">Govt won</div></div>
-          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ judgmentCounts.settled }}</div><div class="cmp-stat-lbl">Settled</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val total">{{ judgments.length }}</div><div class="cmp-stat-lbl">{{ t('stats.cases') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val broken">{{ judgmentCounts.lost }}</div><div class="cmp-stat-lbl">{{ t('stats.govtLost') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val kept">{{ judgmentCounts.won }}</div><div class="cmp-stat-lbl">{{ t('stats.govtWon') }}</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-val partial">{{ judgmentCounts.settled }}</div><div class="cmp-stat-lbl">{{ t('stats.settled') }}</div></div>
         </div>
         <div class="cmp-list">
           <PromiseCard
             v-for="j in filteredJudgments" :key="j.id"
             :item="{ ...j, source: '#', sourceLabel: j.court, updated: j.ruled }"
             :field1="j.issue" :field2="j.outcome"
-            label1="What the case is about" label2="Ruling & compliance"
+            :label1="t('card.label.caseAbout')" :label2="t('card.label.rulingCompliance')"
             :isExpanded="expandedId === j.id" @toggle="handleToggle"
           />
-          <div v-if="!filteredJudgments.length" class="cmp-empty">No cases match your filters.</div>
+          <div v-if="!filteredJudgments.length" class="cmp-empty">{{ t('empty.cases') }}</div>
         </div>
       </template>
 
       <!-- BUDGET -->
       <template v-else-if="tab === 'budget'">
         <BudgetView v-if="budget.length" :budgets="budget" />
-        <div v-else class="cmp-empty">No budget data tracked.</div>
+        <div v-else class="cmp-empty">{{ t('empty.budget') }}</div>
       </template>
 
       <!-- INDICATORS -->
       <template v-else-if="tab === 'indicators'">
         <IndicatorsView v-if="indicators.length" :indicators="indicators" />
-        <div v-else class="cmp-empty">No indicators tracked.</div>
+        <div v-else class="cmp-empty">{{ t('empty.indicators') }}</div>
       </template>
     </template>
   </div>

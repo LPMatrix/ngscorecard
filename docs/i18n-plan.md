@@ -1,10 +1,10 @@
 # Localisation plan
 
 Wikipedia's per-language editions widen both reach and perceived legitimacy.
-NGScorecard's version starts with the parts that carry the most trust — the
-**methodology** and the **headline verdicts** — in Nigeria's three major
-languages plus Nigerian Pidgin. The methodology page is drafted in all four;
-the headline verdicts are not localised yet.
+NGScorecard's version started with the part that carries the most trust — the
+**methodology** — in Nigeria's three major languages plus Nigerian Pidgin, and
+is now being extended to the whole app UI (see "Full-app localisation (F9)"
+below). Locales: Hausa, Yorùbá, Igbo, Nigerian Pidgin.
 
 ## Target locales
 
@@ -48,19 +48,63 @@ server and Vercel with no routing changes.
 `server/index.js` + `server/dev.js` (next to the existing `/guide` handler)
 and a `vercel.json` rewrite per locale. Not required for the scaffold.
 
-## Next steps, in order
+## Full-app localisation (F9)
 
-1. **Native-speaker review of all four drafts** — `pcm`, `yo`, `ig`, `ha`.
-   This is the blocker for everything below.
-2. Localise the **headline verdict strip** in the app (the kept/partial/broken
-   counts + labels in `src/App.vue`). Smallest useful in-app i18n: a
-   `?lang=` param selecting a small label dictionary — no full framework.
-3. Add the four locale pages to `public/sitemap.xml` once reviewed.
-4. Consider a language switcher in the main app header, not just on `/guide`.
-5. Optional: pretty URLs `/guide/ha` (see URL scheme above).
+The methodology-only approach above is now being extended to the whole app
+UI. The scorecards themselves — nav, tabs, filters, status labels, category
+names, section copy, meta tags — get localised into the same five locales,
+with locale-prefixed routes (`/ha/tinubu`, `/yo/themes`) and an `hreflang`
+cluster.
+
+**In scope:** UI chrome, status labels, category names, meta descriptions,
+the landing / themes / compare / correction views.
+**Out of scope (v1):** promise / assessment / allegation body text (stays
+English — a large ongoing content effort), names, party acronyms, and the
+`/developers` · `/press` · `/admin` pages.
+
+### Phases
+
+| # | Deliverable |
+|---|---|
+| 0 | **Decisions + scaffolding** (done — see below). |
+| 1 | **Locale-aware routing & SSR plumbing (done).** `/<code>/…` resolves through the SSR catch-all with `<html lang>`, locale-prefixed canonical, a full `hreflang` cluster (+ `x-default`) and `og:locale`; `t` is provided to the app; every internal link / URL-sync prefixes the locale via `lp()`. Text is still English. `render.js` strips the segment (`splitLocalePath`), `entry-server.render({locale})` threads it, `buildMeta(t,…)` pulls meta frames from the catalogue. `/<code>/guide` deferred to Phase 3. |
+| 2 | **String extraction sweep (done).** Every hardcoded UI string in `App.vue` + the 9 components (`PromiseCard`, `CompareView`, `AdminColumn`, `GovernorsView`, `BudgetView`, `IndicatorsView`, `LandingView`, `ThemesView`, `CorrectionForm`) now routes through `t()` — nav, tabs, stat tiles, filters, status/category vocab, card labels, flags, source tiers, empty states, picker, correction form, meta. `en.js` has ~356 keys. Category display keys off `canonicalizeCategory()`. Verified: 0 raw-key leaks in SSR HTML across every page type, English renders unchanged, `/ha` falls back to English cleanly. One deliberate cosmetic delta: the landing lede / themes "promised by N" count lost its bold, flattened for clean `{n}` interpolation. |
+| 3 | Language switcher in the header + first pilot locale (**Hausa**) end to end; `/ha/guide` wired to the existing `guide.ha.html`. |
+| 4 | `yo` / `ig` / `pcm` draft catalogues against the frozen key set. |
+| 5 | SEO + polish — locale URLs in `sitemap.xml`, `hreflang` verified across page types, native-review cycle, QA matrix. |
+
+### Phase 0 decisions (settled)
+
+- **Mechanism: in-house, no framework.** `src/i18n/index.js` exports
+  `createT(locale)` → `t(key, params)` with a strict fallback chain
+  (requested locale → English → the key), `{param}` interpolation and a
+  `singular|plural` pipe. Rationale: ~250 flat keys, hand-rolled SSR, and the
+  codebase's no-heavy-deps norm. `vue-i18n` was the alternative and is more
+  than this needs.
+- **Locale set:** `en` (default, **no prefix**), `ha`, `yo`, `ig`, `pcm`.
+- **URL model:** path prefix. `/tinubu` (en) ↔ `/ha/tinubu`. Helpers
+  `splitLocalePath()` / `localizePath()` in `src/i18n/index.js`.
+- **Catalogue:** `src/i18n/en.js` is the source of truth (flat dotted keys,
+  `export default {…}` — plain JS, not JSON, so it loads under Vite, raw Node
+  and Vercel alike). `ha/yo/ig/pcm.js` mirror its key set; missing keys fall
+  back to
+  English. Phase 0 seeded the enumerable core (status vocab, tab names,
+  actions, meta templates, landing/themes copy); Phase 2 completes it.
+- **Category normalisation:** the `category` field has ~70 free-text
+  variants. `src/i18n/categories.js` maps them to 23 canonical slugs via
+  `canonicalizeCategory(raw)`, so i18n keys off `category.<slug>` without
+  rewriting stored data. A later task can normalise the DB itself.
+- **Data stays English:** in non-`en` locales, cards show an "Assessment
+  shown in English" note (`label.assessmentInEnglish`).
+
+### Older next steps (still valid, now folded into the phases above)
+
+1. Native-speaker review of the four guide drafts — the blocker for treating
+   any locale as production. Same reviewers seed the app catalogues.
+2. Add locale pages to `public/sitemap.xml` (Phase 5).
+3. Pretty URLs `/guide/ha` — becomes `/ha/guide` under the Phase 1 router.
 
 ## Non-goals for now
 
-- Full app i18n / a translation framework (vue-i18n etc.).
-- Translating every promise `assessment` — that's a large, ongoing content
-  effort; start with methodology + verdict labels.
+- Translating every promise `assessment` — large, ongoing content effort.
+- Localising numerals / currency figures (₦ amounts stay as written).

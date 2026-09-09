@@ -1,6 +1,8 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, inject } from 'vue'
 import AdminColumn from './AdminColumn.vue'
+
+const t = inject('t', (k) => k)
 
 const props = defineProps({
   presidents: { type: Array, required: true },
@@ -11,29 +13,30 @@ const props = defineProps({
 
 const emit = defineEmits(['exit'])
 
-const TABS = [
-  { key: 'promises',     label: 'Promises' },
-  { key: 'inherited',    label: 'Inherited Fixes' },
-  { key: 'fraud',        label: 'Fraud' },
-  { key: 'judgments',    label: 'Court Judgments' },
-  { key: 'orders',       label: 'Orders & Policy' },
-  { key: 'ministers',    label: 'Ministers/Commissioners' },
-  { key: 'appointments', label: 'Appointments' },
-  { key: 'budget',       label: 'Budget' },
-  { key: 'indicators',   label: 'Key Indicators' },
-]
+const TABS = computed(() => [
+  { key: 'promises',     label: t('tab.promises') },
+  { key: 'inherited',    label: t('tab.inherited') },
+  { key: 'fraud',        label: t('tab.fraud') },
+  { key: 'judgments',    label: t('tab.judgments') },
+  { key: 'orders',       label: t('tab.orders') },
+  { key: 'ministers',    label: t('tab.ministersCommissioners') },
+  { key: 'appointments', label: t('tab.appointments') },
+  { key: 'budget',       label: t('tab.budget') },
+  { key: 'indicators',   label: t('tab.indicators') },
+])
 
-const STATUS_OPTIONS = {
-  promises:     [{ key: 'all', label: 'All' }, { key: 'kept', label: 'Kept' }, { key: 'partial', label: 'Partial' }, { key: 'broken', label: 'Broken' }, { key: 'pending', label: 'In progress' }],
-  inherited:    [{ key: 'all', label: 'All' }, { key: 'fixed', label: 'Fixed' }, { key: 'partial', label: 'Partial' }],
-  fraud:        [{ key: 'all', label: 'All' }, { key: 'convicted', label: 'Convicted' }, { key: 'ongoing', label: 'Ongoing' }, { key: 'dismissed', label: 'Dismissed' }, { key: 'acquitted', label: 'Acquitted' }],
-  orders:       [{ key: 'all', label: 'All' }, { key: 'implemented', label: 'Implemented' }, { key: 'partial', label: 'Partial' }, { key: 'reversed', label: 'Reversed' }, { key: 'ignored', label: 'Ignored' }],
-  ministers:    [{ key: 'all', label: 'All' }, { key: 'good', label: 'Good' }, { key: 'fair', label: 'Fair' }, { key: 'poor', label: 'Poor' }, { key: 'sacked', label: 'Sacked' }, { key: 'resigned', label: 'Resigned' }],
-  appointments: [{ key: 'all', label: 'All' }, { key: 'serving', label: 'Serving' }, { key: 'resigned', label: 'Resigned' }, { key: 'sacked', label: 'Sacked' }],
-  judgments:    [{ key: 'all', label: 'All' }, { key: 'lost', label: 'Govt Lost' }, { key: 'won', label: 'Govt Won' }, { key: 'settled', label: 'Settled' }, { key: 'ongoing', label: 'Ongoing' }],
+const opt = (key, k) => ({ key, label: t(k) })
+const STATUS_OPTIONS = computed(() => ({
+  promises:     [opt('all', 'status.all'), opt('kept', 'status.kept'), opt('partial', 'status.partial'), opt('broken', 'status.broken'), opt('pending', 'status.pending')],
+  inherited:    [opt('all', 'status.all'), opt('fixed', 'status.fixed'), opt('partial', 'status.partial')],
+  fraud:        [opt('all', 'status.all'), opt('convicted', 'status.convicted'), opt('ongoing', 'status.ongoing'), opt('dismissed', 'status.dismissed'), opt('acquitted', 'status.acquitted')],
+  orders:       [opt('all', 'status.all'), opt('implemented', 'status.implemented'), opt('partial', 'status.partial'), opt('reversed', 'status.reversed'), opt('ignored', 'status.ignored')],
+  ministers:    [opt('all', 'status.all'), opt('good', 'status.good'), opt('fair', 'status.fair'), opt('poor', 'status.poor'), opt('sacked', 'status.sacked'), opt('resigned', 'status.resigned')],
+  appointments: [opt('all', 'status.all'), opt('serving', 'status.serving'), opt('resigned', 'status.resigned'), opt('sacked', 'status.sacked')],
+  judgments:    [opt('all', 'status.all'), opt('lost', 'status.lost'), opt('won', 'status.won'), opt('settled', 'status.settled'), opt('ongoing', 'status.ongoing')],
   budget:       [],
   indicators:   [],
-}
+}))
 
 // Governors only compare against governors, presidents only against presidents
 // — pairing across levels doesn't mean much (2 years in Anambra vs. 8 years
@@ -69,7 +72,7 @@ watch(adminA, () => {
   }
 })
 
-const currentStatusOptions = computed(() => STATUS_OPTIONS[activeTab.value] ?? [])
+const currentStatusOptions = computed(() => STATUS_OPTIONS.value[activeTab.value] ?? [])
 const hasFilters = computed(() => !['budget', 'indicators'].includes(activeTab.value))
 
 function syncUrl() {
@@ -95,29 +98,29 @@ function swapAdmins() {
 <template>
   <div class="cmp-wrap">
     <div class="cmp-toolbar">
-      <button class="cmp-exit" @click="emit('exit')">← Back to single view</button>
+      <button class="cmp-exit" @click="emit('exit')">{{ t('compare.backToSingle') }}</button>
 
       <div class="cmp-pickers">
         <select v-model="adminA" class="cmp-picker">
           <option v-for="p in presidents" :key="p.key" :value="p.key">{{ p.name }}{{ p.state ? ` (${p.state})` : '' }}</option>
         </select>
-        <button class="cmp-swap" title="Swap" @click="swapAdmins">⇄</button>
+        <button class="cmp-swap" :title="t('compare.swap')" @click="swapAdmins">⇄</button>
         <select v-model="adminB" class="cmp-picker">
           <option v-for="p in adminBOptions" :key="p.key" :value="p.key">{{ p.name }}{{ p.state ? ` (${p.state})` : '' }}</option>
         </select>
       </div>
     </div>
 
-    <nav class="cmp-tabs" aria-label="Compare section">
+    <nav class="cmp-tabs" :aria-label="t('compare.section')">
       <button
-        v-for="t in TABS" :key="t.key"
-        :class="['cmp-tab-btn', { active: activeTab === t.key }]"
-        @click="activeTab = t.key"
-      >{{ t.label }}</button>
+        v-for="tb in TABS" :key="tb.key"
+        :class="['cmp-tab-btn', { active: activeTab === tb.key }]"
+        @click="activeTab = tb.key"
+      >{{ tb.label }}</button>
     </nav>
 
     <div v-if="hasFilters" class="cmp-filters">
-      <input v-model="searchQuery" type="text" class="pt-search" placeholder="Search both…" />
+      <input v-model="searchQuery" type="text" class="pt-search" :placeholder="t('search.both')" />
       <div class="pt-filter-group">
         <button
           v-for="s in currentStatusOptions" :key="s.key"

@@ -1,12 +1,17 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
+import { canonicalizeCategory } from '../i18n/categories.js'
 
 const props = defineProps({
   data: { type: Object, required: true },
 })
 
-const LABELS = { kept: 'Kept', partial: 'Partial', broken: 'Broken', pending: 'In progress' }
-const label = (s) => LABELS[s] || s
+const t = inject('t', (k) => k)
+// Prefixes an internal path with the active locale (identity for `en`).
+const lp = inject('lp', (p) => p)
+
+const label = (s) => t(`status.${s}`)
+const catLabel = (c) => (c ? t(`category.${canonicalizeCategory(c)}`) : '')
 const yr = (ts) => String(ts || '').slice(0, 4)
 
 const entries = computed(() => props.data?.entries || [])
@@ -15,37 +20,33 @@ const tally = computed(() => {
   const order = ['kept', 'partial', 'broken', 'pending']
   const c = {}
   for (const e of entries.value) c[e.status] = (c[e.status] || 0) + 1
-  return order.filter((k) => c[k]).map((k) => ({ key: k, n: c[k], label: LABELS[k] }))
+  return order.filter((k) => c[k]).map((k) => ({ key: k, n: c[k] }))
 })
 
-const adminHref = (e) => `/${e.adminKey}`
-const promiseHref = (e) => `/${e.adminKey}?id=${e.id}`
+const adminHref = (e) => lp(`/${e.adminKey}`)
+const promiseHref = (e) => `${lp(`/${e.adminKey}`)}?id=${e.id}`
 </script>
 
 <template>
   <div class="tv">
     <!-- ── Index: every recurring commitment ── -->
     <template v-if="data.mode === 'index'">
-      <nav class="tv-back"><a href="/">&larr; NGScorecard</a></nav>
+      <nav class="tv-back"><a :href="lp('/')">{{ t('themes.backToNGScorecard') }}</a></nav>
       <header class="tv-head">
-        <p class="tv-eyebrow">Recurring commitments</p>
-        <h1 class="tv-title">Promises made again and again</h1>
-        <p class="tv-lede">
-          Some pledges recur across administration after administration. Each one below is
-          threaded through every government that made it &mdash; military and civilian &mdash;
-          with what actually happened.
-        </p>
+        <p class="tv-eyebrow">{{ t('themes.indexEyebrow') }}</p>
+        <h1 class="tv-title">{{ t('themes.indexTitle') }}</h1>
+        <p class="tv-lede">{{ t('themes.indexLede') }}</p>
       </header>
 
       <ul class="tv-list">
         <li v-for="th in data.list" :key="th.slug">
-          <a :href="`/themes/${th.slug}`" class="tv-card">
+          <a :href="lp(`/themes/${th.slug}`)" class="tv-card">
             <div class="tv-card-top">
               <span class="tv-card-title">{{ th.title }}</span>
-              <span class="tv-card-count">{{ th.adminCount }} administrations</span>
+              <span class="tv-card-count">{{ t('themes.adminCount', { n: th.adminCount }) }}</span>
             </div>
             <p class="tv-card-blurb">{{ th.blurb }}</p>
-            <span v-if="th.category" class="tv-card-cat">{{ th.category }}</span>
+            <span v-if="th.category" class="tv-card-cat">{{ catLabel(th.category) }}</span>
           </a>
         </li>
       </ul>
@@ -53,14 +54,14 @@ const promiseHref = (e) => `/${e.adminKey}?id=${e.id}`
 
     <!-- ── Lineage: one commitment across administrations ── -->
     <template v-else-if="data.mode === 'lineage'">
-      <nav class="tv-back"><a href="/themes">&larr; All recurring commitments</a></nav>
+      <nav class="tv-back"><a :href="lp('/themes')">{{ t('themes.backToIndex') }}</a></nav>
       <header class="tv-head">
-        <p class="tv-eyebrow">{{ data.theme.category || 'Recurring commitment' }}</p>
+        <p class="tv-eyebrow">{{ data.theme.category ? catLabel(data.theme.category) : t('themes.recurringCommitment') }}</p>
         <h1 class="tv-title">{{ data.theme.title }}</h1>
         <p class="tv-lede">{{ data.theme.blurb }}</p>
         <div class="tv-summary">
-          <span class="tv-summary-count">Promised by <b>{{ adminCount }}</b> administrations</span>
-          <span v-for="s in tally" :key="s.key" :class="['tv-tag', s.key]">{{ s.n }} {{ s.label.toLowerCase() }}</span>
+          <span class="tv-summary-count">{{ t('themes.promisedBy', { n: adminCount }) }}</span>
+          <span v-for="s in tally" :key="s.key" :class="['tv-tag', s.key]">{{ s.n }} {{ label(s.key).toLowerCase() }}</span>
         </div>
       </header>
 
@@ -75,16 +76,14 @@ const promiseHref = (e) => `/${e.adminKey}?id=${e.id}`
           <a :href="promiseHref(e)" class="tv-promise">{{ e.title }}</a>
           <p class="tv-assess">{{ e.assessment }}</p>
           <div class="tv-node-foot">
-            <a v-if="e.source" :href="e.source" target="_blank" rel="noopener">{{ e.sourceLabel || 'Source' }}</a>
+            <a v-if="e.source" :href="e.source" target="_blank" rel="noopener">{{ e.sourceLabel || t('themes.source') }}</a>
             <span v-if="e.updated"> &middot; updated {{ e.updated }}</span>
           </div>
         </li>
       </ol>
 
       <p class="tv-foot">
-        Each entry is one rated promise &mdash; follow it to that administration&rsquo;s full
-        scorecard. Ratings use the four verdicts defined in the
-        <a href="/guide#ratings">methodology</a>.
+        {{ t('themes.footPrefix') }}<a href="/guide#ratings">{{ t('themes.footMethodology') }}</a>{{ t('themes.footSuffix') }}
       </p>
     </template>
   </div>

@@ -2,6 +2,7 @@ import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
 import { getPresidents, getAllDataForAdmin, getThemesWithCounts, getThemeLineage } from '../server/queries.js'
+import { createT, isLocale, DEFAULT_LOCALE } from './i18n/index.js'
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
@@ -14,12 +15,11 @@ const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])
 // across the different tabs (promise, fraud case, order, bill, minister…).
 const DETAIL_FIELDS = ['promise', 'assessment', 'allegation', 'directive', 'summary', 'mandate', 'issue', 'problem', 'outcome', 'note']
 
-function buildMeta(admin, deepItem, notFound) {
+// `t` is a bound translator for the active locale (see src/i18n). Meta frames
+// come from the catalogue; deep-link detail and theme blurbs stay as data.
+function buildMeta(t, admin, deepItem, notFound) {
   if (notFound) {
-    return {
-      title: 'Administration not found | NGScorecard',
-      description: 'That page doesn’t match any tracked Nigerian president or governor. Use the search on NGScorecard to find the one you’re after.',
-    }
+    return { title: t('meta.notFound.title'), description: t('meta.notFound.desc') }
   }
   // A shared/deep link to one card (?id=…) — describe that card, not the tab.
   if (admin && deepItem) {
@@ -29,31 +29,23 @@ function buildMeta(admin, deepItem, notFound) {
       const detail = detailSrc
         ? String(detailSrc).replace(/\s+/g, ' ').trim().slice(0, 200)
         : `${admin.fullName} — tracked on NGScorecard.`
-      return {
-        title: `${label} — ${admin.fullName} | NGScorecard`,
-        description: detail,
-      }
+      return { title: `${label} — ${admin.fullName} | NGScorecard`, description: detail }
     }
   }
   if (!admin) {
-    return {
-      title: 'NGScorecard — Nigeria Government Accountability Tracker',
-      description: 'Independent, non-partisan tracker of Nigerian governments — campaign promises, fraud cases, executive orders, ministerial performance, budgets and court judgments. Every federal administration since 1960 and elected state governors back to 1979, every claim sourced.',
-    }
+    return { title: t('meta.landing.title'), description: t('meta.landing.desc') }
   }
   if (admin.level === 'state') {
-    return {
-      title: `NGScorecard — ${admin.fullName} Accountability Tracker (${admin.state} State, ${admin.term})`,
-      description: `Independent tracker for ${admin.fullName}'s (${admin.term}) record as Governor of ${admin.state} State — campaign promises, fraud cases, executive directives, commissioners' performance, state budgets, and court judgments. Part of NGScorecard's civic accountability record for Nigeria.`,
-    }
+    const p = { fullName: admin.fullName, state: admin.state, term: admin.term }
+    return { title: t('meta.state.title', p), description: t('meta.state.desc', p) }
   }
-  return {
-    title: `NGScorecard — ${admin.fullName} Accountability Tracker (${admin.term})`,
-    description: `Independent tracker for ${admin.fullName}'s (${admin.term}) campaign promises, fraud cases, executive orders, ministerial performance, federal budgets, and legislation. Part of NGScorecard's civic accountability record for Nigeria since 1999.`,
-  }
+  const p = { fullName: admin.fullName, term: admin.term }
+  return { title: t('meta.federal.title', p), description: t('meta.federal.desc', p) }
 }
 
-export async function render({ admin, tab, id } = {}) {
+export async function render({ locale, admin, tab, id } = {}) {
+  const loc = isLocale(locale) ? locale : DEFAULT_LOCALE
+  const t = createT(loc)
   const presidents = await getPresidents()
 
   const projectedPresidents = presidents.map(p => ({
@@ -63,11 +55,19 @@ export async function render({ admin, tab, id } = {}) {
     isCurrent: p.isCurrent !== false,
   }))
 
+  const mount = (initialData) => {
+    const app = createSSRApp(App)
+    app.provide('initialData', initialData)
+    app.provide('t', t)
+    return renderToString(app)
+  }
+
   // Bare "/" (admin === null) is the neutral landing page — no administration
   // selected, no per-admin data loaded, generic site meta. A non-null admin
   // that matches nothing (e.g. /nosuchperson) is a real 404, handled below.
   if (admin == null) {
     const initialData = {
+      locale: loc,
       landing: true,
       admin: null,
       tab: 'promises',
@@ -77,17 +77,15 @@ export async function render({ admin, tab, id } = {}) {
       presidents: projectedPresidents,
       data: {},
     }
-    const app = createSSRApp(App)
-    app.provide('initialData', initialData)
-    const html = await renderToString(app)
-    return { html, initialData, meta: buildMeta(null, null, false), notFound: false }
+    const html = await mount(initialData)
+    return { html, initialData, meta: buildMeta(t, null, null, false), notFound: false }
   }
 
   // "/themes" (index) and "/themes/<slug>" (one recurring commitment's lineage).
   if (admin === 'themes') {
     const slug = tab || null
     const base = {
-      admin: 'themes', tab: slug, notFound: false, requestedAdmin: null,
+      locale: loc, admin: 'themes', tab: slug, notFound: false, requestedAdmin: null,
       expandedId: null, presidents: projectedPresidents, data: {},
     }
     let payload, meta, missing = false
@@ -96,25 +94,20 @@ export async function render({ admin, tab, id } = {}) {
       if (lineage) {
         payload = { mode: 'lineage', slug, theme: lineage.theme, entries: lineage.entries }
         meta = {
-          title: `${lineage.theme.title} — a recurring commitment | NGScorecard`,
+          title: t('meta.themeLineage.title', { title: lineage.theme.title }),
           description: lineage.theme.blurb,
         }
       } else {
         missing = true
         payload = { mode: 'missing', slug }
-        meta = buildMeta(null, null, true)
+        meta = buildMeta(t, null, null, true)
       }
     } else {
       payload = { mode: 'index', list: await getThemesWithCounts() }
-      meta = {
-        title: 'Recurring commitments | NGScorecard',
-        description: 'Promises Nigerian governments have made again and again — each one threaded through every administration that made it, with what actually happened.',
-      }
+      meta = { title: t('meta.themesIndex.title'), description: t('meta.themesIndex.desc') }
     }
     const initialData = { ...base, themes: payload, notFound: missing, requestedAdmin: missing ? `themes/${slug}` : null }
-    const app = createSSRApp(App)
-    app.provide('initialData', initialData)
-    const html = await renderToString(app)
+    const html = await mount(initialData)
     return { html, initialData, meta, notFound: missing }
   }
 
@@ -129,6 +122,7 @@ export async function render({ admin, tab, id } = {}) {
   const data = await getAllDataForAdmin(resolvedAdmin)
 
   const initialData = {
+    locale: loc,
     admin: resolvedAdmin,
     tab: resolvedTab,
     notFound,
@@ -138,17 +132,14 @@ export async function render({ admin, tab, id } = {}) {
     data,
   }
 
-  const app = createSSRApp(App)
-  app.provide('initialData', initialData)
-
-  const html = await renderToString(app)
+  const html = await mount(initialData)
 
   // If the URL deep-links a specific card, give it its own title/description
   // so shared links render a meaningful preview.
   const deepItem = Number.isFinite(id) && Array.isArray(data[resolvedTab])
     ? data[resolvedTab].find(x => x.id === id)
     : null
-  const meta = buildMeta(adminRecord, deepItem, notFound)
+  const meta = buildMeta(t, adminRecord, deepItem, notFound)
 
   return { html, initialData, meta, notFound }
 }

@@ -1,5 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, inject } from 'vue'
+
+const t = inject('t', (k) => k)
 
 const props = defineProps({
   indicators: { type: Array, required: true },
@@ -93,16 +95,16 @@ const change = computed(() => {
     <!-- Key stats -->
     <div class="iv-stats">
       <div class="iv-stat">
-        <div class="iv-stat-lbl">{{ active.points.length > 1 ? 'Earliest' : 'Recorded' }} ({{ first.label }})</div>
+        <div class="iv-stat-lbl">{{ active.points.length > 1 ? t('indicators.earliest') : t('indicators.recorded') }} ({{ first.label }})</div>
         <div class="iv-stat-val">{{ fmt(first.value, active.unit) }}</div>
       </div>
       <template v-if="active.points.length > 1">
         <div class="iv-stat">
-          <div class="iv-stat-lbl">Latest ({{ last.label }})</div>
+          <div class="iv-stat-lbl">{{ t('indicators.latestAt', { label: last.label }) }}</div>
           <div class="iv-stat-val">{{ fmt(last.value, active.unit) }}</div>
         </div>
         <div class="iv-stat">
-          <div class="iv-stat-lbl">Change since {{ first.label }}</div>
+          <div class="iv-stat-lbl">{{ t('indicators.changeSince', { label: first.label }) }}</div>
           <div :class="['iv-stat-val', 'iv-change', change.good ? 'good' : 'bad']">
             {{ change.up ? '+' : '' }}{{ change.pct }}%
           </div>
@@ -200,7 +202,7 @@ const change = computed(() => {
     <p v-if="active.note" class="iv-note">{{ active.note }}</p>
     <p class="iv-desc">{{ active.description }}</p>
     <div class="iv-source">
-      Source: <a :href="active.source" target="_blank" class="pt-source-link">{{ active.sourceLabel }}</a>
+      {{ t('indicators.source') }} <a :href="active.source" target="_blank" class="pt-source-link">{{ active.sourceLabel }}</a>
     </div>
   </div>
 </template>

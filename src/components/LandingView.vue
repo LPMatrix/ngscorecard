@@ -1,10 +1,14 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 
 const props = defineProps({
   administrations: { type: Array, default: () => [] },
 })
 defineEmits(['select', 'open-picker'])
+
+const t = inject('t', (k) => k)
+// Prefixes an internal path with the active locale (identity for `en`).
+const lp = inject('lp', (p) => p)
 
 // Nigeria's six geopolitical zones — used to group sitting governors the same
 // way the command-bar picker does. Kept local: it's static reference data.
@@ -53,9 +57,9 @@ const yearOf = a => parseInt(String(a.termStart ?? '').slice(0, 4)) || 0
 const federalByEra = computed(() => {
   const byRecent = federal.value.slice().sort((a, b) => yearOf(b) - yearOf(a))
   const buckets = [
-    { label: 'Fourth Republic · 1999–present', min: 1999, max: 9999 },
-    { label: 'Second Republic & military rule · 1979–1999', min: 1979, max: 1998 },
-    { label: 'Independence & the first military era · 1960–1979', min: 1960, max: 1978 },
+    { label: t('landing.era.fourthRepublic'), min: 1999, max: 9999 },
+    { label: t('landing.era.secondMilitary'), min: 1979, max: 1998 },
+    { label: t('landing.era.independence'), min: 1960, max: 1978 },
   ]
   return buckets
     .map(b => ({ label: b.label, items: byRecent.filter(a => yearOf(a) >= b.min && yearOf(a) <= b.max) }))
@@ -84,40 +88,34 @@ const recentlyReviewed = computed(() =>
 <template>
   <div class="lp">
     <section class="lp-hero">
-      <p class="lp-eyebrow">Civic accountability · Nigeria</p>
-      <h2 class="lp-title">Every Nigerian government, held to its word.</h2>
-      <p class="lp-lede">
-        NGScorecard tracks campaign promises, fraud cases, executive orders, ministerial
-        performance, budgets and court judgments across
-        <strong>{{ total }} administrations</strong> — every federal government since 1960,
-        and elected state governors back to 1979. Independent, non-partisan, every claim linked
-        to its source.
-      </p>
+      <p class="lp-eyebrow">{{ t('landing.eyebrow') }}</p>
+      <h2 class="lp-title">{{ t('landing.title') }}</h2>
+      <p class="lp-lede">{{ t('landing.lede', { total }) }}</p>
       <div class="lp-hero-actions">
         <button class="lp-btn-primary" type="button" @click="$emit('open-picker')">
-          Find an administration
+          {{ t('landing.findAdministration') }}
         </button>
-        <a href="/guide" class="lp-btn-ghost">How this works</a>
+        <a href="/guide" class="lp-btn-ghost">{{ t('landing.howThisWorks') }}</a>
       </div>
-      <p class="lp-stats">{{ federalCount }} federal · {{ stateCount }} state · 1960–present</p>
+      <p class="lp-stats">{{ t('landing.stats', { federal: federalCount, state: stateCount }) }}</p>
     </section>
 
     <section v-if="sittingPresident || sittingGovernors.length" class="lp-section">
-      <h3 class="lp-h">In office now</h3>
+      <h3 class="lp-h">{{ t('landing.inOfficeNow') }}</h3>
       <button
         v-if="sittingPresident"
         type="button"
         class="lp-lead"
         @click="$emit('select', sittingPresident.key)"
       >
-        <span class="lp-lead-role">President</span>
+        <span class="lp-lead-role">{{ t('landing.president') }}</span>
         <span class="lp-lead-name">{{ sittingPresident.title }}</span>
         <span class="lp-lead-meta">{{ sittingPresident.party }} · {{ sittingPresident.term }}</span>
       </button>
 
       <div class="lp-zones">
         <div v-for="z in governorsByZone" :key="z.label" class="lp-zone">
-          <div class="lp-zone-label">{{ z.label }}</div>
+          <div class="lp-zone-label">{{ t('zone.' + z.label) }}</div>
           <button
             v-for="g in z.items"
             :key="g.key"
@@ -133,7 +131,7 @@ const recentlyReviewed = computed(() =>
     </section>
 
     <section class="lp-section">
-      <h3 class="lp-h">Federal governments by era</h3>
+      <h3 class="lp-h">{{ t('landing.byEra') }}</h3>
       <div v-for="era in federalByEra" :key="era.label" class="lp-era">
         <div class="lp-era-label">{{ era.label }}</div>
         <div class="lp-era-row">
@@ -152,7 +150,7 @@ const recentlyReviewed = computed(() =>
     </section>
 
     <section v-if="recentlyReviewed.length" class="lp-section">
-      <h3 class="lp-h">Recently reviewed</h3>
+      <h3 class="lp-h">{{ t('landing.recentlyReviewed') }}</h3>
       <div class="lp-recent">
         <button
           v-for="a in recentlyReviewed"
@@ -170,16 +168,15 @@ const recentlyReviewed = computed(() =>
     </section>
 
     <section class="lp-section">
-      <h3 class="lp-h">Recurring commitments</h3>
-      <a href="/themes" class="lp-themes-link">
-        <span class="lp-themes-title">Promises made again and again →</span>
-        <span class="lp-themes-sub">Fixing the power supply, diversifying off oil, restructuring the federation — pledges threaded through every administration that made them, with what happened each time.</span>
+      <h3 class="lp-h">{{ t('landing.recurringHeading') }}</h3>
+      <a :href="lp('/themes')" class="lp-themes-link">
+        <span class="lp-themes-title">{{ t('landing.recurringTitle') }}</span>
+        <span class="lp-themes-sub">{{ t('landing.recurringSub') }}</span>
       </a>
     </section>
 
     <p class="lp-foot">
-      Coverage and rating method are documented in the <a href="/guide">guide</a>.
-      Spotted an error? Every card carries a “Report an issue” link.
+      {{ t('landing.footPrefix') }}<a href="/guide">{{ t('landing.footGuide') }}</a>{{ t('landing.footSuffix') }}
     </p>
   </div>
 </template>
