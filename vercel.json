@@ -1,8 +1,14 @@
 {
-  "buildCommand": "npm run build",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "npm run build && cp dist/client/index.html dist/ssr-template.html",
   "outputDirectory": "dist/client",
+  "functions": {
+    "api/ssr.js": { "includeFiles": "dist/**" }
+  },
+  "cleanUrls": true,
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api" },
-    { "source": "/(.*)", "destination": "/ssr" }
+    { "source": "/(.*)", "destination": "/api/ssr" }
   ]
 }

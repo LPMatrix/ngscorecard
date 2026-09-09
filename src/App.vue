@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, watch, inject, provide, nextTick } from 'vue'
-import { createT, localizePath, splitLocalePath } from './i18n/index.js'
+import { createT, localizePath } from './i18n/index.js'
+import { matchRoute, buildPath } from './routes.js'
 import { canonicalizeCategory } from './i18n/categories.js'
 import PromiseCard  from './components/PromiseCard.vue'
 import BudgetView      from './components/BudgetView.vue'
@@ -347,24 +348,40 @@ onMounted(async () => {
     const presidents = await fetch('/api/presidents').then(r => r.json()).catch(() => [])
     ADMINISTRATIONS.value = presidents.map(mapPresident)
 
-    // Path-based routing (/admin/tab), falling back to the legacy
-    // ?admin=&tab= query form for anything that reaches this SPA-only
-    // bootstrap (SSR normally handles both — see server/render.js).
-    const { locale: pathLocale, rest } = splitLocalePath(window.location.pathname)
-    locale.value = pathLocale
-    const [pathAdmin, pathTab] = rest.split('/').filter(Boolean)
-    const admin = pathAdmin || params.get('admin')
-    const tab   = pathTab || params.get('tab')
-    if (admin && presidents.some(p => p.key === admin)) activeAdmin.value = admin
-    else if (admin) { notFound.value = true; requestedAdmin.value = admin }
-    const adminLevel = presidents.find(p => p.key === activeAdmin.value)?.level
-    const tabInvalidForLevel = adminLevel === 'state' && FEDERAL_ONLY_TABS.has(tab)
-    if (tab && VALID_TABS.has(tab) && !tabInvalidForLevel) activeTab.value = tab
+    // SPA-only bootstrap (SSR normally provides initialData). Route via the
+    // shared table so path parsing matches the server exactly.
+    const route = matchRoute(window.location.pathname)
+    locale.value = route.locale
 
-    await loadData(activeAdmin.value)
-
-    const id = parseInt(params.get('id'))
-    if (id) expandedId.value = id
+    if (route.name === 'home') {
+      isLanding.value = true
+      activeAdmin.value = null
+    } else if (route.name === 'themesIndex' || route.name === 'themeLineage') {
+      const url = route.name === 'themeLineage' ? `/api/themes/${route.params.slug}` : '/api/themes'
+      const payload = await fetch(url).then(r => r.ok ? r.json() : null).catch(() => null)
+      if (route.name === 'themeLineage') {
+        themesData.value = payload ? { mode: 'lineage', slug: route.params.slug, theme: payload.theme, entries: payload.entries } : { mode: 'missing', slug: route.params.slug }
+      } else {
+        themesData.value = { mode: 'index', list: payload || [] }
+      }
+      isThemes.value = themesData.value.mode !== 'missing'
+      if (!isThemes.value) { notFound.value = true; requestedAdmin.value = `themes/${route.params.slug}` }
+      activeAdmin.value = null
+    } else if (route.name === 'scorecard') {
+      const admin = route.params.admin || params.get('admin')
+      const tab = route.params.tab || params.get('tab')
+      if (admin && presidents.some(p => p.key === admin)) activeAdmin.value = admin
+      else if (admin) { notFound.value = true; requestedAdmin.value = admin }
+      const adminLevel = presidents.find(p => p.key === activeAdmin.value)?.level
+      const tabInvalidForLevel = adminLevel === 'state' && FEDERAL_ONLY_TABS.has(tab)
+      if (tab && VALID_TABS.has(tab) && !tabInvalidForLevel) activeTab.value = tab
+      await loadData(activeAdmin.value)
+      const id = parseInt(params.get('id'))
+      if (id) expandedId.value = id
+    } else {
+      notFound.value = true
+      requestedAdmin.value = route.path.replace(/^\//, '')
+    }
   }
 
   // Restore filter state from the URL. Runs last, and whether or not SSR gave
@@ -447,13 +464,12 @@ function switchTab(tab) {
 // filtered view is shareable, bookmarkable, and — since admin/tab are read
 // server-side too — crawlable. `id` is managed separately by setExpanded().
 
-// "/" is the neutral landing page; every administration — Tinubu included —
-// gets its own explicit path segment(s). Mirrors server/render.js's
-// canonicalPath() exactly, since that's what the SSR layer declares as
-// canonical for this same view.
+// Path for the current view, via the shared route table (src/routes.js), so
+// the URL the client writes matches the canonical the SSR layer declares.
 function adminPath(admin, tab) {
-  const bare = !admin ? '/' : (tab === 'promises' ? `/${admin}` : `/${admin}/${tab}`)
-  return lp(bare)
+  return admin
+    ? buildPath('scorecard', { admin, tab }, locale.value)
+    : buildPath('home', {}, locale.value)
 }
 
 function syncUrl() {

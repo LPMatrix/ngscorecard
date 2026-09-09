@@ -26,27 +26,19 @@ async function createDevServer() {
   // Same API app used by the Vercel serverless entrypoint (api/index.js) —
   // see server/apiApp.js for why this must stay a single shared factory.
   app.use(createApiApp())
-  app.get('/developers', (_req, res) => {
-    res.sendFile(path.join(root, 'public/developers.html'))
-  })
-  app.get('/admin', (_req, res) => {
-    res.sendFile(path.join(root, 'public/admin.html'))
-  })
-  app.get('/press', (_req, res) => {
-    res.sendFile(path.join(root, 'public/press.html'))
-  })
-  app.get('/guide', (_req, res) => {
-    res.sendFile(path.join(root, 'public/guide.html'))
-  })
   app.use(vite.middlewares)
 
+  // The hand-authored static pages (/guide, /developers, …) are routed by
+  // src/routes.js and returned by renderHtml as `staticFile`; served here
+  // from public/. No per-page route registration.
   app.use(async (req, res) => {
     const url = req.originalUrl
     try {
       const rawHtml = readFileSync(path.join(root, 'index.html'), 'utf-8')
       const template = await vite.transformIndexHtml(url, rawHtml)
-      const { status, redirect, html } = await renderHtml(url, template, () => vite.ssrLoadModule('/src/entry-server.js'))
+      const { status, redirect, staticFile, html } = await renderHtml(url, template, () => vite.ssrLoadModule('/src/entry-server.js'))
       if (redirect) { res.redirect(status, redirect); return }
+      if (staticFile) { res.sendFile(path.join(root, 'public', staticFile)); return }
       res.status(status).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
       vite.ssrFixStacktrace(e)

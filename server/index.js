@@ -9,30 +9,22 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
 const PORT = process.env.PORT || 3000
 
-const template = readFileSync(path.join(__dirname, '../dist/client/index.html'), 'utf-8')
+const CLIENT_DIR = path.join(__dirname, '../dist/client')
+const template = readFileSync(path.join(CLIENT_DIR, 'index.html'), 'utf-8')
 const loadEntryServer = () => import('../dist/server/entry-server.js')
 
 // Same API app used by the Vercel serverless entrypoint (api/index.js) — see
 // server/apiApp.js for why this must stay a single shared factory.
 app.use(createApiApp())
-app.get('/developers', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/client/developers.html'))
-})
-app.get('/admin', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/client/admin.html'))
-})
-app.get('/press', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/client/press.html'))
-})
-app.get('/guide', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/client/guide.html'))
-})
-app.use(express.static(path.join(__dirname, '../dist/client'), { index: false }))
+app.use(express.static(CLIENT_DIR, { index: false }))
 
+// Static pages (/guide, /developers, …) come back from renderHtml as
+// `staticFile` — served here from dist/client. No per-page route registration.
 app.use(async (req, res) => {
   try {
-    const { status, redirect, html } = await renderHtml(req.originalUrl, template, loadEntryServer)
+    const { status, redirect, staticFile, html } = await renderHtml(req.originalUrl, template, loadEntryServer)
     if (redirect) { res.redirect(status, redirect); return }
+    if (staticFile) { res.sendFile(path.join(CLIENT_DIR, staticFile)); return }
     res.status(status).set('Content-Type', 'text/html').end(html)
   } catch (e) {
     console.error(e)

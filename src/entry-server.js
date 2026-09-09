@@ -3,6 +3,7 @@ import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
 import { getPresidents, getAllDataForAdmin, getThemesWithCounts, getThemeLineage } from '../server/queries.js'
 import { createT, isLocale, DEFAULT_LOCALE } from './i18n/index.js'
+import { routePath } from './routes.js'
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
@@ -43,8 +44,15 @@ function buildMeta(t, admin, deepItem, notFound) {
   return { title: t('meta.federal.title', p), description: t('meta.federal.desc', p) }
 }
 
-export async function render({ locale, admin, tab, id } = {}) {
-  const loc = isLocale(locale) ? locale : DEFAULT_LOCALE
+// `render({ route, id })` where route = { name, params, locale } comes from
+// src/routes.js matchRoute(). Dispatches on route.name; returns { html,
+// initialData, meta, notFound, canonical } — `canonical` is the locale-less
+// canonical path for this view (server/render.js adds the locale prefix and
+// hreflang cluster). `initialData` shape is stable so src/App.vue's client
+// hydration path needs no per-route knowledge.
+export async function render({ route, id } = {}) {
+  const { name = 'notFound', params = {} } = route || {}
+  const loc = isLocale(route?.locale) ? route.locale : DEFAULT_LOCALE
   const t = createT(loc)
   const presidents = await getPresidents()
 
@@ -62,41 +70,27 @@ export async function render({ locale, admin, tab, id } = {}) {
     return renderToString(app)
   }
 
-  // Bare "/" (admin === null) is the neutral landing page — no administration
-  // selected, no per-admin data loaded, generic site meta. A non-null admin
-  // that matches nothing (e.g. /nosuchperson) is a real 404, handled below.
-  if (admin == null) {
-    const initialData = {
-      locale: loc,
-      landing: true,
-      admin: null,
-      tab: 'promises',
-      notFound: false,
-      requestedAdmin: null,
-      expandedId: null,
-      presidents: projectedPresidents,
-      data: {},
-    }
+  const baseState = () => ({
+    locale: loc, landing: false, admin: null, tab: 'promises', notFound: false,
+    requestedAdmin: null, expandedId: null, presidents: projectedPresidents, data: {},
+  })
+
+  // ── "/" — the neutral landing page ────────────────────────────────────
+  if (name === 'home') {
+    const initialData = { ...baseState(), landing: true }
     const html = await mount(initialData)
-    return { html, initialData, meta: buildMeta(t, null, null, false), notFound: false }
+    return { html, initialData, meta: buildMeta(t, null, null, false), notFound: false, canonical: '/' }
   }
 
-  // "/themes" (index) and "/themes/<slug>" (one recurring commitment's lineage).
-  if (admin === 'themes') {
-    const slug = tab || null
-    const base = {
-      locale: loc, admin: 'themes', tab: slug, notFound: false, requestedAdmin: null,
-      expandedId: null, presidents: projectedPresidents, data: {},
-    }
+  // ── "/themes" and "/themes/<slug>" — recurring commitments ────────────
+  if (name === 'themesIndex' || name === 'themeLineage') {
+    const slug = name === 'themeLineage' ? params.slug : null
     let payload, meta, missing = false
     if (slug) {
       const lineage = await getThemeLineage(slug)
       if (lineage) {
         payload = { mode: 'lineage', slug, theme: lineage.theme, entries: lineage.entries }
-        meta = {
-          title: t('meta.themeLineage.title', { title: lineage.theme.title }),
-          description: lineage.theme.blurb,
-        }
+        meta = { title: t('meta.themeLineage.title', { title: lineage.theme.title }), description: lineage.theme.blurb }
       } else {
         missing = true
         payload = { mode: 'missing', slug }
@@ -106,40 +100,47 @@ export async function render({ locale, admin, tab, id } = {}) {
       payload = { mode: 'index', list: await getThemesWithCounts() }
       meta = { title: t('meta.themesIndex.title'), description: t('meta.themesIndex.desc') }
     }
-    const initialData = { ...base, themes: payload, notFound: missing, requestedAdmin: missing ? `themes/${slug}` : null }
+    const initialData = {
+      ...baseState(), admin: 'themes', tab: slug, themes: payload,
+      notFound: missing, requestedAdmin: missing ? `themes/${slug}` : null,
+    }
     const html = await mount(initialData)
-    return { html, initialData, meta, notFound: missing }
+    return { html, initialData, meta, notFound: missing, canonical: routePath(name, params) }
   }
 
-  const adminKnown = presidents.some(p => p.key === admin)
-  const notFound = !adminKnown
-  const resolvedAdmin = adminKnown ? admin : 'tinubu'
-  const adminRecord = presidents.find(p => p.key === resolvedAdmin)
+  // ── "/<admin>" and "/<admin>/<tab>" — an administration scorecard ─────
+  if (name === 'scorecard') {
+    const { admin, tab } = params
+    const adminKnown = presidents.some(p => p.key === admin)
+    const notFound = !adminKnown
+    const resolvedAdmin = adminKnown ? admin : 'tinubu'
+    const adminRecord = presidents.find(p => p.key === resolvedAdmin)
 
-  const tabInvalidForLevel = adminRecord?.level === 'state' && FEDERAL_ONLY_TABS.has(tab)
-  const resolvedTab = (VALID_TABS.has(tab) && !tabInvalidForLevel) ? tab : 'promises'
+    const tabInvalidForLevel = adminRecord?.level === 'state' && FEDERAL_ONLY_TABS.has(tab)
+    const resolvedTab = (VALID_TABS.has(tab) && !tabInvalidForLevel) ? tab : 'promises'
 
-  const data = await getAllDataForAdmin(resolvedAdmin)
+    const data = await getAllDataForAdmin(resolvedAdmin)
+    const initialData = {
+      ...baseState(),
+      admin: resolvedAdmin,
+      tab: resolvedTab,
+      notFound,
+      requestedAdmin: notFound ? admin : null,
+      expandedId: Number.isFinite(id) ? id : null,
+      data,
+    }
+    const html = await mount(initialData)
 
-  const initialData = {
-    locale: loc,
-    admin: resolvedAdmin,
-    tab: resolvedTab,
-    notFound,
-    requestedAdmin: notFound ? admin : null,
-    expandedId: Number.isFinite(id) ? id : null,
-    presidents: projectedPresidents,
-    data,
+    const deepItem = Number.isFinite(id) && Array.isArray(data[resolvedTab])
+      ? data[resolvedTab].find(x => x.id === id)
+      : null
+    const meta = buildMeta(t, adminRecord, deepItem, notFound)
+    const canonical = notFound ? (route.path || '/') : routePath('scorecard', { admin: resolvedAdmin, tab: resolvedTab })
+    return { html, initialData, meta, notFound, canonical }
   }
 
+  // ── Anything else — a genuine 404 ────────────────────────────────────
+  const initialData = { ...baseState(), notFound: true, requestedAdmin: (route?.path || '').replace(/^\//, '') || 'this page' }
   const html = await mount(initialData)
-
-  // If the URL deep-links a specific card, give it its own title/description
-  // so shared links render a meaningful preview.
-  const deepItem = Number.isFinite(id) && Array.isArray(data[resolvedTab])
-    ? data[resolvedTab].find(x => x.id === id)
-    : null
-  const meta = buildMeta(t, adminRecord, deepItem, notFound)
-
-  return { html, initialData, meta, notFound }
+  return { html, initialData, meta: buildMeta(t, null, null, true), notFound: true, canonical: route?.path || '/' }
 }
