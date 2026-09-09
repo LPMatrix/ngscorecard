@@ -1130,6 +1130,18 @@ a:focus-visible {
 }
 .pt-see-also-link:hover { border-color: var(--pt-green-600); background: var(--pt-green-050); }
 
+/* "Part of a recurring commitment" link — threads to /themes/<slug> */
+.pt-lineage-link {
+  display: inline-block;
+  color: var(--pt-link);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--pt-line-strong);
+  padding-bottom: 1px;
+}
+.pt-lineage-link:hover { border-color: var(--pt-green-600); }
+
 /* Public per-entry change history (entry_history) */
 .pt-history-row { font-size: 12.5px; line-height: 1.65; color: var(--pt-text-faint); }
 .pt-history-date { margin-right: 8px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--pt-text-muted); }

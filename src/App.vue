@@ -6,6 +6,7 @@ import IndicatorsView  from './components/IndicatorsView.vue'
 import GovernorsView   from './components/GovernorsView.vue'
 import CompareView     from './components/CompareView.vue'
 import LandingView     from './components/LandingView.vue'
+import ThemesView      from './components/ThemesView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
 import { downloadScorecard } from './lib/scorecardImage.js'
 
@@ -35,7 +36,11 @@ const requestedAdmin = ref(initial?.requestedAdmin ?? null)
 // Bare "/" is the neutral landing page: no administration is selected until
 // the reader picks one. Everywhere else, an admin is always active.
 const isLanding = ref(initial?.landing === true)
-const activeAdmin = ref(isLanding.value ? null : (initial?.admin ?? 'tinubu'))
+// "/themes" and "/themes/<slug>" — the recurring-commitments view. `themesData`
+// is { mode:'index', list } or { mode:'lineage', theme, entries } from SSR.
+const themesData = ref(initial?.themes ?? null)
+const isThemes = ref(!!initial?.themes && initial?.themes.mode !== 'missing')
+const activeAdmin = ref(isLanding.value || isThemes.value ? null : (initial?.admin ?? 'tinubu'))
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
 
@@ -813,7 +818,7 @@ const filteredBills = computed(() => {
             @click="activeAdmin = g.key"
           >{{ g.name }} ({{ g.term }})</button>
         </div>
-        <div v-if="viewMode === 'single' && !notFound && !isLanding" class="pt-view-actions">
+        <div v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes" class="pt-view-actions">
           <button class="pt-compare-btn" @click="enterCompareMode">Compare ⇄</button>
           <button
             class="pt-viewlink-btn"
@@ -943,7 +948,7 @@ const filteredBills = computed(() => {
         </template>
       </div>
       <!-- Mobile-only section nav -->
-      <select v-if="viewMode === 'single' && !notFound && !isLanding" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
+      <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup label="Government">
           <option value="promises">Promises</option>
           <option value="ministers">{{ ministerLabel }}</option>
@@ -1020,6 +1025,9 @@ const filteredBills = computed(() => {
       @select="goToAdminFromLanding"
       @open-picker="openPicker"
     />
+
+    <!-- ── Recurring commitments ("/themes", "/themes/<slug>") ── -->
+    <ThemesView v-else-if="isThemes" :data="themesData" />
 
     <!-- ── Body: sidebar + content ── -->
     <div v-else class="pt-body">

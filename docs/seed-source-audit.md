@@ -93,3 +93,39 @@ following redirects, and treat only `404` / `410` / `401` (and `200` that lands
 on a bare domain root) as dead. Push repairs to Turso with an `UPDATE` keyed by
 `administration` + the natural key (`title`, or `name`+`ministry`, or `year`,
 or indicator `key`) — a plain `npm run db:seed` will **not** apply them.
+
+## Rating correction — "In progress" on concluded administrations (Sept 2026)
+
+The `pending` status renders as **"In progress"**, which the methodology only
+permits while "the stated timeline hasn't passed and work is genuinely under
+way". A sweep found **27** promises rated `pending` on administrations whose
+term had ended — nonsensical for a finished tenure.
+
+All 27 were re-rated to `kept` / `partial` / `broken` against the evidence,
+each verified by web search, with the assessment rewritten to cite what was
+found:
+
+- **Yar'Adua** — "Complete privatisation of the power sector" → **broken**
+  (barely advanced in term; concluded only under Jonathan, Nov 2013).
+- **9 → broken:** `audu` (EFCC ₦10.97bn prosecution), `ibori` (UK guilty plea,
+  £101.5m confiscated), `fayose` (Poultry Project diversion, impeached),
+  `ladoja` (term lost to the Adedibu conflict + impeachment), `haruna`
+  (impeachment notice for "inability to perform"), `malawal` (no record; EFCC
+  probe at death), `yerima` (no verifiable delivery over two terms),
+  `bindow` ×2 ('Train of Change' + Fufore rice plant, both undelivered).
+- **17 → partial:** the AD South-West one-termers (`adefarati`, `adesina`,
+  `osoba`, `niyiadebayo`, `hashidu` — ran the programme, no scandal, thin
+  record, lost 2003); the scandal-free northern eight-year governors (`akume`,
+  `makarfi`, `kure`, `bukarabbaibrahim`, `muazu` — at least one concrete
+  deliverable each, broad promise only part-evidenced); `bafarawa` (acquitted
+  2018, evidence "imaginary"); `kalu` (Aba roads credited by a rival successor;
+  conviction nullified on procedure); `ihedioha` (recovery panel + ₦1.2bn
+  recovered, cut short by removal); `jonathan` Second Niger Bridge (financing +
+  groundbreaking, no substantive construction); `sanibello` (orderly handover;
+  successor's allegations never tested); `udenwa` (named Owerri roads; industry
+  reactivation undelivered); `olurin` (6-month caretaker mandate met).
+
+Applied to `data/seed/*.json` and pushed to Turso by `UPDATE` keyed on
+`administration` + `title` (a plain re-seed does not update existing rows).
+Afterwards: **0** `pending` promises remain on any concluded administration;
+the 15 that remain are all on sitting administrations.

@@ -207,6 +207,12 @@ function reportIssue() {
             <div class="pt-detail-label">{{ label3 }}</div>
             <div class="pt-detail-text">{{ field3 }}</div>
           </div>
+          <!-- Recurring commitment: this promise recurs across administrations -->
+          <div v-if="item.theme" class="pt-detail-response pt-lineage">
+            <a class="pt-lineage-link" :href="`/themes/${item.theme}`" @click.stop>
+              Part of a recurring commitment — see the full lineage →
+            </a>
+          </div>
           <!-- See also: related promises in the same administration -->
           <div v-if="related.length" class="pt-detail-response pt-see-also">
             <div class="pt-detail-label">See also</div>

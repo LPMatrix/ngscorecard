@@ -59,6 +59,63 @@ export const getEntryHistory = (admin) =>
     .where(eq(t.entryHistory.administration, admin))
     .orderBy(asc(t.entryHistory.changedAt), asc(t.entryHistory.id))
 
+// ── Recurring commitments (themes) ──────────────────────────────────────────
+
+// The themes index: every curated recurring commitment that has at least one
+// promise tagged to it, with a count of the distinct administrations involved.
+export async function getThemesWithCounts() {
+  const [themes, rows] = await Promise.all([
+    db.select().from(t.themes).orderBy(asc(t.themes.title)),
+    db.select({ theme: t.promises.theme, administration: t.promises.administration }).from(t.promises),
+  ])
+  const admins = new Map()
+  for (const r of rows) {
+    if (!r.theme) continue
+    if (!admins.has(r.theme)) admins.set(r.theme, new Set())
+    admins.get(r.theme).add(r.administration)
+  }
+  return themes
+    .map(th => ({ ...th, adminCount: admins.get(th.slug)?.size ?? 0 }))
+    .filter(th => th.adminCount > 0)
+}
+
+// One theme's lineage: every promise tagged with the slug, each joined to its
+// administration's name / party / term, ordered oldest term first. Returns
+// null for an unknown slug.
+export async function getThemeLineage(slug) {
+  const [theme] = await db.select().from(t.themes).where(eq(t.themes.slug, slug)).limit(1)
+  if (!theme) return null
+  const [proms, admins] = await Promise.all([
+    db.select().from(t.promises).where(eq(t.promises.theme, slug)),
+    getPresidents(),
+  ])
+  const byKey = new Map(admins.map(a => [a.key, a]))
+  const entries = proms
+    .map(p => {
+      const a = byKey.get(p.administration) || {}
+      return {
+        id: p.id,
+        adminKey: p.administration,
+        adminName: a.name ?? p.administration,
+        adminFullName: a.fullName ?? null,
+        party: a.party ?? null,
+        term: a.term ?? null,
+        termStart: a.termStart ?? '',
+        level: a.level ?? 'federal',
+        state: a.state ?? null,
+        title: p.title,
+        status: p.status,
+        promise: p.promise,
+        assessment: p.assessment,
+        source: p.source,
+        sourceLabel: p.sourceLabel,
+        updated: p.updated,
+      }
+    })
+    .sort((x, y) => String(x.termStart).localeCompare(String(y.termStart)) || x.adminName.localeCompare(y.adminName))
+  return { theme, entries }
+}
+
 export async function getBudget(admin) {
   const [budgets, ministries] = await Promise.all([
     db.select().from(t.budget).where(eq(t.budget.administration, admin)),

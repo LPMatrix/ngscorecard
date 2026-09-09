@@ -169,6 +169,14 @@ const recentlyReviewed = computed(() =>
       </div>
     </section>
 
+    <section class="lp-section">
+      <h3 class="lp-h">Recurring commitments</h3>
+      <a href="/themes" class="lp-themes-link">
+        <span class="lp-themes-title">Promises made again and again →</span>
+        <span class="lp-themes-sub">Fixing the power supply, diversifying off oil, restructuring the federation — pledges threaded through every administration that made them, with what happened each time.</span>
+      </a>
+    </section>
+
     <p class="lp-foot">
       Coverage and rating method are documented in the <a href="/guide">guide</a>.
       Spotted an error? Every card carries a “Report an issue” link.
@@ -360,4 +368,17 @@ const recentlyReviewed = computed(() =>
   color: var(--pt-text-muted);
 }
 .lp-foot a { color: var(--pt-link); }
+
+.lp-themes-link {
+  display: block;
+  border: 1px solid var(--pt-line);
+  border-left: 3px solid var(--pt-green-600);
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: var(--pt-surface);
+  text-decoration: none;
+}
+.lp-themes-link:hover { background: var(--pt-surface-hover); border-color: var(--pt-green-600); }
+.lp-themes-title { display: block; font-size: 15px; font-weight: 700; color: var(--pt-text); }
+.lp-themes-sub { display: block; margin-top: 4px; font-size: 12.5px; line-height: 1.55; color: var(--pt-text-muted); }
 </style>

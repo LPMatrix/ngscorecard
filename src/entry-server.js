@@ -1,7 +1,7 @@
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
-import { getPresidents, getAllDataForAdmin } from '../server/queries.js'
+import { getPresidents, getAllDataForAdmin, getThemesWithCounts, getThemeLineage } from '../server/queries.js'
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
@@ -81,6 +81,41 @@ export async function render({ admin, tab, id } = {}) {
     app.provide('initialData', initialData)
     const html = await renderToString(app)
     return { html, initialData, meta: buildMeta(null, null, false), notFound: false }
+  }
+
+  // "/themes" (index) and "/themes/<slug>" (one recurring commitment's lineage).
+  if (admin === 'themes') {
+    const slug = tab || null
+    const base = {
+      admin: 'themes', tab: slug, notFound: false, requestedAdmin: null,
+      expandedId: null, presidents: projectedPresidents, data: {},
+    }
+    let payload, meta, missing = false
+    if (slug) {
+      const lineage = await getThemeLineage(slug)
+      if (lineage) {
+        payload = { mode: 'lineage', slug, theme: lineage.theme, entries: lineage.entries }
+        meta = {
+          title: `${lineage.theme.title} — a recurring commitment | NGScorecard`,
+          description: lineage.theme.blurb,
+        }
+      } else {
+        missing = true
+        payload = { mode: 'missing', slug }
+        meta = buildMeta(null, null, true)
+      }
+    } else {
+      payload = { mode: 'index', list: await getThemesWithCounts() }
+      meta = {
+        title: 'Recurring commitments | NGScorecard',
+        description: 'Promises Nigerian governments have made again and again — each one threaded through every administration that made it, with what actually happened.',
+      }
+    }
+    const initialData = { ...base, themes: payload, notFound: missing, requestedAdmin: missing ? `themes/${slug}` : null }
+    const app = createSSRApp(App)
+    app.provide('initialData', initialData)
+    const html = await renderToString(app)
+    return { html, initialData, meta, notFound: missing }
   }
 
   const adminKnown = presidents.some(p => p.key === admin)

@@ -42,11 +42,26 @@ export const promises = sqliteTable('promises', {
   // Optional "See also" links: a JSON array of other promise ids in the same
   // administration (e.g. [2, 7]). Also dormant until seed data uses it.
   related:        text('related', { mode: 'json' }),
+  // Optional slug of a recurring commitment this promise belongs to (see the
+  // `themes` table). Threads the same pledge across administrations on
+  // /themes/<slug>. Nullable and dormant until seed data sets it.
+  theme:          text('theme'),
   // Editor-set source classification (the middle tiers aren't detectable from
   // a URL): 'official' | 'reporting' | 'analysis' | 'weak' | null. When null
   // the frontend falls back to the .gov URL heuristic. See the methodology,
   // "What counts as a source".
   sourceTier:     text('source_tier'),
+})
+
+// Recurring commitments — a promise made across many administrations (fix the
+// power supply, diversify off oil, restructure the federation…). Editor-curated
+// and small. A promise joins one via promises.theme = themes.slug.
+export const themes = sqliteTable('themes', {
+  id:       integer('id').primaryKey({ autoIncrement: true }),
+  slug:     text('slug').notNull().unique(),
+  title:    text('title').notNull(),
+  blurb:    text('blurb').notNull(),
+  category: text('category'),
 })
 
 export const inherited = sqliteTable('inherited', {

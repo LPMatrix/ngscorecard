@@ -16,6 +16,18 @@ export function registerDataRoutes(router) {
     res.json(await q.getPresidents())
   })
 
+  // Recurring commitments (themes). Fixed segments — registered before the
+  // /:admin/* routes so "themes" is never read as an administration key.
+  router.get('/themes', async (_req, res) => {
+    res.json(await q.getThemesWithCounts())
+  })
+
+  router.get('/themes/:slug', async (req, res) => {
+    const lineage = await q.getThemeLineage(req.params.slug)
+    if (!lineage) { res.status(404).json({ error: 'Unknown theme' }); return }
+    res.json(lineage)
+  })
+
   router.get('/:admin/promises', async (req, res) => {
     if (!(await guard(req, res))) return
     res.json(await q.getPromises(req.params.admin))

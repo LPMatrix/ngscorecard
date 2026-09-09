@@ -42,6 +42,14 @@ Deep-link + shareable filtered URL. ~20 lines of JS, makes the tracker dramatica
   search/filter is active.
 - **Related promises "See also"** — mechanism shipped (`related` column +
   chips in `PromiseCard`); dormant until seed data links promises.
+- **Promise lineage / recurring commitments** — `/themes` (index) and
+  `/themes/<slug>` thread one pledge (fix the power supply, fight corruption,
+  restructure the federation…) through every administration that made it, with
+  each outcome. `themes` table + `promises.theme` slug (see
+  `data/seed/themes.json`); `ThemesView.vue`; a "recurring commitment" chip on
+  tagged `PromiseCard`s; a link from the landing page. Also on the public API
+  (`GET /api/v1/themes`, `/api/v1/themes/:slug`). 5 themes seeded, 27 promises
+  tagged across 9 administrations (Gowon → Tinubu).
 
 **Deliberately not doing** (see the discussion that produced this list)
 

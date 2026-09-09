@@ -66,6 +66,8 @@ export function createPublicApiRouter() {
       endpoints: [
         'GET /api/v1/presidents — the 5 federal presidents only',
         'GET /api/v1/governors — the state governors only (not to be confused with /:admin/governors below)',
+        'GET /api/v1/themes — recurring commitments (a promise made across many administrations)',
+        'GET /api/v1/themes/:slug — one commitment threaded through every administration that made it',
         'GET /api/v1/:admin/promises',
         'GET /api/v1/:admin/inherited',
         'GET /api/v1/:admin/fraud',

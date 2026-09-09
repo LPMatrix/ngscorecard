@@ -12,6 +12,7 @@ const SITE_ORIGIN = 'https://ngscorecard.com'
 // canonical as its plain tab page.
 function canonicalPath(admin, tab) {
   if (!admin) return '/' // the neutral landing page
+  if (admin === 'themes') return tab ? `/themes/${tab}` : '/themes'
   return tab === 'promises' ? `/${admin}` : `/${admin}/${tab}`
 }
 

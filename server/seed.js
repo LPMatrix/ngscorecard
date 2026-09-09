@@ -45,6 +45,7 @@ async function clearAll() {
   await db.delete(t.promises)
   await db.delete(t.governors)
   await db.delete(t.presidents)
+  await db.delete(t.themes)
 }
 
 // ── Diff-based insert: skips rows that already exist for this administration,
@@ -97,7 +98,28 @@ function seedPromises(rows, admin) {
     status: r.status, promise: r.promise, assessment: r.assessment,
     source: r.source, sourceLabel: r.sourceLabel, updated: r.updated,
     flag: r.flag ?? null, related: r.related ?? null, sourceTier: r.sourceTier ?? null,
+    theme: r.theme ?? null,
   }))
+}
+
+// Recurring commitments. Global (not per-administration) and small, so — like
+// seedPresidents — this upserts by slug: editing a theme's title or blurb in
+// themes.json re-applies on the next seed.
+async function seedThemes(rows) {
+  const existing = await db.select().from(t.themes)
+  const seen = new Set(existing.map(r => r.slug))
+  let added = 0
+  for (const r of rows) {
+    const values = { slug: r.slug, title: r.title, blurb: r.blurb, category: r.category ?? null }
+    if (seen.has(r.slug)) {
+      await db.update(t.themes).set(values).where(eq(t.themes.slug, r.slug))
+      continue
+    }
+    await db.insert(t.themes).values(values)
+    seen.add(r.slug)
+    added++
+  }
+  return added
 }
 
 function seedInherited(rows, admin) {
@@ -253,6 +275,11 @@ if (targetKeys.length) {
 }
 
 await seedPresidents(administrations)
+
+// Global tables (not per-administration). Cheap upserts — always run, even in
+// targeted mode.
+const themeAdded = await seedThemes(readJson('themes.json'))
+console.log(`Seeding themes… ${themeAdded ? `+${themeAdded}` : 'no new (existing upserted)'}`)
 
 for (const admin of administrations) {
   const key = admin.key
