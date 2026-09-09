@@ -22,6 +22,29 @@ a { color: var(--g700); }
 header.hero { border-bottom: 1px solid var(--line-strong); background: var(--surface); padding: 28px 24px; }
 .back-link { display: inline-block; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; }
 .back-link:hover { color: var(--g700); }
+
+/* Shared top nav — the same cross-links as the app / landing header. */
+.site-nav { background: var(--surface); border-bottom: 1px solid var(--line-strong); }
+.site-nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; }
+.site-nav-brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.site-nav-crest {
+  display: grid; place-items: center; width: 30px; height: 30px; flex: none;
+  border: 1.5px solid var(--g700);
+  background: linear-gradient(90deg, var(--g600) 0 33%, #fff 33% 66%, var(--g600) 66%), #fff;
+  color: var(--g900); font-size: 9px; font-weight: 900; letter-spacing: 0.04em;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.72);
+}
+.site-nav-brand:hover .site-nav-name { color: var(--g700); }
+.site-nav-name { font-weight: 800; font-size: 15px; }
+.site-nav-links { display: flex; align-items: center; gap: 18px; }
+.site-nav-links a { font-size: 13px; font-weight: 700; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.site-nav-links a:hover { color: var(--g700); }
+.site-nav-links a[aria-current="page"] { color: var(--g800); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 520px) {
+  .site-nav .wrap { padding: 10px 16px; }
+  .site-nav-name { display: none; }
+  .site-nav-links { gap: 14px; }
+}
 .eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g700); }
 h1 { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 32px; margin: 6px 0 8px; }
 .lede { color: var(--muted); font-size: 15.5px; max-width: 600px; }

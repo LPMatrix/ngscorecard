@@ -29,9 +29,9 @@ import pcm from './pcm.js'
 export const LOCALES = [
   { code: 'en',  name: 'English', htmlLang: 'en',  ready: true },
   { code: 'ha',  name: 'Hausa',   htmlLang: 'ha',  ready: false, preview: true },
-  { code: 'yo',  name: 'Yorùbá',  htmlLang: 'yo',  ready: false },
-  { code: 'ig',  name: 'Igbo',    htmlLang: 'ig',  ready: false },
-  { code: 'pcm', name: 'Naijá',   htmlLang: 'pcm', ready: false },
+  { code: 'yo',  name: 'Yorùbá',  htmlLang: 'yo',  ready: false, preview: true },
+  { code: 'ig',  name: 'Igbo',    htmlLang: 'ig',  ready: false, preview: true },
+  { code: 'pcm', name: 'Naijá',   htmlLang: 'pcm', ready: false, preview: true },
 ]
 
 export const DEFAULT_LOCALE = 'en'

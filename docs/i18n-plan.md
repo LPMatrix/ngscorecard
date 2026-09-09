@@ -38,11 +38,12 @@ names (NBS, CBN, DMO, BudgIT, EFCC) and agenda names are left as-is. Do not
 treat any of these as production copy until a native speaker has passed over
 it.
 
-**App UI catalogue (separate from the guide HTML above):** `src/i18n/ha.js`
-is a ~320-key machine draft of the *application* chrome, live behind the
-in-header language switcher (`ha` is `preview`, not `ready` — no SEO
-exposure). Same caveat: unreviewed. `yo`/`ig`/`pcm` app catalogues are still
-stubs.
+**App UI catalogue (separate from the guide HTML above):** all four —
+`src/i18n/{ha,pcm,yo,ig}.js` (~310–323 keys each) — are machine drafts of
+the *application* chrome, live behind the in-header language switcher (all
+`preview`, not `ready` — no SEO exposure). Unreviewed; `yo`/`ig` carry the
+higher diacritic/idiom risk. Next: native review, then flip `ready` per
+locale (that alone turns on sitemap + hreflang).
 
 ## URL scheme
 
@@ -76,7 +77,7 @@ English — a large ongoing content effort), names, party acronyms, and the
 | 1 | **Locale-aware routing & SSR plumbing (done).** `/<code>/…` resolves through the SSR catch-all with `<html lang>`, locale-prefixed canonical, a full `hreflang` cluster (+ `x-default`) and `og:locale`; `t` is provided to the app; every internal link / URL-sync prefixes the locale via `lp()`. Text is still English. `render.js` strips the segment (`splitLocalePath`), `entry-server.render({locale})` threads it, `buildMeta(t,…)` pulls meta frames from the catalogue. `/<code>/guide` deferred to Phase 3. |
 | 2 | **String extraction sweep (done).** Every hardcoded UI string in `App.vue` + the 9 components (`PromiseCard`, `CompareView`, `AdminColumn`, `GovernorsView`, `BudgetView`, `IndicatorsView`, `LandingView`, `ThemesView`, `CorrectionForm`) now routes through `t()` — nav, tabs, stat tiles, filters, status/category vocab, card labels, flags, source tiers, empty states, picker, correction form, meta. `en.js` has ~356 keys. Category display keys off `canonicalizeCategory()`. Verified: 0 raw-key leaks in SSR HTML across every page type, English renders unchanged, `/ha` falls back to English cleanly. One deliberate cosmetic delta: the landing lede / themes "promised by N" count lost its bold, flattened for clean `{n}` interpolation. |
 | 3 | **Language switcher + Hausa pilot (done).** In-header `<select>` (`src/components/LangSwitcher.vue`) in both the desktop links row and the mobile hamburger panel; on change it does a full-page nav to `swapLocale(pathname, code)` so the server re-renders with the right catalogue/meta/`<html lang>`. New gate `preview` on `LOCALES` (separate from `ready`): `SWITCHABLE_LOCALES` = `ready ∨ preview` drives the switcher, `READY_LOCALES` still gates SEO. `ha` is `preview: true, ready: false` — switchable, but no sitemap/hreflang exposure until native review. `src/i18n/ha.js` is a ~320-key unreviewed machine draft (chrome only; per-admin `meta.federal/state` frames + rare vocab still fall back to English). A gold `i18n.previewNote` strip shows on every page in a preview locale. `/ha/guide` serves `guide.ha.html` via the route table's `staticFileFor` (already working since the route-table refactor). Verified: switch both directions from `/`, `/ha`, `/ha/tinubu`, `/ha/themes`, `/ha/themes/:slug`; `<html lang="ha">`, JSON-LD `inLanguage:"ha"`, still zero `hreflang` cluster; no console/hydration errors. |
-| 4 | `yo` / `ig` / `pcm` draft catalogues against the frozen key set (flip each to `preview: true` as it lands). |
+| 4 | **All four draft catalogues done, all `preview: true`.** `src/i18n/{ha,pcm,yo,ig}.js` — `ha` ~320 keys, `pcm` ~310, `yo`/`ig` ~323 each; same coverage shape (chrome only; per-admin `meta.*` frames + rare vocab fall back to English), same `i18n.previewNote` strip. `pcm` is English-lexified (lowest-risk); `yo`/`ig` are not — expect tone/diacritic slips and unidiomatic phrasing until native review. `yo`/`ig` translate the geopolitical-zone names; `pcm` leaves them to English fallback (already correct Naijá). Language switcher now lists English · Hausa · Yorùbá · Igbo · Naijá. Verified per locale: `/‹c›`, `/‹c›/tinubu`, `/‹c›/tinubu/orders`, `/‹c›/themes`, `/‹c›/themes/:slug` all 200 with `<html lang="‹c›">` + JSON-LD `inLanguage`; `/‹c›/guide` serves `guide.‹c›.html`; zero hreflang cluster (READY still en-only); switching between preview locales works; clean fresh-tab console; `npm run build` green. |
 | 5 | SEO + polish — locale URLs in `sitemap.xml`, `hreflang` verified across page types, native-review cycle, QA matrix. |
 
 ### Phase 0 decisions (settled)
