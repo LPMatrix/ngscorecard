@@ -3,27 +3,33 @@
 // routes plus its inverse, so adding a page is one row here instead of edits
 // spread across five files.
 //
-// Plain JS (no framework): the route surface is shallow (~6 routes) and the
+// Plain JS (no framework): the route surface is shallow (~10 routes) and the
 // SSR-with-vue-router ceremony isn't worth it yet. Revisit if routes become
 // hierarchical or want per-route data loading / code splitting.
+//
+// `guide` / `press` / `developers` used to be hand-authored static HTML
+// under public/ (with guide additionally hand-duplicated per locale as
+// guide.ha.html etc.). They are now full SSR routes like everything else —
+// one English source in src/i18n/en.js, translated via the same t()
+// catalogue, so a wording fix happens once instead of once per language file.
+// See docs/i18n-plan.md "Guide/press/developers unification".
 
 import { LOCALE_CODES, DEFAULT_LOCALE, isLocale } from './i18n/index.js'
 
-// ── Static, hand-authored pages under public/ (copied to dist/client/ by the
-// build). Defined once and consumed by every server entrypoint so the
-// per-file `app.get('/guide', …)` duplication goes away. `localized: true`
-// pages have `<file>.<locale>.html` siblings (e.g. guide.ha.html).
+// ── Static, hand-authored pages under public/ still served as raw files.
+// Only the admin tool is left here — it's internal, not public content, and
+// was never localized.
 export const STATIC_PAGES = {
-  guide:      { file: 'guide.html',      localized: true },
-  developers: { file: 'developers.html', localized: false },
-  press:      { file: 'press.html',      localized: false },
-  admin:      { file: 'admin.html',      localized: false },
+  admin: { file: 'admin.html', localized: false },
 }
 
 // ── SSR routes, tried in order. `test(rest)` gets the locale-stripped path and
 // returns params (`{}` for no params) or null.
 const ROUTES = [
   { name: 'home',        test: (s) => (s === '/' ? {} : null) },
+  { name: 'guide',       test: (s) => (s === '/guide' || s === '/guide/' ? {} : null) },
+  { name: 'press',       test: (s) => (s === '/press' || s === '/press/' ? {} : null) },
+  { name: 'developers',  test: (s) => (s === '/developers' || s === '/developers/' ? {} : null) },
   { name: 'themesIndex', test: (s) => (s === '/themes' || s === '/themes/' ? {} : null) },
   { name: 'themeLineage', test: (s) => {
       const m = /^\/themes\/([^/]+)\/?$/.exec(s)
@@ -44,13 +50,28 @@ function stripLocale(pathname) {
   return { locale: DEFAULT_LOCALE, rest: clean }
 }
 
+// The old per-locale static guide files (public/guide.<code>.html) and the
+// bare `guide.html`/no-suffix filenames are gone — this maps any lingering
+// inbound link or search-engine-indexed URL at those paths to the new SSR
+// route, so nothing that was ever shared or indexed 404s outright.
+const LEGACY_GUIDE_FILE = /^\/guide\.(ha|yo|ig|pcm)\.html$/
+
+// Redirect target for a legacy static-file URL, or null if `pathname` isn't
+// one. Checked by server/render.js before matchRoute.
+export function legacyRedirectFor(pathname) {
+  const clean = (pathname || '/').split('?')[0].split('#')[0] || '/'
+  const m = LEGACY_GUIDE_FILE.exec(clean)
+  if (m) return withLocale('/guide', m[1])
+  return null
+}
+
 // matchRoute("/ha/themes/power-supply")
 //   → { name:'themeLineage', params:{slug:'power-supply'}, locale:'ha', path:'/themes/power-supply' }
 // Anything unmatched → { name:'notFound', params:{}, locale, path }
 export function matchRoute(pathname) {
   const { locale, rest } = stripLocale(pathname)
 
-  // Static pages before the generic /:admin match, so /guide isn't an "admin".
+  // Static pages before the generic /:admin match, so /admin isn't an "admin".
   const seg = /^\/([^/]+)\/?$/.exec(rest)
   if (seg && STATIC_PAGES[seg[1]]) {
     return { name: 'static', params: { page: seg[1] }, locale, path: rest }
@@ -67,6 +88,9 @@ export function matchRoute(pathname) {
 export function routePath(name, params = {}) {
   switch (name) {
     case 'home':         return '/'
+    case 'guide':        return '/guide'
+    case 'press':        return '/press'
+    case 'developers':   return '/developers'
     case 'themesIndex':  return '/themes'
     case 'themeLineage': return `/themes/${params.slug}`
     case 'scorecard':
@@ -101,8 +125,7 @@ export function swapLocale(pathname, newLocale) {
   return withLocale(rest, newLocale)
 }
 
-// The file to serve for a static-page route, honoring locale where the page
-// has translations. Returns null for an unknown page.
+// The file to serve for a static-page route (admin only — see STATIC_PAGES).
 export function staticFileFor(page, locale = DEFAULT_LOCALE) {
   const def = STATIC_PAGES[page]
   if (!def) return null

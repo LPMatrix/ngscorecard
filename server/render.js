@@ -1,5 +1,5 @@
 import { LOCALES, LOCALE_CODES, READY_LOCALES, DEFAULT_LOCALE } from '../src/i18n/index.js'
-import { matchRoute, routePath, buildPath, withLocale, staticFileFor } from '../src/routes.js'
+import { matchRoute, routePath, buildPath, withLocale, staticFileFor, legacyRedirectFor } from '../src/routes.js'
 
 function escapeHtml(str) {
   return String(str).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
@@ -28,7 +28,7 @@ function isoFromReviewed(s) {
 // Returns { status, redirect, staticFile, html }:
 //   - `redirect` (string) → 301 to that path (trailing slash, legacy links); html null.
 //   - `staticFile` (string) → the caller serves public/<staticFile> (or
-//     dist/client/<staticFile>); html null. For /guide, /developers, …
+//     dist/client/<staticFile>); html null. Only /admin uses this now.
 //   - otherwise `html` is the full document; `status` is 404 for an unknown
 //     administration / unmatched path, 200 otherwise.
 export async function renderHtml(url, template, loadEntryServer) {
@@ -38,6 +38,14 @@ export async function renderHtml(url, template, loadEntryServer) {
   // slashless form so a page is never crawlable under two URLs.
   if (parsed.pathname.length > 1 && parsed.pathname.endsWith('/')) {
     return { status: 301, redirect: parsed.pathname.replace(/\/+$/, '') + parsed.search, staticFile: null, html: null }
+  }
+
+  // Legacy per-locale guide files (public/guide.ha.html etc., retired when
+  // guide/press/developers were unified into the SSR route table) — anything
+  // that linked or indexed those URLs lands on the new route instead of 404.
+  const legacyDest = legacyRedirectFor(parsed.pathname)
+  if (legacyDest) {
+    return { status: 301, redirect: legacyDest + parsed.search, staticFile: null, html: null }
   }
 
   const route = matchRoute(parsed.pathname) // { name, params, locale, path }
@@ -54,8 +62,8 @@ export async function renderHtml(url, template, loadEntryServer) {
     return { status: 301, redirect: dest.pathname + dest.search, staticFile: null, html: null }
   }
 
-  // Hand-authored static pages (/guide, /developers, /press, /admin) — the
-  // caller serves the file from its own directory layout.
+  // The one remaining hand-authored static page (/admin) — the caller serves
+  // the file from its own directory layout.
   if (route.name === 'static') {
     return { status: 200, redirect: null, staticFile: staticFileFor(route.params.page, loc), html: null }
   }

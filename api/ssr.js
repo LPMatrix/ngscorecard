@@ -53,8 +53,9 @@ app.use(async (req, res) => {
       res.redirect(status, redirect)
       return
     }
-    // Vercel's static handler normally serves /guide etc. (cleanUrls); this is
-    // the fallback if a request for one reaches the function.
+    // Only /admin is left as a raw static file (see src/routes.js
+    // STATIC_PAGES) — Vercel's static handler normally serves it (cleanUrls);
+    // this is the fallback if the request reaches the function instead.
     if (staticFile) {
       res.sendFile(path.join(CLIENT_DIR, staticFile))
       return

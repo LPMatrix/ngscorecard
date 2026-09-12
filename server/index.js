@@ -24,8 +24,9 @@ const loadEntryServer = () => import('../dist/server/entry-server.js')
 app.use(createApiApp())
 app.use(express.static(CLIENT_DIR, { index: false }))
 
-// Static pages (/guide, /developers, …) come back from renderHtml as
-// `staticFile` — served here from dist/client. No per-page route registration.
+// The one remaining static page (/admin) comes back from renderHtml as
+// `staticFile` — served here from dist/client. Everything else — including
+// /guide, /press, /developers — is a real SSR route (see src/routes.js).
 app.use(async (req, res) => {
   try {
     const { status, redirect, staticFile, html } = await renderHtml(req.originalUrl, template, loadEntryServer)

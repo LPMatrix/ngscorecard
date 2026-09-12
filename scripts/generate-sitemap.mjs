@@ -3,9 +3,10 @@
 //
 // One <url> per administration's base page, plus one per non-empty content
 // tab it actually has, plus the recurring-commitment (themes) pages and the
-// hand-authored static pages. Emitted once per SEO-ready locale (see
-// READY_LOCALES in src/i18n) — locale routes stay reachable but aren't
-// advertised until their catalogue is translated.
+// guide/press/developers content pages (all real SSR routes — see
+// src/routes.js). Emitted once per SEO-ready locale (see READY_LOCALES in
+// src/i18n) — locale routes stay reachable but aren't advertised until their
+// catalogue is translated.
 //
 // Run after seeding (reads the same database):  npm run sitemap
 
@@ -47,11 +48,11 @@ const push = (loc, lastmod, changefreq, priority) => urls.push({ loc, lastmod, c
 for (const l of READY_LOCALES) {
   const code = l.code
 
-  // Static pages
+  // Content pages
   push(buildPath('home', {}, code), today, 'weekly', '1.0')
-  push(buildPath('static', { page: 'guide' }, code), today, 'monthly', '0.9')
-  push(buildPath('static', { page: 'developers' }, code), today, 'monthly', '0.6')
-  push(buildPath('static', { page: 'press' }, code), today, 'monthly', '0.5')
+  push(buildPath('guide', {}, code), today, 'monthly', '0.9')
+  push(buildPath('developers', {}, code), today, 'monthly', '0.6')
+  push(buildPath('press', {}, code), today, 'monthly', '0.5')
 
   // Recurring commitments
   push(buildPath('themesIndex', {}, code), today, 'monthly', '0.7')
@@ -74,12 +75,6 @@ for (const l of READY_LOCALES) {
       push(buildPath('scorecard', { admin: admin.key, tab: resource }, code), lastmod, 'monthly', priorityFor(admin, true))
     }
   }
-}
-
-// The methodology guide's hand-authored translations (self-contained, already
-// carry their own hreflang/canonical) — listed by their static filenames.
-for (const code of ['ha', 'ig', 'pcm', 'yo']) {
-  push(`/guide.${code}.html`, today, 'monthly', '0.4')
 }
 
 const body = urls

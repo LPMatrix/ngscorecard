@@ -47,13 +47,11 @@ locale (that alone turns on sitemap + hreflang).
 
 ## URL scheme
 
-Static files, reachable directly: `/guide.ha.html`, `/guide.yo.html`, etc.
-Vite copies `public/` to `dist/client/`, so they serve on both the Node
-server and Vercel with no routing changes.
-
-**Follow-up (optional):** pretty URLs `/guide/ha`. Would need a route in
-`server/index.js` + `server/dev.js` (next to the existing `/guide` handler)
-and a `vercel.json` rewrite per locale. Not required for the scaffold.
+~~Static files, reachable directly: `/guide.ha.html`, `/guide.yo.html`,
+etc.~~ **Superseded — see "Guide/press/developers unification" below.**
+`guide`/`press`/`developers` are now SSR routes like everything else:
+`/guide`, `/ha/guide`, `/yo/press`, … The old static-file URLs 301 to the
+new ones (`legacyRedirectFor()` in `src/routes.js`).
 
 ## Full-app localisation (F9)
 
@@ -64,10 +62,12 @@ with locale-prefixed routes (`/ha/tinubu`, `/yo/themes`) and an `hreflang`
 cluster.
 
 **In scope:** UI chrome, status labels, category names, meta descriptions,
-the landing / themes / compare / correction views.
+the landing / themes / compare / correction views, and — since the
+guide/press/developers unification below — the guide, press and developers
+pages too.
 **Out of scope (v1):** promise / assessment / allegation body text (stays
 English — a large ongoing content effort), names, party acronyms, and the
-`/developers` · `/press` · `/admin` pages.
+`/admin` internal tool (never localized, still a hand-authored static file).
 
 ### Phases
 
@@ -79,6 +79,61 @@ English — a large ongoing content effort), names, party acronyms, and the
 | 3 | **Language switcher + Hausa pilot (done).** In-header `<select>` (`src/components/LangSwitcher.vue`) in both the desktop links row and the mobile hamburger panel; on change it does a full-page nav to `swapLocale(pathname, code)` so the server re-renders with the right catalogue/meta/`<html lang>`. New gate `preview` on `LOCALES` (separate from `ready`): `SWITCHABLE_LOCALES` = `ready ∨ preview` drives the switcher, `READY_LOCALES` still gates SEO. `ha` is `preview: true, ready: false` — switchable, but no sitemap/hreflang exposure until native review. `src/i18n/ha.js` is a ~320-key unreviewed machine draft (chrome only; per-admin `meta.federal/state` frames + rare vocab still fall back to English). A gold `i18n.previewNote` strip shows on every page in a preview locale. `/ha/guide` serves `guide.ha.html` via the route table's `staticFileFor` (already working since the route-table refactor). Verified: switch both directions from `/`, `/ha`, `/ha/tinubu`, `/ha/themes`, `/ha/themes/:slug`; `<html lang="ha">`, JSON-LD `inLanguage:"ha"`, still zero `hreflang` cluster; no console/hydration errors. |
 | 4 | **All four draft catalogues done, all `preview: true`.** `src/i18n/{ha,pcm,yo,ig}.js` — `ha` ~320 keys, `pcm` ~310, `yo`/`ig` ~323 each; same coverage shape (chrome only; per-admin `meta.*` frames + rare vocab fall back to English), same `i18n.previewNote` strip. `pcm` is English-lexified (lowest-risk); `yo`/`ig` are not — expect tone/diacritic slips and unidiomatic phrasing until native review. `yo`/`ig` translate the geopolitical-zone names; `pcm` leaves them to English fallback (already correct Naijá). Language switcher now lists English · Hausa · Yorùbá · Igbo · Naijá. Verified per locale: `/‹c›`, `/‹c›/tinubu`, `/‹c›/tinubu/orders`, `/‹c›/themes`, `/‹c›/themes/:slug` all 200 with `<html lang="‹c›">` + JSON-LD `inLanguage`; `/‹c›/guide` serves `guide.‹c›.html`; zero hreflang cluster (READY still en-only); switching between preview locales works; clean fresh-tab console; `npm run build` green. |
 | 5 | SEO + polish — locale URLs in `sitemap.xml`, `hreflang` verified across page types, native-review cycle, QA matrix. |
+
+### Guide/press/developers unification (done)
+
+Before this, `guide`/`press`/`developers` lived outside the app entirely as
+hand-authored static HTML — `guide.html` plus **4 separately hand-translated
+copies** (`guide.ha.html`, `.yo.html`, `.ig.html`, `.pcm.html`, each with its
+own `<head>`, its own hardcoded `hreflang` cluster unconditionally marked
+`index, follow`, and its own `.draft-note`). That was a real policy
+contradiction: those translations were exactly as unreviewed as the app's
+`ha`/`yo`/`ig`/`pcm` catalogues, but SEO-*live* where the app's were
+SEO-*withheld* behind `ready`. It also silently drifted — the English guide
+had moved to v1.4 while the translated copies were still v1.3 with different
+coverage numbers. `press`/`developers` had no translations at all and no
+indication that a locale prefix on those paths did nothing.
+
+Fixed by retiring all 7 static files and rebuilding the three pages as real
+routes in the shared table (`src/routes.js`: `guide`/`press`/`developers`,
+locale-prefixed like everything else) rendered by
+`GuideView.vue`/`PressView.vue`/`DevelopersView.vue` through the normal
+`t()` catalogue — same header/nav/`LangSwitcher`, same `preview`/`ready`
+gating, one English source of truth instead of N hand-typed copies.
+
+- **`guide`**: fully translated in all 4 locales (~132 new `guide.*` keys),
+  reusing the existing hand-translated guide content where sections hadn't
+  changed since v1.2/v1.3, retranslated fresh for the v1.4 delta (section 7
+  "Coverage & gaps", the v1.4 changelog entry) so nothing regresses to stale
+  content. Enumerable terms (`Kept`, `Convicted`, `Serving`, zone names, …)
+  reuse the app's existing `status.*`/`response.*`/`budget.*`/`zone.*` keys
+  instead of duplicating translations, so the guide's glossary and the app's
+  actual pills can't drift apart.
+- **`press`**: chrome (title/eyebrow/ledes/section headings, ~13 keys)
+  translated; the copy-paste boilerplate quotes, facts grid, and asset
+  labels stay English by design — a press kit's canonical citation text
+  shouldn't silently vary by locale before review.
+- **`developers`**: chrome (~24 keys) translated; endpoint tables, curl
+  examples and JSON responses stay English — literal API syntax, the
+  standard treatment for developer reference docs and the highest-risk
+  content to mistranslate.
+- A handful of strings that need an inline `<strong>`/`<em>`/`<a>` (e.g.
+  "…appears under **Inherited Fixes**…") are rendered with `v-html` — safe
+  here since every value is our own catalogue content, never user input.
+- Old URLs redirect: `legacyRedirectFor()` in `src/routes.js` 301s
+  `/guide.ha.html` (and `.yo`/`.ig`/`.pcm`) → `/‹code›/guide`.
+- `scripts/generate-sitemap.mjs` now emits `guide`/`press`/`developers`
+  through the same `READY_LOCALES` loop as every other route — no more
+  special-cased static-file URLs.
+
+Verified: all 3 pages × 5 locales (15 URLs) return 200 with the right
+`<html lang>`; English guide content is byte-identical to the old static
+page (full-text diff via `get_page_text`); interactive bits ported to
+Vue and confirmed working (API-key request round-trip returns a real key,
+copy-to-clipboard wiring identical to before — its `NotAllowedError` in
+headless testing is a browser-automation focus artifact, not a regression;
+the widget script renders into its shadow root); the 4 legacy `.html` URLs
+301 to their new routes; `npm run build` green.
 
 ### Phase 0 decisions (settled)
 

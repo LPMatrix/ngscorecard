@@ -10,6 +10,9 @@ import GovernorsView   from './components/GovernorsView.vue'
 import CompareView     from './components/CompareView.vue'
 import LandingView     from './components/LandingView.vue'
 import ThemesView      from './components/ThemesView.vue'
+import GuideView       from './components/GuideView.vue'
+import PressView       from './components/PressView.vue'
+import DevelopersView  from './components/DevelopersView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
 import LangSwitcher    from './components/LangSwitcher.vue'
 import { downloadScorecard } from './lib/scorecardImage.js'
@@ -58,7 +61,10 @@ const isLanding = ref(initial?.landing === true)
 // is { mode:'index', list } or { mode:'lineage', theme, entries } from SSR.
 const themesData = ref(initial?.themes ?? null)
 const isThemes = ref(!!initial?.themes && initial?.themes.mode !== 'missing')
-const activeAdmin = ref(isLanding.value || isThemes.value ? null : (initial?.admin ?? 'tinubu'))
+// "/guide", "/press", "/developers" — unified content pages (see
+// GuideView.vue's header comment). `pageView` holds which one, or null.
+const pageView = ref(initial?.page ?? null)
+const activeAdmin = ref(isLanding.value || isThemes.value || pageView.value ? null : (initial?.admin ?? 'tinubu'))
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
 
@@ -128,6 +134,7 @@ function selectAdminFromFinder(admin) {
   adminNavMode.value = admin.level === 'state' ? 'state' : 'federal'
   isLanding.value = false
   isThemes.value = false
+  pageView.value = null
   activeAdmin.value = admin.key
   adminFinderQuery.value = ''
   pushRecent(admin.key)
@@ -146,6 +153,7 @@ function submitAdminFinder() {
 function goToAdminFromLanding(key) {
   isLanding.value = false
   isThemes.value = false
+  pageView.value = null
   if (activeAdmin.value === key) { loadData(key); syncUrl() }
   else activeAdmin.value = key
   if (typeof window !== 'undefined') window.scrollTo(0, 0)
@@ -362,6 +370,9 @@ onMounted(async () => {
     if (route.name === 'home') {
       isLanding.value = true
       activeAdmin.value = null
+    } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers') {
+      pageView.value = route.name
+      activeAdmin.value = null
     } else if (route.name === 'themesIndex' || route.name === 'themeLineage') {
       const url = route.name === 'themeLineage' ? `/api/themes/${route.params.slug}` : '/api/themes'
       const payload = await fetch(url).then(r => r.ok ? r.json() : null).catch(() => null)
@@ -481,7 +492,7 @@ function adminPath(admin, tab) {
 function syncUrl() {
   // Landing / themes / compare are SSR-canonical views with fixed URLs and no
   // client-synced filters — never let a stray watcher rewrite their address.
-  if (viewMode.value === 'compare' || isLanding.value || isThemes.value) return
+  if (viewMode.value === 'compare' || isLanding.value || isThemes.value || pageView.value) return
   const url = new URL(window.location)
   url.pathname = adminPath(activeAdmin.value, activeTab.value)
   const setOrDrop = (key, value, dflt) => {
@@ -828,9 +839,9 @@ const filteredBills = computed(() => {
           </div>
         </a>
         <div class="pt-header-links">
-          <a href="/guide" class="pt-header-docs-link">{{ t('header.guide') }}</a>
-          <a href="/developers" class="pt-header-docs-link">{{ t('header.developers') }}</a>
-          <a href="/press" class="pt-header-docs-link">{{ t('header.press') }}</a>
+          <a :href="lp('/guide')" class="pt-header-docs-link">{{ t('header.guide') }}</a>
+          <a :href="lp('/developers')" class="pt-header-docs-link">{{ t('header.developers') }}</a>
+          <a :href="lp('/press')" class="pt-header-docs-link">{{ t('header.press') }}</a>
           <LangSwitcher />
         </div>
         <div class="pt-header-menu">
@@ -843,14 +854,14 @@ const filteredBills = computed(() => {
           <template v-if="headerMenuOpen">
             <div class="pt-header-menu-backdrop" @click="headerMenuOpen = false"></div>
             <div class="pt-header-menu-panel">
-              <a href="/guide" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.guide') }}</a>
-              <a href="/developers" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.developers') }}</a>
-              <a href="/press" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.press') }}</a>
+              <a :href="lp('/guide')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.guide') }}</a>
+              <a :href="lp('/developers')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.developers') }}</a>
+              <a :href="lp('/press')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.press') }}</a>
               <div class="pt-header-menu-lang"><LangSwitcher /></div>
             </div>
           </template>
         </div>
-        <div v-if="!notFound && formerGovernorsForState.length" class="pt-admin-summary">
+        <div v-if="!notFound && !pageView && formerGovernorsForState.length" class="pt-admin-summary">
           <span class="pt-prev-gov-label">{{ t('header.previouslyIn', { state: currentAdmin.state }) }}</span>
           <button
             v-for="g in formerGovernorsForState"
@@ -859,7 +870,7 @@ const filteredBills = computed(() => {
             @click="activeAdmin = g.key"
           >{{ g.name }} ({{ g.term }})</button>
         </div>
-        <div v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes" class="pt-view-actions">
+        <div v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView" class="pt-view-actions">
           <button class="pt-compare-btn" @click="enterCompareMode">{{ t('viewActions.compare') }}</button>
           <button
             class="pt-viewlink-btn"
@@ -874,7 +885,7 @@ const filteredBills = computed(() => {
           >{{ generatingCard ? t('viewActions.generating') : t('viewActions.printScorecard') }}</button>
         </div>
       </div>
-      <div v-if="viewMode === 'single' && !notFound" class="pt-picker">
+      <div v-if="viewMode === 'single' && !notFound && !pageView" class="pt-picker">
         <div class="pt-picker-bar">
           <div :class="['pt-picker-field', { open: pickerOpen }]">
             <span class="pt-picker-mag" aria-hidden="true">⌕</span>
@@ -989,7 +1000,7 @@ const filteredBills = computed(() => {
         </template>
       </div>
       <!-- Mobile-only section nav -->
-      <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
+      <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup :label="t('nav.group.government')">
           <option value="promises">{{ t('tab.promises') }}</option>
           <option value="ministers">{{ ministerLabel }}</option>
@@ -1075,6 +1086,11 @@ const filteredBills = computed(() => {
 
     <!-- ── Recurring commitments ("/themes", "/themes/<slug>") ── -->
     <ThemesView v-else-if="isThemes" :data="themesData" />
+
+    <!-- ── Content pages ("/guide", "/press", "/developers") ── -->
+    <GuideView v-else-if="pageView === 'guide'" />
+    <PressView v-else-if="pageView === 'press'" />
+    <DevelopersView v-else-if="pageView === 'developers'" />
 
     <!-- ── Body: sidebar + content ── -->
     <div v-else class="pt-body">

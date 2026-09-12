@@ -28,9 +28,10 @@ async function createDevServer() {
   app.use(createApiApp())
   app.use(vite.middlewares)
 
-  // The hand-authored static pages (/guide, /developers, …) are routed by
+  // The one remaining hand-authored static page (/admin) is routed by
   // src/routes.js and returned by renderHtml as `staticFile`; served here
-  // from public/. No per-page route registration.
+  // from public/. Everything else — including /guide, /press, /developers —
+  // is a real SSR route now (see src/routes.js, GuideView.vue et al.).
   app.use(async (req, res) => {
     const url = req.originalUrl
     try {
