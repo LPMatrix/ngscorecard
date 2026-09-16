@@ -76,7 +76,7 @@ async function createDb() {
   // Local dev: better-sqlite3
   const { default: Database } = await import('better-sqlite3')
   const { drizzle } = await import('drizzle-orm/better-sqlite3')
-  const { migrate } = await import('drizzle-orm/better-sqlite3/migrator')
+  const { readFileSync } = await import('fs')
   const { mkdirSync } = await import('fs')
   const { fileURLToPath } = await import('url')
   const { default: path } = await import('path')
@@ -87,7 +87,23 @@ async function createDb() {
   client.pragma('journal_mode = WAL')
   client.pragma('foreign_keys = ON')
   const db = drizzle(client, { schema })
-  migrate(db, { migrationsFolder: path.join(__dirname, '../drizzle') })
+
+  // Apply migration if tables don't exist
+  const tables = client.prepare("SELECT name FROM sqlite_master WHERE type='table'").all()
+  if (tables.length === 0) {
+    const migrationSql = readFileSync(path.join(__dirname, '../drizzle/0000_light_ink.sql'), 'utf-8')
+    const statements = migrationSql.split('--> statement-breakpoint\n').filter(s => s.trim())
+    for (const stmt of statements) {
+      if (stmt.trim()) {
+        try {
+          client.exec(stmt)
+        } catch (e) {
+          console.error('Migration statement failed:', e.message, '\nStatement:', stmt.slice(0, 100))
+        }
+      }
+    }
+  }
+
   ensureLocalSchema(client)
   return db
 }
