@@ -139,6 +139,7 @@ function seedFraud(rows, admin) {
     responseVerdict: r.responseVerdict ?? null, govtResponse: r.govtResponse ?? null,
     source: r.source, sourceLabel: r.sourceLabel, updated: r.updated,
     sourceTier: r.sourceTier ?? null,
+    courtCaseRef: r.courtCaseRef ?? null, daysPending: r.daysPending ?? null,
   }))
 }
 

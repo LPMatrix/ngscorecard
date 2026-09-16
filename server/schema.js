@@ -94,6 +94,9 @@ export const fraud = sqliteTable('fraud', {
   sourceLabel:    text('source_label').notNull(),
   updated:        text('updated').notNull(),
   sourceTier:     text('source_tier'), // see promises.sourceTier
+  // Court case tracking: reference to corruptioncases.ng and days pending
+  courtCaseRef:   text('court_case_ref'), // URL or case identifier on corruptioncases.ng
+  daysPending:    integer('days_pending'), // Days since case was filed; null if no pending case
 })
 
 export const orders = sqliteTable('orders', {

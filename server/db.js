@@ -1,9 +1,14 @@
 import * as schema from './schema.js'
 
 function ensureColumn(client, table, column, definition) {
-  const columns = client.prepare(`PRAGMA table_info(${table})`).all()
-  if (columns.some(c => c.name === column)) return
-  client.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run()
+  try {
+    const columns = client.prepare(`PRAGMA table_info(${table})`).all()
+    if (columns.some(c => c.name === column)) return
+    client.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run()
+  } catch (e) {
+    // Table doesn't exist yet; will be created by Drizzle migration
+    if (e.code !== 'SQLITE_ERROR') throw e
+  }
 }
 
 function ensureLocalSchema(client) {
@@ -12,6 +17,8 @@ function ensureLocalSchema(client) {
   ensureColumn(client, 'presidents', 'is_current', 'INTEGER NOT NULL DEFAULT 1')
   ensureColumn(client, 'fraud', 'response_verdict', 'TEXT')
   ensureColumn(client, 'fraud', 'govt_response', 'TEXT')
+  ensureColumn(client, 'fraud', 'court_case_ref', 'TEXT')
+  ensureColumn(client, 'fraud', 'days_pending', 'INTEGER')
   ensureColumn(client, 'indicators', 'higher_is_better', 'INTEGER')
   ensureColumn(client, 'promises', 'flag', 'TEXT')
   ensureColumn(client, 'promises', 'related', 'TEXT')
@@ -69,6 +76,7 @@ async function createDb() {
   // Local dev: better-sqlite3
   const { default: Database } = await import('better-sqlite3')
   const { drizzle } = await import('drizzle-orm/better-sqlite3')
+  const { migrate } = await import('drizzle-orm/better-sqlite3/migrator')
   const { mkdirSync } = await import('fs')
   const { fileURLToPath } = await import('url')
   const { default: path } = await import('path')
@@ -78,8 +86,10 @@ async function createDb() {
   const client = new Database(dbPath)
   client.pragma('journal_mode = WAL')
   client.pragma('foreign_keys = ON')
+  const db = drizzle(client, { schema })
+  migrate(db, { migrationsFolder: path.join(__dirname, '../drizzle') })
   ensureLocalSchema(client)
-  return drizzle(client, { schema })
+  return db
 }
 
 export const db = await createDb()

@@ -1022,6 +1022,11 @@ a:focus-visible {
 .pt-badge-rv-abandoned { background: var(--pt-broken-bg); color: var(--pt-broken); border-color: #efb0aa; }
 .pt-badge-rv-complied { background: #fff; color: var(--pt-text-muted); border-color: var(--pt-line-strong); }
 
+/* Days pending badge for pending court cases */
+.pt-badge-pending { background: #fff3cd; color: var(--pt-text); border-color: #ffc107; }
+.pt-badge-link { cursor: pointer; text-decoration: none; }
+.pt-badge-link:hover { text-decoration: underline; opacity: 0.85; }
+
 .pt-share-btn {
   display: grid;
   place-items: center;

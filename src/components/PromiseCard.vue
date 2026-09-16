@@ -128,6 +128,16 @@ const historyItems = computed(() => props.history.map(h => ({
   note: h.note || null,
 })))
 
+// Format "days pending" for court cases (fraud tab only).
+const daysPendingBadge = computed(() => {
+  if (!props.item.daysPending) return null
+  const years = Math.floor(props.item.daysPending / 365)
+  const days = props.item.daysPending % 365
+  return years > 0
+    ? `${years}${days > 180 ? '+' : ''} ${years === 1 ? 'year' : 'years'} pending`
+    : `${props.item.daysPending} days pending`
+})
+
 // Ask the app to open the "suggest a correction" modal for this entry.
 function reportIssue() {
   emit('report', {
@@ -160,6 +170,16 @@ function reportIssue() {
           v-if="item.responseVerdict"
           :class="['pt-badge', 'pt-badge-response', `pt-badge-rv-${item.responseVerdict}`]"
         >{{ badgeLabel(item.responseVerdict) }}</span>
+        <!-- Days pending badge (for pending court cases) -->
+        <a
+          v-if="daysPendingBadge && item.courtCaseRef"
+          :href="item.courtCaseRef"
+          target="_blank"
+          rel="noopener"
+          :class="['pt-badge', 'pt-badge-pending', 'pt-badge-link']"
+          :title="`${daysPendingBadge} — Click to view case on corruptioncases.ng`"
+          @click.stop
+        >⏱ {{ daysPendingBadge }}</a>
         <button
           class="pt-share-btn"
           :title="t('card.copyLinkTitle', { id: item.id })"
