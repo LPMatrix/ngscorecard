@@ -8,12 +8,19 @@ import * as t from './schema.js'
 // The canonical indicator registry (data/seed/indicators.json) — read once
 // at module load. It's metadata for API responses, not per-admin content,
 // so unlike everything else in this file it's read directly rather than
-// through the DB.
+// through the DB. Every other consumer of a data/seed/*.json file in this
+// codebase tolerates a missing file (see readJson in server/seed.js) — this
+// does too, rather than taking the whole API down at import time if the
+// registry file is ever absent from a deploy.
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const registryByKey = new Map(
-  JSON.parse(readFileSync(path.join(__dirname, '../data/seed/indicators.json'), 'utf-8'))
-    .map(r => [r.key, r])
-)
+function loadRegistry() {
+  try {
+    return JSON.parse(readFileSync(path.join(__dirname, '../data/seed/indicators.json'), 'utf-8'))
+  } catch {
+    return []
+  }
+}
+const registryByKey = new Map(loadRegistry().map(r => [r.key, r]))
 
 function withTerm(rows) {
   return rows.map(p => ({
