@@ -74,7 +74,8 @@ for (const file of files) {
       drift.badUnit.push(`${admin}/${ind.id}: unit "${ind.unit}" vs registry "${reg.unit}" (${ind.registryKey})`)
     }
     if (!ind.registryKey) drift.noRegistryKey.push(`${admin}/${ind.id} (${ind.label})`)
-    if (ind.higherIsBetter === undefined || ind.higherIsBetter === null) {
+    const regHibIsIntentionallyNull = reg && reg.higherIsBetter === null
+    if (ind.status !== 'not-published' && !regHibIsIntentionallyNull && (ind.higherIsBetter === undefined || ind.higherIsBetter === null)) {
       drift.missingHib.push(`${admin}/${ind.id}`)
     }
     if (ind.status !== 'not-published') {

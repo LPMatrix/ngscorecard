@@ -8,14 +8,14 @@ Generated 2026-09-17 by `scripts/audit-indicators.mjs`. Read-only report — doe
 
 | Core indicator | Published | Not published | Missing entirely |
 |---|---|---|---|
-| gdp-growth | 0 | 0 | 11 |
-| inflation | 0 | 0 | 11 |
-| unemployment | 0 | 0 | 11 |
-| fx-official | 0 | 0 | 11 |
-| petrol-price | 0 | 0 | 11 |
-| public-debt | 0 | 0 | 11 |
-| external-reserves | 0 | 0 | 11 |
-| poverty-rate | 0 | 0 | 11 |
+| gdp-growth | 9 | 2 | 0 |
+| inflation | 9 | 2 | 0 |
+| unemployment | 3 | 8 | 0 |
+| fx-official | 9 | 2 | 0 |
+| petrol-price | 8 | 3 | 0 |
+| public-debt | 8 | 3 | 0 |
+| external-reserves | 9 | 2 | 0 |
+| poverty-rate | 3 | 8 | 0 |
 
 ### federal-1999+ (5 administrations)
 
@@ -26,9 +26,9 @@ Generated 2026-09-17 by `scripts/audit-indicators.mjs`. Read-only report — doe
 | unemployment | 5 | 0 | 0 |
 | fx-official | 5 | 0 | 0 |
 | petrol-price | 5 | 0 | 0 |
-| public-debt | 0 | 0 | 5 |
-| external-reserves | 0 | 0 | 5 |
-| poverty-rate | 0 | 0 | 5 |
+| public-debt | 5 | 0 | 0 |
+| external-reserves | 5 | 0 | 0 |
+| poverty-rate | 4 | 1 | 0 |
 
 ### state-pre1999 (49 administrations)
 
@@ -52,39 +52,30 @@ Generated 2026-09-17 by `scripts/audit-indicators.mjs`. Read-only report — doe
 
 | Core indicator | Published | Not published | Missing entirely |
 |---|---|---|---|
-| igr | 38 | 0 | 32 |
-| debt | 14 | 0 | 56 |
-| budget | 3 | 0 | 67 |
-| capex-share | 0 | 0 | 70 |
+| igr | 39 | 0 | 31 |
+| debt | 17 | 0 | 53 |
+| budget | 9 | 0 | 61 |
+| capex-share | 7 | 0 | 63 |
 
-### state-current (22 administrations)
+### state-current (23 administrations)
 
 | Core indicator | Published | Not published | Missing entirely |
 |---|---|---|---|
-| igr | 14 | 0 | 8 |
-| debt | 9 | 0 | 13 |
-| budget | 5 | 0 | 17 |
-| capex-share | 2 | 0 | 20 |
+| igr | 17 | 0 | 6 |
+| debt | 14 | 0 | 9 |
+| budget | 8 | 0 | 15 |
+| capex-share | 5 | 0 | 18 |
 
 ## Missing core indicators, by key
 
-- **gdp-growth** (11 admins): abacha, abdulsalami, babangida, balewa, buharimilitary, gowon, ironsi, murtala, obasanjomilitary, shagari, shonekan
-- **inflation** (11 admins): abacha, abdulsalami, babangida, balewa, buharimilitary, gowon, ironsi, murtala, obasanjomilitary, shagari, shonekan
-- **unemployment** (11 admins): abacha, abdulsalami, babangida, balewa, buharimilitary, gowon, ironsi, murtala, obasanjomilitary, shagari, shonekan
-- **fx-official** (11 admins): abacha, abdulsalami, babangida, balewa, buharimilitary, gowon, ironsi, murtala, obasanjomilitary, shagari, shonekan
-- **petrol-price** (11 admins): abacha, abdulsalami, babangida, balewa, buharimilitary, gowon, ironsi, murtala, obasanjomilitary, shagari, shonekan
-- **public-debt** (16 admins): abacha, abdulsalami, babangida, balewa, buhari, buharimilitary, gowon, ironsi, jonathan, murtala, obasanjo, obasanjomilitary, shagari, shonekan, tinubu, …
-- **external-reserves** (16 admins): abacha, abdulsalami, babangida, balewa, buhari, buharimilitary, gowon, ironsi, jonathan, murtala, obasanjo, obasanjomilitary, shagari, shonekan, tinubu, …
-- **poverty-rate** (16 admins): abacha, abdulsalami, babangida, balewa, buhari, buharimilitary, gowon, ironsi, jonathan, murtala, obasanjo, obasanjomilitary, shagari, shonekan, tinubu, …
-- **igr** (139 admins): abdulkarim, abdullahiadamu, abubakarmusa, adageorge, adamuatta, adasu, adefarati, adeleke92, adesina, agagu, ahmed, ajasin, ajimobi, akande, akpabio, …
-- **debt** (168 admins): abdulkarim, abdullahiadamu, abubakar, abubakarmusa, adageorge, adamuatta, adasu, adefarati, adeleke92, adesina, agagu, ahmed, ajasin, ajimobi, akande, …
-- **budget** (183 admins): abdulkarim, abdullahiadamu, abdulrazaq, abiodun, abubakar, abubakarmusa, adageorge, adamuatta, adasu, adefarati, adeleke92, adesina, agagu, ahmed, ajasin, …
-- **capex-share** (189 admins): abdulkarim, abdullahiadamu, abdulrazaq, abiodun, abubakar, abubakarmusa, adageorge, adamuatta, adasu, adefarati, adeleke92, adesina, agagu, ahmed, ajasin, …
+- **igr** (136 admins): abdulkarim, abdullahiadamu, abubakarmusa, adageorge, adamuatta, adasu, adefarati, adeleke92, adesina, agagu, ahmed, ajasin, ajimobi, akande, akpabio, …
+- **debt** (161 admins): abdulkarim, abdullahiadamu, abubakar, abubakarmusa, adageorge, adamuatta, adasu, adefarati, adeleke92, adesina, agagu, ahmed, ajasin, ajimobi, akande, …
+- **budget** (175 admins): abdulkarim, abdullahiadamu, abiodun, abubakar, abubakarmusa, adageorge, adamuatta, adasu, adefarati, adeleke92, adesina, agagu, ahmed, ajasin, ajimobi, …
+- **capex-share** (180 admins): abdulkarim, abdullahiadamu, abiodun, abubakar, abubakarmusa, adageorge, adamuatta, adasu, adefarati, adeleke92, adesina, agagu, ahmed, ajasin, ajimobi, …
 
 ## Drift
 
-- Unit mismatch vs registry: 5
-  - bago/igr: unit "%" vs registry "₦bn" (igr)
+- Unit mismatch vs registry: 4
   - bala/outofschool: unit " million" vs registry " thousand" (out-of-school)
   - makinde/outofschool: unit "%" vs registry " thousand" (out-of-school)
   - sanwoolu/budget: unit "₦tn" vs registry "₦bn" (budget)
@@ -94,29 +85,52 @@ Generated 2026-09-17 by `scripts/audit-indicators.mjs`. Read-only report — doe
   - bala/security
   - makinde/security
   - otu/security
-- Points with no parsed year: 5
-  - fintiri/igr: "2019-2021 (3yr total)"
+- Points with no parsed year: 4
   - idris/debt: "Dec 2024 Domestic"
   - idris/debt: "Dec 2024 External"
   - lalong/igr: "9mo 2021"
   - makinde/security: "12mo to Jan '22"
-- Fewer than 2 points (excluding not-published): 31
-  - alia/igr: 1 point(s)
-  - bago/igr: 1 point(s)
+- Fewer than 2 points (excluding not-published): 59
+  - abacha/poverty: 1 point(s)
+  - abdulsalami/gdp: 1 point(s)
+  - abdulsalami/inflation: 1 point(s)
+  - abdulsalami/naira: 1 point(s)
+  - abdulsalami/reserves: 1 point(s)
+  - abdulsalami/debt: 1 point(s)
+  - abdulsalami/unemployment: 1 point(s)
+  - bago/revenue-share: 1 point(s)
   - bala/security: 1 point(s)
+  - bello/debt: 1 point(s)
+  - buhari/debt: 1 point(s)
+  - buharimilitary/gdp: 1 point(s)
+  - buharimilitary/inflation: 1 point(s)
+  - buharimilitary/naira: 1 point(s)
+  - buharimilitary/reserves: 1 point(s)
+  - buharimilitary/debt: 1 point(s)
   - diri/igr: 1 point(s)
   - diri/debt-service-ratio: 1 point(s)
-  - fintiri/igr: 1 point(s)
   - fubara/allocation-dependence: 1 point(s)
+  - gowon/fuel: 1 point(s)
   - inuwa/gratuity: 1 point(s)
   - inuwa/roads: 1 point(s)
+  - ishaku/budget: 1 point(s)
+  - jonathan/debt: 1 point(s)
   - makinde/outofschool: 1 point(s)
   - makinde/security: 1 point(s)
+  - murtala/gdp: 1 point(s)
+  - murtala/inflation: 1 point(s)
+  - murtala/naira: 1 point(s)
+  - murtala/reserves: 1 point(s)
+  - murtala/debt: 1 point(s)
+  - murtala/fuel: 1 point(s)
   - nwifuru/health: 1 point(s)
   - nwifuru/education: 1 point(s)
   - nwifuru/infrastructure: 1 point(s)
+  - obasanjo/poverty: 1 point(s)
+  - obasanjomilitary/fuel: 1 point(s)
   - ododo/debt-cleared: 1 point(s)
   - ododo/mining-licences: 1 point(s)
+  - ododo/igr: 1 point(s)
   - otti/education-share: 1 point(s)
   - otti/health-share: 1 point(s)
   - otti/electric-buses: 1 point(s)
@@ -127,16 +141,26 @@ Generated 2026-09-17 by `scripts/audit-indicators.mjs`. Read-only report — doe
   - radda/gratuity: 1 point(s)
   - sanwoolu/revenue-share: 1 point(s)
   - sanwoolu/rice-capacity: 1 point(s)
+  - shagari/fuel: 1 point(s)
+  - shagari/poverty: 1 point(s)
+  - shonekan/fuel: 1 point(s)
   - soludo/debt: 1 point(s)
-  - sule/igr: 1 point(s)
   - ubasani/debt: 1 point(s)
   - uzodinma/debt: 1 point(s)
+  - yaradua/debt: 1 point(s)
+  - yaradua/poverty: 1 point(s)
   - yusuf/debt: 1 point(s)
-- Basis change with no note: 0
+- Basis change with no note: 6
+  - abdulrazaq/debt: basis changed to "domestic" at Dec ’25 with no note
+  - bala/debt: basis changed to "domestic" at 2024 with no note
+  - buni/debt: basis changed to "domestic" at 2024 with no note
+  - fintiri/debt: basis changed to "domestic" at 2023 with no note
+  - inuwa/debt: basis changed to "domestic" at 2023 with no note
+  - inuwa/debt: basis changed to "domestic" at 2024 with no note
 - Budget indicator vs budget table mismatch: 2
   - inuwa: indicator budget point 320 vs budget table totalBn 369.9 for 2025
   - sanwoolu: indicator budget point 4.237 vs budget table totalBn 4237 for 2026
 
 ## Execution debt
 
-As of 2026-09-17: 64 of 207 administrations (31%) have at least one indicator. Registry, structured points, and an upserting seed are in place (server/seed.js, data/seed/indicators.json); the backfill itself (plan Step 9, Phases A-F) has not started. Core-key gaps above are the actual backlog, not memory of what "should" exist. Re-run this script after each backfill phase and update this line.
+As of 2026-09-17: 77 of 208 administrations (37%) have at least one indicator. Registry, structured points, and an upserting seed are in place (server/seed.js, data/seed/indicators.json); the backfill itself (plan Step 9, Phases A-F) has not started. Core-key gaps above are the actual backlog, not memory of what "should" exist. Re-run this script after each backfill phase and update this line.
