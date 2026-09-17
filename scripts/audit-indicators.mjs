@@ -1,10 +1,17 @@
 // Coverage and quality audit for the `indicators` feature across every
 // administration in data/seed/*.json, against the canonical registry
-// (data/seed/indicators.json). Read-only — writes nothing but the report.
+// (data/seed/indicators.json). Read-only against data/seed — the only
+// file it writes is its own report.
 //
 // Usage:
-//   node --env-file=.env scripts/audit-indicators.mjs [--out docs/indicators-coverage.md]
-// With no --out, prints to stdout.
+//   node --env-file=.env scripts/audit-indicators.mjs [--out docs/indicators.md]
+// With no --out, prints the generated section to stdout.
+//
+// The report shares docs/indicators.md with a hand-maintained backlog
+// (why things are missing, not just what). When writing to an existing
+// file, everything from BACKLOG_MARKER onward is preserved verbatim and
+// re-appended after the freshly generated section — this script never
+// touches that part of the file.
 
 import { readFileSync, readdirSync, writeFileSync } from 'fs'
 import { fileURLToPath } from 'url'
@@ -26,7 +33,8 @@ const byKey = new Map(presidents.map(p => [p.key, p]))
 
 function era(admin) {
   if (admin.level !== 'state') return (+admin.termStart >= 1999) ? 'federal-1999+' : 'federal-pre1999'
-  const start = +admin.termStart
+  const start = parseInt(String(admin.termStart).slice(0, 4), 10) // full dates ("2007-05-29") must bucket by year, not NaN -> current
+  if (Number.isNaN(start)) return 'state-current'
   if (start < 1999) return 'state-pre1999'
   if (start < 2007) return 'state-1999-2007'
   if (start < 2023) return 'state-2007-2023'
@@ -102,9 +110,9 @@ for (const file of files) {
 }
 
 const lines = []
-lines.push('# Indicator coverage audit')
+lines.push('# Key indicators — coverage audit & backlog')
 lines.push('')
-lines.push(`Generated ${new Date().toISOString().slice(0, 10)} by \`scripts/audit-indicators.mjs\`. Read-only report — does not write to data/seed.`)
+lines.push(`Generated ${new Date().toISOString().slice(0, 10)} by \`scripts/audit-indicators.mjs\`. The script only ever writes this section, down to the \`BACKLOG-START\` marker; run it with \`node --env-file=.env scripts/audit-indicators.mjs --out docs/indicators.md\` after any backfill session to refresh it. Everything from the marker onward is hand-maintained and preserved verbatim across regenerations — that's where *why* something is missing and what to do about it lives, since that context doesn't survive a script re-run.`)
 lines.push('')
 lines.push('## Core-key coverage by era')
 lines.push('')
@@ -158,10 +166,21 @@ const withAny = files.filter(f => {
 
 lines.push('## Execution debt')
 lines.push('')
-lines.push(`As of ${new Date().toISOString().slice(0, 10)}: ${withAny} of ${totalAdmins} administrations (${Math.round(100 * withAny / totalAdmins)}%) have at least one indicator. Registry, structured points, and an upserting seed are in place (server/seed.js, data/seed/indicators.json); the backfill itself (plan Step 9, Phases A-F) has not started. Core-key gaps above are the actual backlog, not memory of what "should" exist. Re-run this script after each backfill phase and update this line.`)
+lines.push(`As of ${new Date().toISOString().slice(0, 10)}: ${withAny} of ${totalAdmins} administrations (${Math.round(100 * withAny / totalAdmins)}%) have at least one indicator. Registry, structured points, and an upserting seed are in place (server/seed.js, data/seed/indicators.json); the backfill (plan Step 9, Phases A-F) is under way — see the Backlog section below for what's done and what's left per phase. Core-key gaps above are the actual state, not memory of what "should" exist. Re-run this script after each backfill session and update the Backlog section by hand.`)
 lines.push('')
 
-const report = lines.join('\n')
+const BACKLOG_MARKER = '<!-- BACKLOG-START: everything from here down is hand-maintained; this script preserves it verbatim on every regeneration. -->'
+let backlog = `${BACKLOG_MARKER}\n\n## Backlog\n\n_Nothing recorded yet — add hand-written notes on why gaps exist and what to do about them below this line; the generated section above will keep refreshing on top of it._\n`
+if (outPath) {
+  const fullPath = path.join(__dirname, '..', outPath)
+  try {
+    const existing = readFileSync(fullPath, 'utf-8')
+    const idx = existing.indexOf(BACKLOG_MARKER)
+    if (idx !== -1) backlog = existing.slice(idx)
+  } catch { /* file doesn't exist yet — use the placeholder above */ }
+}
+
+const report = lines.join('\n') + '\n' + backlog
 if (outPath) {
   writeFileSync(path.join(__dirname, '..', outPath), report)
   console.log(`Wrote ${outPath}`)
