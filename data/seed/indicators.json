@@ -1,0 +1,214 @@
+[
+  {
+    "key": "gdp-growth",
+    "label": "Real GDP growth",
+    "unit": "%",
+    "higherIsBetter": true,
+    "description": "Annual real GDP growth rate. World Bank WDI series back to 1961; NBS national accounts from 2010 (rebased 2014 and 2024).",
+    "level": "federal",
+    "tier": "core",
+    "displayOrder": 1,
+    "defaultColor": "#1a6e3c",
+    "sources": [
+      { "era": "1961-present", "label": "World Bank WDI — GDP growth (annual %)", "url": "https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG?locations=NG", "code": "NY.GDP.MKTP.KD.ZG" },
+      { "era": "2010-present", "label": "NBS — Nigerian Gross Domestic Product Report", "url": "https://nigerianstat.gov.ng/elibrary" }
+    ]
+  },
+  {
+    "key": "inflation",
+    "label": "Headline inflation (CPI, y/y)",
+    "unit": "%",
+    "higherIsBetter": false,
+    "description": "Consumer price inflation, year on year. WDI gives the annual average; NBS gives the monthly headline rate. NBS rebased the CPI in January 2025, so record the basis on either side of the break.",
+    "level": "federal",
+    "tier": "core",
+    "displayOrder": 2,
+    "defaultColor": "#c0392b",
+    "sources": [
+      { "era": "1960-present", "label": "World Bank WDI — Inflation, consumer prices (annual %)", "url": "https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG?locations=NG", "code": "FP.CPI.TOTL.ZG" },
+      { "era": "1960-present", "label": "CBN Statistical Bulletin — Prices", "url": "https://www.cbn.gov.ng/documents/Statbulletin.asp" },
+      { "era": "2009-present", "label": "NBS — Consumer Price Index", "url": "https://nigerianstat.gov.ng/elibrary" }
+    ]
+  },
+  {
+    "key": "unemployment",
+    "label": "Unemployment rate",
+    "unit": "%",
+    "higherIsBetter": false,
+    "description": "Share of the labour force without work. ILO-modelled series from 1991 via WDI; NBS labour force surveys used a broader definition until 2020 and switched to the ILO-aligned NLFS in 2023, a basis break.",
+    "level": "federal",
+    "tier": "core",
+    "displayOrder": 3,
+    "defaultColor": "#8e44ad",
+    "sources": [
+      { "era": "1991-present", "label": "World Bank WDI — Unemployment, total (% of labour force, ILO modelled)", "url": "https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS?locations=NG", "code": "SL.UEM.TOTL.ZS" },
+      { "era": "2014-2020", "label": "NBS — Labour Force Statistics (old methodology)", "url": "https://nigerianstat.gov.ng/elibrary" },
+      { "era": "2023-present", "label": "NBS — Nigeria Labour Force Survey (NLFS)", "url": "https://nigerianstat.gov.ng/elibrary" }
+    ]
+  },
+  {
+    "key": "fx-official",
+    "label": "Official exchange rate",
+    "unit": "₦/$",
+    "higherIsBetter": false,
+    "description": "Naira per US dollar at the official or interbank rate, period average or year end as stated per point. Multiple official windows existed 2015-2023; record which one in the basis.",
+    "level": "federal",
+    "tier": "core",
+    "displayOrder": 4,
+    "defaultColor": "#2980b9",
+    "sources": [
+      { "era": "1960-present", "label": "World Bank WDI — Official exchange rate (LCU per US$, period average)", "url": "https://data.worldbank.org/indicator/PA.NUS.FCRF?locations=NG", "code": "PA.NUS.FCRF" },
+      { "era": "1960-present", "label": "CBN — Exchange rates", "url": "https://www.cbn.gov.ng/rates/ExchRateByCurrency.asp" }
+    ]
+  },
+  {
+    "key": "petrol-price",
+    "label": "Petrol pump price",
+    "unit": "₦/litre",
+    "higherIsBetter": false,
+    "description": "Regulated or average retail price of premium motor spirit. Pre-2016 points come from the official regulated price at each change; from 2016 NBS publishes a monthly national average.",
+    "level": "federal",
+    "tier": "core",
+    "displayOrder": 5,
+    "defaultColor": "#e67e22",
+    "sources": [
+      { "era": "1973-2016", "label": "NNPC / PPPRA — historical PMS price changes", "url": "https://nnpcgroup.com" },
+      { "era": "2016-present", "label": "NBS — Premium Motor Spirit (Petrol) Price Watch", "url": "https://nigerianstat.gov.ng/elibrary" }
+    ]
+  },
+  {
+    "key": "public-debt",
+    "label": "Total public debt stock",
+    "unit": "₦bn",
+    "higherIsBetter": false,
+    "description": "Federal government plus states' domestic and external debt, as reported by the DMO from 2000. Earlier totals come from the CBN Statistical Bulletin and cover federal debt only; record that in the basis.",
+    "level": "federal",
+    "tier": "core",
+    "displayOrder": 6,
+    "defaultColor": "#a2261b",
+    "sources": [
+      { "era": "2000-present", "label": "DMO — Nigeria's total public debt portfolio", "url": "https://www.dmo.gov.ng/debt-profile" },
+      { "era": "1970-2000", "label": "CBN Statistical Bulletin — Public finance", "url": "https://www.cbn.gov.ng/documents/Statbulletin.asp" }
+    ]
+  },
+  {
+    "key": "external-reserves",
+    "label": "External reserves",
+    "unit": "$bn",
+    "higherIsBetter": true,
+    "description": "Gross official foreign reserves held by the CBN, year end unless stated.",
+    "level": "federal",
+    "tier": "core",
+    "displayOrder": 7,
+    "defaultColor": "#1f6feb",
+    "sources": [
+      { "era": "1960-present", "label": "CBN — External reserves", "url": "https://www.cbn.gov.ng/IntOps/Reserve.asp" },
+      { "era": "1960-present", "label": "World Bank WDI — Total reserves (includes gold, current US$)", "url": "https://data.worldbank.org/indicator/FI.RES.TOTL.CD?locations=NG", "code": "FI.RES.TOTL.CD" }
+    ]
+  },
+  {
+    "key": "poverty-rate",
+    "label": "Poverty headcount rate",
+    "unit": "%",
+    "higherIsBetter": false,
+    "description": "Share of the population below the national poverty line (NBS living standards surveys) or the international $2.15 line (WDI). Surveys are infrequent (1985, 1992, 1996, 2003/04, 2009/10, 2018/19); the 2022 multidimensional index is a different measure and is only recorded with basis \"multidimensional\".",
+    "level": "federal",
+    "tier": "core",
+    "displayOrder": 8,
+    "defaultColor": "#7a5c00",
+    "sources": [
+      { "era": "1985-present", "label": "World Bank WDI — Poverty headcount ratio at $2.15 a day", "url": "https://data.worldbank.org/indicator/SI.POV.DDAY?locations=NG", "code": "SI.POV.DDAY" },
+      { "era": "2018-present", "label": "NBS — Nigeria Living Standards Survey 2018/19", "url": "https://nigerianstat.gov.ng/elibrary" }
+    ]
+  },
+  {
+    "key": "igr",
+    "label": "Internally generated revenue",
+    "unit": "₦bn",
+    "higherIsBetter": true,
+    "description": "Revenue the state raises itself (taxes, fees, levies), excluding federal allocation. NBS publishes state IGR from 2011; earlier years appear in CBN Annual Report state finance tables.",
+    "level": "state",
+    "tier": "core",
+    "displayOrder": 1,
+    "defaultColor": "#1a6e3c",
+    "sources": [
+      { "era": "2011-present", "label": "NBS — Internally Generated Revenue at State Level", "url": "https://nigerianstat.gov.ng/elibrary" },
+      { "era": "2011-present", "label": "BudgIT — State of States", "url": "https://budgit.org/our_programs/state-of-states/" },
+      { "era": "1999-2010", "label": "CBN Annual Report — State government finances", "url": "https://www.cbn.gov.ng/documents/annualreports.asp" }
+    ]
+  },
+  {
+    "key": "debt",
+    "label": "Total public debt stock",
+    "unit": "₦bn",
+    "higherIsBetter": false,
+    "description": "State's domestic plus external debt at year end, from the DMO subnational tables (2011 onward). Where only domestic debt is published the point carries basis \"domestic\".",
+    "level": "state",
+    "tier": "core",
+    "displayOrder": 2,
+    "defaultColor": "#c0392b",
+    "sources": [
+      { "era": "2011-present", "label": "DMO — Sub-national debt", "url": "https://www.dmo.gov.ng/debt-profile/sub-national-debts" }
+    ]
+  },
+  {
+    "key": "budget",
+    "label": "Approved budget",
+    "unit": "₦bn",
+    "higherIsBetter": null,
+    "description": "Total appropriation passed for the fiscal year. Neither direction is good in itself; the audit cross-checks these points against the budget table.",
+    "level": "state",
+    "tier": "core",
+    "displayOrder": 3,
+    "defaultColor": "#2980b9",
+    "sources": [
+      { "era": "2007-present", "label": "BudgIT — State budgets", "url": "https://budgit.org" },
+      { "era": "1999-present", "label": "State appropriation laws and budget speeches", "url": null }
+    ]
+  },
+  {
+    "key": "capex-share",
+    "label": "Capital expenditure share",
+    "unit": "%",
+    "higherIsBetter": true,
+    "description": "Capital spending as a share of the approved budget. Use the approved figure unless an actual (implementation) figure is published, and say which in the basis.",
+    "level": "state",
+    "tier": "core",
+    "displayOrder": 4,
+    "defaultColor": "#8e44ad",
+    "sources": [
+      { "era": "2007-present", "label": "BudgIT — State of States", "url": "https://budgit.org/our_programs/state-of-states/" },
+      { "era": "1999-present", "label": "State appropriation laws", "url": null }
+    ]
+  },
+  {
+    "key": "out-of-school",
+    "label": "Out-of-school children",
+    "unit": " thousand",
+    "higherIsBetter": false,
+    "description": "Children of primary and junior secondary age not enrolled in school, state estimate. Published only irregularly (UNICEF, UBEC, DHS); record as not published when no state figure exists.",
+    "level": "state",
+    "tier": "extended",
+    "displayOrder": 5,
+    "defaultColor": "#e67e22",
+    "sources": [
+      { "era": "2010-present", "label": "UNICEF Nigeria — Education", "url": "https://www.unicef.org/nigeria/education" },
+      { "era": "2010-present", "label": "UBEC — National Personnel Audit", "url": "https://ubec.gov.ng" }
+    ]
+  },
+  {
+    "key": "under5-mortality",
+    "label": "Under-five mortality",
+    "unit": " per 1,000 live births",
+    "higherIsBetter": false,
+    "description": "Deaths before age five per 1,000 live births, state estimate from the Nigeria Demographic and Health Survey (2008, 2013, 2018, 2023-24) or MICS (2016-17, 2021). Each survey reports the ten years before it, so attribute a point to the survey year, not the term.",
+    "level": "state",
+    "tier": "extended",
+    "displayOrder": 6,
+    "defaultColor": "#a2261b",
+    "sources": [
+      { "era": "2008-present", "label": "DHS Program — Nigeria DHS reports", "url": "https://dhsprogram.com/countries/Country-Main.cfm?ctry_id=30" },
+      { "era": "2016-present", "label": "UNICEF MICS — Nigeria", "url": "https://mics.unicef.org/surveys" }
+    ]
+  }
+]
