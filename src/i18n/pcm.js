@@ -309,6 +309,15 @@ export default {
   'indicators.source': 'Source:',
   'indicators.earliest': 'Earliest',
   'indicators.recorded': 'Dem record am',
+  'indicators.at': '{label}',
+  'indicators.latestAt': 'Latest ({label})',
+  'indicators.changeSince': 'Wetin change since {label}',
+  'indicators.intro': 'Key {scope} indicators dem dey track for the {term} term — {list}. E dey give context for every other tab for this site.',
+  'indicators.scopeState': 'state',
+  'indicators.scopeEconomic': 'economic',
+  'indicators.notPublished': 'Dem check am, but no publish:',
+  'indicators.checked': 'dem check am {date}',
+  'indicators.rebased': 'This series change how dem dey measure am for the middle — the jump fit be because of that, no be real change.',
 
   // ── not found ───────────────────────────────────────────────────
   'notFound.eyebrow': '404 · Dem no dey track am',

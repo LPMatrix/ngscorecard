@@ -11,6 +11,29 @@ function ensureColumn(client, table, column, definition) {
   }
 }
 
+// Creates a unique index if it doesn't exist yet, but only when the data
+// underneath is actually unique — a stray duplicate (e.g. from a hand-typed
+// admin.html row) would otherwise crash every future startup on this line.
+// Log and skip rather than fail; the seed script's own matching logic
+// doesn't depend on the index existing, it's a safety net, not a lock.
+function ensureUniqueIndex(client, name, table, columns) {
+  try {
+    const existing = client.prepare(`PRAGMA index_list(${table})`).all()
+    if (existing.some(i => i.name === name)) return
+    const cols = columns.join(', ')
+    const dupes = client.prepare(
+      `SELECT ${cols}, COUNT(*) c FROM ${table} GROUP BY ${cols} HAVING c > 1`
+    ).all()
+    if (dupes.length) {
+      console.warn(`Skipping unique index ${name}: ${dupes.length} duplicate group(s) on (${cols}) in ${table}`)
+      return
+    }
+    client.prepare(`CREATE UNIQUE INDEX ${name} ON ${table}(${cols})`).run()
+  } catch (e) {
+    if (e.code !== 'SQLITE_ERROR') throw e
+  }
+}
+
 function ensureLocalSchema(client) {
   ensureColumn(client, 'presidents', 'level', "TEXT NOT NULL DEFAULT 'federal'")
   ensureColumn(client, 'presidents', 'state', 'TEXT')
@@ -20,6 +43,17 @@ function ensureLocalSchema(client) {
   ensureColumn(client, 'fraud', 'court_case_ref', 'TEXT')
   ensureColumn(client, 'fraud', 'days_pending', 'INTEGER')
   ensureColumn(client, 'indicators', 'higher_is_better', 'INTEGER')
+  ensureColumn(client, 'indicators', 'registry_key', 'TEXT')
+  ensureColumn(client, 'indicators', 'status', 'TEXT')
+  ensureColumn(client, 'indicators', 'checked', 'TEXT')
+  ensureColumn(client, 'indicators', 'display_order', 'INTEGER')
+  ensureColumn(client, 'indicator_points', 'year', 'INTEGER')
+  ensureColumn(client, 'indicator_points', 'period', 'TEXT')
+  ensureColumn(client, 'indicator_points', 'source', 'TEXT')
+  ensureColumn(client, 'indicator_points', 'source_label', 'TEXT')
+  ensureColumn(client, 'indicator_points', 'basis', 'TEXT')
+  ensureColumn(client, 'indicator_points', 'note', 'TEXT')
+  ensureUniqueIndex(client, 'indicator_points_label_uq', 'indicator_points', ['indicator_id', 'label'])
   ensureColumn(client, 'promises', 'flag', 'TEXT')
   ensureColumn(client, 'promises', 'related', 'TEXT')
   for (const tbl of ['promises', 'inherited', 'fraud', 'orders', 'ministers', 'bills', 'judgments']) {

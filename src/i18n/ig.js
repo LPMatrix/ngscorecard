@@ -320,6 +320,15 @@ export default {
   'indicators.source': 'Isi mmalite:',
   'indicators.earliest': 'Mbụ',
   'indicators.recorded': 'Edekọrọ',
+  'indicators.at': '{label}',
+  'indicators.latestAt': 'Kachasị ọhụrụ ({label})',
+  'indicators.changeSince': 'Mgbanwe kemgbe {label}',
+  'indicators.intro': "Isi ihe ngosi {scope} a na-esochi n'oge {term} — {list}. Nkọwa maka akụkụ ọ bụla ọzọ na saịtị a.",
+  'indicators.scopeState': 'steeti',
+  'indicators.scopeEconomic': 'akụ na ụba',
+  'indicators.notPublished': 'A tụlere, a mabeghị ya:',
+  'indicators.checked': 'a tụlere {date}',
+  'indicators.rebased': "Usoro a gbanwere ụzọ e si atụ ihe n'etiti oge — mmali elu nwere ike ịbụ nke ahụ, ọ bụghị mgbanwe mfe.",
 
   // ── not found ───────────────────────────────────────────────────
   'notFound.eyebrow': '404 · Anyị anaghị eso ya',

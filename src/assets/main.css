@@ -757,6 +757,7 @@ a:focus-visible {
 .pt-stat-value.partial { color: var(--pt-partial); }
 .pt-stat-value.broken,
 .iv-change.bad { color: var(--pt-broken); }
+.iv-change.neutral { color: var(--pt-text-muted); }
 .pt-stat-value.pending { color: var(--pt-pending); }
 .bv-top-val.deficit { color: var(--pt-broken); }
 .bv-top-val.debt { color: var(--pt-partial); }
@@ -1353,6 +1354,13 @@ a:focus-visible {
 }
 .bv-source,
 .iv-source { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--pt-line); }
+
+.iv-not-published {
+  margin-top: 10px;
+  color: var(--pt-text-faint);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
 
 .iv-selector { align-items: flex-start; }
 .iv-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }

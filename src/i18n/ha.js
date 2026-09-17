@@ -318,6 +318,15 @@ export default {
   'indicators.source': 'Tushe:',
   'indicators.earliest': 'Farko',
   'indicators.recorded': 'An rubuta',
+  'indicators.at': '{label}',
+  'indicators.latestAt': 'Na baya-bayan nan ({label})',
+  'indicators.changeSince': 'Canji tun {label}',
+  'indicators.intro': "Muhimman alkaluman {scope} da aka bibiya a cikin wa'adin {term} — {list}. Bayani don kowane sashe a wannan shafin.",
+  'indicators.scopeState': 'jiha',
+  'indicators.scopeEconomic': 'tattalin arziki',
+  'indicators.notPublished': 'An duba, ba a fitar da su ba:',
+  'indicators.checked': 'an duba {date}',
+  'indicators.rebased': 'Wannan jerin ya canza tsarin awo a tsakiya — hauhawa na iya nuna hakan, ba canji na gaskiya ba.',
 
   // ── not found ───────────────────────────────────────────────────
   'notFound.eyebrow': '404 · Ba a bi ba',

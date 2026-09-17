@@ -220,35 +220,69 @@ function seedGovernors(rows, admin) {
   }))
 }
 
-async function seedIndicators(rows, admin) {
+// Unlike seedByKey's diff-only insert (used for promises, fraud, etc.),
+// indicators upsert — like seedThemes/seedPresidents. A key indicator series
+// is expected to get new points and corrected labels/units/higherIsBetter
+// over time (a debt figure revised, a CPI rebase noted), and none of that
+// should require a manual UPDATE keyed by hand outside this script.
+// `registryByKey` (data/seed/indicators.json, loaded once in the Run
+// section) supplies defaults — a per-admin row can still override any of
+// them, but most rows just inherit label/unit/higherIsBetter/displayOrder
+// from the shared registry.
+async function seedIndicators(rows, admin, registryByKey) {
   const existingIndicators = await db.select().from(t.indicators).where(eq(t.indicators.administration, admin))
   const byKey = new Map(existingIndicators.map(r => [r.key, r]))
-  let added = 0
+  let added = 0, updated = 0
 
   for (const r of rows) {
-    let indicatorId = byKey.get(r.id)?.id
+    const reg = registryByKey.get(r.registryKey ?? r.id)
+    const values = {
+      administration: admin, key: r.id,
+      label: r.label ?? reg?.label, unit: r.unit ?? reg?.unit,
+      color: r.color ?? reg?.defaultColor, description: r.description,
+      source: r.source, sourceLabel: r.sourceLabel, note: r.note ?? null,
+      higherIsBetter: r.higherIsBetter ?? reg?.higherIsBetter ?? null,
+      registryKey: r.registryKey ?? (reg ? reg.key : null),
+      status: r.status ?? null, checked: r.checked ?? null,
+      displayOrder: r.displayOrder ?? reg?.displayOrder ?? null,
+    }
+
+    const existing = byKey.get(r.id)
+    let indicatorId = existing?.id
     if (!indicatorId) {
-      const [{ id }] = await db.insert(t.indicators).values({
-        administration: admin, key: r.id, label: r.label, unit: r.unit,
-        color: r.color, description: r.description,
-        source: r.source, sourceLabel: r.sourceLabel, note: r.note ?? null,
-        higherIsBetter: r.higherIsBetter ?? false,
-      }).returning({ id: t.indicators.id })
+      const [{ id }] = await db.insert(t.indicators).values(values).returning({ id: t.indicators.id })
       indicatorId = id
       added++
+    } else if (Object.entries(values).some(([k, v]) => existing[k] !== v)) {
+      await db.update(t.indicators).set(values).where(eq(t.indicators.id, indicatorId))
+      updated++
     }
 
     const existingPoints = await db.select().from(t.indicatorPoints).where(eq(t.indicatorPoints.indicatorId, indicatorId))
-    const seenLabels = new Set(existingPoints.map(p => p.label))
+    const byLabel = new Map(existingPoints.map(p => [p.label, p]))
+    const byYearPeriod = new Map(existingPoints.map(p => [`${p.year ?? ''}|${p.period ?? ''}`, p]))
+
     for (const pt of (r.points || [])) {
-      if (seenLabels.has(pt.label)) continue
-      await db.insert(t.indicatorPoints).values({ indicatorId, administration: admin, label: pt.label, value: pt.value })
-      seenLabels.add(pt.label)
-      added++
+      const ptValues = {
+        indicatorId, administration: admin, label: pt.label, value: pt.value,
+        year: pt.year ?? null, period: pt.period ?? null,
+        source: pt.source ?? null, sourceLabel: pt.sourceLabel ?? null,
+        basis: pt.basis ?? null, note: pt.note ?? null,
+      }
+      const match = byLabel.get(pt.label)
+        ?? (pt.year != null ? byYearPeriod.get(`${pt.year}|${pt.period ?? ''}`) : undefined)
+
+      if (!match) {
+        await db.insert(t.indicatorPoints).values(ptValues)
+        added++
+      } else if (Object.entries(ptValues).some(([k, v]) => match[k] !== v)) {
+        await db.update(t.indicatorPoints).set(ptValues).where(eq(t.indicatorPoints.id, match.id))
+        updated++
+      }
     }
   }
 
-  return added
+  return { added, updated }
 }
 
 // ── Run ──────────────────────────────────────────────────────────────────────
@@ -264,6 +298,10 @@ if (process.argv.includes('--reset')) {
 // in seedPresidents — regardless of whether that admin's data changed at all.
 // That cost grows with the total dataset size, not with what's actually new,
 // so targeting keeps a single-batch content update cheap as the dataset grows.
+// `--only=indicators` additionally skips every other category for the
+// targeted admin(s) — useful when a backfill session touches nothing else.
+const onlyArg = process.argv.find(arg => arg.startsWith('--only='))
+const onlyCategories = onlyArg ? new Set(onlyArg.slice('--only='.length).split(',')) : null
 const targetKeys = process.argv.slice(2).filter(arg => !arg.startsWith('--'))
 
 let administrations = readJson('presidents.json')
@@ -275,31 +313,42 @@ if (targetKeys.length) {
   console.log(`Targeted seed: ${administrations.map(a => a.key).join(', ') || '(none matched)'}`)
 }
 
-await seedPresidents(administrations)
+if (!onlyCategories) await seedPresidents(administrations)
 
 // Global tables (not per-administration). Cheap upserts — always run, even in
 // targeted mode.
-const themeAdded = await seedThemes(readJson('themes.json'))
-console.log(`Seeding themes… ${themeAdded ? `+${themeAdded}` : 'no new (existing upserted)'}`)
+if (!onlyCategories) {
+  const themeAdded = await seedThemes(readJson('themes.json'))
+  console.log(`Seeding themes… ${themeAdded ? `+${themeAdded}` : 'no new (existing upserted)'}`)
+}
+
+const registryByKey = new Map(readJson('indicators.json').map(r => [r.key, r]))
 
 for (const admin of administrations) {
   const key = admin.key
   const data = readAdminData(key)
+  const run = (name, fn) => (!onlyCategories || onlyCategories.has(name)) ? fn() : Promise.resolve(0)
   const counts = {
-    promises:     await seedPromises(    data.promises ?? [],     key),
-    inherited:    await seedInherited(   data.inherited ?? [],    key),
-    fraud:        await seedFraud(       data.fraud ?? [],        key),
-    orders:       await seedOrders(      data.orders ?? [],       key),
-    ministers:    await seedMinisters(   data.ministers ?? [],    key),
-    bills:        await seedBills(       data.bills ?? [],        key),
-    appointments: await seedAppointments(data.appointments ?? [], key),
-    judgments:    await seedJudgments(   data.judgments ?? [],    key),
-    budget:       await seedBudget(      data.budget ?? [],       key),
-    indicators:   await seedIndicators(  data.indicators ?? [],   key),
-    governors:    await seedGovernors(   data.governors ?? [],    key),
+    promises:     await run('promises',     () => seedPromises(    data.promises ?? [],     key)),
+    inherited:    await run('inherited',     () => seedInherited(   data.inherited ?? [],    key)),
+    fraud:        await run('fraud',         () => seedFraud(       data.fraud ?? [],        key)),
+    orders:       await run('orders',        () => seedOrders(      data.orders ?? [],       key)),
+    ministers:    await run('ministers',     () => seedMinisters(   data.ministers ?? [],    key)),
+    bills:        await run('bills',         () => seedBills(       data.bills ?? [],        key)),
+    appointments: await run('appointments',  () => seedAppointments(data.appointments ?? [], key)),
+    judgments:    await run('judgments',     () => seedJudgments(   data.judgments ?? [],    key)),
+    budget:       await run('budget',        () => seedBudget(      data.budget ?? [],       key)),
+    indicators:   await run('indicators',    () => seedIndicators(  data.indicators ?? [],   key, registryByKey)),
+    governors:    await run('governors',     () => seedGovernors(   data.governors ?? [],    key)),
   }
-  const added = Object.entries(counts).filter(([, n]) => n > 0).map(([k, n]) => `${k} +${n}`).join(', ')
-  console.log(`Seeding ${key}… ${added || 'nothing new'}`)
+  const parts = Object.entries(counts).flatMap(([name, n]) => {
+    if (name === 'indicators') {
+      const { added = 0, updated = 0 } = n || {}
+      return added || updated ? [`indicators +${added}${updated ? ` ~${updated}` : ''}`] : []
+    }
+    return n > 0 ? [`${name} +${n}`] : []
+  })
+  console.log(`Seeding ${key}… ${parts.join(', ') || 'nothing new'}`)
 }
 
 console.log('Done.')

@@ -824,6 +824,17 @@ const filteredBills = computed(() => {
     return matchStatus && matchCat && matchQ
   })
 })
+
+// A checked-and-confirmed "not published" row isn't tracked content to name
+// in the tab intro sentence — only count/list indicators actually charted.
+// The empty case is handled entirely by IndicatorsView's own empty state
+// below, not here, so this is only ever read when the list is non-empty.
+const publishedIndicators = computed(() => indicators.value.filter(i => i.status !== 'not-published'))
+const indicatorsIntro = computed(() => t('indicators.intro', {
+  scope: isStateLevel.value ? t('indicators.scopeState') : t('indicators.scopeEconomic'),
+  term: currentAdmin.value.term,
+  list: publishedIndicators.value.map(i => i.label.toLowerCase()).join(', '),
+}))
 </script>
 
 <template>
@@ -1117,7 +1128,7 @@ const filteredBills = computed(() => {
           <div class="pt-nav-group">
             <div class="pt-nav-group-label">{{ t('nav.group.economy') }}</div>
             <button :class="['pt-nav-btn', { active: activeTab === 'budget' }]"     @click="switchTab('budget')">{{ t('tab.budget') }}</button>
-            <button :class="['pt-nav-btn', { active: activeTab === 'indicators' }]" @click="switchTab('indicators')">{{ t('tab.indicators') }}</button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'indicators' }]" @click="switchTab('indicators')">{{ t('tab.indicators') }} <span class="pt-nav-count">{{ publishedIndicators.length }}</span></button>
           </div>
 
           <div v-if="!isStateLevel" class="pt-nav-group">
@@ -1563,11 +1574,7 @@ const filteredBills = computed(() => {
 
     <!-- ── INDICATORS TAB ── -->
     <template v-else-if="activeTab === 'indicators'">
-      <div class="pt-tab-intro">
-        Key {{ isStateLevel ? 'state' : 'economic' }} metrics tracked across the {{ currentAdmin.term }} term —
-        {{ indicators.map(i => i.label.toLowerCase()).join(', ') || 'no indicators tracked yet' }}.
-        Context for every other tab on this site.
-      </div>
+      <div v-if="publishedIndicators.length" class="pt-tab-intro">{{ indicatorsIntro }}</div>
       <IndicatorsView :indicators="indicators" />
     </template>
 

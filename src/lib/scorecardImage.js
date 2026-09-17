@@ -46,14 +46,22 @@ export function promiseTally(promises) {
 }
 
 function primaryIndicator(indicators) {
-  const ind = (indicators || [])[0]
-  const points = ind?.points
-  if (!ind || !Array.isArray(points) || points.length < 2) return null
-  const first = points[0]
-  const last = points[points.length - 1]
-  if (typeof first.value !== 'number' || typeof last.value !== 'number' || first.value === 0) return null
-  const pct = Math.round(((last.value - first.value) / Math.abs(first.value)) * 100)
-  return { label: ind.label, unit: ind.unit, first, last, pct }
+  // `indicators` already arrives sorted by the registry's displayOrder
+  // (server/queries.js getIndicators) — the first one here is the intended
+  // "primary" one, unless it's a checked-but-not-published placeholder or
+  // too thin a series to show a change, in which case fall through to the
+  // next in order rather than giving up on the whole card.
+  for (const ind of indicators || []) {
+    if (ind.status === 'not-published') continue
+    const points = ind.points
+    if (!Array.isArray(points) || points.length < 2) continue
+    const first = points[0]
+    const last = points[points.length - 1]
+    if (typeof first.value !== 'number' || typeof last.value !== 'number' || first.value === 0) continue
+    const pct = Math.round(((last.value - first.value) / Math.abs(first.value)) * 100)
+    return { label: ind.label, unit: ind.unit, first, last, pct }
+  }
+  return null
 }
 
 function judgmentRecord(judgments) {

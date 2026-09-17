@@ -28,6 +28,19 @@ export function registerDataRoutes(router) {
     res.json(lineage)
   })
 
+  // One indicator's series across every administration that has it (e.g.
+  // "igr" for every state), keyed by the canonical registry, not the
+  // per-admin :admin route below — registered first so "indicators" is
+  // never read as an administration key.
+  router.get('/indicators/:key', async (req, res) => {
+    const series = await q.getIndicatorSeries(req.params.key, {
+      level: req.query.level,
+      state: req.query.state,
+    })
+    if (!series) { res.status(404).json({ error: 'Unknown indicator key' }); return }
+    res.json(series)
+  })
+
   router.get('/:admin/promises', async (req, res) => {
     if (!(await guard(req, res))) return
     res.json(await q.getPromises(req.params.admin))

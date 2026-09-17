@@ -7,11 +7,16 @@ const props = defineProps({
   indicators: { type: Array, required: true },
 })
 
+// A "not-published" row is a checked-and-confirmed absence, not a chart to
+// draw — it never appears in the selector, the chart, or the change stat.
+const published = computed(() => props.indicators.filter(i => i.status !== 'not-published'))
+const notPublished = computed(() => props.indicators.filter(i => i.status === 'not-published'))
+
 const activeId = ref(null)
 
 const active = computed(() =>
-  props.indicators.find(i => i.id === (activeId.value ?? props.indicators[0]?.id))
-  ?? props.indicators[0]
+  published.value.find(i => i.id === (activeId.value ?? published.value[0]?.id))
+  ?? published.value[0]
 )
 
 // ── chart geometry ─────────────────────────────────────
@@ -64,30 +69,48 @@ function fmt(v, unit) {
     if (v >= 1000) return '₦' + (v / 1000).toLocaleString(undefined, { maximumFractionDigits: 3 }) + 'tn'
     return '₦' + v.toLocaleString(undefined, { maximumFractionDigits: 3 }) + 'bn'
   }
+  if (unit === '$bn' || unit === '$m') return '$' + v.toLocaleString(undefined, { maximumFractionDigits: 3 }) + unit.slice(1)
   return v + unit
 }
 
-const first = computed(() => active.value.points[0])
-const last  = computed(() => active.value.points[active.value.points.length - 1])
+const first = computed(() => active.value?.points[0])
+const last  = computed(() => active.value?.points[active.value.points.length - 1])
 const change = computed(() => {
   const diff = last.value.value - first.value.value
   const pct  = ((diff / first.value.value) * 100).toFixed(1)
   const up   = diff > 0
   // Direction alone doesn't tell you if a change is good news — rising GDP
   // or IGR is good, rising inflation or debt is bad. higherIsBetter decides.
-  const good = active.value.higherIsBetter ? up : !up
+  // Null means "not yet classified" — render it neutrally, not as bad news.
+  const hib  = active.value.higherIsBetter
+  const good = hib === null || hib === undefined ? null : (hib ? up : !up)
   return { diff, pct, up, good }
+})
+
+// True when some point after the first has a `basis` different from the
+// one before it — a CPI rebase, a debt figure that started counting
+// external debt too, a survey methodology change. The series is still one
+// line on the chart; this just flags that the jump may not be real change.
+const rebased = computed(() => {
+  const pts = active.value?.points ?? []
+  for (let i = 1; i < pts.length; i++) {
+    if (pts[i].basis && pts[i].basis !== pts[i - 1].basis) return true
+  }
+  return false
 })
 </script>
 
 <template>
   <div class="iv-wrap">
 
+    <div v-if="!published.length" class="pt-empty">{{ t('empty.indicators') }}</div>
+
+    <template v-else>
     <!-- Indicator selector -->
     <div class="iv-selector">
       <button
-        v-for="ind in indicators" :key="ind.id"
-        :class="['iv-sel-btn', { active: (activeId ?? indicators[0]?.id) === ind.id }]"
+        v-for="ind in published" :key="ind.id"
+        :class="['iv-sel-btn', { active: (activeId ?? published[0]?.id) === ind.id }]"
         @click="activeId = ind.id; hovered = null"
       >{{ ind.label }}</button>
     </div>
@@ -105,7 +128,7 @@ const change = computed(() => {
         </div>
         <div class="iv-stat">
           <div class="iv-stat-lbl">{{ t('indicators.changeSince', { label: first.label }) }}</div>
-          <div :class="['iv-stat-val', 'iv-change', change.good ? 'good' : 'bad']">
+          <div :class="['iv-stat-val', 'iv-change', change.good === null ? 'neutral' : (change.good ? 'good' : 'bad')]">
             {{ change.up ? '+' : '' }}{{ change.pct }}%
           </div>
         </div>
@@ -199,10 +222,18 @@ const change = computed(() => {
     </div>
 
     <!-- Note + source -->
+    <p v-if="rebased" class="iv-note iv-rebased">{{ t('indicators.rebased') }}</p>
     <p v-if="active.note" class="iv-note">{{ active.note }}</p>
     <p class="iv-desc">{{ active.description }}</p>
     <div class="iv-source">
       {{ t('indicators.source') }} <a :href="active.source" target="_blank" class="pt-source-link">{{ active.sourceLabel }}</a>
     </div>
+
+    <!-- Checked, confirmed not published — listed, not charted -->
+    <div v-if="notPublished.length" class="iv-not-published">
+      {{ t('indicators.notPublished') }}
+      {{ notPublished.map(i => i.checked ? `${i.label} (${t('indicators.checked', { date: i.checked })})` : i.label).join(', ') }}
+    </div>
+    </template>
   </div>
 </template>

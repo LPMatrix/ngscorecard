@@ -323,6 +323,12 @@ export default {
   'indicators.latestAt': 'Latest ({label})',
   'indicators.changeSince': 'Change since {label}',
   'indicators.source': 'Source:',
+  'indicators.intro': 'Key {scope} metrics tracked across the {term} term — {list}. Context for every other tab on this site.',
+  'indicators.scopeState': 'state',
+  'indicators.scopeEconomic': 'economic',
+  'indicators.notPublished': 'Checked, not published:',
+  'indicators.checked': 'checked {date}',
+  'indicators.rebased': 'This series changed measurement basis partway through — a jump may reflect that, not a real change.',
 
   // ── governors view ─────────────────────────────────────────────────
   'governors.serving': 'Serving',

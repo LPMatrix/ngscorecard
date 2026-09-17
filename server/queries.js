@@ -1,6 +1,19 @@
-import { eq, and, asc } from 'drizzle-orm'
+import { eq, and, asc, inArray } from 'drizzle-orm'
+import { readFileSync } from 'fs'
+import { fileURLToPath } from 'url'
+import path from 'path'
 import { db } from './db.js'
 import * as t from './schema.js'
+
+// The canonical indicator registry (data/seed/indicators.json) — read once
+// at module load. It's metadata for API responses, not per-admin content,
+// so unlike everything else in this file it's read directly rather than
+// through the DB.
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const registryByKey = new Map(
+  JSON.parse(readFileSync(path.join(__dirname, '../data/seed/indicators.json'), 'utf-8'))
+    .map(r => [r.key, r])
+)
 
 function withTerm(rows) {
   return rows.map(p => ({
@@ -129,6 +142,23 @@ export async function getBudget(admin) {
   return budgets.map(b => ({ ...b, ministries: byYear[b.year] || [] }))
 }
 
+// Sub-year period, ranked for a stable chronological sort alongside `year`.
+// Annual points (period === null) sort before any sub-year point in the
+// same year, since an annual figure typically represents the year as a
+// whole rather than a moment within it.
+const PERIOD_RANK = { H1: 1, Q1: 2, Jan: 3, Feb: 4, Mar: 5, Q2: 6, Apr: 7, May: 8, Jun: 9,
+  H2: 10, Q3: 11, Jul: 12, Aug: 13, Sep: 14, Q4: 15, Oct: 16, Nov: 17, Dec: 18 }
+
+function comparePoints(a, b) {
+  if (a.year == null && b.year == null) return 0
+  if (a.year == null) return 1 // nulls last
+  if (b.year == null) return -1
+  if (a.year !== b.year) return a.year - b.year
+  const ra = a.period ? (PERIOD_RANK[a.period] ?? 99) : 0
+  const rb = b.period ? (PERIOD_RANK[b.period] ?? 99) : 0
+  return ra - rb
+}
+
 export async function getIndicators(admin) {
   const [inds, pts] = await Promise.all([
     db.select().from(t.indicators).where(eq(t.indicators.administration, admin)),
@@ -137,9 +167,58 @@ export async function getIndicators(admin) {
   const byId = {}
   for (const p of pts) {
     if (!byId[p.indicatorId]) byId[p.indicatorId] = []
-    byId[p.indicatorId].push({ label: p.label, value: p.value })
+    byId[p.indicatorId].push({
+      label: p.label, value: p.value, year: p.year, period: p.period,
+      source: p.source, sourceLabel: p.sourceLabel, basis: p.basis, note: p.note,
+    })
   }
-  return inds.map(({ id, key, ...rest }) => ({ id: key, ...rest, points: byId[id] || [] }))
+  for (const list of Object.values(byId)) list.sort(comparePoints)
+
+  return inds
+    .slice()
+    .sort((a, b) => (a.displayOrder ?? 999) - (b.displayOrder ?? 999) || a.id - b.id)
+    .map(({ id, key, ...rest }) => ({ id: key, ...rest, points: byId[id] || [] }))
+}
+
+// One indicator's series across every administration that has it, matched
+// by registry key rather than the per-admin free-text `key` — e.g. every
+// state's "igr" entry, in term order. `level`/`state` narrow the admin set
+// the same way the rest of the API scopes federal vs state data.
+export async function getIndicatorSeries(registryKey, { level, state } = {}) {
+  const [rows, allPresidents] = await Promise.all([
+    db.select().from(t.indicators).where(eq(t.indicators.registryKey, registryKey)),
+    getPresidents(),
+  ])
+  if (!rows.length) return null
+
+  const adminMeta = new Map(allPresidents.map(p => [p.key, p]))
+  const indicatorIds = rows.map(r => r.id)
+  const pts = indicatorIds.length
+    ? await db.select().from(t.indicatorPoints).where(inArray(t.indicatorPoints.indicatorId, indicatorIds))
+    : []
+  const pointsByIndicator = {}
+  for (const p of pts) {
+    if (!pointsByIndicator[p.indicatorId]) pointsByIndicator[p.indicatorId] = []
+    pointsByIndicator[p.indicatorId].push({ label: p.label, value: p.value, year: p.year, period: p.period })
+  }
+  for (const list of Object.values(pointsByIndicator)) list.sort(comparePoints)
+
+  const series = rows
+    .map(r => {
+      const meta = adminMeta.get(r.administration)
+      if (!meta) return null
+      if (level && (meta.level ?? 'federal') !== level) return null
+      if (state && meta.state !== state) return null
+      return {
+        administration: r.administration, name: meta.name, termStart: meta.termStart,
+        termEnd: meta.termEnd, status: r.status ?? null, checked: r.checked ?? null,
+        points: pointsByIndicator[r.id] || [],
+      }
+    })
+    .filter(Boolean)
+    .sort((a, b) => (+a.termStart) - (+b.termStart))
+
+  return { key: registryKey, registry: registryByKey.get(registryKey) ?? null, series }
 }
 
 // The complete tracker as one structure: every administration (federal and

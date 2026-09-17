@@ -227,7 +227,23 @@ export const indicators = sqliteTable('indicators', {
   note:           text('note'),
   // Whether a rising value is good news (e.g. GDP growth, IGR) rather than
   // bad (e.g. inflation, debt, unemployment) — determines change-arrow color.
+  // Null means "not yet classified", rendered neutrally, not as bad news.
   higherIsBetter: integer('higher_is_better', { mode: 'boolean' }),
+  // Slug into data/seed/indicators.json — the canonical cross-admin registry
+  // (e.g. "igr", "gdp-growth"). Null for one-off, non-standard indicators
+  // that don't belong to the core/extended set (e.g. "rice-capacity").
+  registryKey:    text('registry_key'),
+  // 'not-published' marks a core indicator that was checked and has no
+  // citable figure — an auditable absence, distinct from never having been
+  // looked for. Null (the default) means an ordinary, populated indicator.
+  status:         text('status'),
+  // "YYYY-MM" — when a not-published check (or the last data refresh) was
+  // last done, so a stale "not published" can be revisited.
+  checked:        text('checked'),
+  // Fixed display order within an admin's indicator list, from the registry
+  // at seed time — keeps the tab and the share image's "primary" pick
+  // deterministic instead of depending on JSON array order.
+  displayOrder:   integer('display_order'),
 })
 
 export const indicatorPoints = sqliteTable('indicator_points', {
@@ -236,6 +252,23 @@ export const indicatorPoints = sqliteTable('indicator_points', {
   administration: text('administration').notNull(),
   label:          text('label').notNull(),
   value:          real('value').notNull(),
+  // Structured period, parsed from `label` where possible, so points can be
+  // ordered and compared across administrations without parsing free text.
+  // `period` is only a sub-year refinement ("Jan".."Dec", "Q1".."Q4", "H1",
+  // "H2") — null means the point is annual.
+  year:           integer('year'),
+  period:         text('period'),
+  // A point-level source, since a series spanning decades often changes
+  // publisher (e.g. CBN Statistical Bulletin, then NBS). Null falls back to
+  // the parent indicator's source/sourceLabel.
+  source:         text('source'),
+  sourceLabel:    text('source_label'),
+  // Flags a measurement-basis change from the previous point in the series
+  // (a CPI rebase, a debt figure that switched from domestic-only to
+  // domestic+external, a survey methodology change) so a jump isn't
+  // misread as the underlying reality moving.
+  basis:          text('basis'),
+  note:           text('note'),
 })
 
 export const apiKeys = sqliteTable('api_keys', {

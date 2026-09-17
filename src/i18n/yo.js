@@ -320,6 +320,15 @@ export default {
   'indicators.source': 'Orísun:',
   'indicators.earliest': 'Àkọ́kọ́ jùlọ',
   'indicators.recorded': 'A gbàsílẹ̀',
+  'indicators.at': '{label}',
+  'indicators.latestAt': 'Tuntun jùlọ ({label})',
+  'indicators.changeSince': 'Ìyípadà láti {label}',
+  'indicators.intro': 'Àwọn àmì {scope} pàtàkì tí a tọpinpin ní àkókò {term} — {list}. Àlàyé fún gbogbo apá mìíràn nínú ojú-òpó yìí.',
+  'indicators.scopeState': 'ìpínlẹ̀',
+  'indicators.scopeEconomic': 'ọrọ̀-ajé',
+  'indicators.notPublished': 'A ti yẹ̀wò, a kò tí ì tẹ̀jáde:',
+  'indicators.checked': 'a yẹ̀wò ní {date}',
+  'indicators.rebased': 'Ọ̀nà ìṣírò fún ọ̀wọ́n yìí yí padà láàrin ìgbà — ìlọsíwájú lè jẹ́ nítorí ìyẹn, kì í ṣe ìyípadà gidi.',
 
   // ── not found ───────────────────────────────────────────────────
   'notFound.eyebrow': '404 · A kò tọpinpin rẹ̀',
