@@ -239,8 +239,8 @@ async function seedIndicators(rows, admin, registryByKey) {
     const values = {
       administration: admin, key: r.id,
       label: r.label ?? reg?.label, unit: r.unit ?? reg?.unit,
-      color: r.color ?? reg?.defaultColor, description: r.description,
-      source: r.source, sourceLabel: r.sourceLabel, note: r.note ?? null,
+      color: r.color ?? reg?.defaultColor, description: r.description ?? reg?.description,
+      source: r.source ?? reg?.sources?.[0]?.url, sourceLabel: r.sourceLabel ?? reg?.sources?.[0]?.label, note: r.note ?? null,
       higherIsBetter: r.higherIsBetter ?? reg?.higherIsBetter ?? null,
       registryKey: r.registryKey ?? (reg ? reg.key : null),
       status: r.status ?? null, checked: r.checked ?? null,
