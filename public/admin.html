@@ -410,11 +410,17 @@
     },
     indicatorPoints: {
       label: 'Indicators — Data Points', adminScoped: true,
-      list: ['indicatorId', 'label', 'value'],
+      list: ['indicatorId', 'label', 'value', 'year', 'period', 'basis', 'source'],
       columns: [
         { key: 'indicatorId', label: 'Indicator ID', type: 'number', required: true, hint: 'the numeric id from the Indicators table' },
         { key: 'label', label: 'Point label', type: 'text', required: true, hint: 'e.g. "Q1 2024"' },
         { key: 'value', label: 'Value', type: 'number', required: true },
+        { key: 'year', label: 'Year', type: 'number', hint: 'survey/fiscal year' },
+        { key: 'period', label: 'Period', type: 'text', hint: 'e.g. Q1, Sep' },
+        { key: 'source', label: 'Source URL', type: 'text' },
+        { key: 'sourceLabel', label: 'Source label', type: 'text' },
+        { key: 'basis', label: 'Basis', type: 'text', hint: 'e.g. domestic' },
+        { key: 'note', label: 'Note', type: 'textarea' },
       ],
     },
     governors: {
@@ -467,7 +473,10 @@
   }
 
   async function api(path, opts) {
-    var res = await fetch('/api/admin' + path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts))
+    var csrf = document.cookie.split(';').map(function (v) { return v.trim().split('=') }).find(function (v) { return v[0] === 'ngs_csrf' })
+    var headers = { 'Content-Type': 'application/json' }
+    if (csrf) headers['x-csrf-token'] = decodeURIComponent(csrf[1])
+    var res = await fetch('/api/admin' + path, Object.assign({ headers: headers }, opts))
     if (res.status === 401) { showLogin(); throw new Error('unauthenticated') }
     if (!res.ok) {
       var body = await res.json().catch(function () { return {} })
@@ -532,6 +541,24 @@
     keysBtn.dataset.table = '__keys'
     keysBtn.addEventListener('click', function () { selectKeys() })
     nav.appendChild(keysBtn)
+    var registryBtn = document.createElement('button')
+    registryBtn.className = 'nav-item'
+    registryBtn.textContent = 'Indicator Registry'
+    registryBtn.dataset.table = '__registry'
+    registryBtn.addEventListener('click', function () { selectRegistry() })
+    nav.appendChild(registryBtn)
+    var historyBtn = document.createElement('button')
+    historyBtn.className = 'nav-item'
+    historyBtn.textContent = 'Change History'
+    historyBtn.dataset.table = '__history'
+    historyBtn.addEventListener('click', function () { selectHistory() })
+    nav.appendChild(historyBtn)
+    var auditBtn = document.createElement('button')
+    auditBtn.className = 'nav-item'
+    auditBtn.textContent = 'Coverage Audit'
+    auditBtn.dataset.table = '__audit'
+    auditBtn.addEventListener('click', function () { selectAudit() })
+    nav.appendChild(auditBtn)
   }
 
   function setActiveNav(name) {
@@ -569,8 +596,74 @@
     addBtn.textContent = '+ Add'
     addBtn.addEventListener('click', function () { openForm(null) })
     controls.appendChild(addBtn)
+    var exportBtn = document.createElement('button')
+    exportBtn.className = 'btn'
+    exportBtn.textContent = 'Export JSON'
+    exportBtn.addEventListener('click', exportCurrentTable)
+    controls.appendChild(exportBtn)
+    var importBtn = document.createElement('button')
+    importBtn.className = 'btn'
+    importBtn.textContent = 'Import JSON'
+    importBtn.addEventListener('click', function () { $('#bulk-file').click() })
+    controls.appendChild(importBtn)
+    var fileInput = document.createElement('input')
+    fileInput.type = 'file'
+    fileInput.id = 'bulk-file'
+    fileInput.accept = '.json,application/json'
+    fileInput.style.display = 'none'
+    fileInput.addEventListener('change', importCurrentTable)
+    controls.appendChild(fileInput)
 
     await loadRows()
+  }
+
+  async function exportCurrentTable() {
+    var cfg = TABLES[state.table]
+    var qs = '?page=1&pageSize=500'
+    if (cfg.adminScoped && state.administration) qs += '&administration=' + encodeURIComponent(state.administration)
+    var result = await api('/' + state.table + qs)
+    var blob = new Blob([JSON.stringify(result.rows, null, 2)], { type: 'application/json' })
+    var link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = 'ngscorecard-' + state.table + '.json'
+    link.click()
+    URL.revokeObjectURL(link.href)
+  }
+
+  async function importCurrentTable(e) {
+    var file = e.target.files[0]
+    if (!file) return
+    try {
+      var text = await file.text()
+      var rows = JSON.parse(text)
+      if (!Array.isArray(rows)) rows = [rows]
+      if (!rows.length) throw new Error('File contains no rows')
+      var result = await api('/bulk/' + state.table, { method: 'POST', body: JSON.stringify(rows) })
+      alert('Imported ' + result.inserted + ' row(s) into ' + state.table + ' (DB only — seed files unchanged).')
+      e.target.value = ''
+      await loadRows()
+    } catch (err) {
+      alert('Import failed: ' + err.message)
+      e.target.value = ''
+    }
+  }
+
+  async function selectAudit() {
+    state.table = '__audit'
+    setActiveNav('__audit')
+    $('#section-title').textContent = 'Coverage Audit'
+    $('#section-controls').innerHTML = ''
+    $('#content').innerHTML = '<div class="loading">Loading…</div>'
+    var data = await api('/audit')
+    var html = '<div class="table-scroll"><table><thead><tr><th>Era</th><th>Core key</th><th>Published</th><th>Not published</th><th>Missing</th></tr></thead><tbody>'
+    Object.keys(data.eraCoverage).sort().forEach(function (era) {
+      Object.keys(data.eraCoverage[era]).sort().forEach(function (key) {
+        var c = data.eraCoverage[era][key]
+        html += '<tr><td>' + esc(era) + '</td><td>' + esc(key) + '</td><td>' + c.published + '</td><td>' + c.notPublished + '</td><td>' + c.missing + '</td></tr>'
+      })
+    })
+    html += '</tbody></table></div><div style="margin-top:12px;color:var(--muted);font-size:12.5px">Totals: ' + JSON.stringify(data.eraTotals) + ' · drift: ' + JSON.stringify(data.drift) + '</div>'
+    $('#content').innerHTML = html
   }
 
   function pageQueryString() {
@@ -624,6 +717,7 @@
         html += '<td title="' + esc(v) + '">' + esc(v) + '</td>'
       })
       html += '<td class="actions"><button class="btn small" data-edit="' + row.id + '">Edit</button>' +
+        (state.table === 'corrections' && row.status !== 'actioned' ? '<button class="btn small" data-apply="' + row.id + '">Apply</button>' : '') +
         '<button class="btn small danger" data-del="' + row.id + '">Delete</button></td></tr>'
     })
     html += '</tbody></table></div>'
@@ -634,6 +728,14 @@
     })
     $$('[data-del]').forEach(function (b) {
       b.addEventListener('click', function () { deleteRow(Number(b.dataset.del)) })
+    })
+    $$('[data-apply]').forEach(function (b) {
+      b.addEventListener('click', async function () {
+        var note = prompt('Optional moderator note', 'Applied by administrator')
+        if (note === null) return
+        await api('/corrections/' + b.dataset.apply + '/apply', { method: 'POST', body: JSON.stringify({ adminNote: note }) })
+        await loadRows()
+      })
     })
     wirePagination()
   }
@@ -794,6 +896,39 @@
       $('#form-error').textContent = err.message
     }
   })
+
+  // ---------- Registry and history ----------
+  async function selectRegistry() {
+    state.table = '__registry'
+    setActiveNav('__registry')
+    $('#section-title').textContent = 'Indicator Registry'
+    $('#section-controls').innerHTML = ''
+    $('#content').innerHTML = '<div class="loading">Loading…</div>'
+    var rows = await api('/registry')
+    var html = '<div class="table-scroll"><table><thead><tr><th>Key</th><th>Label</th><th>Unit</th><th>Level</th><th>Tier</th><th>Description</th></tr></thead><tbody>'
+    rows.forEach(function (r) {
+      html += '<tr><td>' + esc(r.key) + '</td><td>' + esc(r.label) + '</td><td>' + esc(r.unit) + '</td><td>' + esc(r.level) + '</td><td>' + esc(r.tier) + '</td><td title="' + esc(r.description) + '">' + esc(r.description) + '</td></tr>'
+    })
+    $('#content').innerHTML = html + '</tbody></table></div>'
+  }
+
+  async function selectHistory() {
+    state.table = '__history'
+    setActiveNav('__history')
+    await ensureAdministrations()
+    var controls = $('#section-controls')
+    controls.innerHTML = '<select id="history-admin"><option value="">Choose an administration</option>' + state.administrations.map(function (a) { return '<option value="' + esc(a.key) + '">' + esc(a.name) + '</option>' }).join('') + '</select>'
+    $('#section-title').textContent = 'Change History'
+    $('#content').innerHTML = '<div class="empty-state">Choose an administration to view its public change history.</div>'
+    $('#history-admin').addEventListener('change', async function () {
+      if (!this.value) return
+      var rows = await api('/history/' + encodeURIComponent(this.value))
+      if (!rows.length) { $('#content').innerHTML = '<div class="empty-state">No changes recorded.</div>'; return }
+      var html = '<div class="table-scroll"><table><thead><tr><th>Date</th><th>Table</th><th>Field</th><th>Kind</th><th>Old</th><th>New</th><th>Note</th></tr></thead><tbody>'
+      rows.forEach(function (r) { html += '<tr><td>' + esc(r.changedAt) + '</td><td>' + esc(r.entryTable) + '</td><td>' + esc(r.field) + '</td><td>' + esc(r.kind) + '</td><td>' + esc(r.oldValue) + '</td><td>' + esc(r.newValue) + '</td><td>' + esc(r.note) + '</td></tr>' })
+      $('#content').innerHTML = html + '</tbody></table></div>'
+    })
+  }
 
   // ---------- API Keys ----------
   async function selectKeys(keepPage) {

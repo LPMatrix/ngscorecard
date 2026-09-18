@@ -1,6 +1,7 @@
-import { createHmac, timingSafeEqual } from 'crypto'
+import { createHmac, timingSafeEqual, randomBytes } from 'crypto'
 
 const COOKIE_NAME = 'ngs_admin'
+const CSRF_COOKIE = 'ngs_csrf'
 const SESSION_MS = 12 * 60 * 60 * 1000 // 12h — short-lived since it's a single shared password
 
 function secret() {
@@ -57,10 +58,18 @@ export function setAdminCookie(res) {
     maxAge: SESSION_MS,
     path: '/',
   })
+  res.cookie(CSRF_COOKIE, randomBytes(24).toString('hex'), {
+    httpOnly: false,
+    sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: SESSION_MS,
+    path: '/',
+  })
 }
 
 export function clearAdminCookie(res) {
   res.clearCookie(COOKIE_NAME, { path: '/' })
+  res.clearCookie(CSRF_COOKIE, { path: '/' })
 }
 
 export function isAuthed(req) {
@@ -71,6 +80,13 @@ export function isAuthed(req) {
 export function requireAdmin(req, res, next) {
   if (!isAuthed(req)) {
     return res.status(401).json({ error: 'Not authenticated' })
+  }
+  if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
+    const cookies = parseCookies(req)
+    const sent = req.get('x-csrf-token')
+    if (!sent || !cookies[CSRF_COOKIE] || sent !== cookies[CSRF_COOKIE]) {
+      return res.status(403).json({ error: 'Invalid CSRF token' })
+    }
   }
   next()
 }
