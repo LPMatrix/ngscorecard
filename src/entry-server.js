@@ -1,9 +1,10 @@
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
-import { getPresidents, getAllDataForAdmin, getThemesWithCounts, getThemeLineage } from '../server/queries.js'
+import { getPresidents, getAllDataForAdmin, getThemesWithCounts, getThemeLineage, getPromises, getFraud, getBudget } from '../server/queries.js'
 import { createT, isLocale, DEFAULT_LOCALE } from './i18n/index.js'
 import { routePath } from './routes.js'
+import { buildTermReport } from './lib/termReport.js'
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
@@ -72,7 +73,7 @@ export async function render({ route, id } = {}) {
 
   const baseState = () => ({
     locale: loc, landing: false, admin: null, tab: 'promises', notFound: false,
-    requestedAdmin: null, expandedId: null, presidents: projectedPresidents, data: {}, page: null,
+    requestedAdmin: null, expandedId: null, presidents: projectedPresidents, data: {}, page: null, report: false,
   })
 
   // ── "/" — the neutral landing page ────────────────────────────────────
@@ -117,6 +118,40 @@ export async function render({ route, id } = {}) {
     }
     const html = await mount(initialData)
     return { html, initialData, meta, notFound: missing, canonical: routePath(name, params) }
+  }
+
+  // ── "/<admin>/report" — the term report card. Loads only what the report
+  // derives from (promises, fraud, budget), not the whole admin payload.
+  // Also returns a per-page share image and, for an admin with nothing
+  // tracked yet, a noindex hint so a thin page isn't offered to search.
+  if (name === 'adminReport') {
+    const adminRecord = presidents.find(p => p.key === params.admin)
+    if (!adminRecord) {
+      const initialData = { ...baseState(), notFound: true, requestedAdmin: params.admin }
+      const html = await mount(initialData)
+      return { html, initialData, meta: buildMeta(t, null, null, true), notFound: true, canonical: route?.path || '/' }
+    }
+    const key = adminRecord.key
+    const [promises, fraud, budget] = await Promise.all([getPromises(key), getFraud(key), getBudget(key)])
+    const initialData = { ...baseState(), admin: key, report: true, data: { promises, fraud, budget } }
+    const html = await mount(initialData)
+
+    const report = buildTermReport({ admin: adminRecord, promises, fraud, budget })
+    const p = { name: adminRecord.fullName, term: adminRecord.term }
+    const meta = report.total
+      ? {
+          title: t('meta.report.title', p),
+          description: t('meta.report.desc', { ...p, kept: report.kept, total: report.total, pct: report.keptPct }),
+        }
+      : { title: t('meta.report.title', p), description: t('meta.report.descEmpty', p) }
+    return {
+      html, initialData, meta, notFound: false,
+      canonical: routePath('adminReport', { admin: key }),
+      reviewed: adminRecord.reviewed,
+      ogImage: `/api/og/report/${key}.png`,
+      ogImageAlt: report.total ? t('report.ogAlt', { ...p, kept: report.kept, total: report.total }) : meta.title,
+      robots: report.total ? null : 'noindex, follow',
+    }
   }
 
   // ── "/<admin>" and "/<admin>/<tab>" — an administration scorecard ─────

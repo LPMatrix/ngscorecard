@@ -2,85 +2,85 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ngscorecard.com/</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/guide</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/developers</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/press</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/themes</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/themes/job-creation</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/themes/power-supply</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/themes/credible-elections</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/themes/economic-diversification</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/themes/niger-delta-security</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/themes/northeast-security</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/themes/anti-corruption</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/themes/civilian-rule</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/themes/restructuring</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -89,6 +89,12 @@
     <lastmod>2026-04-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/tinubu/report</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/tinubu/ministers</loc>
@@ -157,6 +163,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/buhari/report</loc>
+    <lastmod>2023-05-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/buhari/ministers</loc>
     <lastmod>2023-05-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -221,6 +233,12 @@
     <lastmod>2015-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/jonathan/report</loc>
+    <lastmod>2015-05-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/jonathan/ministers</loc>
@@ -289,6 +307,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/yaradua/report</loc>
+    <lastmod>2010-05-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/yaradua/ministers</loc>
     <lastmod>2010-05-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -353,6 +377,12 @@
     <lastmod>2007-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/obasanjo/report</loc>
+    <lastmod>2007-05-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/obasanjo/ministers</loc>
@@ -421,6 +451,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/makinde/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/makinde/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -473,6 +509,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/sanwoolu/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/sanwoolu/ministers</loc>
@@ -529,6 +571,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/otti/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/otti/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -581,6 +629,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/abiodun/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/abiodun/ministers</loc>
@@ -637,6 +691,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/akeredolu/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/akeredolu/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -689,6 +749,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/oyetola/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/oyetola/ministers</loc>
@@ -745,6 +811,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/lalong/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/lalong/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -797,6 +869,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fintiri/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/fintiri/ministers</loc>
@@ -853,6 +931,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/fubara/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/fubara/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -905,6 +989,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/yusuf/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/yusuf/ministers</loc>
@@ -961,6 +1051,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/zulum/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/zulum/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1013,6 +1109,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/soludo/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/soludo/ministers</loc>
@@ -1069,6 +1171,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/alia/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/alia/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1121,6 +1229,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mbah/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/mbah/ministers</loc>
@@ -1177,6 +1291,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ubasani/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ubasani/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1229,6 +1349,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/diri/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/diri/ministers</loc>
@@ -1285,6 +1411,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/abdulrazaq/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/abdulrazaq/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1337,6 +1469,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/oborevwori/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/oborevwori/ministers</loc>
@@ -1393,6 +1531,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/uzodinma/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/uzodinma/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1445,6 +1589,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/oyebanji/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/oyebanji/ministers</loc>
@@ -1501,6 +1651,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/eno/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/eno/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1553,6 +1709,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/okpebholo/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/okpebholo/ministers</loc>
@@ -1609,6 +1771,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ododo/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ododo/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1661,6 +1829,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/buni/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/buni/ministers</loc>
@@ -1717,6 +1891,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/lawal/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/lawal/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1771,6 +1951,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/idris/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/idris/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1817,6 +2003,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/sule/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/sule/ministers</loc>
@@ -1873,6 +2065,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/bago/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/bago/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1919,6 +2117,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/aliyu/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/aliyu/ministers</loc>
@@ -1969,6 +2173,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/kefas/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/kefas/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -1999,10 +2209,22 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/kefas/indicators</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/radda</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/radda/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/radda/ministers</loc>
@@ -2059,6 +2281,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/inuwa/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/inuwa/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2111,6 +2339,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/bala/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/bala/ministers</loc>
@@ -2167,6 +2401,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/otu/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/otu/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2219,6 +2459,12 @@
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/nwifuru/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/nwifuru/ministers</loc>
@@ -2275,6 +2521,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/namadi/report</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/namadi/ministers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2323,10 +2575,70 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/mutfwang/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mutfwang/ministers</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mutfwang/appointments</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mutfwang/fraud</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mutfwang/judgments</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mutfwang/inherited</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mutfwang/budget</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mutfwang/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/aiyedatiwa</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/aiyedatiwa/budget</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/aiyedatiwa/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/adeleke</loc>
@@ -2335,10 +2647,28 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/adeleke/budget</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/adeleke/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ikpeazu</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ikpeazu/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/ikpeazu/ministers</loc>
@@ -2395,6 +2725,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ajimobi/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ajimobi/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2437,10 +2773,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ajimobi/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ambode</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ambode/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/ambode/ministers</loc>
@@ -2497,6 +2845,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/amosun/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/amosun/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2545,6 +2899,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/bindow/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/bindow/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2569,10 +2929,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/bindow/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/wike</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/wike/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/wike/ministers</loc>
@@ -2629,6 +3001,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ganduje/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ganduje/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2683,6 +3061,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/shettima/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/shettima/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2725,10 +3109,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/shettima/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/obiano</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/obiano/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/obiano/ministers</loc>
@@ -2785,6 +3181,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ortom/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ortom/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2837,6 +3239,12 @@
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ugwuanyi/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/ugwuanyi/ministers</loc>
@@ -2893,6 +3301,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/elrufai/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/elrufai/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2947,6 +3361,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/dickson/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/dickson/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -2989,6 +3409,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ahmed/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ahmed/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3013,10 +3439,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ahmed/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/okowa</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/okowa/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/okowa/ministers</loc>
@@ -3073,6 +3511,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ihedioha/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ihedioha/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3113,6 +3557,12 @@
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayemi/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/fayemi/ministers</loc>
@@ -3169,6 +3619,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/emmanuel/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/emmanuel/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3221,6 +3677,12 @@
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/obaseki/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/obaseki/ministers</loc>
@@ -3277,6 +3739,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/bello/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/bello/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3331,6 +3799,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/gaidam/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/gaidam/orders</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3361,10 +3835,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/gaidam/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/matawalle</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/matawalle/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/matawalle/ministers</loc>
@@ -3409,10 +3895,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/matawalle/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/bagudu</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/bagudu/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/bagudu/ministers</loc>
@@ -3463,6 +3961,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/almakura/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/almakura/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3499,10 +4003,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/almakura/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/sanibello</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/sanibello/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/sanibello/ministers</loc>
@@ -3547,10 +4063,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/sanibello/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/tambuwal</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/tambuwal/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/tambuwal/ministers</loc>
@@ -3607,6 +4135,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ishaku/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ishaku/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3653,6 +4187,12 @@
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/masari/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/masari/ministers</loc>
@@ -3709,6 +4249,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/dankwambo/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/dankwambo/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3739,10 +4285,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/dankwambo/indicators</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/abubakar</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/abubakar/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/abubakar/ministers</loc>
@@ -3785,6 +4343,12 @@
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ayade/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/ayade/ministers</loc>
@@ -3841,6 +4405,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/umahi/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/umahi/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3895,6 +4465,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/badaru/report</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/badaru/ministers</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3937,6 +4513,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/sheriff/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/sheriff/ministers</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -3973,10 +4555,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/sheriff/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/goje</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/goje/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/goje/appointments</loc>
@@ -3997,10 +4591,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/goje/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/dakingari</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/dakingari/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/dakingari/appointments</loc>
@@ -4021,10 +4627,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/dakingari/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/saraki</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/saraki/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/saraki/ministers</loc>
@@ -4051,10 +4669,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/saraki/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/wamakko</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/wamakko/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/wamakko/appointments</loc>
@@ -4075,10 +4705,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/wamakko/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/suntai</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/suntai/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/suntai/appointments</loc>
@@ -4093,10 +4735,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/suntai/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/amaechi</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/amaechi/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/amaechi/ministers</loc>
@@ -4129,10 +4783,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/amaechi/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/oshiomhole</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/oshiomhole/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/oshiomhole/appointments</loc>
@@ -4153,10 +4819,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/oshiomhole/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/akpabio</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/akpabio/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/akpabio/ministers</loc>
@@ -4183,10 +4861,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/akpabio/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/lamido</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/lamido/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/lamido/appointments</loc>
@@ -4201,10 +4891,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/lamido/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/suswam</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/suswam/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/suswam/appointments</loc>
@@ -4225,10 +4927,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/suswam/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/imoke</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/imoke/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/imoke/appointments</loc>
@@ -4255,10 +4969,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/imoke/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/orji</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/orji/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/orji/ministers</loc>
@@ -4279,10 +5005,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/orji/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/shekarau</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/shekarau/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/shekarau/appointments</loc>
@@ -4297,10 +5035,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/shekarau/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/babangidaaliyu</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/babangidaaliyu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/babangidaaliyu/fraud</loc>
@@ -4315,10 +5065,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/babangidaaliyu/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/nyako</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/nyako/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/nyako/ministers</loc>
@@ -4345,10 +5107,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/nyako/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/yuguda</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/yuguda/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/yuguda/appointments</loc>
@@ -4363,10 +5137,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/yuguda/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/uduaghan</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/uduaghan/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/uduaghan/ministers</loc>
@@ -4405,6 +5191,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/danielgbenga/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/danielgbenga/appointments</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -4417,10 +5209,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/danielgbenga/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/jang</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/jang/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/jang/appointments</loc>
@@ -4435,10 +5239,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/jang/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/elechi</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/elechi/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/elechi/appointments</loc>
@@ -4459,13 +5275,31 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/elechi/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ohakim</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ohakim/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ohakim/fraud</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ohakim/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -4475,6 +5309,12 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ibrahimidris/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/ibrahimidris/appointments</loc>
@@ -4495,13 +5335,31 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ibrahimidris/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/doma</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/doma/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/doma/fraud</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/doma/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -4513,7 +5371,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/shinkafi/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/shinkafi/appointments</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/shinkafi/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -4523,6 +5393,12 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/obi/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/obi/appointments</loc>
@@ -4537,10 +5413,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/obi/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/agagu</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/agagu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/agagu/appointments</loc>
@@ -4555,10 +5443,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/agagu/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/oyinlola</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/oyinlola/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/oyinlola/appointments</loc>
@@ -4573,10 +5473,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/oyinlola/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/oni</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/oni/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/oni/appointments</loc>
@@ -4591,10 +5503,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/oni/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/alaoakala</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/alaoakala/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/alaoakala/appointments</loc>
@@ -4609,10 +5533,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/alaoakala/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/sylva</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/sylva/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/sylva/ministers</loc>
@@ -4639,13 +5575,31 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/sylva/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/sambo</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/sambo/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/sambo/appointments</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/sambo/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -4657,10 +5611,28 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/yakowa/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/yakowa/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/tinubulagos</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/tinubulagos/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/tinubulagos/orders</loc>
@@ -4693,10 +5665,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/tinubulagos/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ibori</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ibori/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/ibori/appointments</loc>
@@ -4723,10 +5707,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ibori/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/odili</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/odili/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/odili/appointments</loc>
@@ -4753,10 +5749,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/odili/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/alamieyeseigha</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/alamieyeseigha/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/alamieyeseigha/appointments</loc>
@@ -4783,10 +5791,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/alamieyeseigha/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/dariye</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/dariye/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/dariye/appointments</loc>
@@ -4813,10 +5833,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/dariye/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/nyame</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/nyame/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/nyame/appointments</loc>
@@ -4843,10 +5875,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/nyame/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/kalu</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/kalu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/kalu/appointments</loc>
@@ -4873,10 +5917,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/kalu/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/turaki</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/turaki/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/turaki/appointments</loc>
@@ -4903,10 +5959,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/turaki/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ngige</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ngige/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/ngige/fraud</loc>
@@ -4927,10 +5995,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ngige/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/mbadinuju</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mbadinuju/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/mbadinuju/orders</loc>
@@ -4951,13 +6031,31 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/mbadinuju/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/jonathanbayelsa</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/jonathanbayelsa/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/jonathanbayelsa/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/jonathanbayelsa/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -4967,6 +6065,12 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/kwankwaso/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/kwankwaso/appointments</loc>
@@ -4981,10 +6085,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/kwankwaso/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/yaraduakatsina</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/yaraduakatsina/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/yaraduakatsina/appointments</loc>
@@ -4999,10 +6115,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/yaraduakatsina/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/makarfi</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/makarfi/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/makarfi/appointments</loc>
@@ -5017,10 +6145,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/makarfi/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/duke</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/duke/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/duke/orders</loc>
@@ -5035,10 +6175,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/duke/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/attah</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/attah/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/attah/appointments</loc>
@@ -5059,10 +6211,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/attah/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/igbinedion</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/igbinedion/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/igbinedion/appointments</loc>
@@ -5089,10 +6253,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/igbinedion/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/akume</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/akume/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/akume/appointments</loc>
@@ -5107,10 +6283,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/akume/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/bafarawa</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/bafarawa/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/bafarawa/fraud</loc>
@@ -5125,10 +6313,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/bafarawa/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/yerima</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/yerima/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/yerima/orders</loc>
@@ -5155,10 +6355,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/yerima/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/bukarabbaibrahim</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/bukarabbaibrahim/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/bukarabbaibrahim/appointments</loc>
@@ -5173,10 +6385,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/bukarabbaibrahim/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/abdullahiadamu</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/abdullahiadamu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/abdullahiadamu/fraud</loc>
@@ -5191,10 +6415,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/abdullahiadamu/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/haruna</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/haruna/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/haruna/appointments</loc>
@@ -5221,10 +6457,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/haruna/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/fayose</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayose/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/fayose/appointments</loc>
@@ -5245,10 +6493,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/fayose/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ladoja</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ladoja/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/ladoja/appointments</loc>
@@ -5269,10 +6529,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ladoja/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/nnamani</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/nnamani/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/nnamani/fraud</loc>
@@ -5287,13 +6559,31 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/nnamani/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/udenwa</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/udenwa/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/udenwa/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/udenwa/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5305,7 +6595,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/muazu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/muazu/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/muazu/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5315,6 +6617,12 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/akande/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/akande/appointments</loc>
@@ -5329,10 +6637,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/akande/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/osoba</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/osoba/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/osoba/appointments</loc>
@@ -5347,10 +6667,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/osoba/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/niyiadebayo</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/niyiadebayo/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/niyiadebayo/appointments</loc>
@@ -5365,10 +6697,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/niyiadebayo/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/adefarati</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/adefarati/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/adefarati/appointments</loc>
@@ -5383,10 +6727,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/adefarati/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/adesina</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/adesina/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/adesina/appointments</loc>
@@ -5401,10 +6757,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/adesina/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/egwu</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/egwu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/egwu/orders</loc>
@@ -5419,10 +6787,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/egwu/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/aliero</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/aliero/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/aliero/appointments</loc>
@@ -5443,10 +6823,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/aliero/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/audu</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/audu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/audu/appointments</loc>
@@ -5473,10 +6865,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/audu/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/kure</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/kure/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/kure/orders</loc>
@@ -5491,10 +6895,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/kure/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/kachalla</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/kachalla/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/kachalla/appointments</loc>
@@ -5509,10 +6925,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/kachalla/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/hashidu</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/hashidu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/hashidu/appointments</loc>
@@ -5533,13 +6961,31 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/hashidu/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/olurin</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/olurin/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/olurin/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/olurin/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5551,7 +6997,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/malawal/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/malawal/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/malawal/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5561,6 +7019,12 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/babangida/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/babangida/orders</loc>
@@ -5587,10 +7051,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/babangida/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/abacha</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/abacha/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/abacha/orders</loc>
@@ -5617,10 +7093,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/abacha/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/abdulsalami</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/abdulsalami/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/abdulsalami/orders</loc>
@@ -5641,10 +7129,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/abdulsalami/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/shagari</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/shagari/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/shagari/orders</loc>
@@ -5665,10 +7165,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/shagari/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/buharimilitary</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/buharimilitary/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/buharimilitary/orders</loc>
@@ -5695,10 +7207,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/buharimilitary/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/shonekan</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/shonekan/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/shonekan/judgments</loc>
@@ -5713,10 +7237,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/shonekan/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/gowon</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/gowon/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/gowon/orders</loc>
@@ -5737,10 +7273,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/gowon/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/murtala</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/murtala/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/murtala/orders</loc>
@@ -5761,10 +7309,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/murtala/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/obasanjomilitary</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/obasanjomilitary/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/obasanjomilitary/orders</loc>
@@ -5779,10 +7339,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/obasanjomilitary/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/balewa</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/balewa/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/balewa/orders</loc>
@@ -5797,10 +7369,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/balewa/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ironsi</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ironsi/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/ironsi/orders</loc>
@@ -5815,10 +7399,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ironsi/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/jakande</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/jakande/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/jakande/appointments</loc>
@@ -5833,10 +7429,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/jakande/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/onabanjo</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/onabanjo/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/onabanjo/appointments</loc>
@@ -5851,10 +7459,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/onabanjo/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/bolaige</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/bolaige/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/bolaige/appointments</loc>
@@ -5869,10 +7489,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/bolaige/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ajasin</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ajasin/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/ajasin/appointments</loc>
@@ -5887,10 +7519,22 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ajasin/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/alli</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/alli/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/alli/judgments</loc>
@@ -5905,13 +7549,31 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/alli/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/nwobodo</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/nwobodo/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/nwobodo/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/nwobodo/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5923,7 +7585,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/mbakwe/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/mbakwe/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mbakwe/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5935,7 +7609,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/lar/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/lar/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/lar/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5947,7 +7633,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/rimi/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/rimi/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/rimi/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5959,7 +7657,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/balarabemusa/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/balarabemusa/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/balarabemusa/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5971,7 +7681,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/goni/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/goni/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/goni/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5983,7 +7705,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/barde/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/barde/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/barde/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -5995,7 +7729,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/okilo/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/okilo/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/okilo/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6007,7 +7753,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/isong/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/isong/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/isong/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6019,7 +7777,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/aku/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/aku/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/aku/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6031,7 +7801,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/tatariali/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/tatariali/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/tatariali/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6041,6 +7823,12 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/kangiwa/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/kangiwa/appointments</loc>
@@ -6055,13 +7843,31 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/kangiwa/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/awwalibrahim</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/awwalibrahim/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/awwalibrahim/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/awwalibrahim/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6073,7 +7879,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/adamuatta/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/adamuatta/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/adamuatta/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6085,7 +7903,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/onu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/onu/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/onu/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6097,7 +7927,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/michika/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/michika/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/michika/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6109,7 +7951,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/isemin/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/isemin/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/isemin/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6121,7 +7975,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ezeife/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ezeife/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ezeife/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6133,7 +7999,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/dahirumohammed/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/dahirumohammed/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/dahirumohammed/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6145,7 +8023,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/adasu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/adasu/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/adasu/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6157,7 +8047,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/mainalawan/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/mainalawan/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/mainalawan/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6169,7 +8071,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ebri/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ebri/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ebri/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6181,7 +8095,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ibru/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ibru/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ibru/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6193,7 +8119,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/oyegun/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/oyegun/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/oyegun/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6205,7 +8143,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/nwodo/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/nwodo/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/nwodo/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6217,7 +8167,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/enwerem/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/enwerem/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/enwerem/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6229,7 +8191,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/birninkudu/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/birninkudu/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/birninkudu/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6241,7 +8215,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/lere/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/lere/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/lere/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6253,7 +8239,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/gaya/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/gaya/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/gaya/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6265,7 +8263,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/barda/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/barda/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/barda/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6277,7 +8287,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/abubakarmusa/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/abubakarmusa/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/abubakarmusa/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6289,7 +8311,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/audu92/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/audu92/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/audu92/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6301,7 +8335,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/lafiagi/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/lafiagi/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/lafiagi/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6313,7 +8359,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/otedola/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/otedola/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/otedola/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6325,7 +8383,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/musainuwa/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/musainuwa/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/musainuwa/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6337,7 +8407,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/osoba92/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/osoba92/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/osoba92/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6349,7 +8431,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/olumilua/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/olumilua/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/olumilua/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6361,7 +8455,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/adeleke92/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/adeleke92/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/adeleke92/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6373,7 +8479,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/ishola/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/ishola/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/ishola/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6385,7 +8503,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/tapgun/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/tapgun/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/tapgun/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6395,6 +8525,12 @@
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/adageorge/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
   </url>
   <url>
     <loc>https://ngscorecard.com/adageorge/appointments</loc>
@@ -6409,13 +8545,31 @@
     <priority>0.35</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/adageorge/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/abdulkarim</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/abdulkarim/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/abdulkarim/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/abdulkarim/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6427,7 +8581,19 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/nyame92/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/nyame92/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/nyame92/indicators</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>
@@ -6439,7 +8605,73 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://ngscorecard.com/bukarabbaibrahim92/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
     <loc>https://ngscorecard.com/bukarabbaibrahim92/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/bukarabbaibrahim92/indicators</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayemi1</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayemi1/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayemi1/fraud</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayemi1/inherited</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayose2</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayose2/report</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayose2/orders</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayose2/fraud</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.35</priority>
+  </url>
+  <url>
+    <loc>https://ngscorecard.com/fayose2/inherited</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.35</priority>

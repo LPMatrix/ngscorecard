@@ -1519,6 +1519,7 @@ a:focus-visible {
 }
 .pt-compare-btn:hover,
 .pt-viewlink-btn:hover { border-color: var(--pt-green-900); color: var(--pt-green-900); }
+a.pt-viewlink-btn { display: inline-flex; align-items: center; text-decoration: none; }
 .pt-viewlink-btn:disabled { opacity: 0.6; cursor: default; }
 .pt-viewlink-btn:disabled:hover { border-color: var(--pt-line-strong); color: var(--pt-muted); }
 

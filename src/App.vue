@@ -13,6 +13,7 @@ import ThemesView      from './components/ThemesView.vue'
 import GuideView       from './components/GuideView.vue'
 import PressView       from './components/PressView.vue'
 import DevelopersView  from './components/DevelopersView.vue'
+import ReportView      from './components/ReportView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
 import LangSwitcher    from './components/LangSwitcher.vue'
 import { downloadScorecard } from './lib/scorecardImage.js'
@@ -64,6 +65,9 @@ const isThemes = ref(!!initial?.themes && initial?.themes.mode !== 'missing')
 // "/guide", "/press", "/developers" — unified content pages (see
 // GuideView.vue's header comment). `pageView` holds which one, or null.
 const pageView = ref(initial?.page ?? null)
+// "/<admin>/report" — the term report card (ReportView.vue). Unlike the pages
+// above it belongs to one administration, so activeAdmin stays set.
+const isReport = ref(initial?.report === true)
 const activeAdmin = ref(isLanding.value || isThemes.value || pageView.value ? null : (initial?.admin ?? 'tinubu'))
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
@@ -131,6 +135,10 @@ const adminFinderResults = computed(() => {
 })
 
 function selectAdminFromFinder(admin) {
+  if (isReport.value && typeof window !== 'undefined') {
+    window.location.assign(lp(`/${admin.key}/report`))
+    return
+  }
   adminNavMode.value = admin.level === 'state' ? 'state' : 'federal'
   isLanding.value = false
   isThemes.value = false
@@ -373,6 +381,16 @@ onMounted(async () => {
     } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers') {
       pageView.value = route.name
       activeAdmin.value = null
+    } else if (route.name === 'adminReport') {
+      const known = presidents.some(p => p.key === route.params.admin)
+      if (known) {
+        isReport.value = true
+        activeAdmin.value = route.params.admin
+        await loadData(route.params.admin)
+      } else {
+        notFound.value = true
+        requestedAdmin.value = route.params.admin
+      }
     } else if (route.name === 'themesIndex' || route.name === 'themeLineage') {
       const url = route.name === 'themeLineage' ? `/api/themes/${route.params.slug}` : '/api/themes'
       const payload = await fetch(url).then(r => r.ok ? r.json() : null).catch(() => null)
@@ -445,6 +463,7 @@ function mapPresident(p) {
     term:     p.term,
     party:    p.party,
     termStart: p.termStart,
+    termEnd:  p.termEnd,
     tagline:  p.tagline,
     reviewed: p.reviewed,
     level:    p.level,
@@ -492,7 +511,7 @@ function adminPath(admin, tab) {
 function syncUrl() {
   // Landing / themes / compare are SSR-canonical views with fixed URLs and no
   // client-synced filters — never let a stray watcher rewrite their address.
-  if (viewMode.value === 'compare' || isLanding.value || isThemes.value || pageView.value) return
+  if (viewMode.value === 'compare' || isLanding.value || isThemes.value || pageView.value || isReport.value) return
   const url = new URL(window.location)
   url.pathname = adminPath(activeAdmin.value, activeTab.value)
   const setOrDrop = (key, value, dflt) => {
@@ -872,7 +891,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
             </div>
           </template>
         </div>
-        <div v-if="!notFound && !pageView && formerGovernorsForState.length" class="pt-admin-summary">
+        <div v-if="!notFound && !pageView && !isReport && formerGovernorsForState.length" class="pt-admin-summary">
           <span class="pt-prev-gov-label">{{ t('header.previouslyIn', { state: currentAdmin.state }) }}</span>
           <button
             v-for="g in formerGovernorsForState"
@@ -881,8 +900,13 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
             @click="activeAdmin = g.key"
           >{{ g.name }} ({{ g.term }})</button>
         </div>
-        <div v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView" class="pt-view-actions">
+        <div v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport" class="pt-view-actions">
           <button class="pt-compare-btn" @click="enterCompareMode">{{ t('viewActions.compare') }}</button>
+          <a
+            :href="lp(`/${activeAdmin}/report`)"
+            class="pt-viewlink-btn"
+            :title="t('viewActions.termReportTitle')"
+          >{{ t('viewActions.termReport') }}</a>
           <button
             class="pt-viewlink-btn"
             @click="copyViewLink"
@@ -1011,7 +1035,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
         </template>
       </div>
       <!-- Mobile-only section nav -->
-      <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
+      <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup :label="t('nav.group.government')">
           <option value="promises">{{ t('tab.promises') }}</option>
           <option value="ministers">{{ ministerLabel }}</option>
@@ -1102,6 +1126,15 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
     <GuideView v-else-if="pageView === 'guide'" />
     <PressView v-else-if="pageView === 'press'" />
     <DevelopersView v-else-if="pageView === 'developers'" />
+
+    <!-- ── Term report card ("/<admin>/report") ── -->
+    <ReportView
+      v-else-if="isReport"
+      :admin="currentAdmin"
+      :promises="promises"
+      :fraud="fraud"
+      :budget="budget"
+    />
 
     <!-- ── Body: sidebar + content ── -->
     <div v-else class="pt-body">

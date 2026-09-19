@@ -4,7 +4,8 @@
   "buildCommand": "npm run build && mv dist/client/index.html dist/ssr-template.html",
   "outputDirectory": "dist/client",
   "functions": {
-    "api/ssr.js": { "includeFiles": "dist/**" }
+    "api/ssr.js": { "includeFiles": "dist/**" },
+    "api/index.js": { "includeFiles": "server/fonts/**" }
   },
   "cleanUrls": true,
   "rewrites": [

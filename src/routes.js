@@ -35,6 +35,12 @@ const ROUTES = [
       const m = /^\/themes\/([^/]+)\/?$/.exec(s)
       return m ? { slug: decodeURIComponent(m[1]) } : null
     } },
+  // "/<admin>/report" — the term report card. Must precede `scorecard`,
+  // which would otherwise read "report" as an (invalid) tab name.
+  { name: 'adminReport', test: (s) => {
+      const m = /^\/([^/]+)\/report\/?$/.exec(s)
+      return m ? { admin: decodeURIComponent(m[1]) } : null
+    } },
   { name: 'scorecard', test: (s) => {
       const m = /^\/([^/]+)(?:\/([^/]+))?\/?$/.exec(s)
       return m ? { admin: decodeURIComponent(m[1]), tab: m[2] ? decodeURIComponent(m[2]) : null } : null
@@ -93,6 +99,7 @@ export function routePath(name, params = {}) {
     case 'developers':   return '/developers'
     case 'themesIndex':  return '/themes'
     case 'themeLineage': return `/themes/${params.slug}`
+    case 'adminReport':  return `/${params.admin}/report`
     case 'scorecard':
       return params.tab && params.tab !== 'promises'
         ? `/${params.admin}/${params.tab}`

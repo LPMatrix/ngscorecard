@@ -1,12 +1,12 @@
 // Regenerates public/sitemap.xml from the live database, so it can never
 // silently drift out of sync with what's actually tracked.
 //
-// One <url> per administration's base page, plus one per non-empty content
-// tab it actually has, plus the recurring-commitment (themes) pages and the
-// guide/press/developers content pages (all real SSR routes — see
-// src/routes.js). Emitted once per SEO-ready locale (see READY_LOCALES in
-// src/i18n) — locale routes stay reachable but aren't advertised until their
-// catalogue is translated.
+// One <url> per administration's base page, its term report card (if it has
+// any promises), and one per non-empty content tab it actually has; plus the
+// recurring-commitment (themes) pages and the guide/press/developers content
+// pages (all real SSR routes — see src/routes.js). Emitted once per SEO-ready
+// locale (see READY_LOCALES in src/i18n) — locale routes stay reachable but
+// aren't advertised until their catalogue is translated.
 //
 // Run after seeding (reads the same database):  npm run sitemap
 
@@ -66,6 +66,11 @@ for (const l of READY_LOCALES) {
     const base = buildPath('scorecard', { admin: admin.key }, code)
     if (buildPath('home', {}, code) !== base) {
       push(base, lastmod, 'monthly', priorityFor(admin, false))
+    }
+    // Term report card — only where there's something to report (an empty
+    // report is served noindex, so it stays out of the sitemap too).
+    if ((admin.data.promises?.length ?? 0) > 0) {
+      push(buildPath('adminReport', { admin: admin.key }, code), lastmod, 'monthly', priorityFor(admin, true))
     }
     const resources = admin.level !== 'state'
       ? [...TAB_RESOURCES, ...FEDERAL_ONLY_TAB_RESOURCES]

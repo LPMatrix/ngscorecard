@@ -50,6 +50,20 @@ Deep-link + shareable filtered URL. ~20 lines of JS, makes the tracker dramatica
   tagged `PromiseCard`s; a link from the landing page. Also on the public API
   (`GET /api/v1/themes`, `/api/v1/themes/:slug`). 5 themes seeded, 27 promises
   tagged across 9 administrations (Gowon → Tinubu).
+- **Term report card** — `/<admin>/report`: one auto-generated verdict page per
+  administration — share of promises kept, the standout deliveries and
+  shortfalls (one per policy area, in editorial order), fraud cases by outcome,
+  average budget implementation — at a stable, shareable URL that updates
+  itself as ratings change. Derived entirely from data already on file
+  (`src/lib/termReport.js` → `ReportView.vue`), so there's nothing new to
+  maintain. Fraud `amount` is free text in mixed currencies, so exposure is
+  counted by outcome, never summed into a misleading ₦ total. Each report has
+  its own 1200×630 share image at `/api/og/report/<admin>.png`
+  (`server/ogReport.js`: satori → sharp, fonts bundled in `server/fonts/` so it
+  doesn't depend on the serverless runtime having any), wired into
+  `og:image`/`twitter:image` by `server/render.js`. An administration with no
+  promises yet is served `noindex` and left out of the sitemap. Localised
+  (en + the four preview drafts); the image itself is English-only.
 
 **Deliberately not doing** (see the discussion that produced this list)
 

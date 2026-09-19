@@ -70,7 +70,7 @@ export async function renderHtml(url, template, loadEntryServer) {
 
   const id = parseInt(parsed.searchParams.get('id'))
   const { render } = await loadEntryServer()
-  const { html, initialData, meta, notFound, canonical, reviewed } = await render({ route, id })
+  const { html, initialData, meta, notFound, canonical, reviewed, ogImage, ogImageAlt, robots } = await render({ route, id })
 
   const langTag = HTML_LANG[initialData.locale] || 'en'
   const title = escapeHtml(meta.title)
@@ -105,6 +105,12 @@ export async function renderHtml(url, template, loadEntryServer) {
 
   const stateScript = `<script>window.__INITIAL_STATE__=${JSON.stringify(initialData).replace(/</g, '\\u003c')}</script>`
 
+  // Per-page overrides a route can ask for: a bespoke share image (term
+  // report card) and a robots directive (noindex for a page with nothing on
+  // it yet). Routes that return neither keep the template's site-wide values.
+  const ogImageUrl = ogImage ? `${SITE_ORIGIN}${ogImage}` : null
+  const ogAlt = escapeHtml(ogImageAlt || meta.title)
+
   const finalHtml = template
     .replace('<html lang="en">', `<html lang="${langTag}">`)
     .replace('<!--ssr-hreflang-->', [hreflang, jsonLd].filter(Boolean).join('\n    '))
@@ -117,6 +123,10 @@ export async function renderHtml(url, template, loadEntryServer) {
     .replace(/(<meta property="og:locale" content=")[^"]*(")/, `$1${OG_LOCALE[initialData.locale] || 'en_NG'}$2`)
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${title}$2`)
     .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${description}$2`)
+    .replace(/(<meta property="og:image" content=")[^"]*(")/, ogImageUrl ? `$1${ogImageUrl}$2` : '$&')
+    .replace(/(<meta name="twitter:image" content=")[^"]*(")/, ogImageUrl ? `$1${ogImageUrl}$2` : '$&')
+    .replace(/(<meta property="og:image:alt" content=")[^"]*(")/, ogImageUrl ? `$1${ogAlt}$2` : '$&')
+    .replace(/(<meta name="robots" content=")[^"]*(")/, robots ? `$1${escapeHtml(robots)}$2` : '$&')
     .replace('<!--ssr-outlet-->', html)
     .replace('<!--ssr-state-->', stateScript)
 

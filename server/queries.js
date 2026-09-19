@@ -52,6 +52,12 @@ export async function getStateGovernorAdmins() {
   return withTerm(await db.select().from(t.presidents).where(and(eq(t.presidents.level, 'state'), eq(t.presidents.isCurrent, true))))
 }
 
+export async function getPresident(key) {
+  if (!key) return null
+  const rows = await db.select().from(t.presidents).where(eq(t.presidents.key, key)).limit(1)
+  return withTerm(rows)[0] ?? null
+}
+
 export async function isValidAdmin(admin) {
   if (!admin) return false
   const rows = await db
