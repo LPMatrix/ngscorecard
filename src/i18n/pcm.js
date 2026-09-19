@@ -399,7 +399,7 @@ export default {
   'budget.implementationRate': 'Implementation rate',
 
   // ── shared page chrome (guide / press / developers) ──────────────
-  'common.footerTag': 'NGScorecard na free, open, independent project — e no dey connect to Nigerian government. Data CC BY 4.0 · code AGPL-3.0.',
+  'common.footerTag': 'NGScorecard na free, open, independent project — e no dey connect to Nigerian government. Data CC BY 4.0.',
 
   'meta.guide.title': 'NGScorecard — Meaning of Words & Di Method',
   'meta.guide.desc': 'Wetin NGScorecard dey follow, wetin every status label and budget word mean, and how we dey rate, find source, check, and correct mistake.',
@@ -534,7 +534,7 @@ export default {
   'guide.independence.funding.term': 'Money',
   'guide.independence.funding.body': 'We no dey run dis project to make profit. E no dey take money from any government, political party, candidate, or campaign, anywhere. If e ever charge for anything (like bulk API access), na so we go fit keep di free version running — e go dey completely separate from di rating process, and we go disclose any sponsorship here.',
   'guide.independence.openByDefault.term': 'Open by default',
-  'guide.independence.openByDefault.body': 'Dem publish di dataset under Creative Commons Attribution 4.0 (CC BY 4.0); di source code under GNU Affero General Public License v3 (AGPL-3.0). Correction, evidence, and translation from di public dey welcome — see section 6, or "Report an issue" for any card.',
+  'guide.independence.openByDefault.body': 'Dem publish di dataset under Creative Commons Attribution 4.0 (CC BY 4.0); di source code dey private, no be open source. Correction, evidence, and translation from di public dey welcome — see section 6, or "Report an issue" for any card.',
   'guide.independence.ownership.term': 'Ownership',
   'guide.independence.ownership.body': 'Independent project — no dey affiliated with, endorsed by, or operated on behalf of any government body or political organisation.',
   'guide.independence.correctionsOverReputation.term': 'Correction pass reputation',
@@ -542,6 +542,8 @@ export default {
 
   'guide.changes.title': 'Change log',
   'guide.changes.lede': 'Any big change to how we dey pick or rate promise, we dey record am here, newest first. Small wording fix wey no move any rating, we no dey log am.',
+  'guide.changes.v15.date': '19 Sep 2026',
+  'guide.changes.v15.body': 'We restate section 8: di dataset still dey open under CC BY 4.0, but di source code dey private and we no dey call am open source again. No rating criteria change.',
   'guide.changes.v14.date': '7 Sep 2026',
   'guide.changes.v14.body': 'State coverage extend below 1999 go reach di pre-1999 elected government dem: di 19 Second Republic governors (1979–1983) and all 30 Third Republic governors (1992–1993). Military-appointed state administrators still dey outside di scope. Section 7 update to match. No rating criteria change.',
   'guide.changes.v13.date': '7 Sep 2026',

@@ -173,19 +173,10 @@ a:focus-visible {
 }
 
 .pt-crest {
-  display: grid;
-  place-items: center;
+  display: block;
   width: 52px;
   height: 52px;
-  border: 2px solid var(--pt-green-700);
-  background:
-    linear-gradient(90deg, var(--pt-green-600) 0 33%, #fff 33% 66%, var(--pt-green-600) 66%),
-    #fff;
-  color: var(--pt-green-900);
-  font-size: 13px;
-  font-weight: 900;
-  letter-spacing: 0.06em;
-  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.72);
+  border-radius: 12px;
 }
 
 .pt-eyebrow {
@@ -1446,7 +1437,7 @@ a:focus-visible {
     padding: 16px 14px 12px;
   }
   .pt-header-home { gap: 12px; }
-  .pt-crest { width: 44px; height: 44px; font-size: 12px; }
+  .pt-crest { width: 44px; height: 44px; }
   .pt-header-links { display: none; }
   .pt-header-menu { display: block; }
   .pt-admin-summary { font-size: 11px; }

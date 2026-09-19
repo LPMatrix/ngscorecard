@@ -410,7 +410,7 @@ export default {
   'budget.implementationRate': 'Ìwọ̀n ìmúṣẹ',
 
   // ── shared page chrome (guide / press / developers) ──────────────
-  'common.footerTag': 'NGScorecard jẹ́ iṣẹ́ ọ̀fẹ́, tí ó ṣí sílẹ̀, tí ó sì ní òmìnira ara rẹ̀ — kò ní àjọṣepọ̀ pẹ̀lú ìjọba Nàìjíríà. Dátà CC BY 4.0 · kóòdù AGPL-3.0.',
+  'common.footerTag': 'NGScorecard jẹ́ iṣẹ́ ọ̀fẹ́, tí ó ṣí sílẹ̀, tí ó sì ní òmìnira ara rẹ̀ — kò ní àjọṣepọ̀ pẹ̀lú ìjọba Nàìjíríà. Dátà CC BY 4.0.',
 
   'meta.guide.title': 'NGScorecard — Ìtumọ̀ Ọ̀rọ̀ àti Ọ̀nà-ìṣiṣẹ́',
   'meta.guide.desc': 'Ohun tí NGScorecard ń tọ́pinpin, ìtumọ̀ gbogbo àmì-ipò àti ọ̀rọ̀ ìnáwó, àti bí a ṣe ń díwọ̀n, ń wá orísun, ṣe àyẹ̀wò, tí a sì ń ṣàtúnṣe àṣìṣe.',
@@ -545,7 +545,7 @@ export default {
   'guide.independence.funding.term': 'Owó',
   'guide.independence.funding.body': "A kì í ṣe iṣẹ́ yìí fún èrè. Kò gba owó láti ọwọ́ ìjọba kan, ẹgbẹ́ olóṣèlú, ẹni tí ń díje, tàbí ìdíje, níbikíbi. Bí ó bá gbá owó fún ohunkóhun rí (bí i àǹfàní API tí ó pọ̀), ìyẹn jẹ́ láti pa ẹ̀dà ọ̀fẹ́ mọ́ ní ìṣiṣẹ́ nìkan — ó yàtọ̀ pátápátá sí ìlànà ìdíwọ̀n, gbogbo ìtìlẹ́yìn owó yóò sì jẹ́ ìsọfúnni níbí.",
   'guide.independence.openByDefault.term': 'Ṣíṣí sílẹ̀ láti ìbẹ̀rẹ̀',
-  'guide.independence.openByDefault.body': 'Dátà náà ni a tẹ̀ jáde lábẹ́ Creative Commons Attribution 4.0 (CC BY 4.0); kóòdù iṣẹ́ náà lábẹ́ GNU Affero General Public License v3 (AGPL-3.0). Àwọn àtúnṣe, ẹ̀rí, àti ìtúmọ̀ láti ọwọ́ gbogbo ènìyàn ni a káàbọ̀ sí — wo apá 6, tàbí "Ròyìn ìṣòro" lórí kaadi kọ̀ọ̀kan.',
+  'guide.independence.openByDefault.body': 'Dátà náà ni a tẹ̀ jáde lábẹ́ Creative Commons Attribution 4.0 (CC BY 4.0); kóòdù iṣẹ́ náà jẹ́ àdáni, kì í ṣe ṣíṣí sílẹ̀. Àwọn àtúnṣe, ẹ̀rí, àti ìtúmọ̀ láti ọwọ́ gbogbo ènìyàn ni a káàbọ̀ sí — wo apá 6, tàbí "Ròyìn ìṣòro" lórí kaadi kọ̀ọ̀kan.',
   'guide.independence.ownership.term': 'Ẹni tí ó ní i',
   'guide.independence.ownership.body': 'Iṣẹ́ tí ó ní òmìnira ara rẹ̀ — kò ní àjọṣepọ̀ pẹ̀lú, a kò fọwọ́sí i, bẹ́ẹ̀ ni a kò ń ṣe é ní orúkọ ilé-iṣẹ́ ìjọba kan tàbí àjọ olóṣèlú.',
   'guide.independence.correctionsOverReputation.term': 'Àtúnṣe ju orúkọ rere lọ',
@@ -553,6 +553,8 @@ export default {
 
   'guide.changes.title': 'Àkọsílẹ̀ ìyípadà',
   'guide.changes.lede': 'Àwọn ìyípadà pàtàkì sí bí a ṣe ń kó tàbí díwọ̀n ìlérí ni a ń ṣàkọsílẹ̀ níbí, èyí tuntun jùlọ ní àkọ́kọ́. Àtúnṣe ọ̀rọ̀ kékeré tí kò yí ìdíwọ̀n kankan padà, a kì í ṣàkọsílẹ̀ rẹ̀.',
+  'guide.changes.v15.date': '19 Sep 2026',
+  'guide.changes.v15.body': 'A tún kọ apá 8: dátà náà ṣì ṣí sílẹ̀ lábẹ́ CC BY 4.0, ṣùgbọ́n kóòdù iṣẹ́ náà jẹ́ àdáni, a kò sì pè é ní ṣíṣí sílẹ̀ mọ́. Kò sí ìlànà ìdíwọ̀n tí ó yí padà.',
   'guide.changes.v14.date': '7 Sep 2026',
   'guide.changes.v14.body': 'A fẹ̀ ìtọ́pinpin ìpínlẹ̀ padà sábẹ́ 1999 dé àwọn ìjọba tí a yàn ṣáájú 1999: àwọn gómìnà 19 Ìpínlẹ̀ Kejì (1979–1983) àti gbogbo àwọn gómìnà 30 Ìpínlẹ̀ Kẹta (1992–1993). Àwọn alábojútó ìpínlẹ̀ tí ológun yàn ṣì wà ní òde ìtọ́pinpin. A ṣàtúnṣe apá 7 ní ìbámu. Kò sí ìlànà ìdíwọ̀n tí ó yípadà.',
   'guide.changes.v13.date': '7 Sep 2026',

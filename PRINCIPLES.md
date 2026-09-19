@@ -13,13 +13,17 @@ The project aligns itself with:
   Charter** — data that is genuinely free to use, reuse, and redistribute.
 - **The Principles for Digital Development** — design with the user,
   understand the existing ecosystem, build for sustainability, be
-  collaborative, use open standards and open source.
+  collaborative, use open standards.
 - The tradition of **independent accountability projects**: promise trackers
   such as *Del Dicho al Hecho* (Fundación Ciudadano Inteligente, Chile) and
   PolitiFact's Obameter; fact-checkers such as Full Fact and **Africa Check /
   Dubawa** in Nigeria; and the civic-tech institution-building of **mySociety**
   (TheyWorkForYou, WhatDoTheyKnow), **Code for America / Code for All**, and
   **OpenCorporates**.
+
+The project is being established as a not-for-profit organisation (NGO). It
+follows the open-data parts of these norms; its source code is private and is
+**not** open-sourced.
 
 ## Commitments
 
@@ -29,8 +33,8 @@ The project aligns itself with:
   available in bulk. The one-request full export is a **committed milestone,
   not a maybe** — it ships once provenance is audited across every record
   type; `DATASET_DUMP_PUBLIC` is only the switch.
-- The code is under a copyleft open-source licence (AGPL-3.0) so improvements
-  and forks stay open.
+- The source code is private and proprietary. Openness applies to the data and
+  the methodology, not the code.
 - The methodology is public and versioned; every material change is logged.
 
 ### 2. Independence over access
@@ -64,13 +68,14 @@ The project aligns itself with:
 - Designed around how the audience actually reads and shares: mobile first,
   link-friendly, light on bandwidth.
 
-### 6. Durable and forkable
+### 6. Durable
 
 - Standard formats, a stable and versioned API, minimal lock-in.
 - Mirroring and rehosting the dataset are encouraged — the record is more
   durable in more than one place, and harder to capture or censor.
-- Documented well enough that someone else could run it. The record should
-  outlast any single maintainer.
+- The record should outlast any single maintainer: the dataset is open and
+  mirrorable, and the organisation is responsible for keeping the code and
+  hosting running or handing them on.
 
 ### 7. Correct in the open
 

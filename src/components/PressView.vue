@@ -82,13 +82,13 @@ function copyBlurb(which, text) {
             <a class="asset-dl" href="/pwa-512x512.png" target="_blank" rel="noopener">Open PNG</a>
           </div>
           <div class="asset-card">
-            <div class="asset-preview"><img src="/favicon.svg" alt="NGScorecard vector mark" /></div>
+            <div class="asset-preview"><img src="/logo-mark.svg" alt="NGScorecard vector mark" /></div>
             <div class="asset-name">Vector mark</div>
             <div class="asset-meta">SVG · scalable</div>
-            <a class="asset-dl" href="/favicon.svg" target="_blank" rel="noopener">Open SVG</a>
+            <a class="asset-dl" href="/logo-mark.svg" target="_blank" rel="noopener">Open SVG</a>
           </div>
           <div class="asset-card">
-            <div class="asset-preview dark"><img src="/og-image.png" alt="NGScorecard brand card" /></div>
+            <div class="asset-preview"><img src="/og-image.png" alt="NGScorecard brand card" /></div>
             <div class="asset-name">Brand card</div>
             <div class="asset-meta">PNG · 1200×630</div>
             <a class="asset-dl" href="/og-image.png" target="_blank" rel="noopener">Open PNG</a>

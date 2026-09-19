@@ -68,14 +68,20 @@ acceptable, expected line.
 
 ## Continuity
 
-Because the code is AGPL-3.0 and the data is CC BY 4.0, the project does not
-depend on any one person to survive — anyone can stand it back up from the
-public repository and dataset.
+The data is CC BY 4.0 and mirrorable, so the record itself does not depend on
+any one person. The code is private, so keeping the site running depends on
+the organisation holding the repository, domain, and hosting.
+
+NGScorecard is being established as a not-for-profit organisation (NGO). This
+document will name the legal entity, board, and funders once registered.
+_[to complete: what happens to the private code if the organisation winds
+down — e.g. transfer to a successor organisation, or release under an open
+licence]_
 
 The maintainer's commitment is to **hand the project on** — to co-maintainers
 or a civic-tech organisation — rather than let it lapse silently, and to give
 notice here and on the site before stepping away. If the site goes dark, the
-last published dataset export and this repository are the canonical record.
+last published dataset export is the canonical record.
 
 ## Changing this document
 

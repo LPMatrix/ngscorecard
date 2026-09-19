@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 64" role="img" aria-label="NGScorecard">
+  <rect width="64" height="64" rx="14" fill="#132a1d"/>
+  <path d="M17 16h7v32h-7zM40 16h7v32h-7z" fill="#f7f5ec"/>
+  <path d="M17 16h8l22 32h-8z" fill="#3fbf82"/>
+  <text x="80" y="45" font-family="Fraunces, Georgia, 'Times New Roman', serif" font-size="38" font-weight="700" letter-spacing="-0.5" fill="#132a1d">NGScorecard</text>
+</svg>

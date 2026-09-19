@@ -424,7 +424,7 @@ export default {
   'i18n.previewNote': 'This translation is an unreviewed early draft. Some text is still in English, and wording may be rough. Switch back to English for the definitive version.',
 
   // ── shared page chrome (guide / press / developers) ────────────────
-  'common.footerTag': 'NGScorecard is a free, open, independent project — not affiliated with the Nigerian government. Data CC BY 4.0 · code AGPL-3.0.',
+  'common.footerTag': 'NGScorecard is a free, open, independent project — not affiliated with the Nigerian government. Data CC BY 4.0.',
 
   'meta.guide.title': 'NGScorecard — Glossary & Methodology',
   'meta.guide.desc': 'What NGScorecard tracks, what every status label and budget term means, and how ratings, sourcing, review, and corrections work. Versioned methodology with a change log.',
@@ -559,7 +559,7 @@ export default {
   'guide.independence.funding.term': 'Funding',
   'guide.independence.funding.body': 'The project is not run for profit. It takes no money from any government, political party, candidate, or campaign, anywhere. If it ever charges for anything (for example bulk API access), that is only to keep the free version running — it stays entirely separate from the rating process, and any sponsorship is disclosed here.',
   'guide.independence.openByDefault.term': 'Open by default',
-  'guide.independence.openByDefault.body': 'The dataset is published under Creative Commons Attribution 4.0 (CC BY 4.0); the source code under the GNU Affero General Public License v3 (AGPL-3.0). Corrections, evidence, and translations from the public are welcome — see section 6, or "Report an issue" on any card.',
+  'guide.independence.openByDefault.body': 'The dataset is published under Creative Commons Attribution 4.0 (CC BY 4.0); the source code is private and not open-sourced. Corrections, evidence, and translations from the public are welcome — see section 6, or "Report an issue" on any card.',
   'guide.independence.ownership.term': 'Ownership',
   'guide.independence.ownership.body': 'An independent project — not affiliated with, endorsed by, or operated on behalf of any government body or political organisation.',
   'guide.independence.correctionsOverReputation.term': 'Corrections over reputation',
@@ -567,6 +567,8 @@ export default {
 
   'guide.changes.title': 'Change log',
   'guide.changes.lede': "Material changes to how promises are selected or rated are recorded here, newest first. Wording fixes and clarifications that don't move any rating are not logged.",
+  'guide.changes.v15.date': '19 Sep 2026',
+  'guide.changes.v15.body': 'Section 8 restated: the dataset remains open under CC BY 4.0, but the source code is private and is no longer described as open source. No rating criteria changed.',
   'guide.changes.v14.date': '7 Sep 2026',
   'guide.changes.v14.body': 'State coverage extended below 1999 to the pre-1999 elected governments: the 19 Second Republic governors (1979–1983) and all 30 Third Republic governors (1992–1993). Military-appointed state administrators remain out of scope. Section 7 updated accordingly. No rating criteria changed.',
   'guide.changes.v13.date': '7 Sep 2026',

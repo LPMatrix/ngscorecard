@@ -16,7 +16,6 @@ import DevelopersView  from './components/DevelopersView.vue'
 import ReportView      from './components/ReportView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
 import LangSwitcher    from './components/LangSwitcher.vue'
-import { downloadScorecard } from './lib/scorecardImage.js'
 
 // Populated server-side (entry-server.js) or client-side from
 // window.__INITIAL_STATE__ (entry-client.js) — null in a plain SPA fallback.
@@ -542,28 +541,6 @@ async function copyViewLink() {
   } catch { /* clipboard unavailable — silently ignore */ }
 }
 
-// "Print scorecard" — a shareable PNG built client-side from whatever this
-// administration actually has tracked (see src/lib/scorecardImage.js).
-// Uses the tab data already loaded in this component, not a fresh fetch.
-const generatingCard = ref(false)
-async function downloadCard() {
-  if (generatingCard.value) return
-  generatingCard.value = true
-  try {
-    await downloadScorecard(currentAdmin.value, {
-      promises: promises.value,
-      fraud: fraud.value,
-      judgments: judgments.value,
-      indicators: indicators.value,
-      orders: orders.value,
-    })
-  } catch (e) {
-    console.error('Scorecard generation failed', e)
-  } finally {
-    generatingCard.value = false
-  }
-}
-
 function setExpanded(id) {
   expandedId.value = id
   const url = new URL(window.location)
@@ -866,7 +843,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
     <header class="pt-header">
       <div class="pt-header-brand">
         <a :href="lp('/')" class="pt-header-home" :aria-label="t('header.home')">
-          <div class="pt-crest" aria-hidden="true">NG</div>
+          <img class="pt-crest" src="/logo-mark.svg" alt="" width="52" height="52" aria-hidden="true" />
           <div>
             <div class="pt-eyebrow">{{ t('header.eyebrow') }}</div>
             <h1 class="pt-headline">NGScorecard</h1>
@@ -918,12 +895,6 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
             @click="copyViewLink"
             :title="t('viewActions.copyLinkTitle')"
           >{{ t('viewActions.copyLink') }}</button>
-          <button
-            class="pt-viewlink-btn"
-            :disabled="generatingCard"
-            @click="downloadCard"
-            :title="t('viewActions.printTitle')"
-          >{{ generatingCard ? t('viewActions.generating') : t('viewActions.printScorecard') }}</button>
         </div>
       </div>
       <div v-if="viewMode === 'single' && !notFound && !pageView" class="pt-picker">

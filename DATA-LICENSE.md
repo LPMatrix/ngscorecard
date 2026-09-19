@@ -1,7 +1,7 @@
 # Data license
 
-> **Scope.** This licence applies now to the dataset as published in this
-> repository (`data/seed/`) and as served by the keyed public API
+> **Scope.** This licence applies now to the dataset as compiled in
+> `data/seed/` and as served by the keyed public API
 > (`/api/v1/…`). The one-request **bulk export** (`GET /api/v1/dump` and a
 > static dataset file) is built but not yet enabled — gated behind the
 > `DATASET_DUMP_PUBLIC` flag in `server/publicApi.js`. Turning it on doesn't
@@ -32,8 +32,8 @@ accountability record is more durable when it exists in more than one place.
 
 ## What this does *not* cover
 
-- **Source code** in this repository is licensed separately, under the GNU
-  Affero General Public License v3.0 — see [`LICENSE`](LICENSE).
+- **Source code** is not covered and is not licensed for reuse: the repository
+  is private and all rights are reserved — see [`LICENSE`](LICENSE).
 - **Third-party material** the records link to or quote — government
   documents, news articles, photographs — remains under its own terms.
 - **Assessments and status ratings** are editorial judgements offered in good

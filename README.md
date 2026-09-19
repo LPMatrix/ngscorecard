@@ -53,7 +53,7 @@ decisions and disputes are handled is in [`GOVERNANCE.md`](GOVERNANCE.md).
 | | |
 |---|---|
 | **Dataset** (`data/seed/`, the public API, any export) | [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) — see [`DATA-LICENSE.md`](DATA-LICENSE.md) |
-| **Source code** (this repository) | [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html) — see [`LICENSE`](LICENSE) |
+| **Source code** (this repository) | Proprietary — all rights reserved; the repository is private. See [`LICENSE`](LICENSE) |
 
 Mirroring and rehosting the dataset is encouraged — an accountability record
 is more durable in more than one place. Cite the primary sources on each
@@ -74,8 +74,8 @@ record, not the dataset alone.
 - **Translations** — the methodology is drafted in Hausa, Yorùbá, Igbo, and
   Nigerian Pidgin (`public/guide.<locale>.html`) and needs native review; see
   [`docs/i18n-plan.md`](docs/i18n-plan.md).
-- **Code** — issues and pull requests welcome. By contributing you agree your
-  code is licensed under the AGPL-3.0.
+- **Code** — the repository is private and does not accept outside pull
+  requests. Data corrections and evidence are welcome through the routes above.
 
 ## Running locally
 

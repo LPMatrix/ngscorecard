@@ -410,7 +410,7 @@ export default {
   'budget.implementationRate': 'Ọnụọgụ mmezu',
 
   // ── shared page chrome (guide / press / developers) ──────────────
-  'common.footerTag': 'NGScorecard bụ ọrụ ọha efu, emeghe emeghe, nwere onwe ya — ọ metụtaghị ọchịchị Naịjịrịa. Data CC BY 4.0 · koodu AGPL-3.0.',
+  'common.footerTag': 'NGScorecard bụ ọrụ ọha efu, emeghe emeghe, nwere onwe ya — ọ metụtaghị ọchịchị Naịjịrịa. Data CC BY 4.0.',
 
   'meta.guide.title': 'NGScorecard — Nkọwa Okwu na Usoro',
   'meta.guide.desc': 'Ihe NGScorecard na-eso, ihe akara ọnọdụ ọ bụla na okwu mmefu ego pụtara, na otú anyị si atụle, na-achọ isi mmalite, nyocha, ma na-emezi njehie.',
@@ -545,7 +545,7 @@ export default {
   'guide.independence.funding.term': 'Ego',
   'guide.independence.funding.body': "A naghị eji ọrụ a chọ uru. Ọ naghị anara ego n'aka ọchịchị ọ bụla, ndị otu ndọrọ ndọrọ ọchịchị, onye na-aso mpi, ma ọ bụ mkpọsa mpi, ebe ọ bụla. Ọ bụrụ na ọ na-achọ ịnara ego maka ihe ọ bụla (dịka ohere API buru ibu), ọ bụ naanị iji na-akwado ụdị efu ka ọ na-arụ ọrụ — ọ na-adị iche kpamkpam n'aka usoro ikpebi ọkwa, a na-ekwupụtakwa nkwado ego ọ bụla ebe a.",
   'guide.independence.openByDefault.term': "Emeghe Emeghe Site N'Ọbụbụ",
-  'guide.independence.openByDefault.body': 'E biputara data ahụ n\'okpuru Creative Commons Attribution 4.0 (CC BY 4.0); koodu ọrụ ahụ n\'okpuru GNU Affero General Public License v3 (AGPL-3.0). Anyị na-anabata mmezi, akaebe, na ntụgharị asụsụ site n\'aka ọha — lee akụkụ nke 6, ma ọ bụ "Kọọ nsogbu" na kaadị ọ bụla.',
+  'guide.independence.openByDefault.body': 'E biputara data ahụ n\'okpuru Creative Commons Attribution 4.0 (CC BY 4.0); koodu ọrụ ahụ bụ nke nzuzo, ọ bụghị nke emeghere ọha. Anyị na-anabata mmezi, akaebe, na ntụgharị asụsụ site n\'aka ọha — lee akụkụ nke 6, ma ọ bụ "Kọọ nsogbu" na kaadị ọ bụla.',
   'guide.independence.ownership.term': 'Onye nwe ya',
   'guide.independence.ownership.body': "Ọrụ nwere onwe ya — ọ metụtaghị, e nakweghị ya, ma a naghị arụ ya n'aha ụlọ ọrụ ọchịchị ọ bụla ma ọ bụ otu ndọrọ ndọrọ ọchịchị.",
   'guide.independence.correctionsOverReputation.term': 'Mmezi Karịa Aha Ọma',
@@ -553,6 +553,8 @@ export default {
 
   'guide.changes.title': 'Ndekọ mgbanwe',
   'guide.changes.lede': "Mgbanwe ndị dị mkpa n'otú anyị si ahọrọ ma ọ bụ tụlee nkwa ka anyị na-edekọ ebe a, nke ọhụrụ kacha na mbụ. Mmezi okwu obere nke na-agbanweghị ntule ọ bụla, anyị anaghị edekọ ya.",
+  'guide.changes.v15.date': '19 Sep 2026',
+  'guide.changes.v15.body': "Edeghachiri akụkụ nke 8: data ahụ ka meghere n'okpuru CC BY 4.0, mana koodu ọrụ ahụ bụ nke nzuzo, anyị anaghịzi akpọ ya nke emeghere ọha. Ọ dịghị ụkpụrụ ọkwa gbanwere.",
   'guide.changes.v14.date': '7 Sep 2026',
   'guide.changes.v14.body': "Mkpuchi steeti gbatịrị n'okpuru 1999 ruo ọchịchị ndị a họpụtara tupu 1999: ndị gọvanọ 19 nke Republic nke Abụọ (1979–1983) na ndị gọvanọ 30 niile nke Republic nke Atọ (1992–1993). Ndị na-elekọta steeti nke ndị agha họpụtara ka nọ n'èzí mkpuchi. E melitere akụkụ nke 7 ka o kwekọọ. Ọ dịghị usoro ọkwa gbanwere.",
   'guide.changes.v13.date': '7 Sep 2026',

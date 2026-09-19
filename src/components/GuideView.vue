@@ -12,8 +12,8 @@ import { inject } from 'vue'
 
 const t = inject('t', (k) => k)
 
-const METHODOLOGY_VERSION = 'v1.4'
-const METHODOLOGY_DATE = '7 September 2026'
+const METHODOLOGY_VERSION = 'v1.5'
+const METHODOLOGY_DATE = '19 September 2026'
 
 const zones = ['North Central', 'North East', 'North West', 'South East', 'South South', 'South West']
 </script>
@@ -242,7 +242,9 @@ const zones = ['North Central', 'North East', 'North West', 'South East', 'South
         <p class="section-lede">{{ t('guide.changes.lede') }}</p>
         <div class="card">
           <dl class="term-list">
-            <dt>{{ METHODOLOGY_VERSION }} <span class="badge">{{ t('guide.changes.v14.date') }}</span></dt>
+            <dt>{{ METHODOLOGY_VERSION }} <span class="badge">{{ t('guide.changes.v15.date') }}</span></dt>
+            <dd>{{ t('guide.changes.v15.body') }}</dd>
+            <dt>v1.4 <span class="badge">{{ t('guide.changes.v14.date') }}</span></dt>
             <dd>{{ t('guide.changes.v14.body') }}</dd>
             <dt>v1.3 <span class="badge">{{ t('guide.changes.v13.date') }}</span></dt>
             <dd>{{ t('guide.changes.v13.body') }}</dd>
