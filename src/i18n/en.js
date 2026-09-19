@@ -111,6 +111,7 @@ export default {
   'header.guide': 'Guide',
   'header.developers': 'Developers',
   'header.press': 'Press',
+  'header.themes': 'Recurring commitments',
   'header.moreLinks': 'More links',
   'header.previouslyIn': 'Previously in {state}:',
 
@@ -396,8 +397,8 @@ export default {
   'landing.byEra': 'Federal governments by era',
   'landing.recentlyReviewed': 'Recently reviewed',
   'landing.recurringHeading': 'Recurring commitments',
-  'landing.recurringTitle': 'Promises made again and again →',
   'landing.recurringSub': 'Fixing the power supply, diversifying off oil, restructuring the federation — pledges threaded through every administration that made them, with what happened each time.',
+  'landing.recurringAll': 'All recurring commitments →',
   'landing.footPrefix': 'Coverage and rating method are documented in the ',
   'landing.footGuide': 'guide',
   'landing.footSuffix': '. Spotted an error? Every card carries a “Report an issue” link.',

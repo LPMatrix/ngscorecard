@@ -120,6 +120,7 @@ export default {
   'header.guide': 'Guide',
   'header.developers': 'Developers',
   'header.press': 'Press',
+  'header.themes': 'Promise wey dey repeat',
   'header.moreLinks': 'More links',
   'header.previouslyIn': 'Before for {state}:',
 
@@ -366,8 +367,8 @@ export default {
   'landing.byEra': 'Federal govments by era',
   'landing.recentlyReviewed': 'Dem check am recently',
   'landing.recurringHeading': 'Promise wey dey repeat',
-  'landing.recurringTitle': 'Promise wey dem make again and again →',
   'landing.recurringSub': 'Fixing di light, moving comot from oil, restructuring di federation — pledge wey waka through every administration wey make dem, with wetin happen each time.',
+  'landing.recurringAll': 'All di promise wey dey repeat →',
   'landing.footPrefix': 'Coverage and rating method dey inside di ',
   'landing.footGuide': 'guide',
   'landing.footSuffix': '. You see error? Every card carry a "Report an issue" link.',

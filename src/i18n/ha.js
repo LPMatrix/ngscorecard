@@ -117,6 +117,7 @@ export default {
   'header.guide': 'Jagora',
   'header.developers': 'Masu haɓakawa',
   'header.press': '’Yan jarida',
+  'header.themes': 'Alkawuran da ake maimaitawa',
   'header.moreLinks': 'Ƙarin hanyoyi',
   'header.previouslyIn': 'A da a {state}:',
 
@@ -375,8 +376,8 @@ export default {
   'landing.byEra': 'Gwamnatocin tarayya bisa zamani',
   'landing.recentlyReviewed': 'An yi bita kwanan nan',
   'landing.recurringHeading': 'Alkawuran da ake maimaitawa',
-  'landing.recurringTitle': 'Alkawuran da aka yi akai-akai →',
   'landing.recurringSub': 'Gyara wutar lantarki, fita daga dogaro kan mai, sāke fasalin tarayya — alkawuran da suka bi ta kowace gwamnatin da ta yi su, tare da abin da ya faru kowane lokaci.',
+  'landing.recurringAll': 'Duk alkawuran da ake maimaitawa →',
   'landing.footPrefix': 'An rubuta iyaka da hanyar kimantawa a cikin ',
   'landing.footGuide': 'jagora',
   'landing.footSuffix': '. Ka lura da kuskure? Kowace katin tana da hanyar haɗi ta “Bayar da rahoton matsala”.',

@@ -78,7 +78,8 @@ export async function render({ route, id } = {}) {
 
   // ── "/" — the neutral landing page ────────────────────────────────────
   if (name === 'home') {
-    const initialData = { ...baseState(), landing: true }
+    const landingThemes = (await getThemesWithCounts()).map(th => ({ slug: th.slug, title: th.title, adminCount: th.adminCount }))
+    const initialData = { ...baseState(), landing: true, landingThemes }
     const html = await mount(initialData)
     return { html, initialData, meta: buildMeta(t, null, null, false), notFound: false, canonical: '/' }
   }

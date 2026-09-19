@@ -61,6 +61,8 @@ const isLanding = ref(initial?.landing === true)
 // "/themes" and "/themes/<slug>" — the recurring-commitments view. `themesData`
 // is { mode:'index', list } or { mode:'lineage', theme, entries } from SSR.
 const themesData = ref(initial?.themes ?? null)
+// Recurring commitments previewed on the landing page ({ slug, title, adminCount }).
+const landingThemes = ref(initial?.landingThemes ?? [])
 const isThemes = ref(!!initial?.themes && initial?.themes.mode !== 'missing')
 // "/guide", "/press", "/developers" — unified content pages (see
 // GuideView.vue's header comment). `pageView` holds which one, or null.
@@ -378,6 +380,8 @@ onMounted(async () => {
     if (route.name === 'home') {
       isLanding.value = true
       activeAdmin.value = null
+      const list = await fetch('/api/themes').then(r => r.ok ? r.json() : []).catch(() => [])
+      landingThemes.value = list.map(th => ({ slug: th.slug, title: th.title, adminCount: th.adminCount }))
     } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers') {
       pageView.value = route.name
       activeAdmin.value = null
@@ -869,6 +873,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           </div>
         </a>
         <div class="pt-header-links">
+          <a :href="lp('/themes')" class="pt-header-docs-link">{{ t('header.themes') }}</a>
           <a :href="lp('/guide')" class="pt-header-docs-link">{{ t('header.guide') }}</a>
           <a :href="lp('/developers')" class="pt-header-docs-link">{{ t('header.developers') }}</a>
           <a :href="lp('/press')" class="pt-header-docs-link">{{ t('header.press') }}</a>
@@ -884,6 +889,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           <template v-if="headerMenuOpen">
             <div class="pt-header-menu-backdrop" @click="headerMenuOpen = false"></div>
             <div class="pt-header-menu-panel">
+              <a :href="lp('/themes')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.themes') }}</a>
               <a :href="lp('/guide')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.guide') }}</a>
               <a :href="lp('/developers')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.developers') }}</a>
               <a :href="lp('/press')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.press') }}</a>
@@ -1115,6 +1121,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
     <LandingView
       v-else-if="isLanding"
       :administrations="ADMINISTRATIONS"
+      :themes="landingThemes"
       @select="goToAdminFromLanding"
       @open-picker="openPicker"
     />

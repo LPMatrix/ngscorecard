@@ -3,12 +3,18 @@ import { computed, inject } from 'vue'
 
 const props = defineProps({
   administrations: { type: Array, default: () => [] },
+  // { slug, title, adminCount } — the recurring commitments to preview.
+  themes: { type: Array, default: () => [] },
 })
 defineEmits(['select', 'open-picker'])
 
 const t = inject('t', (k) => k)
 // Prefixes an internal path with the active locale (identity for `en`).
 const lp = inject('lp', (p) => p)
+
+// The most-repeated commitments first — the ones made by the most governments.
+const topThemes = computed(() =>
+  props.themes.slice().sort((a, b) => b.adminCount - a.adminCount || a.title.localeCompare(b.title)).slice(0, 4))
 
 // Nigeria's six geopolitical zones — used to group sitting governors the same
 // way the command-bar picker does. Kept local: it's static reference data.
@@ -100,6 +106,18 @@ const recentlyReviewed = computed(() =>
       <p class="lp-stats">{{ t('landing.stats', { federal: federalCount, state: stateCount }) }}</p>
     </section>
 
+    <section class="lp-section">
+      <h3 class="lp-h">{{ t('landing.recurringHeading') }}</h3>
+      <p class="lp-themes-lede">{{ t('landing.recurringSub') }}</p>
+      <div v-if="topThemes.length" class="lp-themes-grid">
+        <a v-for="th in topThemes" :key="th.slug" :href="lp(`/themes/${th.slug}`)" class="lp-theme-card">
+          <span class="lp-theme-title">{{ th.title }}</span>
+          <span class="lp-theme-count">{{ t('themes.adminCount', { n: th.adminCount }) }}</span>
+        </a>
+      </div>
+      <a :href="lp('/themes')" class="lp-themes-all">{{ t('landing.recurringAll') }}</a>
+    </section>
+
     <section v-if="sittingPresident || sittingGovernors.length" class="lp-section">
       <h3 class="lp-h">{{ t('landing.inOfficeNow') }}</h3>
       <button
@@ -165,14 +183,6 @@ const recentlyReviewed = computed(() =>
           <span class="lp-recent-date">{{ a.reviewed }}</span>
         </button>
       </div>
-    </section>
-
-    <section class="lp-section">
-      <h3 class="lp-h">{{ t('landing.recurringHeading') }}</h3>
-      <a :href="lp('/themes')" class="lp-themes-link">
-        <span class="lp-themes-title">{{ t('landing.recurringTitle') }}</span>
-        <span class="lp-themes-sub">{{ t('landing.recurringSub') }}</span>
-      </a>
     </section>
 
     <p class="lp-foot">
@@ -366,16 +376,22 @@ const recentlyReviewed = computed(() =>
 }
 .lp-foot a { color: var(--pt-link); }
 
-.lp-themes-link {
-  display: block;
+.lp-themes-lede { max-width: 62ch; font-size: 13.5px; line-height: 1.55; color: var(--pt-text-muted); margin: 0 0 14px; }
+.lp-themes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.lp-theme-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   border: 1px solid var(--pt-line);
   border-left: 3px solid var(--pt-green-600);
   border-radius: 8px;
-  padding: 14px 16px;
+  padding: 12px 14px;
   background: var(--pt-surface);
   text-decoration: none;
 }
-.lp-themes-link:hover { background: var(--pt-surface-hover); border-color: var(--pt-green-600); }
-.lp-themes-title { display: block; font-size: 15px; font-weight: 700; color: var(--pt-text); }
-.lp-themes-sub { display: block; margin-top: 4px; font-size: 12.5px; line-height: 1.55; color: var(--pt-text-muted); }
+.lp-theme-card:hover { background: var(--pt-surface-hover); border-color: var(--pt-green-600); }
+.lp-theme-title { font-size: 14.5px; font-weight: 700; line-height: 1.3; color: var(--pt-text); }
+.lp-theme-count { font-size: 12px; color: var(--pt-text-faint); }
+.lp-themes-all { display: inline-block; margin-top: 12px; font-size: 13px; font-weight: 600; color: var(--pt-link); text-decoration: none; }
+.lp-themes-all:hover { text-decoration: underline; }
 </style>

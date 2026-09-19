@@ -119,6 +119,7 @@ export default {
   'header.guide': 'Ìtọ́sọ́nà',
   'header.developers': 'Àwọn Olùdàgbàsókè',
   'header.press': 'Ilé ìròyìn',
+  'header.themes': 'Àwọn ìlérí tó ń tún wáyé',
   'header.moreLinks': 'Àwọn ọ̀nà mìíràn',
   'header.previouslyIn': 'Tẹ́lẹ̀ ní {state}:',
 
@@ -377,8 +378,8 @@ export default {
   'landing.byEra': 'Àwọn ìjọba àpapọ̀ nípa àkókò',
   'landing.recentlyReviewed': 'A ṣàyẹ̀wò láìpẹ́',
   'landing.recurringHeading': 'Àwọn ìlérí tó ń tún wáyé',
-  'landing.recurringTitle': 'Àwọn ìlérí tí a ṣe léraléra →',
   'landing.recurringSub': 'Ṣíṣàtúnṣe iná mọ̀nàmọ́ná, yíyẹra fún epo, àtúntò orílẹ̀-èdè — àwọn ìlérí tó gba inú ìjọba kọ̀ọ̀kan tó ṣe wọ́n kọjá, pẹ̀lú ohun tó ṣẹlẹ̀ nígbà kọ̀ọ̀kan.',
+  'landing.recurringAll': 'Gbogbo àwọn ìlérí tó ń tún wáyé →',
   'landing.footPrefix': 'Ìdíwọ̀n àti ọ̀nà ìgbéléwọ̀n wà nínú ',
   'landing.footGuide': 'ìtọ́sọ́nà',
   'landing.footSuffix': '. Ṣé o rí àṣìṣe? Káàdì kọ̀ọ̀kan ní ọ̀nà àsopọ̀ "Ròyìn ìṣòro".',

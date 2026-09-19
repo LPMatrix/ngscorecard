@@ -119,6 +119,7 @@ export default {
   'header.guide': 'Ntụziaka',
   'header.developers': 'Ndị Mmepe',
   'header.press': 'Ndị nta akụkọ',
+  'header.themes': 'Nkwa na-emeghachi',
   'header.moreLinks': 'Njikọ ndị ọzọ',
   'header.previouslyIn': 'Na mbụ na {state}:',
 
@@ -377,8 +378,8 @@ export default {
   'landing.byEra': 'Ọchịchị etiti site n\'oge',
   'landing.recentlyReviewed': 'Enyochara nso nso a',
   'landing.recurringHeading': 'Nkwa na-emeghachi',
-  'landing.recurringTitle': 'Nkwa e kwere ugboro ugboro →',
   'landing.recurringSub': 'Idozi ọkụ eletrik, ịpụ na mmanụ, ịhazigharị mba — nkwa ndị gafere n\'ọchịchị ọ bụla mere ha, ya na ihe mere n\'oge ọ bụla.',
+  'landing.recurringAll': 'Nkwa niile na-emeghachi →',
   'landing.footPrefix': 'Mmefu na usoro ọkwa dị n\'ime ',
   'landing.footGuide': 'ntụziaka',
   'landing.footSuffix': '. Ị hụrụ njehie? Kaadị ọ bụla nwere njikọ "Kọọ nsogbu".',
