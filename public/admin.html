@@ -145,6 +145,7 @@
     <form class="login-card" id="login-form">
       <h1>NGScorecard Admin</h1>
       <p>Sign in to edit tracked data.</p>
+      <input type="email" id="login-email" placeholder="Email" autocomplete="username" required />
       <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required />
       <button type="submit">Sign in</button>
       <div class="login-error" id="login-error"></div>
@@ -238,7 +239,7 @@
       columns: [
         { key: 'title', label: 'Title', type: 'text', required: true },
         { key: 'category', label: 'Category', type: 'text', required: true },
-        { key: 'status', label: 'Status', type: 'select', required: true, options: ['kept', 'partial', 'broken', 'pending'] },
+        { key: 'status', label: 'Status', type: 'select', required: true, options: ['kept', 'partial', 'broken', 'pending', 'unassessed'] },
         { key: 'promise', label: 'Promise (verbatim)', type: 'textarea', required: true },
         { key: 'assessment', label: 'Assessment', type: 'textarea', required: true },
         { key: 'source', label: 'Source URL', type: 'text', required: true },
@@ -502,11 +503,11 @@
     var errEl = $('#login-error')
     errEl.textContent = ''
     try {
-      await api('/login', { method: 'POST', body: JSON.stringify({ password: $('#login-password').value }) })
+      await api('/login', { method: 'POST', body: JSON.stringify({ email: $('#login-email').value, password: $('#login-password').value }) })
       $('#login-password').value = ''
       await boot()
     } catch (err) {
-      errEl.textContent = err.message === 'unauthenticated' ? 'Wrong password' : err.message
+      errEl.textContent = err.message === 'unauthenticated' ? 'Wrong email or password' : err.message
     }
   })
 

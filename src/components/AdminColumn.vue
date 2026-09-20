@@ -63,8 +63,8 @@ function filterList(list, { status, category, textFields = [] }) {
 }
 
 const promiseCounts = computed(() => {
-  const c = { kept: 0, partial: 0, broken: 0, pending: 0 }
-  promises.value.forEach(p => c[p.status]++)
+  const c = { kept: 0, partial: 0, broken: 0, pending: 0, unassessed: 0 }
+  promises.value.forEach(p => { if (p.status in c) c[p.status]++ })
   return c
 })
 const filteredPromises = computed(() => filterList(promises.value, { category: 'category', textFields: ['title', 'category', 'promise'] }))
@@ -145,6 +145,7 @@ watch(() => props.tab, () => { expandedId.value = null })
           <div class="cmp-bar-partial" :style="{ width: pct(promiseCounts.partial, promises.length) }"></div>
           <div class="cmp-bar-broken" :style="{ width: pct(promiseCounts.broken, promises.length) }"></div>
           <div class="cmp-bar-pending" :style="{ width: pct(promiseCounts.pending, promises.length) }"></div>
+          <div class="cmp-bar-unassessed" :style="{ width: pct(promiseCounts.unassessed, promises.length) }"></div>
         </div>
         <div class="cmp-list">
           <PromiseCard v-for="p in filteredPromises" :key="p.id" :item="p" :field1="p.promise" :field2="p.assessment" :label1="t('card.label.thePromise')" :label2="t('card.label.assessment')" :isExpanded="expandedId === p.id" @toggle="handleToggle" />

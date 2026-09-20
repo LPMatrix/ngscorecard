@@ -72,6 +72,7 @@ function verdictBlock(r) {
   }
   const breakdown = [`${r.kept} of ${r.total} kept`, `${r.partial} partial`, `${r.broken} broken`]
   if (r.pending) breakdown.push(`${r.pending} in progress`)
+  if (r.unassessed) breakdown.push(`${r.unassessed} not yet assessed`)
   return h('div', { alignItems: 'center' },
     h('div', { fontFamily: 'Playfair Display', fontWeight: 800, fontSize: 176, lineHeight: 1, color: C.goldSoft, marginRight: 34 }, `${r.keptPct}%`),
     h('div', { flexDirection: 'column' },

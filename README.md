@@ -95,7 +95,7 @@ npm run dev            # http://localhost:5174
 | Variable | Purpose |
 |---|---|
 | `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN` | database (omit both to fall back to a local SQLite file) |
-| `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` | the `/admin` editor |
+| `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` | the `/admin` editor |
 
 Other scripts: `npm run build` (client + SSR), `npm run db:studio`,
 `npm run export:dataset`.

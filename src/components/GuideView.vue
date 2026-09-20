@@ -12,8 +12,8 @@ import { inject } from 'vue'
 
 const t = inject('t', (k) => k)
 
-const METHODOLOGY_VERSION = 'v1.5'
-const METHODOLOGY_DATE = '19 September 2026'
+const METHODOLOGY_VERSION = 'v1.6'
+const METHODOLOGY_DATE = '20 September 2026'
 
 const zones = ['North Central', 'North East', 'North West', 'South East', 'South South', 'South West']
 </script>
@@ -55,6 +55,10 @@ const zones = ['North Central', 'North East', 'North West', 'South East', 'South
           <dl class="term-list">
             <dt>{{ t('guide.scope.included.term') }}</dt>
             <dd>{{ t('guide.scope.included.body') }}</dd>
+            <dt>{{ t('guide.scope.madeBy.term') }}</dt>
+            <dd>{{ t('guide.scope.madeBy.body') }}</dd>
+            <dt>{{ t('guide.scope.manifestos.term') }}</dt>
+            <dd>{{ t('guide.scope.manifestos.body') }}</dd>
             <dt>{{ t('guide.scope.trackedSeparately.term') }}</dt>
             <dd v-html="t('guide.scope.trackedSeparately.body')"></dd>
             <dt>{{ t('guide.scope.excluded.term') }}</dt>
@@ -79,6 +83,8 @@ const zones = ['North Central', 'North East', 'North West', 'South East', 'South
             <dd>{{ t('guide.ratings.broken.body') }}</dd>
             <dt>{{ t('status.pending') }}</dt>
             <dd>{{ t('guide.ratings.inProgress.body') }}</dd>
+            <dt>{{ t('status.unassessed') }}</dt>
+            <dd>{{ t('guide.ratings.unassessed.body') }}</dd>
           </dl>
         </div>
         <p class="section-lede" style="margin-top:16px;" v-html="t('guide.ratings.note')"></p>
@@ -242,7 +248,9 @@ const zones = ['North Central', 'North East', 'North West', 'South East', 'South
         <p class="section-lede">{{ t('guide.changes.lede') }}</p>
         <div class="card">
           <dl class="term-list">
-            <dt>{{ METHODOLOGY_VERSION }} <span class="badge">{{ t('guide.changes.v15.date') }}</span></dt>
+            <dt>{{ METHODOLOGY_VERSION }} <span class="badge">{{ t('guide.changes.v16.date') }}</span></dt>
+            <dd>{{ t('guide.changes.v16.body') }}</dd>
+            <dt>v1.5 <span class="badge">{{ t('guide.changes.v15.date') }}</span></dt>
             <dd>{{ t('guide.changes.v15.body') }}</dd>
             <dt>v1.4 <span class="badge">{{ t('guide.changes.v14.date') }}</span></dt>
             <dd>{{ t('guide.changes.v14.body') }}</dd>

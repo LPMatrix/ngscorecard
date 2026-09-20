@@ -112,6 +112,10 @@ async function copyLink() {
           <div class="rv-stat-v">{{ report.broken }}</div>
           <div class="rv-stat-l">{{ t('stats.broken') }}</div>
         </div>
+        <div v-if="report.unassessed" class="rv-stat pending">
+          <div class="rv-stat-v">{{ report.unassessed }}</div>
+          <div class="rv-stat-l">{{ t('status.unassessed') }}</div>
+        </div>
         <div v-if="report.pending" class="rv-stat pending">
           <div class="rv-stat-v">{{ report.pending }}</div>
           <div class="rv-stat-l">{{ t('status.pending') }}</div>

@@ -1,14 +1,14 @@
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
-import { getPresidents, getAllDataForAdmin, getThemesWithCounts, getThemeLineage, getPromises, getFraud, getBudget } from '../server/queries.js'
+import { getPresidents, getAllDataForAdmin, getThemesWithCounts, getThemeLineage, getPromises, getFraud, getBudget, getManifesto } from '../server/queries.js'
 import { createT, isLocale, DEFAULT_LOCALE } from './i18n/index.js'
 import { routePath } from './routes.js'
 import { buildTermReport } from './lib/termReport.js'
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
-  'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills',
+  'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills', 'manifesto',
 ])
 
 const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])
@@ -166,7 +166,7 @@ export async function render({ route, id } = {}) {
     const tabInvalidForLevel = adminRecord?.level === 'state' && FEDERAL_ONLY_TABS.has(tab)
     const resolvedTab = (VALID_TABS.has(tab) && !tabInvalidForLevel) ? tab : 'promises'
 
-    const data = await getAllDataForAdmin(resolvedAdmin)
+    const data = { ...(await getAllDataForAdmin(resolvedAdmin)), manifesto: getManifesto(resolvedAdmin) }
     const initialData = {
       ...baseState(),
       admin: resolvedAdmin,
@@ -183,7 +183,10 @@ export async function render({ route, id } = {}) {
       : null
     const meta = buildMeta(t, adminRecord, deepItem, notFound)
     const canonical = notFound ? (route.path || '/') : routePath('scorecard', { admin: resolvedAdmin, tab: resolvedTab })
-    return { html, initialData, meta, notFound, canonical, reviewed: notFound ? null : (adminRecord?.reviewed ?? null) }
+    // The Manifesto tab is thin until an administration has reviewed documents,
+    // so it stays out of search results until then.
+    const robots = resolvedTab === 'manifesto' && (notFound || !['candidate', 'party', 'pledge'].includes(data.manifesto.state)) ? 'noindex, follow' : null
+    return { html, initialData, meta, notFound, canonical, reviewed: notFound ? null : (adminRecord?.reviewed ?? null), robots }
   }
 
   // ── Anything else — a genuine 404 ────────────────────────────────────

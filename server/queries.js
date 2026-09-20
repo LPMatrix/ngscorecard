@@ -22,6 +22,56 @@ function loadRegistry() {
 }
 const registryByKey = new Map(loadRegistry().map(r => [r.key, r]))
 
+// Manifesto index (data/seed/manifesto-index.json) — the sources behind each
+// administration's promises. Read from the file, not the DB, like the registry
+// above; a missing file just means every administration reads "not yet
+// researched". MANIFESTO_INDEX_PATH lets a test point at a scratch copy.
+function loadManifestoIndex() {
+  try {
+    const file = process.env.MANIFESTO_INDEX_PATH || path.join(__dirname, '../data/seed/manifesto-index.json')
+    return JSON.parse(readFileSync(file, 'utf-8'))
+  } catch {
+    return { entries: [], administrations: [] }
+  }
+}
+const manifestoIndex = loadManifestoIndex()
+const manifestoStatusByKey = new Map((manifestoIndex.administrations ?? []).map(a => [a.key, a]))
+const manifestoDocsByKey = new Map()
+for (const e of manifestoIndex.entries ?? []) {
+  if (!manifestoDocsByKey.has(e.key)) manifestoDocsByKey.set(e.key, [])
+  manifestoDocsByKey.get(e.key).push(e)
+}
+
+const MANIFESTO_BASES = new Set(['candidate_manifesto', 'party_manifesto', 'documented_pledge'])
+
+// What the Manifesto tab shows for one administration. Only entries an editor
+// has reviewed (reviewed: true, with a basis and a public URL) are listed —
+// saved-but-unchecked files never surface. state is the strongest basis found:
+// candidate > party > pledge; otherwise "none" if a search came up empty,
+// else "pending" (not yet researched).
+export function getManifesto(admin) {
+  const documents = (manifestoDocsByKey.get(admin) ?? [])
+    .filter(e => e.reviewed === true && e.publicUrl && MANIFESTO_BASES.has(e.basis))
+    .map(e => ({
+      title: e.titleHint || e.file,
+      issuer: e.basis === 'party_manifesto' ? 'party' : 'candidate',
+      basis: e.basis,
+      sourceType: e.sourceType ?? null,
+      year: e.year ?? null,
+      publicUrl: e.publicUrl,
+      archiveUrl: e.archiveUrl ?? null,
+      retrievedOn: e.retrievedOn ?? null,
+    }))
+  const bases = new Set(documents.map(d => d.basis))
+  const status = manifestoStatusByKey.get(admin)
+  const state = bases.has('candidate_manifesto') ? 'candidate'
+    : bases.has('party_manifesto') ? 'party'
+    : bases.has('documented_pledge') ? 'pledge'
+    : status?.status === 'none_located' ? 'none'
+    : 'pending'
+  return { state, documents, note: state === 'none' ? (status?.note ?? null) : null }
+}
+
 function withTerm(rows) {
   return rows.map(p => ({
     ...p,

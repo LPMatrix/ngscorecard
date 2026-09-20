@@ -782,6 +782,7 @@ a:focus-visible {
 .pt-bar-partial { background: var(--pt-gold-500); }
 .pt-bar-broken { background: var(--pt-red-700); }
 .pt-bar-pending { background: #aab6af; }
+.pt-bar-unassessed { height: 100%; background: repeating-linear-gradient(45deg, #dfe6e1, #dfe6e1 4px, #eef2ee 4px, #eef2ee 8px); }
 
 .pt-legend,
 .bv-legend-row {
@@ -808,6 +809,7 @@ a:focus-visible {
 .pt-legend-dot.broken { background: var(--pt-red-700); }
 .pt-legend-dot.pending,
 .bv-swatch.alloc { background: #aab6af; }
+.pt-legend-dot.unassessed { background: repeating-linear-gradient(45deg, #dfe6e1, #dfe6e1 3px, #eef2ee 3px, #eef2ee 6px); }
 
 /* Controls */
 .pt-controls,
@@ -1007,6 +1009,7 @@ a:focus-visible {
   background: var(--pt-pending-bg);
   color: var(--pt-pending);
 }
+.pt-badge-unassessed { background: var(--pt-surface); color: var(--pt-text-muted); border: 1px dashed var(--pt-line-strong); }
 .pt-badge-response { min-height: 22px; font-size: 10px; }
 .pt-badge-rv-pursuing { background: var(--pt-kept-bg); color: var(--pt-kept); border-color: #a8d8ba; }
 .pt-badge-rv-stalled { background: var(--pt-partial-bg); color: var(--pt-partial); border-color: #e6ca7a; }
@@ -1644,6 +1647,7 @@ a.pt-viewlink-btn { display: inline-flex; align-items: center; text-decoration: 
 .cmp-bar-partial { background: var(--pt-partial); }
 .cmp-bar-broken  { background: var(--pt-broken); }
 .cmp-bar-pending { background: var(--pt-line-strong); }
+.cmp-bar-unassessed { background: repeating-linear-gradient(45deg, #dfe6e1, #dfe6e1 3px, #eef2ee 3px, #eef2ee 6px); }
 
 .cmp-list { display: flex; flex-direction: column; }
 .cmp-empty { padding: 24px 4px; text-align: center; color: var(--pt-muted); font-size: 14px; }
@@ -1693,3 +1697,28 @@ a.pt-viewlink-btn { display: inline-flex; align-items: center; text-decoration: 
   color: var(--pt-link);
 }
 .pt-notfound-home:hover { text-decoration: underline; }
+
+/* ── Manifesto tab ─────────────────────────────────────── */
+.pt-mf { max-width: 760px; }
+.pt-mf-state {
+  margin: 0 0 24px;
+  padding: 16px 18px;
+  border: 1px solid var(--pt-line-strong);
+  border-left: 6px solid var(--pt-line-strong);
+  background: var(--pt-surface);
+}
+.pt-mf-state-candidate { border-left-color: var(--pt-green-600); background: var(--pt-green-050); }
+.pt-mf-state-party,
+.pt-mf-state-pledge { border-left-color: var(--pt-blue-700); background: var(--pt-blue-100); }
+.pt-mf-state-none { border-left-color: var(--pt-gold-500); background: var(--pt-gold-100); }
+.pt-mf-state-label { font-weight: 700; font-size: 16px; color: var(--pt-text); }
+.pt-mf-state-desc { margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: var(--pt-text-muted); }
+.pt-mf-heading { margin: 0 0 10px; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--pt-text-muted); }
+.pt-mf-docs { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 12px; }
+.pt-mf-doc { padding: 14px 16px; border: 1px solid var(--pt-line-strong); background: var(--pt-surface); }
+.pt-mf-doc-title { font-weight: 600; color: var(--pt-text); overflow-wrap: anywhere; }
+.pt-mf-doc-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 4px; font-size: 13px; color: var(--pt-text-muted); }
+.pt-mf-doc-links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: 14px; }
+.pt-mf-note { margin: 0 0 24px; font-size: 14px; line-height: 1.6; color: var(--pt-text-muted); }
+.pt-mf-foot { margin: 0 0 18px; font-size: 13px; line-height: 1.6; color: var(--pt-text-muted); }
+.pt-mf-actions { display: flex; flex-wrap: wrap; gap: 10px; }

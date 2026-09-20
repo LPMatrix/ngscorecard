@@ -2,7 +2,7 @@ import { createHmac, timingSafeEqual, randomBytes } from 'crypto'
 
 const COOKIE_NAME = 'ngs_admin'
 const CSRF_COOKIE = 'ngs_csrf'
-const SESSION_MS = 12 * 60 * 60 * 1000 // 12h — short-lived since it's a single shared password
+const SESSION_MS = 12 * 60 * 60 * 1000 // 12h — short-lived single admin session
 
 function secret() {
   const s = process.env.ADMIN_SESSION_SECRET
@@ -41,12 +41,18 @@ function parseCookies(req) {
   )
 }
 
-export function checkPassword(candidate) {
-  const expected = process.env.ADMIN_PASSWORD
-  if (!expected || !candidate) return false
-  const a = Buffer.from(candidate)
-  const b = Buffer.from(expected)
-  return a.length === b.length && timingSafeEqual(a, b)
+function safeEqual(a, b) {
+  const ab = Buffer.from(a)
+  const bb = Buffer.from(b)
+  return ab.length === bb.length && timingSafeEqual(ab, bb)
+}
+
+export function checkCredentials(email, password) {
+  const expectedEmail = (process.env.ADMIN_EMAIL || '').trim().toLowerCase()
+  const expectedPassword = process.env.ADMIN_PASSWORD || ''
+  const candidateEmail = String(email || '').trim().toLowerCase()
+  if (!expectedEmail || !expectedPassword || !candidateEmail || !password) return false
+  return safeEqual(candidateEmail, expectedEmail) && safeEqual(String(password), expectedPassword)
 }
 
 export function setAdminCookie(res) {

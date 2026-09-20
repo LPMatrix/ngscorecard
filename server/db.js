@@ -56,6 +56,7 @@ function ensureLocalSchema(client) {
   ensureUniqueIndex(client, 'indicator_points_label_uq', 'indicator_points', ['indicator_id', 'label'])
   ensureColumn(client, 'promises', 'flag', 'TEXT')
   ensureColumn(client, 'promises', 'related', 'TEXT')
+  ensureColumn(client, 'promises', 'made_by', 'TEXT')
   for (const tbl of ['promises', 'inherited', 'fraud', 'orders', 'ministers', 'bills', 'judgments']) {
     ensureColumn(client, tbl, 'source_tier', 'TEXT')
   }

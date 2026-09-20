@@ -5,7 +5,7 @@ import { eq, desc, count } from 'drizzle-orm'
 import { db } from './db.js'
 import * as t from './schema.js'
 import * as q from './queries.js'
-import { checkPassword, setAdminCookie, clearAdminCookie, isAuthed, requireAdmin } from './adminAuth.js'
+import { checkCredentials, setAdminCookie, clearAdminCookie, isAuthed, requireAdmin } from './adminAuth.js'
 
 // Admin table listings are paginated so a table with hundreds of rows (e.g.
 // promises, ministers) never ships as one giant unpaginated response.
@@ -86,8 +86,8 @@ export function createAdminRouter() {
   router.use(json())
 
   router.post('/login', (req, res) => {
-    if (!checkPassword(req.body?.password)) {
-      return res.status(401).json({ error: 'Wrong password' })
+    if (!checkCredentials(req.body?.email, req.body?.password)) {
+      return res.status(401).json({ error: 'Wrong email or password' })
     }
     setAdminCookie(res)
     res.json({ ok: true })

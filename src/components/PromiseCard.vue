@@ -31,7 +31,7 @@ const emit = defineEmits(['toggle', 'share', 'goto', 'report'])
 // plus the fraud government-response verdicts.
 const BADGE_KEY = {
   kept: 'status.kept', broken: 'status.broken', partial: 'status.partial',
-  pending: 'status.pending', fixed: 'status.fixed',
+  pending: 'status.pending', unassessed: 'status.unassessed', fixed: 'status.fixed',
   convicted: 'status.convicted', ongoing: 'status.ongoing',
   dismissed: 'status.dismissed', acquitted: 'status.acquitted',
   pursuing: 'response.pursuing', stalled: 'response.stalled',
@@ -43,6 +43,11 @@ const BADGE_KEY = {
   passed: 'status.passed',
   won: 'status.won', lost: 'status.lost', settled: 'status.settled',
   serving: 'status.serving',
+}
+const MADE_BY_KEY = {
+  candidate_party: 'madeBy.candidate_party',
+  officeholder: 'madeBy.officeholder',
+  minister_agency: 'madeBy.minister_agency',
 }
 const badgeLabel = (v) => (BADGE_KEY[v] ? t(BADGE_KEY[v]) : v)
 
@@ -241,6 +246,7 @@ function reportIssue() {
             </div>
           </div>
           <div class="pt-detail-footer">
+            <span v-if="item.madeBy && MADE_BY_KEY[item.madeBy]">{{ t('card.madeBy', { who: t(MADE_BY_KEY[item.madeBy]) }) }}</span>
             <span v-if="sourceKind === 'none'" class="pt-source-none" :title="t('card.sourceNotLinkedTitle')">{{ t('card.sourceNotLinked') }}</span>
             <template v-else>
               <span>{{ t('card.source') }}</span>

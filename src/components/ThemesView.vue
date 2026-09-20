@@ -17,7 +17,7 @@ const yr = (ts) => String(ts || '').slice(0, 4)
 const entries = computed(() => props.data?.entries || [])
 const adminCount = computed(() => new Set(entries.value.map((e) => e.adminKey)).size)
 const tally = computed(() => {
-  const order = ['kept', 'partial', 'broken', 'pending']
+  const order = ['kept', 'partial', 'broken', 'pending', 'unassessed']
   const c = {}
   for (const e of entries.value) c[e.status] = (c[e.status] || 0) + 1
   return order.filter((k) => c[k]).map((k) => ({ key: k, n: c[k] }))
@@ -139,7 +139,8 @@ const promiseHref = (e) => `${lp(`/${e.adminKey}`)}?id=${e.id}`
 .tv-tag.kept { color: var(--pt-kept); background: var(--pt-kept-bg); }
 .tv-tag.partial { color: var(--pt-partial); background: var(--pt-partial-bg); }
 .tv-tag.broken { color: var(--pt-broken); background: var(--pt-broken-bg); }
-.tv-tag.pending { color: var(--pt-pending); background: var(--pt-pending-bg); }
+.tv-tag.pending,
+.tv-tag.unassessed { color: var(--pt-pending); background: var(--pt-pending-bg); }
 
 /* ── index list ── */
 .tv-list { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
@@ -195,7 +196,8 @@ const promiseHref = (e) => `${lp(`/${e.adminKey}`)}?id=${e.id}`
 .tv-node.kept::before { border-color: var(--pt-kept); }
 .tv-node.partial::before { border-color: var(--pt-partial); }
 .tv-node.broken::before { border-color: var(--pt-broken); }
-.tv-node.pending::before { border-color: var(--pt-pending); }
+.tv-node.pending::before,
+.tv-node.unassessed::before { border-color: var(--pt-pending); }
 
 .tv-node-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .tv-year {
@@ -219,7 +221,8 @@ const promiseHref = (e) => `${lp(`/${e.adminKey}`)}?id=${e.id}`
 .tv-pill.kept { color: var(--pt-kept); background: var(--pt-kept-bg); }
 .tv-pill.partial { color: var(--pt-partial); background: var(--pt-partial-bg); }
 .tv-pill.broken { color: var(--pt-broken); background: var(--pt-broken-bg); }
-.tv-pill.pending { color: var(--pt-pending); background: var(--pt-pending-bg); }
+.tv-pill.pending,
+.tv-pill.unassessed { color: var(--pt-pending); background: var(--pt-pending-bg); }
 
 .tv-promise {
   display: block;

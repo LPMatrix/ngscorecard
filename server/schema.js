@@ -46,6 +46,9 @@ export const promises = sqliteTable('promises', {
   // `themes` table). Threads the same pledge across administrations on
   // /themes/<slug>. Nullable and dormant until seed data sets it.
   theme:          text('theme'),
+  // Who made the promise: 'candidate_party' | 'officeholder' | 'minister_agency'.
+  // Null on older rows that predate the field.
+  madeBy:         text('made_by'),
   // Editor-set source classification (the middle tiers aren't detectable from
   // a URL): 'official' | 'reporting' | 'analysis' | 'weak' | null. When null
   // the frontend falls back to the .gov URL heuristic. See the methodology,

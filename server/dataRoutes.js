@@ -96,6 +96,11 @@ export function registerDataRoutes(router) {
     res.json(await q.getIndicators(req.params.admin))
   })
 
+  router.get('/:admin/manifesto', async (req, res) => {
+    if (!(await guard(req, res))) return
+    res.json(q.getManifesto(req.params.admin))
+  })
+
   router.get('/:admin/history', async (req, res) => {
     if (!(await guard(req, res))) return
     res.json(await q.getEntryHistory(req.params.admin))

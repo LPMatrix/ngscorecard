@@ -35,14 +35,17 @@ const BODY_FONT = 'Instrument Sans'
 // separate fetch, so the card always matches what's on screen.
 
 export function promiseTally(promises) {
-  const counts = { kept: 0, partial: 0, broken: 0, pending: 0 }
+  const counts = { kept: 0, partial: 0, broken: 0, pending: 0, unassessed: 0 }
   for (const p of promises || []) {
     if (p.status === 'kept') counts.kept++
     else if (p.status === 'partial') counts.partial++
     else if (p.status === 'broken') counts.broken++
+    else if (p.status === 'unassessed') counts.unassessed++
     else counts.pending++
   }
-  return { ...counts, total: (promises || []).length }
+  // Promises not yet assessed stay out of the total so they can't dilute a
+  // kept percentage; they're reported separately.
+  return { ...counts, total: (promises || []).length - counts.unassessed }
 }
 
 function primaryIndicator(indicators) {

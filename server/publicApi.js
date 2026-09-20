@@ -128,7 +128,7 @@ export function createPublicApiRouter() {
     }
     const [administrations, promises] = await Promise.all([q.getPresidents(), q.getPromises(admin)])
     const info = administrations.find(a => a.key === admin)
-    const counts = { kept: 0, partial: 0, broken: 0, pending: 0 }
+    const counts = { kept: 0, partial: 0, broken: 0, pending: 0, unassessed: 0 }
     for (const p of promises) {
       if (p.status in counts) counts[p.status]++
     }

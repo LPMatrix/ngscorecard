@@ -27,7 +27,7 @@ const TABS = computed(() => [
 
 const opt = (key, k) => ({ key, label: t(k) })
 const STATUS_OPTIONS = computed(() => ({
-  promises:     [opt('all', 'status.all'), opt('kept', 'status.kept'), opt('partial', 'status.partial'), opt('broken', 'status.broken'), opt('pending', 'status.pending')],
+  promises:     [opt('all', 'status.all'), opt('kept', 'status.kept'), opt('partial', 'status.partial'), opt('broken', 'status.broken'), opt('pending', 'status.pending'), opt('unassessed', 'status.unassessed')],
   inherited:    [opt('all', 'status.all'), opt('fixed', 'status.fixed'), opt('partial', 'status.partial')],
   fraud:        [opt('all', 'status.all'), opt('convicted', 'status.convicted'), opt('ongoing', 'status.ongoing'), opt('dismissed', 'status.dismissed'), opt('acquitted', 'status.acquitted')],
   orders:       [opt('all', 'status.all'), opt('implemented', 'status.implemented'), opt('partial', 'status.partial'), opt('reversed', 'status.reversed'), opt('ignored', 'status.ignored')],

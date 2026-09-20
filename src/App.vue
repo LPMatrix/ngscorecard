@@ -6,6 +6,7 @@ import { canonicalizeCategory } from './i18n/categories.js'
 import PromiseCard  from './components/PromiseCard.vue'
 import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
+import ManifestoView   from './components/ManifestoView.vue'
 import GovernorsView   from './components/GovernorsView.vue'
 import CompareView     from './components/CompareView.vue'
 import LandingView     from './components/LandingView.vue'
@@ -37,7 +38,7 @@ const isDraftLocale = isPreviewLocale(locale.value)
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
-  'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills',
+  'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills', 'manifesto',
 ])
 const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])
 
@@ -270,6 +271,7 @@ const STATUSES = computed(() => [
   { key: 'partial', label: t('status.partial') },
   { key: 'broken',  label: t('status.broken') },
   { key: 'pending', label: t('status.pending') },
+  ...(promises.value.some(p => p.status === 'unassessed') ? [{ key: 'unassessed', label: t('status.unassessed') }] : []),
 ])
 
 const promises     = ref(initial?.data?.promises ?? [])
@@ -284,6 +286,7 @@ const appointments = ref(initial?.data?.appointments ?? [])
 const judgments    = ref(initial?.data?.judgments ?? [])
 const governors    = ref(initial?.data?.governors ?? [])
 const history      = ref(initial?.data?.history ?? []) // public per-entry change log
+const manifesto    = ref(initial?.data?.manifesto ?? { state: 'pending', documents: [], note: null })
 const activeTab      = ref(initial?.tab ?? 'promises')
 const activeStatus   = ref('all')
 const activeCategory = ref('all')
@@ -294,10 +297,11 @@ const copied         = ref(false)
 
 async function loadData(admin) {
   const get = (name) => fetch(`/api/${admin}/${name}`).then(r => r.json()).catch(() => [])
-  const [p, i, f, o, m, bu, bi, ind, ap, j, g, hist] = await Promise.all([
+  const [p, i, f, o, m, bu, bi, ind, ap, j, g, hist, mf] = await Promise.all([
     get('promises'), get('inherited'), get('fraud'),
     get('orders'), get('ministers'), get('budget'), get('bills'),
     get('indicators'), get('appointments'), get('judgments'), get('governors'), get('history'),
+    get('manifesto'),
   ])
   promises.value     = p
   inherited.value    = i
@@ -311,6 +315,7 @@ async function loadData(admin) {
   judgments.value    = j
   governors.value    = g
   history.value      = hist
+  manifesto.value    = Array.isArray(mf) ? { state: 'pending', documents: [], note: null } : mf
 }
 
 // Reader "suggest a correction" modal — opened from any card's Report button.
@@ -595,8 +600,8 @@ const promisesFiltered = computed(() =>
 )
 
 const promiseCounts = computed(() => {
-  const c = { kept: 0, partial: 0, broken: 0, pending: 0 }
-  promises.value.forEach(p => c[p.status]++)
+  const c = { kept: 0, partial: 0, broken: 0, pending: 0, unassessed: 0 }
+  promises.value.forEach(p => { if (p.status in c) c[p.status]++ })
   return c
 })
 
@@ -1015,6 +1020,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
       <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup :label="t('nav.group.government')">
           <option value="promises">{{ t('tab.promises') }}</option>
+          <option value="manifesto">{{ t('tab.manifesto') }}</option>
           <option value="ministers">{{ ministerLabel }}</option>
           <option value="orders">{{ t('tab.orders') }}</option>
           <option value="appointments">{{ t('tab.appointments') }}</option>
@@ -1123,6 +1129,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           <div class="pt-nav-group">
             <div class="pt-nav-group-label">{{ t('nav.group.government') }}</div>
             <button :class="['pt-nav-btn', { active: activeTab === 'promises' }]"     @click="switchTab('promises')">{{ t('tab.promises') }} <span class="pt-nav-count">{{ promises.length }}</span></button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'manifesto' }]"     @click="switchTab('manifesto')">{{ t('tab.manifesto') }}</button>
             <button :class="['pt-nav-btn', { active: activeTab === 'ministers' }]"    @click="switchTab('ministers')">{{ ministerLabel }} <span class="pt-nav-count">{{ ministers.length }}</span></button>
             <button :class="['pt-nav-btn', { active: activeTab === 'orders' }]"       @click="switchTab('orders')">{{ t('tab.orders') }} <span class="pt-nav-count">{{ orders.length }}</span></button>
             <button :class="['pt-nav-btn', { active: activeTab === 'appointments' }]" @click="switchTab('appointments')">{{ t('tab.appointments') }} <span class="pt-nav-count">{{ appointments.length }}</span></button>
@@ -1199,12 +1206,14 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           <div class="pt-bar-partial" :style="{ width: pct(promiseCounts.partial) }"></div>
           <div class="pt-bar-broken"  :style="{ width: pct(promiseCounts.broken) }"></div>
           <div class="pt-bar-pending" :style="{ width: pct(promiseCounts.pending) }"></div>
+          <div class="pt-bar-unassessed" :style="{ width: pct(promiseCounts.unassessed) }"></div>
         </div>
         <div class="pt-legend">
           <div class="pt-legend-item"><span class="pt-legend-dot kept"></span> {{ t('legend.kept') }}</div>
           <div class="pt-legend-item"><span class="pt-legend-dot partial"></span> {{ t('legend.partialMixed') }}</div>
           <div class="pt-legend-item"><span class="pt-legend-dot broken"></span> {{ t('legend.broken') }}</div>
           <div class="pt-legend-item"><span class="pt-legend-dot pending"></span> {{ t('legend.pending') }}</div>
+          <div v-if="promiseCounts.unassessed" class="pt-legend-item"><span class="pt-legend-dot unassessed"></span> {{ t('legend.unassessed') }}</div>
         </div>
       </div>
 
@@ -1581,6 +1590,16 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
         />
         <div v-if="!filteredBills.length" class="pt-empty">{{ t('empty.bills') }}</div>
       </div>
+    </template>
+
+    <!-- ── MANIFESTO TAB ── -->
+    <template v-else-if="activeTab === 'manifesto'">
+      <ManifestoView
+        :manifesto="manifesto"
+        :adminName="currentAdmin?.title || currentAdmin?.name || ''"
+        @goto-promises="switchTab('promises')"
+        @report="openReport"
+      />
     </template>
 
     <!-- ── INDICATORS TAB ── -->
