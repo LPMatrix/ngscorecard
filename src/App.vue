@@ -7,6 +7,8 @@ import PromiseCard  from './components/PromiseCard.vue'
 import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
 import ManifestoView   from './components/ManifestoView.vue'
+import PublicationsView from './components/PublicationsView.vue'
+import { findPublication, listPublications } from './content/publications.js'
 import GovernorsView   from './components/GovernorsView.vue'
 import CompareView     from './components/CompareView.vue'
 import LandingView     from './components/LandingView.vue'
@@ -70,6 +72,10 @@ const pageView = ref(initial?.page ?? null)
 // "/<admin>/report" — the term report card (ReportView.vue). Unlike the pages
 // above it belongs to one administration, so activeAdmin stays set.
 const isReport = ref(initial?.report === true)
+// Editorial pieces ("/publications", "/publications/<slug>"); content is bundled.
+const publicationData = ref(initial?.publication ?? null)
+const publicationList = ref(initial?.publications ?? listPublications())
+const publicationMissing = ref(initial?.publicationMissing === true)
 const activeAdmin = ref(isLanding.value || isThemes.value || pageView.value ? null : (initial?.admin ?? 'tinubu'))
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
@@ -389,6 +395,11 @@ onMounted(async () => {
     } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers') {
       pageView.value = route.name
       activeAdmin.value = null
+    } else if (route.name === 'publications' || route.name === 'publication') {
+      pageView.value = 'publications'
+      activeAdmin.value = null
+      publicationData.value = route.name === 'publication' ? findPublication(route.params.slug) : null
+      publicationMissing.value = route.name === 'publication' && !publicationData.value
     } else if (route.name === 'adminReport') {
       const known = presidents.some(p => p.key === route.params.admin)
       if (known) {
@@ -856,6 +867,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
         </a>
         <div class="pt-header-links">
           <a :href="lp('/themes')" class="pt-header-docs-link">{{ t('header.themes') }}</a>
+          <a :href="lp('/publications')" class="pt-header-docs-link">{{ t('header.publications') }}</a>
           <a :href="lp('/guide')" class="pt-header-docs-link">{{ t('header.guide') }}</a>
           <a :href="lp('/developers')" class="pt-header-docs-link">{{ t('header.developers') }}</a>
           <a :href="lp('/press')" class="pt-header-docs-link">{{ t('header.press') }}</a>
@@ -872,6 +884,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
             <div class="pt-header-menu-backdrop" @click="headerMenuOpen = false"></div>
             <div class="pt-header-menu-panel">
               <a :href="lp('/themes')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.themes') }}</a>
+              <a :href="lp('/publications')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.publications') }}</a>
               <a :href="lp('/guide')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.guide') }}</a>
               <a :href="lp('/developers')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.developers') }}</a>
               <a :href="lp('/press')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.press') }}</a>
@@ -1107,6 +1120,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
     <ThemesView v-else-if="isThemes" :data="themesData" />
 
     <!-- ── Content pages ("/guide", "/press", "/developers") ── -->
+    <PublicationsView v-else-if="pageView === 'publications'" :publication="publicationData" :list="publicationList" :missing="publicationMissing" />
     <GuideView v-else-if="pageView === 'guide'" />
     <PressView v-else-if="pageView === 'press'" />
     <DevelopersView v-else-if="pageView === 'developers'" />

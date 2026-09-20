@@ -4,6 +4,7 @@ import App from './App.vue'
 import { getPresidents, getAllDataForAdmin, getThemesWithCounts, getThemeLineage, getPromises, getFraud, getBudget, getManifesto } from '../server/queries.js'
 import { createT, isLocale, DEFAULT_LOCALE } from './i18n/index.js'
 import { routePath } from './routes.js'
+import { findPublication, listPublications } from './content/publications.js'
 import { buildTermReport } from './lib/termReport.js'
 
 const VALID_TABS = new Set([
@@ -73,7 +74,7 @@ export async function render({ route, id } = {}) {
 
   const baseState = () => ({
     locale: loc, landing: false, admin: null, tab: 'promises', notFound: false,
-    requestedAdmin: null, expandedId: null, presidents: projectedPresidents, data: {}, page: null, report: false,
+    requestedAdmin: null, expandedId: null, presidents: projectedPresidents, data: {}, page: null, report: false, publication: null, publications: null, publicationMissing: false,
   })
 
   // ── "/" — the neutral landing page ────────────────────────────────────
@@ -93,6 +94,27 @@ export async function render({ route, id } = {}) {
     const html = await mount(initialData)
     const meta = { title: t(`meta.${name}.title`), description: t(`meta.${name}.desc`) }
     return { html, initialData, meta, notFound: false, canonical: routePath(name, params) }
+  }
+
+  // ── "/publications" and "/publications/<slug>" — editorial pieces. The
+  // content is bundled (src/content/publications.js) and English only, so
+  // other locales are served but kept out of search results.
+  if (name === 'publications' || name === 'publication') {
+    const article = name === 'publication' ? findPublication(params.slug) : null
+    const missing = name === 'publication' && !article
+    const initialData = {
+      ...baseState(), page: 'publications',
+      publication: article, publications: listPublications(), publicationMissing: missing,
+    }
+    const html = await mount(initialData)
+    const meta = article
+      ? { title: `${article.title} | NGScorecard`, description: article.summary }
+      : { title: t('meta.publications.title'), description: t('meta.publications.desc') }
+    return {
+      html, initialData, meta, notFound: missing,
+      canonical: article ? routePath('publication', { slug: article.slug }) : routePath('publications'),
+      robots: missing || loc !== 'en' ? 'noindex, follow' : null,
+    }
   }
 
   // ── "/themes" and "/themes/<slug>" — recurring commitments ────────────

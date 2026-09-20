@@ -16,6 +16,10 @@ import path from 'path'
 import * as q from '../server/queries.js'
 import { READY_LOCALES } from '../src/i18n/index.js'
 import { buildPath } from '../src/routes.js'
+import { PUBLICATIONS } from '../src/content/publications.js'
+
+// Publications are English only, so they are listed once, under the default locale.
+const DEFAULT_SITEMAP_LOCALE = 'en'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const outPath = path.join(__dirname, '../public/sitemap.xml')
@@ -51,6 +55,10 @@ for (const l of READY_LOCALES) {
   // Content pages
   push(buildPath('home', {}, code), today, 'weekly', '1.0')
   push(buildPath('guide', {}, code), today, 'monthly', '0.9')
+  if (code === DEFAULT_SITEMAP_LOCALE) {
+    push(buildPath('publications', {}, code), today, 'weekly', '0.7')
+    for (const pub of PUBLICATIONS) push(buildPath('publication', { slug: pub.slug }, code), pub.date, 'monthly', '0.7')
+  }
   push(buildPath('developers', {}, code), today, 'monthly', '0.6')
   push(buildPath('press', {}, code), today, 'monthly', '0.5')
 

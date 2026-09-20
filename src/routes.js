@@ -27,6 +27,11 @@ export const STATIC_PAGES = {
 // returns params (`{}` for no params) or null.
 const ROUTES = [
   { name: 'home',        test: (s) => (s === '/' ? {} : null) },
+  { name: 'publications', test: (s) => (s === '/publications' || s === '/publications/' ? {} : null) },
+  { name: 'publication', test: (s) => {
+      const m = /^\/publications\/([^/]+)\/?$/.exec(s)
+      return m ? { slug: decodeURIComponent(m[1]) } : null
+    } },
   { name: 'guide',       test: (s) => (s === '/guide' || s === '/guide/' ? {} : null) },
   { name: 'press',       test: (s) => (s === '/press' || s === '/press/' ? {} : null) },
   { name: 'developers',  test: (s) => (s === '/developers' || s === '/developers/' ? {} : null) },
@@ -94,6 +99,8 @@ export function matchRoute(pathname) {
 export function routePath(name, params = {}) {
   switch (name) {
     case 'home':         return '/'
+    case 'publications': return '/publications'
+    case 'publication':  return `/publications/${params.slug}`
     case 'guide':        return '/guide'
     case 'press':        return '/press'
     case 'developers':   return '/developers'
