@@ -85,11 +85,11 @@ export async function render({ route, id } = {}) {
     return { html, initialData, meta: buildMeta(t, null, null, false), notFound: false, canonical: '/' }
   }
 
-  // ── "/guide", "/press", "/developers" — content pages, unified into the
-  // route table so they get the same locale prefix, switcher and t()
-  // catalogue as everything else (see docs/i18n-plan.md). `page` tells
+  // ── "/guide", "/press", "/developers", "/support" — content pages, unified
+  // into the route table so they get the same locale prefix, switcher and
+  // t() catalogue as everything else (see docs/i18n-plan.md). `page` tells
   // App.vue which view component to mount.
-  if (name === 'guide' || name === 'press' || name === 'developers') {
+  if (name === 'guide' || name === 'press' || name === 'developers' || name === 'support') {
     const initialData = { ...baseState(), page: name }
     const html = await mount(initialData)
     const meta = { title: t(`meta.${name}.title`), description: t(`meta.${name}.desc`) }

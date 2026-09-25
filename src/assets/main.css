@@ -122,6 +122,18 @@ a:focus-visible {
 }
 .pt-header-docs-link:hover { color: var(--pt-green-700); text-decoration: underline; }
 
+.pt-header-support-link {
+  color: #fff;
+  background: var(--pt-green-700);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+.pt-header-support-link:hover { background: var(--pt-green-800); }
+
 .pt-header-menu { display: none; justify-self: end; position: relative; }
 .pt-header-menu-btn {
   width: 34px; height: 34px;
@@ -154,6 +166,7 @@ a:focus-visible {
 }
 .pt-header-menu-link:hover { background: var(--pt-green-050); color: var(--pt-green-700); }
 .pt-header-menu-link + .pt-header-menu-link { border-top: 1px solid var(--pt-line); }
+.pt-header-menu-support { color: var(--pt-green-700); }
 .pt-header-menu-lang {
   padding: 10px 14px;
   border-top: 1px solid var(--pt-line);

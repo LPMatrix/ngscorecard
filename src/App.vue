@@ -16,6 +16,7 @@ import ThemesView      from './components/ThemesView.vue'
 import GuideView       from './components/GuideView.vue'
 import PressView       from './components/PressView.vue'
 import DevelopersView  from './components/DevelopersView.vue'
+import SupportView     from './components/SupportView.vue'
 import ReportView      from './components/ReportView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
 import LangSwitcher    from './components/LangSwitcher.vue'
@@ -392,7 +393,7 @@ onMounted(async () => {
       activeAdmin.value = null
       const list = await fetch('/api/themes').then(r => r.ok ? r.json() : []).catch(() => [])
       landingThemes.value = list.map(th => ({ slug: th.slug, title: th.title, adminCount: th.adminCount }))
-    } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers') {
+    } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers' || route.name === 'support') {
       pageView.value = route.name
       activeAdmin.value = null
     } else if (route.name === 'publications' || route.name === 'publication') {
@@ -871,6 +872,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           <a :href="lp('/guide')" class="pt-header-docs-link">{{ t('header.guide') }}</a>
           <a :href="lp('/developers')" class="pt-header-docs-link">{{ t('header.developers') }}</a>
           <a :href="lp('/press')" class="pt-header-docs-link">{{ t('header.press') }}</a>
+          <a :href="lp('/support')" class="pt-header-support-link">{{ t('header.support') }}</a>
           <LangSwitcher />
         </div>
         <div class="pt-header-menu">
@@ -888,6 +890,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
               <a :href="lp('/guide')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.guide') }}</a>
               <a :href="lp('/developers')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.developers') }}</a>
               <a :href="lp('/press')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.press') }}</a>
+              <a :href="lp('/support')" class="pt-header-menu-link pt-header-menu-support" @click="headerMenuOpen = false">{{ t('header.support') }}</a>
               <div class="pt-header-menu-lang"><LangSwitcher /></div>
             </div>
           </template>
@@ -1119,11 +1122,12 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
     <!-- ── Recurring commitments ("/themes", "/themes/<slug>") ── -->
     <ThemesView v-else-if="isThemes" :data="themesData" />
 
-    <!-- ── Content pages ("/guide", "/press", "/developers") ── -->
+    <!-- ── Content pages ("/guide", "/press", "/developers", "/support") ── -->
     <PublicationsView v-else-if="pageView === 'publications'" :publication="publicationData" :list="publicationList" :missing="publicationMissing" />
     <GuideView v-else-if="pageView === 'guide'" />
     <PressView v-else-if="pageView === 'press'" />
     <DevelopersView v-else-if="pageView === 'developers'" />
+    <SupportView v-else-if="pageView === 'support'" />
 
     <!-- ── Term report card ("/<admin>/report") ── -->
     <ReportView

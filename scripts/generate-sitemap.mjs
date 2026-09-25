@@ -61,6 +61,7 @@ for (const l of READY_LOCALES) {
   }
   push(buildPath('developers', {}, code), today, 'monthly', '0.6')
   push(buildPath('press', {}, code), today, 'monthly', '0.5')
+  push(buildPath('support', {}, code), today, 'monthly', '0.5')
 
   // Recurring commitments
   push(buildPath('themesIndex', {}, code), today, 'monthly', '0.7')

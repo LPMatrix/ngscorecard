@@ -35,6 +35,7 @@ const ROUTES = [
   { name: 'guide',       test: (s) => (s === '/guide' || s === '/guide/' ? {} : null) },
   { name: 'press',       test: (s) => (s === '/press' || s === '/press/' ? {} : null) },
   { name: 'developers',  test: (s) => (s === '/developers' || s === '/developers/' ? {} : null) },
+  { name: 'support',     test: (s) => (s === '/support' || s === '/support/' ? {} : null) },
   { name: 'themesIndex', test: (s) => (s === '/themes' || s === '/themes/' ? {} : null) },
   { name: 'themeLineage', test: (s) => {
       const m = /^\/themes\/([^/]+)\/?$/.exec(s)
@@ -104,6 +105,7 @@ export function routePath(name, params = {}) {
     case 'guide':        return '/guide'
     case 'press':        return '/press'
     case 'developers':   return '/developers'
+    case 'support':      return '/support'
     case 'themesIndex':  return '/themes'
     case 'themeLineage': return `/themes/${params.slug}`
     case 'adminReport':  return `/${params.admin}/report`
