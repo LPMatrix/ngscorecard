@@ -10,7 +10,7 @@
 // returns and the sections in each data/seed/{key}.json file.
 export const RESOURCES = [
   'promises', 'inherited', 'fraud', 'orders', 'ministers', 'bills',
-  'appointments', 'judgments', 'budget', 'indicators', 'governors',
+  'appointments', 'judgments', 'budget', 'indicators', 'governors', 'projects',
 ]
 
 export const LICENSE = {
@@ -38,7 +38,7 @@ export async function buildDataset(q) {
       description:
         'Every administration NGScorecard tracks — federal and state — with all of ' +
         'its promise, inherited-problem, fraud, executive-order, minister, bill, ' +
-        'appointment, judgment, budget, indicator and governor records.',
+        'appointment, judgment, budget, capital-project, indicator and governor records.',
       generated: new Date().toISOString(),
       source: 'https://ngscorecard.com',
       api: 'https://ngscorecard.com/api/v1',

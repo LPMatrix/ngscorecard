@@ -86,6 +86,11 @@ export function registerDataRoutes(router) {
     res.json(await q.getBudget(req.params.admin))
   })
 
+  router.get('/:admin/projects', async (req, res) => {
+    if (!(await guard(req, res))) return
+    res.json(await q.getProjects(req.params.admin))
+  })
+
   router.get('/:admin/governors', async (req, res) => {
     if (!(await guard(req, res))) return
     res.json(await q.getGovernors(req.params.admin))

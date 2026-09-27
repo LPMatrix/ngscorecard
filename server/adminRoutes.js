@@ -39,6 +39,7 @@ const TABLES = {
   indicators:       { table: t.indicators,       adminCol: 'administration' },
   indicatorPoints:  { table: t.indicatorPoints,  adminCol: 'administration' },
   governors:        { table: t.governors,        adminCol: 'administration' },
+  projects:         { table: t.projects,         adminCol: 'administration' },
   corrections:      { table: t.corrections,      adminCol: null }, // reader-submitted moderation queue
 }
 
@@ -76,6 +77,7 @@ const HISTORY_FIELDS = {
   bills:        ['status', 'outcome', 'summary', 'sourceTier'],
   judgments:    ['status', 'outcome', 'issue', 'sourceTier'],
   appointments: ['status', 'note'],
+  projects:     ['status', 'outcome', 'summary', 'sourceTier'],
 }
 const historyKind = (f) =>
   f === 'sourceTier' ? 'reclassify' : RATING_FIELDS.includes(f) ? 'rating_change' : 'correction'

@@ -135,6 +135,7 @@ export default {
   'tab.judgments': 'Court Judgments',
   'tab.inherited': 'Inherited Fixes',
   'tab.budget': 'Budget',
+  'tab.projects': 'Capital Projects',
   'tab.indicators': 'Key Indicators',
   'tab.bills': 'Bills Watch',
   'tab.ministersCommissioners': 'Ministers/Commissioners',
@@ -225,6 +226,8 @@ export default {
   'card.label.realWorldEffect': 'Real-world effect',
   'card.label.mandate': 'Mandate',
   'card.label.performance': 'Performance',
+  'card.label.whatItIs': 'What it is',
+  'card.label.progressAndSpend': 'Progress & spend',
   'card.label.details': 'Details',
   'card.label.caseAbout': 'What the case is about',
   'card.label.rulingCompliance': 'Ruling & compliance',
@@ -315,6 +318,8 @@ export default {
   'stats.deceased': 'Deceased',
   'stats.removed': 'Removed',
   'stats.nStates': '{n} states',
+  'stats.totalProjects': 'Total projects',
+  'stats.stalledOrAbandoned': 'Stalled or abandoned',
 
   // ── search placeholders ─────────────────────────────────────────────
   'search.promises': 'Search promises…',
@@ -325,12 +330,14 @@ export default {
   'search.appointments': 'Search name, role, state…',
   'search.nameOrState': 'Search by name or state…',
   'search.both': 'Search both…',
+  'search.projects': 'Search projects…',
 
   // ── empty states ────────────────────────────────────────────────────
   'empty.promises': 'No promises match your filters.',
   'empty.inherited': 'No inherited issues match your filters.',
   'empty.cases': 'No cases match your filters.',
   'empty.orders': 'No orders match your filters.',
+  'empty.projects': 'No capital projects tracked yet for this administration.',
   'empty.ministers': 'No {label} match your filters.',
   'empty.bills': 'No bills match your filters.',
   'empty.appointments': 'No appointments match your filters.',
@@ -615,6 +622,8 @@ export default {
 
   'guide.changes.title': 'Change log',
   'guide.changes.lede': "Material changes to how promises are selected or rated are recorded here, newest first. Wording fixes and clarifications that don't move any rating are not logged.",
+  'guide.changes.v17.date': '25 Sep 2026',
+  'guide.changes.v17.body': 'Added a Capital Projects tab: named infrastructure (roads, rail, power, hospitals, schools) tracked by budget allocated versus amount spent and physical completion, alongside a completed/ongoing/stalled/abandoned status. This is the physical-delivery counterpart to the Budget tab, which tracks allocation by ministry, not by named project. No existing rating criteria changed.',
   'guide.changes.v16.date': '20 Sep 2026',
   'guide.changes.v16.body': 'Added "Who made it" to the inclusion rules and a "Manifestos and sources" statement (the four states shown on each administration\'s Manifesto tab), and a "Not yet assessed" status for recorded promises whose outcome has not been checked (left out of kept percentages). Promises that rested on a minister\'s or agency\'s deadline will be re-checked against the officeholder\'s own commitment, and each change is logged on the entry. No other rating criteria changed.',
   'guide.changes.v15.date': '19 Sep 2026',

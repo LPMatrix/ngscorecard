@@ -627,6 +627,36 @@ a:focus-visible {
 .pt-mobile-nav { display: none; }
 .pt-mobile-docs-link { display: none; }
 
+.pt-footer {
+  border-top: 1px solid var(--pt-line);
+  margin-top: 40px;
+  padding: 24px 28px 32px;
+  text-align: center;
+  color: var(--pt-text-faint);
+  font-size: 12.5px;
+}
+.pt-footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-bottom: 12px;
+}
+.pt-footer-links a {
+  color: var(--pt-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.pt-footer-links a:hover { color: var(--pt-green-700); text-decoration: underline; }
+.pt-footer-tag {
+  margin: 0 auto 6px;
+  max-width: 640px;
+}
+.pt-footer-contact { margin: 0; }
+.pt-footer-contact a { color: var(--pt-text-faint); text-decoration: underline; }
+.pt-footer-contact a:hover { color: var(--pt-green-700); }
+
 .pt-body {
   display: grid;
   grid-template-columns: 252px minmax(0, 1fr);
@@ -990,14 +1020,16 @@ a:focus-visible {
 .pt-badge-passed,
 .pt-badge-won,
 .pt-badge-serving,
-.pt-badge-acquitted {
+.pt-badge-acquitted,
+.pt-badge-completed {
   border-color: #a8d8ba;
   background: var(--pt-kept-bg);
   color: var(--pt-kept);
 }
 .pt-badge-partial,
 .pt-badge-fair,
-.pt-badge-settled {
+.pt-badge-settled,
+.pt-badge-stalled {
   border-color: #e6ca7a;
   background: var(--pt-partial-bg);
   color: var(--pt-partial);

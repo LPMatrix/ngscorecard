@@ -25,7 +25,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const outPath = path.join(__dirname, '../public/sitemap.xml')
 const SITE_ORIGIN = 'https://ngscorecard.com'
 
-const TAB_RESOURCES = ['ministers', 'orders', 'appointments', 'fraud', 'judgments', 'inherited', 'budget', 'indicators']
+const TAB_RESOURCES = ['ministers', 'orders', 'appointments', 'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'projects']
 const FEDERAL_ONLY_TAB_RESOURCES = ['bills', 'governors']
 
 // "Month YYYY" / "YYYY" → "YYYY-MM-DD", else null.

@@ -197,6 +197,7 @@
     appointments: ['completed', 'deceased', 'defected', 'reinstated', 'resigned', 'retired', 'sacked', 'served', 'serving'],
     judgments: ['lost', 'ongoing', 'settled', 'won'],
     governors: ['completed', 'deceased', 'removed', 'serving'],
+    projects: ['completed', 'ongoing', 'stalled', 'abandoned'],
   }
 
   function statusField(table, required) {
@@ -204,7 +205,7 @@
   }
 
   // Tables whose edits are written to the public entry_history log.
-  var HISTORY_TABLES = new Set(['promises', 'inherited', 'fraud', 'orders', 'ministers', 'bills', 'judgments', 'appointments'])
+  var HISTORY_TABLES = new Set(['promises', 'inherited', 'fraud', 'orders', 'ministers', 'bills', 'judgments', 'appointments', 'projects'])
 
   // Source tier (methodology §6). Blank = unclassified (frontend falls back to
   // the .gov URL check). 'weak' flags a source as insufficient on its own.
@@ -436,6 +437,30 @@
         { key: 'termEnd', label: 'Term end', type: 'text' },
         statusField('governors'),
         { key: 'note', label: 'Note', type: 'text' },
+      ],
+    },
+    projects: {
+      label: 'Capital Projects', adminScoped: true,
+      list: ['title', 'category', 'status', 'updated'],
+      columns: [
+        { key: 'title', label: 'Title', type: 'text', required: true },
+        { key: 'category', label: 'Category', type: 'text', required: true, hint: 'e.g. Transport, Energy' },
+        statusField('projects'),
+        { key: 'state', label: 'State', type: 'text', hint: 'blank = nationwide/federal' },
+        { key: 'location', label: 'Location', type: 'text' },
+        { key: 'started', label: 'Started', type: 'text', hint: 'YYYY-MM-DD' },
+        { key: 'targetCompletion', label: 'Target completion', type: 'text' },
+        { key: 'completedDate', label: 'Completed date', type: 'text' },
+        { key: 'budgetAllocatedBn', label: 'Budget allocated (₦bn)', type: 'number' },
+        { key: 'amountSpentBn', label: 'Amount spent (₦bn)', type: 'number' },
+        { key: 'physicalCompletionPct', label: 'Physical completion %', type: 'number' },
+        { key: 'contractor', label: 'Contractor', type: 'text' },
+        { key: 'summary', label: 'Summary', type: 'textarea', required: true },
+        { key: 'outcome', label: 'Outcome', type: 'textarea', required: true },
+        { key: 'source', label: 'Source URL', type: 'text', required: true },
+        { key: 'sourceLabel', label: 'Source label', type: 'text', required: true },
+        sourceTierField(),
+        { key: 'updated', label: 'Updated', type: 'text', required: true, hint: 'YYYY-MM-DD' },
       ],
     },
     corrections: {

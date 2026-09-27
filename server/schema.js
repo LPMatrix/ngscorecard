@@ -217,6 +217,34 @@ export const budgetMinistries = sqliteTable('budget_ministries', {
   note:           text('note'),
 })
 
+// Named capital projects — the physical-delivery counterpart to `budget`.
+// `budgetMinistries` says a ministry was allocated ₦X and released Y%; this
+// says whether that money actually built the named thing (a road, a rail
+// line, a hospital) and how far it got. `state` is a Nigerian state, or null
+// for a nationwide/federal project with no single site.
+export const projects = sqliteTable('projects', {
+  id:                    integer('id').primaryKey({ autoIncrement: true }),
+  administration:        text('administration').notNull(),
+  title:                 text('title').notNull(),
+  category:              text('category').notNull(),
+  status:                text('status').notNull(), // completed | ongoing | stalled | abandoned
+  state:                 text('state'),
+  location:              text('location'),
+  started:               text('started'),
+  targetCompletion:      text('target_completion'),
+  completedDate:         text('completed_date'),
+  budgetAllocatedBn:     real('budget_allocated_bn'),
+  amountSpentBn:         real('amount_spent_bn'),
+  physicalCompletionPct: real('physical_completion_pct'),
+  contractor:            text('contractor'),
+  summary:               text('summary').notNull(),
+  outcome:               text('outcome').notNull(),
+  source:                text('source').notNull(),
+  sourceLabel:           text('source_label').notNull(),
+  updated:               text('updated').notNull(),
+  sourceTier:            text('source_tier'), // see promises.sourceTier
+})
+
 export const indicators = sqliteTable('indicators', {
   id:             integer('id').primaryKey({ autoIncrement: true }),
   administration: text('administration').notNull(),

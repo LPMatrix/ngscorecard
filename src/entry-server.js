@@ -9,7 +9,7 @@ import { buildTermReport } from './lib/termReport.js'
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
-  'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills', 'manifesto',
+  'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills', 'manifesto', 'projects',
 ])
 
 const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])

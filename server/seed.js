@@ -35,6 +35,7 @@ async function clearAll() {
   await db.delete(t.budgetMinistries)
   await db.delete(t.budget)
   await db.delete(t.history)
+  await db.delete(t.projects)
   await db.delete(t.judgments)
   await db.delete(t.appointments)
   await db.delete(t.bills)
@@ -211,6 +212,20 @@ async function seedBudget(rows, admin) {
   return added + addedMinistries
 }
 
+function seedProjects(rows, admin) {
+  return seedByKey(t.projects, admin, rows, r => r.title, r => ({
+    administration: admin, title: r.title, category: r.category,
+    status: r.status, state: r.state ?? null, location: r.location ?? null,
+    started: r.started ?? null, targetCompletion: r.targetCompletion ?? null,
+    completedDate: r.completedDate ?? null,
+    budgetAllocatedBn: r.budgetAllocatedBn ?? null, amountSpentBn: r.amountSpentBn ?? null,
+    physicalCompletionPct: r.physicalCompletionPct ?? null, contractor: r.contractor ?? null,
+    summary: r.summary, outcome: r.outcome,
+    source: r.source, sourceLabel: r.sourceLabel, updated: r.updated,
+    sourceTier: r.sourceTier ?? null,
+  }))
+}
+
 function seedGovernors(rows, admin) {
   return seedByKey(t.governors, admin, rows, r => `${r.name}|${r.termStart}`, r => ({
     administration: admin, name: r.name, state: r.state,
@@ -340,6 +355,7 @@ for (const admin of administrations) {
     budget:       await run('budget',        () => seedBudget(      data.budget ?? [],       key)),
     indicators:   await run('indicators',    () => seedIndicators(  data.indicators ?? [],   key, registryByKey)),
     governors:    await run('governors',     () => seedGovernors(   data.governors ?? [],    key)),
+    projects:     await run('projects',      () => seedProjects(    data.projects ?? [],     key)),
   }
   const parts = Object.entries(counts).flatMap(([name, n]) => {
     if (name === 'indicators') {

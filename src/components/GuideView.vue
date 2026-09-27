@@ -12,8 +12,8 @@ import { inject } from 'vue'
 
 const t = inject('t', (k) => k)
 
-const METHODOLOGY_VERSION = 'v1.6'
-const METHODOLOGY_DATE = '20 September 2026'
+const METHODOLOGY_VERSION = 'v1.7'
+const METHODOLOGY_DATE = '25 September 2026'
 
 const zones = ['North Central', 'North East', 'North West', 'South East', 'South South', 'South West']
 </script>
@@ -248,7 +248,9 @@ const zones = ['North Central', 'North East', 'North West', 'South East', 'South
         <p class="section-lede">{{ t('guide.changes.lede') }}</p>
         <div class="card">
           <dl class="term-list">
-            <dt>{{ METHODOLOGY_VERSION }} <span class="badge">{{ t('guide.changes.v16.date') }}</span></dt>
+            <dt>{{ METHODOLOGY_VERSION }} <span class="badge">{{ t('guide.changes.v17.date') }}</span></dt>
+            <dd>{{ t('guide.changes.v17.body') }}</dd>
+            <dt>v1.6 <span class="badge">{{ t('guide.changes.v16.date') }}</span></dt>
             <dd>{{ t('guide.changes.v16.body') }}</dd>
             <dt>v1.5 <span class="badge">{{ t('guide.changes.v15.date') }}</span></dt>
             <dd>{{ t('guide.changes.v15.body') }}</dd>
@@ -267,12 +269,6 @@ const zones = ['North Central', 'North East', 'North West', 'South East', 'South
       </section>
 
     </main>
-
-    <footer>
-      <div class="wrap">
-        <p class="footer-tag">{{ t('common.footerTag') }}</p>
-      </div>
-    </footer>
   </div>
 </template>
 
@@ -330,8 +326,6 @@ dl.term-list dd :deep(a) { color: var(--g700); }
 .zone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
 .zone-chip { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; font-size: 13px; font-weight: 700; text-align: center; }
 
-footer { border-top: 1px solid var(--line-strong); padding: 28px 24px; text-align: center; color: var(--faint); font-size: 12.5px; }
-footer .footer-tag { margin: 0; }
 
 @media (max-width: 600px) {
   .zone-grid { grid-template-columns: repeat(2, 1fr); }

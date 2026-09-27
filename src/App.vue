@@ -41,7 +41,7 @@ const isDraftLocale = isPreviewLocale(locale.value)
 
 const VALID_TABS = new Set([
   'promises', 'ministers', 'orders', 'appointments', 'governors',
-  'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills', 'manifesto',
+  'fraud', 'judgments', 'inherited', 'budget', 'indicators', 'bills', 'manifesto', 'projects',
 ])
 const FEDERAL_ONLY_TABS = new Set(['bills', 'governors'])
 
@@ -55,6 +55,7 @@ const stateAdmins = computed(() => ADMINISTRATIONS.value.filter(a => a.level ===
 const viewMode = ref('single') // 'single' | 'compare'
 const compareInitial = ref({ a: null, b: null, tab: 'promises' })
 const headerMenuOpen = ref(false) // mobile-only hamburger for Developers/Press links
+const footerYear = new Date().getFullYear() // static per render; the footer's © line
 
 const notFound = ref(initial?.notFound ?? false)
 const requestedAdmin = ref(initial?.requestedAdmin ?? null)
@@ -294,6 +295,7 @@ const judgments    = ref(initial?.data?.judgments ?? [])
 const governors    = ref(initial?.data?.governors ?? [])
 const history      = ref(initial?.data?.history ?? []) // public per-entry change log
 const manifesto    = ref(initial?.data?.manifesto ?? { state: 'pending', documents: [], note: null })
+const projects     = ref(initial?.data?.projects ?? [])
 const activeTab      = ref(initial?.tab ?? 'promises')
 const activeStatus   = ref('all')
 const activeCategory = ref('all')
@@ -304,11 +306,11 @@ const copied         = ref(false)
 
 async function loadData(admin) {
   const get = (name) => fetch(`/api/${admin}/${name}`).then(r => r.json()).catch(() => [])
-  const [p, i, f, o, m, bu, bi, ind, ap, j, g, hist, mf] = await Promise.all([
+  const [p, i, f, o, m, bu, bi, ind, ap, j, g, hist, mf, pr] = await Promise.all([
     get('promises'), get('inherited'), get('fraud'),
     get('orders'), get('ministers'), get('budget'), get('bills'),
     get('indicators'), get('appointments'), get('judgments'), get('governors'), get('history'),
-    get('manifesto'),
+    get('manifesto'), get('projects'),
   ])
   promises.value     = p
   inherited.value    = i
@@ -323,6 +325,7 @@ async function loadData(admin) {
   governors.value    = g
   history.value      = hist
   manifesto.value    = Array.isArray(mf) ? { state: 'pending', documents: [], note: null } : mf
+  projects.value      = pr
 }
 
 // Reader "suggest a correction" modal — opened from any card's Report button.
@@ -842,6 +845,64 @@ const filteredBills = computed(() => {
   })
 })
 
+// ── Capital projects tab ───────────────────────────────
+// Named infrastructure — the physical-delivery counterpart to Budget: did the
+// allocated money build the named road/hospital/rail line, and how far did
+// it get. `stalled`/`abandoned` share label text with fraud's government-
+// response verdicts (see PromiseCard's BADGE_KEY) — same words, right in
+// both contexts.
+
+const PROJECT_STATUSES = computed(() => [
+  { key: 'all',       label: t('status.all') },
+  { key: 'completed', label: t('status.completed') },
+  { key: 'ongoing',   label: t('status.ongoing') },
+  // 'stalled' reuses fraud's government-response label — same word fits both.
+  { key: 'stalled',   label: t('response.stalled') },
+  { key: 'abandoned', label: t('status.abandoned') },
+])
+
+const projectCategories = computed(() =>
+  [...new Set(projects.value.map(p => p.category))].sort()
+)
+
+const projectCounts = computed(() => {
+  const c = { completed: 0, ongoing: 0, stalled: 0, abandoned: 0 }
+  projects.value.forEach(p => { if (c[p.status] !== undefined) c[p.status]++ })
+  return c
+})
+
+const filteredProjects = computed(() => {
+  const q = searchQuery.value.toLowerCase()
+  return projects.value.filter(p => {
+    const matchStatus = activeStatus.value === 'all' || p.status === activeStatus.value
+    const matchCat    = activeCategory.value === 'all' || p.category === activeCategory.value
+    const matchQ      = !q
+      || p.title.toLowerCase().includes(q)
+      || p.category.toLowerCase().includes(q)
+      || p.summary.toLowerCase().includes(q)
+      || (p.state && p.state.toLowerCase().includes(q))
+    return matchStatus && matchCat && matchQ
+  })
+})
+
+// ₦ figures are stored in billions; render only what's actually known rather
+// than a dash-filled table row, matching the "no derived numbers" principle
+// (a missing figure means "not publicly reported", not zero).
+function fmtBn(n) {
+  return n == null ? null : `₦${n.toLocaleString('en-NG', { maximumFractionDigits: 1 })}bn`
+}
+function projectProgress(p) {
+  const parts = []
+  if (p.budgetAllocatedBn != null) {
+    parts.push(p.amountSpentBn != null
+      ? `${fmtBn(p.budgetAllocatedBn)} allocated, ${fmtBn(p.amountSpentBn)} spent`
+      : `${fmtBn(p.budgetAllocatedBn)} allocated`)
+  }
+  if (p.physicalCompletionPct != null) parts.push(`${p.physicalCompletionPct}% physically complete`)
+  if (p.contractor) parts.push(`Contractor: ${p.contractor}`)
+  return parts.length ? parts.join(' · ') : 'No budget or completion figures published yet.'
+}
+
 // A checked-and-confirmed "not published" row isn't tracked content to name
 // in the tab intro sentence — only count/list indicators actually charted.
 // The empty case is handled entirely by IndicatorsView's own empty state
@@ -1049,6 +1110,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
         </optgroup>
         <optgroup :label="t('nav.group.economy')">
           <option value="budget">{{ t('tab.budget') }}</option>
+          <option value="projects">{{ t('tab.projects') }}</option>
           <option value="indicators">{{ t('tab.indicators') }}</option>
         </optgroup>
         <optgroup v-if="!isStateLevel" :label="t('nav.group.legislature')">
@@ -1164,6 +1226,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           <div class="pt-nav-group">
             <div class="pt-nav-group-label">{{ t('nav.group.economy') }}</div>
             <button :class="['pt-nav-btn', { active: activeTab === 'budget' }]"     @click="switchTab('budget')">{{ t('tab.budget') }}</button>
+            <button :class="['pt-nav-btn', { active: activeTab === 'projects' }]"   @click="switchTab('projects')">{{ t('tab.projects') }} <span class="pt-nav-count">{{ projects.length }}</span></button>
             <button :class="['pt-nav-btn', { active: activeTab === 'indicators' }]" @click="switchTab('indicators')">{{ t('tab.indicators') }} <span class="pt-nav-count">{{ publishedIndicators.length }}</span></button>
           </div>
 
@@ -1549,6 +1612,67 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
       <BudgetView :budgets="budget" />
     </template>
 
+    <!-- ── PROJECTS TAB ── -->
+    <template v-else-if="activeTab === 'projects'">
+
+      <div class="pt-tab-intro">
+        Named capital projects — roads, rail, power, hospitals, schools — funded during the {{ currentAdmin.term }} term.
+        Tracks whether the allocated budget actually built the named thing, and how far it got.
+      </div>
+
+      <div class="pt-stats">
+        <div class="pt-stat">
+          <div class="pt-stat-value total">{{ projects.length }}</div>
+          <div class="pt-stat-label">{{ t('stats.totalProjects') }}</div>
+        </div>
+        <div class="pt-stat">
+          <div class="pt-stat-value kept">{{ projectCounts.completed }}</div>
+          <div class="pt-stat-label">{{ t('status.completed') }}</div>
+        </div>
+        <div class="pt-stat">
+          <div class="pt-stat-value partial">{{ projectCounts.ongoing }}</div>
+          <div class="pt-stat-label">{{ t('status.ongoing') }}</div>
+        </div>
+        <div class="pt-stat">
+          <div class="pt-stat-value broken">{{ projectCounts.stalled + projectCounts.abandoned }}</div>
+          <div class="pt-stat-label">{{ t('stats.stalledOrAbandoned') }}</div>
+        </div>
+      </div>
+
+      <div class="pt-controls">
+        <input v-model="searchQuery" type="text" class="pt-search" :placeholder="t('search.projects')" />
+        <div class="pt-filter-group">
+          <button
+            v-for="s in PROJECT_STATUSES" :key="s.key"
+            :class="['pt-filter-btn', { active: activeStatus === s.key }]"
+            @click="activeStatus = s.key"
+          >{{ s.label }}</button>
+        </div>
+        <select v-model="activeCategory" class="pt-cat-filter">
+          <option value="all">{{ t('filter.allCategories') }}</option>
+          <option v-for="cat in projectCategories" :key="cat" :value="cat">{{ t('category.' + canonicalizeCategory(cat)) }}</option>
+        </select>
+      </div>
+
+      <div class="pt-list">
+        <PromiseCard
+          v-for="p in filteredProjects" :key="p.id"
+          :item="p"
+          :history="historyFor(p, 'projects')"
+          entry-table="projects"
+          @report="openReport"
+          :field1="p.summary"
+          :field2="projectProgress(p)"
+          :label1="t('card.label.whatItIs')"
+          :label2="t('card.label.progressAndSpend')"
+          :isExpanded="expandedId === p.id"
+          @toggle="handleToggle"
+          @share="handleShare"
+        />
+        <div v-if="!filteredProjects.length" class="pt-empty">{{ t('empty.projects') }}</div>
+      </div>
+    </template>
+
     <!-- ── BILLS TAB ── -->
     <template v-else-if="activeTab === 'bills'">
 
@@ -1762,5 +1886,22 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
 
       </main>
     </div><!-- .pt-body -->
+
+    <!-- ── Global footer — every page (landing, scorecard, compare, themes,
+         publications, and the content pages, which no longer carry their own
+         local one) ── -->
+    <footer class="pt-footer">
+      <div class="pt-footer-links">
+        <a :href="lp('/guide')">{{ t('header.guide') }}</a>
+        <a :href="lp('/publications')">{{ t('header.publications') }}</a>
+        <a :href="lp('/support')">{{ t('header.support') }}</a>
+        <a :href="lp('/developers')">{{ t('header.developers') }}</a>
+        <a :href="lp('/press')">{{ t('header.press') }}</a>
+      </div>
+      <p class="pt-footer-tag">{{ t('common.footerTag') }}</p>
+      <p class="pt-footer-contact">
+        <a href="mailto:mubaraqsanusi908@gmail.com">mubaraqsanusi908@gmail.com</a> · © {{ footerYear }} NGScorecard
+      </p>
+    </footer>
   </div><!-- .pt-layout -->
 </template>

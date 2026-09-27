@@ -78,6 +78,7 @@ export function createPublicApiRouter() {
         'GET /api/v1/:admin/appointments',
         'GET /api/v1/:admin/judgments',
         'GET /api/v1/:admin/budget',
+        'GET /api/v1/:admin/projects — named capital projects: budget allocated vs. spent, and physical completion',
         'GET /api/v1/:admin/governors — historical state governors listed under a federal president\'s own profile; unrelated to GET /api/v1/governors above',
         'GET /api/v1/:admin/indicators',
         ...(DATASET_DUMP_PUBLIC ? [

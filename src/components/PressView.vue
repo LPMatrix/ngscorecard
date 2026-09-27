@@ -116,12 +116,6 @@ function copyBlurb(which, text) {
       </section>
 
     </main>
-
-    <footer>
-      <div class="wrap">
-        <p class="footer-tag">{{ t('common.footerTag') }}</p>
-      </div>
-    </footer>
   </div>
 </template>
 
@@ -196,6 +190,4 @@ ul.point-list strong { color: var(--ink); }
 .asset-dl:hover { border-color: var(--g700); background: var(--g050); }
 .usage-note { margin-top: 14px; font-size: 12.5px; color: var(--faint); }
 
-footer { border-top: 1px solid var(--line-strong); padding: 28px 24px; text-align: center; color: var(--faint); font-size: 12.5px; }
-footer .footer-tag { margin: 0; }
 </style>

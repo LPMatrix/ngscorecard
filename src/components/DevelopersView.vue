@@ -190,12 +190,6 @@ curl https://ngscorecard.com/api/v1/tinubu/promises \
       </section>
 
     </main>
-
-    <footer>
-      <div class="wrap">
-        <p class="footer-tag">{{ t('common.footerTag') }}</p>
-      </div>
-    </footer>
   </div>
 </template>
 
@@ -277,6 +271,4 @@ td code { white-space: nowrap; }
 .badge.post { background: #fff1cc; color: var(--gold); }
 
 .widget-demo { margin-top: 14px; }
-footer { border-top: 1px solid var(--line-strong); padding: 28px 24px; text-align: center; color: var(--faint); font-size: 12.5px; }
-footer .footer-tag { margin: 0; }
 </style>

@@ -2731,5 +2731,29 @@
     "level": "state",
     "state": "Yobe",
     "isCurrent": false
+  },
+  {
+    "key": "fashola",
+    "name": "Babatunde Fashola",
+    "fullName": "Babatunde Raji Fashola",
+    "state": "Lagos",
+    "party": "ACN",
+    "geopolitical": "South-West",
+    "termStart": "2007",
+    "termEnd": "2015",
+    "status": "completed",
+    "note": "Served two full terms; continued Tinubu Lagos transformation"
+  },
+  {
+    "key": "yari",
+    "name": "Abdulaziz Yari",
+    "fullName": "Abdulaziz Abubakar Yari",
+    "state": "Zamfara",
+    "party": "ANPP/APC",
+    "geopolitical": "North-West",
+    "termStart": "2011",
+    "termEnd": "2019",
+    "status": "completed",
+    "note": "Served two full terms; NGF Chairman 2015-2019"
   }
 ]

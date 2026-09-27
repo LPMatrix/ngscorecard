@@ -1,6 +1,6 @@
 # Key indicators — coverage audit & backlog
 
-Generated 2026-09-18 by `scripts/audit-indicators.mjs`. The script only ever writes this section, down to the `BACKLOG-START` marker; run it with `node --env-file=.env scripts/audit-indicators.mjs --out docs/indicators.md` after any backfill session to refresh it. Everything from the marker onward is hand-maintained and preserved verbatim across regenerations — that's where *why* something is missing and what to do about it lives, since that context doesn't survive a script re-run.
+Generated 2026-09-27 by `scripts/audit-indicators.mjs`. The script only ever writes this section, down to the `BACKLOG-START` marker; run it with `node --env-file=.env scripts/audit-indicators.mjs --out docs/indicators.md` after any backfill session to refresh it. Everything from the marker onward is hand-maintained and preserved verbatim across regenerations — that's where *why* something is missing and what to do about it lives, since that context doesn't survive a script re-run.
 
 ## Core-key coverage by era
 
@@ -17,18 +17,18 @@ Generated 2026-09-18 by `scripts/audit-indicators.mjs`. The script only ever wri
 | external-reserves | 9 | 2 | 0 |
 | poverty-rate | 3 | 8 | 0 |
 
-### federal-1999+ (5 administrations)
+### federal-1999+ (7 administrations)
 
 | Core indicator | Published | Not published | Missing entirely |
 |---|---|---|---|
-| gdp-growth | 5 | 0 | 0 |
-| inflation | 5 | 0 | 0 |
-| unemployment | 5 | 0 | 0 |
-| fx-official | 5 | 0 | 0 |
-| petrol-price | 5 | 0 | 0 |
-| public-debt | 5 | 0 | 0 |
-| external-reserves | 5 | 0 | 0 |
-| poverty-rate | 4 | 1 | 0 |
+| gdp-growth | 5 | 0 | 2 |
+| inflation | 5 | 0 | 2 |
+| unemployment | 5 | 0 | 2 |
+| fx-official | 5 | 0 | 2 |
+| petrol-price | 5 | 0 | 2 |
+| public-debt | 5 | 0 | 2 |
+| external-reserves | 5 | 0 | 2 |
+| poverty-rate | 4 | 1 | 2 |
 
 ### state-pre1999 (49 administrations)
 
@@ -43,44 +43,55 @@ Generated 2026-09-18 by `scripts/audit-indicators.mjs`. The script only ever wri
 
 | Core indicator | Published | Not published | Missing entirely |
 |---|---|---|---|
-| igr | 0 | 50 | 0 |
-| debt | 1 | 49 | 0 |
-| budget | 0 | 50 | 0 |
-| capex-share | 0 | 50 | 0 |
+| igr | 0 | 49 | 1 |
+| debt | 1 | 48 | 1 |
+| budget | 1 | 49 | 0 |
+| capex-share | 1 | 49 | 0 |
 
 ### state-2007-2023 (75 administrations)
 
 | Core indicator | Published | Not published | Missing entirely |
 |---|---|---|---|
-| igr | 75 | 0 | 0 |
-| debt | 43 | 32 | 0 |
-| budget | 55 | 20 | 0 |
-| capex-share | 44 | 31 | 0 |
+| igr | 54 | 0 | 21 |
+| debt | 27 | 27 | 21 |
+| budget | 54 | 19 | 2 |
+| capex-share | 46 | 26 | 3 |
 
 ### state-current (21 administrations)
 
 | Core indicator | Published | Not published | Missing entirely |
 |---|---|---|---|
-| igr | 21 | 0 | 0 |
-| debt | 21 | 0 | 0 |
-| budget | 21 | 0 | 0 |
-| capex-share | 21 | 0 | 0 |
+| igr | 20 | 0 | 1 |
+| debt | 20 | 0 | 1 |
+| budget | 20 | 0 | 1 |
+| capex-share | 20 | 0 | 1 |
 
 ## Missing core indicators, by key
 
+- **gdp-growth** (2 admins): fashola, yari
+- **inflation** (2 admins): fashola, yari
+- **unemployment** (2 admins): fashola, yari
+- **fx-official** (2 admins): fashola, yari
+- **petrol-price** (2 admins): fashola, yari
+- **public-debt** (2 admins): fashola, yari
+- **external-reserves** (2 admins): fashola, yari
+- **poverty-rate** (2 admins): fashola, yari
+- **igr** (23 admins): akpabio, amosun, babangidaaliyu, badaru, bagudu, elrufai, fayemi, gaidam, ganduje, kwankwaso, lalong, masari, matawalle, obiano, ododo, …
+- **debt** (23 admins): akpabio, amosun, babangidaaliyu, badaru, bagudu, elrufai, fayemi, gaidam, ganduje, kwankwaso, lalong, masari, matawalle, obiano, ododo, …
+- **budget** (3 admins): babangidaaliyu, bagudu, ododo
+- **capex-share** (4 admins): akpabio, babangidaaliyu, bagudu, ododo
 
 ## Drift
 
 - Unit mismatch vs registry: 0
-- No registryKey (one-off or unmapped): 32
+- No registryKey (one-off or unmapped): 28
 - Missing higherIsBetter: 3
   - bala/security
   - makinde/security
   - otu/security
-- Points with no parsed year: 2
-  - lalong/igr: "9mo 2021"
+- Points with no parsed year: 1
   - makinde/security: "12mo to Jan '22"
-- Fewer than 2 points (excluding not-published): 126
+- Fewer than 2 points (excluding not-published): 149
   - abacha/poverty: 1 point(s)
   - abdulsalami/gdp: 1 point(s)
   - abdulsalami/inflation: 1 point(s)
@@ -95,16 +106,17 @@ Generated 2026-09-18 by `scripts/audit-indicators.mjs`. The script only ever wri
   - aiyedatiwa/igr: 1 point(s)
   - ajimobi/igr: 1 point(s)
   - ajimobi/capex: 1 point(s)
-  - akpabio/igr: 1 point(s)
-  - akpabio/capex: 1 point(s)
+  - akpabio/outofschool: 1 point(s)
   - akpabio/budget: 1 point(s)
   - alaoakala/igr: 1 point(s)
   - almakura/igr: 1 point(s)
   - amaechi/igr: 1 point(s)
   - amaechi/capex: 1 point(s)
-  - amosun/igr: 1 point(s)
+  - amosun/outofschool: 1 point(s)
+  - amosun/budget: 0 point(s)
   - ayade/budget: 1 point(s)
-  - babangidaaliyu/igr: 1 point(s)
+  - badaru/outofschool: 1 point(s)
+  - badaru/capex: 1 point(s)
   - bago/revenue-share: 1 point(s)
   - bala/security: 1 point(s)
   - bello/budget: 1 point(s)
@@ -124,10 +136,15 @@ Generated 2026-09-18 by `scripts/audit-indicators.mjs`. The script only ever wri
   - diri/debt-service-ratio: 1 point(s)
   - doma/igr: 1 point(s)
   - elechi/igr: 1 point(s)
-  - fayemi/budget: 1 point(s)
-  - fayemi/capex: 1 point(s)
+  - elrufai/outofschool: 1 point(s)
+  - elrufai/capex: 0 point(s)
+  - fayemi/outofschool: 1 point(s)
+  - fayemi/capex: 0 point(s)
   - fubara/allocation-dependence: 1 point(s)
-  - gaidam/igr: 1 point(s)
+  - gaidam/outofschool: 1 point(s)
+  - gaidam/budget: 0 point(s)
+  - gaidam/capex: 0 point(s)
+  - ganduje/outofschool: 1 point(s)
   - ganduje/capex: 1 point(s)
   - gowon/fuel: 1 point(s)
   - ibrahimidris/debt: 1 point(s)
@@ -143,13 +160,19 @@ Generated 2026-09-18 by `scripts/audit-indicators.mjs`. The script only ever wri
   - ishaku/budget: 1 point(s)
   - jang/igr: 1 point(s)
   - jonathan/debt: 1 point(s)
+  - kwankwaso/outofschool: 1 point(s)
+  - kwankwaso/budget: 0 point(s)
+  - kwankwaso/capex: 0 point(s)
+  - lalong/outofschool: 1 point(s)
+  - lalong/capex: 0 point(s)
   - lamido/igr: 1 point(s)
   - lawal/outofschool: 1 point(s)
   - makinde/outofschool: 1 point(s)
   - makinde/security: 1 point(s)
-  - matawalle/igr: 1 point(s)
-  - matawalle/budget: 1 point(s)
-  - matawalle/capex: 1 point(s)
+  - masari/outofschool: 1 point(s)
+  - masari/capex: 0 point(s)
+  - matawalle/outofschool: 1 point(s)
+  - matawalle/capex: 0 point(s)
   - murtala/gdp: 1 point(s)
   - murtala/inflation: 1 point(s)
   - murtala/naira: 1 point(s)
@@ -162,15 +185,16 @@ Generated 2026-09-18 by `scripts/audit-indicators.mjs`. The script only ever wri
   - nwifuru/infrastructure: 1 point(s)
   - obasanjo/poverty: 1 point(s)
   - obasanjomilitary/fuel: 1 point(s)
-  - ododo/debt-cleared: 1 point(s)
-  - ododo/mining-licences: 1 point(s)
-  - ododo/igr: 1 point(s)
+  - obiano/outofschool: 1 point(s)
+  - obiano/capex: 0 point(s)
   - ohakim/igr: 1 point(s)
-  - okowa/igr: 1 point(s)
+  - okowa/outofschool: 1 point(s)
+  - okowa/capex: 0 point(s)
   - okpebholo/igr: 1 point(s)
   - oni/igr: 1 point(s)
   - orji/igr: 1 point(s)
-  - ortom/capex: 1 point(s)
+  - ortom/outofschool: 1 point(s)
+  - ortom/capex: 0 point(s)
   - oshiomhole/igr: 1 point(s)
   - oshiomhole/budget: 1 point(s)
   - otti/education-share: 1 point(s)
@@ -182,28 +206,38 @@ Generated 2026-09-18 by `scripts/audit-indicators.mjs`. The script only ever wri
   - radda/gratuity: 1 point(s)
   - radda/outofschool: 1 point(s)
   - sambo/igr: 1 point(s)
-  - sanibello/budget: 1 point(s)
-  - sanibello/capex: 1 point(s)
+  - sanibello/outofschool: 1 point(s)
+  - sanibello/capex: 0 point(s)
   - sanwoolu/revenue-share: 1 point(s)
   - sanwoolu/rice-capacity: 1 point(s)
   - shagari/fuel: 1 point(s)
   - shagari/poverty: 1 point(s)
-  - shettima/igr: 1 point(s)
+  - shettima/outofschool: 1 point(s)
+  - shettima/capex: 0 point(s)
   - shinkafi/igr: 1 point(s)
   - shonekan/fuel: 1 point(s)
   - suntai/igr: 1 point(s)
   - suswam/igr: 1 point(s)
   - sylva/budget: 1 point(s)
+  - tambuwal/outofschool: 1 point(s)
+  - tambuwal/capex: 0 point(s)
   - ubasani/external-debt: 1 point(s)
   - ubasani/outofschool: 1 point(s)
   - uduaghan/igr: 1 point(s)
   - uduaghan/budget: 1 point(s)
   - uduaghan/capex: 1 point(s)
-  - ugwuanyi/budget: 1 point(s)
+  - ugwuanyi/outofschool: 1 point(s)
+  - ugwuanyi/capex: 0 point(s)
+  - umahi/outofschool: 1 point(s)
+  - umahi/capex: 0 point(s)
   - wamakko/igr: 1 point(s)
+  - wike/outofschool: 1 point(s)
+  - wike/capex: 0 point(s)
   - yakowa/igr: 1 point(s)
   - yaradua/debt: 1 point(s)
   - yaradua/poverty: 1 point(s)
+  - yari/outofschool: 1 point(s)
+  - yari/capex: 0 point(s)
   - yuguda/igr: 1 point(s)
   - yuguda/budget: 1 point(s)
   - yusuf/outofschool: 1 point(s)
@@ -219,7 +253,7 @@ Generated 2026-09-18 by `scripts/audit-indicators.mjs`. The script only ever wri
 
 ## Execution debt
 
-As of 2026-09-18: 211 of 211 administrations (100%) have at least one indicator. Registry, structured points, and an upserting seed are in place (server/seed.js, data/seed/indicators.json); the backfill (plan Step 9, Phases A-F) is under way — see the Backlog section below for what's done and what's left per phase. Core-key gaps above are the actual state, not memory of what "should" exist. Re-run this script after each backfill session and update the Backlog section by hand.
+As of 2026-09-27: 209 of 214 administrations (98%) have at least one indicator. Registry, structured points, and an upserting seed are in place (server/seed.js, data/seed/indicators.json); the backfill (plan Step 9, Phases A-F) is under way — see the Backlog section below for what's done and what's left per phase. Core-key gaps above are the actual state, not memory of what "should" exist. Re-run this script after each backfill session and update the Backlog section by hand.
 
 <!-- BACKLOG-START: everything from here down is hand-maintained; this script preserves it verbatim on every regeneration. -->
 

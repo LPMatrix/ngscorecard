@@ -127,6 +127,7 @@ export const getBills        = (admin) => db.select().from(t.bills).where(eq(t.b
 export const getAppointments = (admin) => db.select().from(t.appointments).where(eq(t.appointments.administration, admin))
 export const getJudgments    = (admin) => db.select().from(t.judgments).where(eq(t.judgments.administration, admin))
 export const getGovernors    = (admin) => db.select().from(t.governors).where(eq(t.governors.administration, admin))
+export const getProjects     = (admin) => db.select().from(t.projects).where(eq(t.projects.administration, admin))
 
 // Every logged change under one administration, oldest first. The frontend
 // groups these by entryTable + entryId onto each card.
@@ -300,12 +301,12 @@ export async function getFullDataset() {
 export async function getAllDataForAdmin(admin) {
   const [
     promises, inherited, fraud, orders, ministers,
-    budget, bills, indicators, appointments, judgments, governors, history,
+    budget, bills, indicators, appointments, judgments, governors, history, projects,
   ] = await Promise.all([
     getPromises(admin), getInherited(admin), getFraud(admin),
     getOrders(admin), getMinisters(admin), getBudget(admin), getBills(admin),
     getIndicators(admin), getAppointments(admin), getJudgments(admin), getGovernors(admin),
-    getEntryHistory(admin),
+    getEntryHistory(admin), getProjects(admin),
   ])
-  return { promises, inherited, fraud, orders, ministers, budget, bills, indicators, appointments, judgments, governors, history }
+  return { promises, inherited, fraud, orders, ministers, budget, bills, indicators, appointments, judgments, governors, history, projects }
 }

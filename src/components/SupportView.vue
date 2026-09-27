@@ -119,12 +119,6 @@ function naira(n) {
       </section>
 
     </main>
-
-    <footer>
-      <div class="wrap">
-        <p class="footer-tag">{{ t('common.footerTag') }}</p>
-      </div>
-    </footer>
   </div>
 </template>
 
@@ -192,6 +186,4 @@ h2 .num {
 ul.point-list { margin: 0; padding: 0 0 0 18px; color: var(--muted); font-size: 14px; }
 ul.point-list li { margin-bottom: 6px; }
 
-footer { border-top: 1px solid var(--line-strong); padding: 28px 24px; text-align: center; color: var(--faint); font-size: 12.5px; }
-footer .footer-tag { margin: 0; }
 </style>

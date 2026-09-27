@@ -61,6 +61,30 @@ function ensureLocalSchema(client) {
     ensureColumn(client, tbl, 'source_tier', 'TEXT')
   }
   client.prepare(`
+    CREATE TABLE IF NOT EXISTS projects (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      administration TEXT NOT NULL,
+      title TEXT NOT NULL,
+      category TEXT NOT NULL,
+      status TEXT NOT NULL,
+      state TEXT,
+      location TEXT,
+      started TEXT,
+      target_completion TEXT,
+      completed_date TEXT,
+      budget_allocated_bn REAL,
+      amount_spent_bn REAL,
+      physical_completion_pct REAL,
+      contractor TEXT,
+      summary TEXT NOT NULL,
+      outcome TEXT NOT NULL,
+      source TEXT NOT NULL,
+      source_label TEXT NOT NULL,
+      updated TEXT NOT NULL,
+      source_tier TEXT
+    )
+  `).run()
+  client.prepare(`
     CREATE TABLE IF NOT EXISTS entry_history (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       entry_table TEXT NOT NULL,
