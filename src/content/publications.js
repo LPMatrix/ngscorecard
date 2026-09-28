@@ -63,6 +63,58 @@ export const PUBLICATIONS = [
       'Corrections are welcome: use "Report an issue" on any scorecard, or write to the address on the press page.',
     ],
   },
+  {
+    slug: 'the-bridge-everyone-commissions',
+    title: 'The bridge everyone commissions',
+    subtitle: 'How Nigerian infrastructure credit follows the ribbon, not the money',
+    date: '2026-09-27',
+    author: 'NGScorecard',
+    summary:
+      'A president in Ijaw royal dress cutting a ribbon on a bridge his predecessor\'s deputy flagged off four years earlier. A governor commissioning a road his own political enemy started. Across the projects we track, the person who claims credit for delivering infrastructure is often not the one who paid for it, built it, or was even in office when it began.',
+    sections: [
+      {
+        paragraphs: [
+          'On Friday, 10 April 2026, President Bola Tinubu landed in Yenagoa dressed not in his usual agbada but in "a fitting, colourful Ijaw \'Don\', complemented by a matching black fedora hat" — looking, by one account, "every inch like Ijaw or Niger Delta royalty." His first stop was a 630-metre bridge across the River Nun at Angiama, newly completed, linking the state capital to Oporoma. He told the crowd Bayelsa\'s governor, Douye Diri, had "done a great job" and called him "a very progressive governor."',
+          'Diri is PDP. Tinubu is APC. The bridge itself was flagged off in February 2022 by a different APC administration again — then-Vice President Yemi Osinbajo, under President Buhari. The actual construction was paid for by the Bayelsa state government and built by CCECC, not by the federal government that supplied both ceremonies, four years and two presidencies apart.',
+          'While checking the sourcing behind NGScorecard\'s Capital Projects tracker, this turned up as a pattern, not a one-off: the person photographed at a project\'s opening is very often not the one who approved it, financed it, or was in office when it started.',
+        ],
+      },
+      {
+        heading: '1. The flag-off and the finish',
+        paragraphs: [
+          'Two Rivers governors, one road. On 17 July 2023, days before leaving office, Nyesom Wike flagged off construction of the Port Harcourt Ring Road — 51.15km, ₦195.3bn, contracted to Julius Berger. His successor, Siminalayi Fubara, inherited it. By March 2024, Fubara was personally inspecting the site and telling reporters he intended to meet the original 36-month target — meaning that if the road opens on schedule, it opens on Wike\'s promise and Fubara\'s watch.',
+          'Delta did the same thing with less public drama. Governor Ifeanyi Okowa\'s administration approved construction of the Kwale-Beneku Bridge in December 2018. It fell to his successor, Sheriff Oborevwori, to commission the finished 360-metre bridge in May 2025, on his own second anniversary in office — a governor\'s signature achievement, on a project he did not originate.',
+          'In both cases the office changes hands and delivery becomes a joint production that neither man signed up to share.',
+        ],
+      },
+      {
+        heading: '2. The state builds, the federal government inaugurates',
+        paragraphs: [
+          'Return to the Angiama-Oporoma bridge: the whole project was executed by the Bayelsa state government, on the state\'s own capital budget. What the federal government supplied was a flag-off (Osinbajo, 2022) and a commissioning (Tinubu, 2026) — two ceremonies, two presidencies, one bridge Bayelsa itself paid to build.',
+          'Neither side went home empty-handed. Diri told the crowd the bridge was "a project promised by the federal government more than six decades ago" that his "modest effort" had finally delivered — crediting the old federal promise while claiming his own administration\'s follow-through. Tinubu, for his part, credited Diri personally, and thanked him for "being a very progressive governor." Both men left the ceremony with a share of the same achievement.',
+        ],
+      },
+      {
+        heading: '3. The rivalry that outlasted the ribbon',
+        paragraphs: [
+          'Wike and Fubara\'s story did not stay collegial. Their public relationship broke down through 2024, and on 18 March 2025 President Tinubu declared a state of emergency in Rivers State, suspending Fubara, his deputy and the entire House of Assembly for six months and installing a sole administrator. Wike, by then a federal minister in Tinubu\'s government, backed the move publicly. "I wanted Fubara\'s removal," he said afterward; "Tinubu saved Rivers." The suspension was lifted on 18 September 2025 and Fubara was restored to office.',
+          'Through all of that, the Ring Road Wike flagged off in 2023 kept moving toward the completion target Fubara had set for himself — a piece of concrete infrastructure that ran alongside, and outlasted, one of Nigeria\'s most public governor-successor political wars.',
+        ],
+      },
+      {
+        heading: 'What this means',
+        paragraphs: [
+          'None of this makes the roads or bridges fake. Every project named here is real, and independently verified in our own dataset. What it complicates is the idea of a single owner for a delivery.',
+          'That is also why we track it the way we do. Rather than assigning one administration to a project, NGScorecard lists a capital project under every administration that genuinely touched it — the one that approved it, the one that built it, the one that cut the ribbon. A reader comparing two governors\' scorecards may see the same bridge on both. That is not a duplication error. It is, on the evidence, the more accurate account of how these things actually get made.',
+          'The next time a president in unfamiliar royal dress cuts a ribbon on a bridge, the honest caption is not "he built this." It is "he was there when it opened."',
+        ],
+      },
+    ],
+    notes: [
+      'This piece draws on entries already published in NGScorecard\'s Capital Projects tracker for Bayelsa, Rivers and Delta, cross-checked against contemporaneous reporting (ThisDay, Julius Berger\'s own release, Tribune, The Guardian, Vanguard, Channels Television, and the Presidency\'s own statements) in September 2026.',
+      'Corrections are welcome: use "Report an issue" on any scorecard, or write to the address on the press page.',
+    ],
+  },
 ]
 
 export function findPublication(slug) {
