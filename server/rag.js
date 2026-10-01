@@ -1,20 +1,24 @@
-import { pipeline } from '@xenova/transformers'
-
-// Singleton embedding model
-let embeddingPipeline = null
-
-async function getEmbedder() {
-  if (!embeddingPipeline) {
-    embeddingPipeline = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2')
-  }
-  return embeddingPipeline
+// Simple tokenizer for keyword extraction
+function tokenize(text) {
+  return text.toLowerCase()
+    .replace(/[^\w\s]/g, ' ')
+    .split(/\s+/)
+    .filter(word => word.length > 2)
 }
 
-// Generate embedding for text
-export async function embed(text) {
-  const embedder = await getEmbedder()
-  const result = await embedder(text, { pooling: 'mean', normalize: true })
-  return Array.from(result.data)
+// Calculate TF-IDF score between query and document text
+function calculateRelevance(query, text) {
+  const queryTokens = new Set(tokenize(query))
+  const textTokens = tokenize(text)
+
+  let matches = 0
+  for (const token of textTokens) {
+    if (queryTokens.has(token)) matches++
+  }
+
+  // Normalize by text length
+  const relevance = matches / Math.max(textTokens.length, 1)
+  return relevance
 }
 
 // Chunk text into smaller pieces (roughly 500 tokens per chunk)
@@ -43,29 +47,12 @@ export function chunkText(text, maxChunkSize = 500) {
   return chunks
 }
 
-// Cosine similarity between two vectors
-function cosineSimilarity(a, b) {
-  let dotProduct = 0
-  let normA = 0
-  let normB = 0
-
-  for (let i = 0; i < a.length; i++) {
-    dotProduct += a[i] * b[i]
-    normA += a[i] * a[i]
-    normB += b[i] * b[i]
-  }
-
-  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB))
-}
-
-// RAG query: retrieve relevant chunks and return with metadata
-export async function queryRAG(db, queryText, topK = 5) {
-  const queryEmbedding = await embed(queryText)
-
-  // Get all chunks with their embeddings
+// RAG query: retrieve relevant chunks using keyword matching
+export function queryRAG(db, queryText, topK = 5) {
+  // Get all chunks
   const chunks = db.prepare(`
     SELECT
-      c.id, c.text, c.embedding,
+      c.id, c.text,
       d.title, d.source, d.url
     FROM rag_chunks c
     JOIN rag_documents d ON c.document_id = d.id
@@ -75,27 +62,28 @@ export async function queryRAG(db, queryText, topK = 5) {
     return { query: queryText, results: [] }
   }
 
-  // Score each chunk by similarity
-  const scored = chunks.map(chunk => {
-    const chunkEmbedding = JSON.parse(chunk.embedding || '[]')
-    const similarity = cosineSimilarity(queryEmbedding, chunkEmbedding)
-    return { ...chunk, similarity }
-  }).sort((a, b) => b.similarity - a.similarity)
+  // Score each chunk by keyword relevance
+  const scored = chunks.map(chunk => ({
+    ...chunk,
+    relevance: calculateRelevance(queryText, chunk.text)
+  }))
+    .filter(chunk => chunk.relevance > 0) // Only keep relevant results
+    .sort((a, b) => b.relevance - a.relevance)
 
-  // Return top-K results
+  // Return top-K results with 0-100 relevance score
   const results = scored.slice(0, topK).map(r => ({
     text: r.text,
     title: r.title,
     source: r.source,
     url: r.url,
-    similarity: r.similarity
+    similarity: Math.round(r.relevance * 100)
   }))
 
   return { query: queryText, results }
 }
 
 // Add document and chunks to RAG database
-export async function addDocument(db, { source, title, url, content }) {
+export function addDocument(db, { source, title, url, content }) {
   const now = new Date().toISOString()
 
   // Insert document
@@ -106,11 +94,10 @@ export async function addDocument(db, { source, title, url, content }) {
 
   const documentId = docResult.lastInsertRowid
 
-  // Chunk and embed content
+  // Chunk content
   const chunks = chunkText(content)
-  const embeddings = await Promise.all(chunks.map(chunk => embed(chunk)))
 
-  // Insert chunks
+  // Insert chunks (without embeddings for now)
   const chunkStmt = db.prepare(`
     INSERT INTO rag_chunks (document_id, text, embedding, token_count, created_at)
     VALUES (?, ?, ?, ?, ?)
@@ -121,7 +108,7 @@ export async function addDocument(db, { source, title, url, content }) {
     chunkStmt.run(
       documentId,
       chunks[i],
-      JSON.stringify(embeddings[i]),
+      null, // No embeddings for basic version
       tokenCount,
       now
     )

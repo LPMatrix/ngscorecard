@@ -17,6 +17,9 @@ import { createRagRouter } from './ragRoutes.js'
 export function createApiApp() {
   const app = express()
 
+  // Parse JSON bodies
+  app.use(express.json())
+
   // /api/v1 and /api/admin must be mounted before the more general /api:
   // Express checks mounts in registration order, and /api's internal routes
   // (:admin/category) would otherwise swallow a more specific request

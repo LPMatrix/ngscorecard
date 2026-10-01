@@ -1,6 +1,6 @@
 import express from 'express'
 import { queryRAG } from './rag.js'
-import { createDb } from './db.js'
+import { db } from './db.js'
 
 export function createRagRouter() {
   const router = express.Router()
@@ -13,19 +13,17 @@ export function createRagRouter() {
         return res.status(400).json({ error: 'question is required' })
       }
 
-      const db = await createDb()
-      const result = await queryRAG(db, question, 5)
+      const rawClient = db._rawClient
+      if (!rawClient) {
+        return res.status(500).json({ error: 'Database not initialized' })
+      }
 
-      // Format results for response
+      const result = queryRAG(rawClient, question, 5)
+
+      // Format results for response (results already have similarity score)
       const formatted = {
         question: result.query,
-        sources: result.results.map(r => ({
-          text: r.text,
-          title: r.title,
-          source: r.source,
-          url: r.url,
-          relevance: Math.round(r.similarity * 100) // 0-100 score
-        }))
+        sources: result.results
       }
 
       res.json(formatted)

@@ -206,7 +206,13 @@ async function createDb() {
   }
 
   ensureLocalSchema(client)
+
+  // Attach raw client to Drizzle instance for RAG and other direct SQL use
+  db._rawClient = client
   return db
 }
 
-export const db = await createDb()
+const _db = await createDb()
+// Export both Drizzle ORM and raw client
+export const db = _db
+export const rawDb = _db._rawClient

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import Database from 'better-sqlite3'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import Database from 'better-sqlite3'
 import { addDocument } from '../server/rag.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -139,6 +139,35 @@ async function ingestDocuments() {
   console.log('Ingesting sample government documents...')
 
   const db = new Database(dbPath)
+
+  // Ensure RAG tables exist
+  db.prepare(`
+    CREATE TABLE IF NOT EXISTS rag_documents (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      source TEXT NOT NULL,
+      title TEXT NOT NULL,
+      url TEXT,
+      content TEXT NOT NULL,
+      fetched_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    )
+  `).run()
+
+  db.prepare(`
+    CREATE TABLE IF NOT EXISTS rag_chunks (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      document_id INTEGER NOT NULL,
+      text TEXT NOT NULL,
+      embedding TEXT,
+      token_count INTEGER,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (document_id) REFERENCES rag_documents(id)
+    )
+  `).run()
+
+  db.prepare(`
+    CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)
+  `).run()
 
   for (const doc of sampleDocuments) {
     try {
