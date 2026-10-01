@@ -6,7 +6,11 @@ const t = inject('t')
 const question = ref('')
 const messages = ref([])
 const loading = ref(false)
+const selectedState = ref('')
 const messagesEnd = ref(null)
+
+// Nigerian states for filtering
+const states = ['', 'Lagos', 'Rivers', 'Kano', 'Kaduna', 'FCT', 'Abia', 'Enugu', 'Cross River', 'Akwa Ibom', 'Delta', 'Edo', 'Ogun', 'Osun', 'Ondo', 'Ekiti', 'Oyo', 'Kwara', 'Kogi', 'Bauchi', 'Gombe', 'Adamawa', 'Taraba', 'Yobe', 'Borno', 'Zamfara', 'Kebbi', 'Niger', 'Sokoto', 'Jigawa', 'Nasarawa', 'Plateau', 'Benue', 'Imo', 'Anambra']
 
 const hasResults = computed(() => messages.value.some(m => m.sources))
 
@@ -27,7 +31,10 @@ async function askQuestion() {
     const response = await fetch('/api/rag/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: userQuestion })
+      body: JSON.stringify({
+        question: userQuestion,
+        state: selectedState.value || undefined
+      })
     })
 
     if (!response.ok) throw new Error('Failed to get answer')
@@ -120,6 +127,14 @@ function handleKeydown(e) {
       </div>
 
       <div class="srv-input-area">
+        <div class="srv-state-selector">
+          <select v-model="selectedState" class="srv-state-select">
+            <option value="">All Nigeria</option>
+            <option v-for="state in states.filter(s => s)" :key="state" :value="state">
+              {{ state }} State
+            </option>
+          </select>
+        </div>
         <textarea
           v-model="question"
           @keydown="handleKeydown"
@@ -409,7 +424,28 @@ function handleKeydown(e) {
   background: white;
   border-top: 1px solid #ddd;
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.srv-state-selector {
+  display: flex;
+  align-items: center;
+}
+
+.srv-state-select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+}
+
+.srv-state-select:focus {
+  border-color: var(--accent, #0a6b45);
 }
 
 .srv-input {

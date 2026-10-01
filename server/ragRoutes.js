@@ -12,7 +12,7 @@ export function createRagRouter() {
 
   router.post('/ask', async (req, res) => {
     try {
-      const { question } = req.body
+      const { question, state } = req.body
 
       if (!question || typeof question !== 'string') {
         return res.status(400).json({ error: 'question is required' })
@@ -26,6 +26,15 @@ export function createRagRouter() {
         try {
           const result = queryRAG(rawClient, question, 5)
           sources = result.results
+
+          // If state specified, prioritize state-specific documents
+          if (state && sources.length > 0) {
+            sources = sources.sort((a, b) => {
+              const aIsState = a.title.includes(state) || a.source.includes(state) ? 0 : 1
+              const bIsState = b.title.includes(state) || b.source.includes(state) ? 0 : 1
+              return aIsState - bIsState
+            })
+          }
         } catch (e) {
           // RAG tables may not exist yet (especially in new Turso deployments)
           // Continue without documents - Claude can answer based on training data
