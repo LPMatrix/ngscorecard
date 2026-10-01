@@ -20,15 +20,16 @@ export function createRagRouter() {
 
       const rawClient = db._rawClient
 
-      // Retrieve relevant documents
+      // Retrieve relevant documents (graceful if tables don't exist)
       let sources = []
       if (rawClient) {
         try {
           const result = queryRAG(rawClient, question, 5)
           sources = result.results
         } catch (e) {
-          console.warn('RAG retrieval warning:', e.message)
-          // Continue without documents - Claude can answer based on training
+          // RAG tables may not exist yet (especially in new Turso deployments)
+          // Continue without documents - Claude can answer based on training data
+          console.warn('RAG retrieval not available:', e.code || e.message)
         }
       }
 
