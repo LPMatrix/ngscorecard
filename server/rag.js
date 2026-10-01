@@ -48,15 +48,37 @@ export function chunkText(text, maxChunkSize = 500) {
 }
 
 // RAG query: retrieve relevant chunks using keyword matching
-export function queryRAG(db, queryText, topK = 5) {
-  // Get all chunks
-  const chunks = db.prepare(`
-    SELECT
-      c.id, c.text,
-      d.title, d.source, d.url
-    FROM rag_chunks c
-    JOIN rag_documents d ON c.document_id = d.id
-  `).all()
+// Works with both better-sqlite3 and LibSQL clients
+export function queryRAG(dbClient, queryText, topK = 5) {
+  let chunks = []
+
+  // Handle both better-sqlite3 and LibSQL APIs
+  if (dbClient.prepare) {
+    // better-sqlite3 API
+    chunks = dbClient.prepare(`
+      SELECT
+        c.id, c.text,
+        d.title, d.source, d.url
+      FROM rag_chunks c
+      JOIN rag_documents d ON c.document_id = d.id
+    `).all()
+  } else if (dbClient.execute) {
+    // LibSQL API
+    const result = dbClient.execute(`
+      SELECT
+        c.id, c.text,
+        d.title, d.source, d.url
+      FROM rag_chunks c
+      JOIN rag_documents d ON c.document_id = d.id
+    `)
+    chunks = result.rows.map(row => ({
+      id: row[0],
+      text: row[1],
+      title: row[2],
+      source: row[3],
+      url: row[4]
+    }))
+  }
 
   if (!chunks.length) {
     return { query: queryText, results: [] }
@@ -83,36 +105,55 @@ export function queryRAG(db, queryText, topK = 5) {
 }
 
 // Add document and chunks to RAG database
-export function addDocument(db, { source, title, url, content }) {
+// Works with both better-sqlite3 and LibSQL clients
+export function addDocument(dbClient, { source, title, url, content }) {
   const now = new Date().toISOString()
 
   // Insert document
-  const docResult = db.prepare(`
-    INSERT INTO rag_documents (source, title, url, content, fetched_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?)
-  `).run(source, title, url, content, now, now)
+  if (dbClient.prepare) {
+    // better-sqlite3
+    const docResult = dbClient.prepare(`
+      INSERT INTO rag_documents (source, title, url, content, fetched_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `).run(source, title, url, content, now, now)
 
-  const documentId = docResult.lastInsertRowid
+    const documentId = docResult.lastInsertRowid
+    const chunks = chunkText(content)
+    const chunkStmt = dbClient.prepare(`
+      INSERT INTO rag_chunks (document_id, text, embedding, token_count, created_at)
+      VALUES (?, ?, ?, ?, ?)
+    `)
 
-  // Chunk content
-  const chunks = chunkText(content)
+    for (let i = 0; i < chunks.length; i++) {
+      const tokenCount = Math.ceil(chunks[i].length / 4)
+      chunkStmt.run(documentId, chunks[i], null, tokenCount, now)
+    }
 
-  // Insert chunks (without embeddings for now)
-  const chunkStmt = db.prepare(`
-    INSERT INTO rag_chunks (document_id, text, embedding, token_count, created_at)
-    VALUES (?, ?, ?, ?, ?)
-  `)
+    return documentId
+  } else if (dbClient.execute) {
+    // LibSQL
+    const docResult = dbClient.execute({
+      sql: `
+        INSERT INTO rag_documents (source, title, url, content, fetched_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `,
+      args: [source, title, url, content, now, now]
+    })
 
-  for (let i = 0; i < chunks.length; i++) {
-    const tokenCount = Math.ceil(chunks[i].length / 4)
-    chunkStmt.run(
-      documentId,
-      chunks[i],
-      null, // No embeddings for basic version
-      tokenCount,
-      now
-    )
+    const documentId = docResult.lastInsertRowid
+    const chunks = chunkText(content)
+
+    for (let i = 0; i < chunks.length; i++) {
+      const tokenCount = Math.ceil(chunks[i].length / 4)
+      dbClient.execute({
+        sql: `
+          INSERT INTO rag_chunks (document_id, text, embedding, token_count, created_at)
+          VALUES (?, ?, ?, ?, ?)
+        `,
+        args: [documentId, chunks[i], null, tokenCount, now]
+      })
+    }
+
+    return documentId
   }
-
-  return documentId
 }

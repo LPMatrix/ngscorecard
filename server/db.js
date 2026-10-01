@@ -171,7 +171,10 @@ async function createDb() {
       url:       process.env.TURSO_DATABASE_URL,
       authToken: process.env.TURSO_AUTH_TOKEN,
     })
-    return drizzle(client, { schema })
+    const db = drizzle(client, { schema })
+    // Attach raw client for RAG queries
+    db._rawClient = client
+    return db
   }
 
   // Local dev: better-sqlite3

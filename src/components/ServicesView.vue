@@ -34,10 +34,10 @@ async function askQuestion() {
 
     const data = await response.json()
 
-    // Add assistant message with sources
+    // Add assistant message with answer and sources
     messages.value.push({
       type: 'assistant',
-      text: userQuestion,
+      answer: data.answer || 'No answer generated',
       sources: data.sources || []
     })
   } catch (error) {
@@ -92,23 +92,20 @@ function handleKeydown(e) {
             {{ msg.text }}
           </div>
 
-          <div v-else-if="msg.type === 'assistant' && msg.sources" class="srv-answer">
-            <div class="srv-sources-header">
-              Found {{ msg.sources.length }} relevant source{{ msg.sources.length !== 1 ? 's' : '' }}:
+          <div v-else-if="msg.type === 'assistant' && msg.answer" class="srv-answer">
+            <div class="srv-answer-text">
+              {{ msg.answer }}
             </div>
-            <div class="srv-sources">
-              <div v-for="(source, j) in msg.sources" :key="j" class="srv-source">
-                <div class="srv-source-header">
-                  <span class="srv-source-title">{{ source.title }}</span>
-                  <span class="srv-source-relevance">{{ source.relevance }}% match</span>
-                </div>
-                <p class="srv-source-text">{{ source.text }}</p>
-                <div class="srv-source-meta">
-                  <span class="srv-source-name">{{ source.source }}</span>
-                  <a v-if="source.url" :href="source.url" target="_blank" class="srv-source-link">
-                    Read more →
-                  </a>
-                </div>
+            <div v-if="msg.sources && msg.sources.length > 0" class="srv-sources">
+              <div class="srv-sources-header">
+                {{ msg.sources.length }} source{{ msg.sources.length !== 1 ? 's' : '' }}:
+              </div>
+              <div v-for="(source, j) in msg.sources" :key="j" class="srv-source-small">
+                <span class="srv-source-badge">{{ source.source }}</span>
+                <a v-if="source.url" :href="source.url" target="_blank" class="srv-source-link">
+                  {{ source.title }}
+                </a>
+                <span v-else class="srv-source-title">{{ source.title }}</span>
               </div>
             </div>
           </div>
@@ -344,6 +341,46 @@ function handleKeydown(e) {
 
 .srv-source-link:hover {
   text-decoration: underline;
+}
+
+.srv-answer-text {
+  background: white;
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid var(--accent, #0a6b45);
+  color: #333;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.srv-sources-header {
+  font-size: 0.85rem;
+  color: #999;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.srv-source-small {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+}
+
+.srv-source-badge {
+  display: inline-block;
+  background: var(--accent, #0a6b45);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.srv-source-title {
+  color: #666;
 }
 
 .srv-loading {
