@@ -1,10 +1,15 @@
 import express from 'express'
 import { queryRAG } from './rag.js'
 import { db } from './db.js'
-import { Anthropic } from '@anthropic-ai/sdk'
+import OpenAI from 'openai'
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY
+const openrouter = new OpenAI({
+  apiKey: process.env.OPENROUTER_API_KEY,
+  baseURL: 'https://openrouter.ai/api/v1',
+  defaultHeaders: {
+    'HTTP-Referer': 'https://ngscorecard.ng',
+    'X-Title': 'NGScorecard',
+  }
 })
 
 export function createRagRouter() {
@@ -48,7 +53,7 @@ export function createRagRouter() {
         : '\n\n(No specific documents retrieved - answer based on training data)'
 
       // Check if API key is configured
-      if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY.startsWith('sk-ant-v7-placeholder')) {
+      if (!process.env.OPENROUTER_API_KEY) {
         return res.status(503).json({
           error: 'AI synthesis not available',
           sources: sources.map(s => ({
@@ -62,8 +67,8 @@ export function createRagRouter() {
       }
 
       try {
-        const message = await anthropic.messages.create({
-          model: 'claude-3-5-sonnet-20241022',
+        const response = await openrouter.chat.completions.create({
+          model: 'anthropic/claude-3-5-sonnet',
           max_tokens: 500,
           messages: [
             {
@@ -73,7 +78,7 @@ export function createRagRouter() {
           ]
         })
 
-        const answer = message.content[0].type === 'text' ? message.content[0].text : 'Unable to generate answer'
+        const answer = response.choices[0].message.content || 'Unable to generate answer'
 
         const formatted = {
           question: question,
@@ -88,7 +93,7 @@ export function createRagRouter() {
 
         res.json(formatted)
       } catch (apiError) {
-        console.error('Claude API error:', apiError.message)
+        console.error('OpenRouter API error:', apiError.message)
         res.status(503).json({
           error: 'Answer synthesis temporarily unavailable',
           sources: sources.map(s => ({
