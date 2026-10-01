@@ -17,6 +17,7 @@ import GuideView       from './components/GuideView.vue'
 import PressView       from './components/PressView.vue'
 import DevelopersView  from './components/DevelopersView.vue'
 import SupportView     from './components/SupportView.vue'
+import ServicesView    from './components/ServicesView.vue'
 import ReportView      from './components/ReportView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
 import LangSwitcher    from './components/LangSwitcher.vue'
@@ -71,6 +72,8 @@ const isThemes = ref(!!initial?.themes && initial?.themes.mode !== 'missing')
 // "/guide", "/press", "/developers" — unified content pages (see
 // GuideView.vue's header comment). `pageView` holds which one, or null.
 const pageView = ref(initial?.page ?? null)
+// "/services" — government services guide
+const isServices = ref(initial?.services === true)
 // "/<admin>/report" — the term report card (ReportView.vue). Unlike the pages
 // above it belongs to one administration, so activeAdmin stays set.
 const isReport = ref(initial?.report === true)
@@ -78,7 +81,7 @@ const isReport = ref(initial?.report === true)
 const publicationData = ref(initial?.publication ?? null)
 const publicationList = ref(initial?.publications ?? listPublications())
 const publicationMissing = ref(initial?.publicationMissing === true)
-const activeAdmin = ref(isLanding.value || isThemes.value || pageView.value ? null : (initial?.admin ?? 'tinubu'))
+const activeAdmin = ref(isLanding.value || isThemes.value || pageView.value || isServices.value ? null : (initial?.admin ?? 'tinubu'))
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
 
@@ -153,6 +156,7 @@ function selectAdminFromFinder(admin) {
   isLanding.value = false
   isThemes.value = false
   pageView.value = null
+  isServices.value = false
   activeAdmin.value = admin.key
   adminFinderQuery.value = ''
   pushRecent(admin.key)
@@ -172,6 +176,7 @@ function goToAdminFromLanding(key) {
   isLanding.value = false
   isThemes.value = false
   pageView.value = null
+  isServices.value = false
   if (activeAdmin.value === key) { loadData(key); syncUrl() }
   else activeAdmin.value = key
   if (typeof window !== 'undefined') window.scrollTo(0, 0)
@@ -399,6 +404,9 @@ onMounted(async () => {
     } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers' || route.name === 'support') {
       pageView.value = route.name
       activeAdmin.value = null
+    } else if (route.name === 'services') {
+      isServices.value = true
+      activeAdmin.value = null
     } else if (route.name === 'publications' || route.name === 'publication') {
       pageView.value = 'publications'
       activeAdmin.value = null
@@ -534,7 +542,7 @@ function adminPath(admin, tab) {
 function syncUrl() {
   // Landing / themes / compare are SSR-canonical views with fixed URLs and no
   // client-synced filters — never let a stray watcher rewrite their address.
-  if (viewMode.value === 'compare' || isLanding.value || isThemes.value || pageView.value || isReport.value) return
+  if (viewMode.value === 'compare' || isLanding.value || isThemes.value || pageView.value || isReport.value || isServices.value) return
   const url = new URL(window.location)
   url.pathname = adminPath(activeAdmin.value, activeTab.value)
   const setOrDrop = (key, value, dflt) => {
@@ -933,6 +941,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           <a :href="lp('/guide')" class="pt-header-docs-link">{{ t('header.guide') }}</a>
           <a :href="lp('/developers')" class="pt-header-docs-link">{{ t('header.developers') }}</a>
           <a :href="lp('/press')" class="pt-header-docs-link">{{ t('header.press') }}</a>
+          <a :href="lp('/services')" class="pt-header-docs-link">Services</a>
           <a :href="lp('/support')" class="pt-header-support-link">{{ t('header.support') }}</a>
           <LangSwitcher />
         </div>
@@ -1190,6 +1199,9 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
     <PressView v-else-if="pageView === 'press'" />
     <DevelopersView v-else-if="pageView === 'developers'" />
     <SupportView v-else-if="pageView === 'support'" />
+
+    <!-- ── Government services ("/services") ── -->
+    <ServicesView v-else-if="isServices" />
 
     <!-- ── Term report card ("/<admin>/report") ── -->
     <ReportView
