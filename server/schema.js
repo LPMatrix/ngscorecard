@@ -359,3 +359,25 @@ export const corrections = sqliteTable('corrections', {
   ipHash:         text('ip_hash'),        // pseudonymous — salted hash, for spotting floods only
   createdAt:      text('created_at').notNull(),
 })
+
+// One row per Paystack charge: the initial one-time or first-subscription
+// charge, and each later monthly renewal. `verify` (the client-side popup
+// callback) and the webhook both write here, keyed on Paystack's own
+// `reference`, so whichever arrives first records it and the other is a
+// no-op — the webhook is the authoritative source since a closed browser
+// tab can't skip it. Never edited from the admin UI; Paystack is the ledger.
+export const donations = sqliteTable('donations', {
+  id:                   integer('id').primaryKey({ autoIncrement: true }),
+  reference:            text('reference').notNull().unique(), // Paystack transaction reference
+  email:                text('email').notNull(),
+  amountKobo:           integer('amount_kobo').notNull(),
+  currency:             text('currency').notNull().default('NGN'),
+  frequency:            text('frequency').notNull(), // 'once' | 'monthly'
+  status:               text('status').notNull().default('pending'), // pending|success|failed
+  channel:              text('channel'), // card|bank|ussd|… from Paystack
+  planCode:             text('plan_code'),
+  paystackCustomerCode: text('paystack_customer_code'),
+  subscriptionCode:     text('subscription_code'), // set for monthly, once Paystack creates it
+  createdAt:            text('created_at').notNull(),
+  verifiedAt:           text('verified_at'),
+})

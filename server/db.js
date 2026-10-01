@@ -108,6 +108,23 @@ function ensureLocalSchema(client) {
     )
   `).run()
   client.prepare(`
+    CREATE TABLE IF NOT EXISTS donations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      reference TEXT NOT NULL UNIQUE,
+      email TEXT NOT NULL,
+      amount_kobo INTEGER NOT NULL,
+      currency TEXT NOT NULL DEFAULT 'NGN',
+      frequency TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending',
+      channel TEXT,
+      plan_code TEXT,
+      paystack_customer_code TEXT,
+      subscription_code TEXT,
+      created_at TEXT NOT NULL,
+      verified_at TEXT
+    )
+  `).run()
+  client.prepare(`
     CREATE TABLE IF NOT EXISTS api_keys (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       key TEXT NOT NULL UNIQUE,
@@ -118,6 +135,31 @@ function ensureLocalSchema(client) {
       request_count INTEGER NOT NULL DEFAULT 0,
       revoked INTEGER NOT NULL DEFAULT 0
     )
+  `).run()
+  client.prepare(`
+    CREATE TABLE IF NOT EXISTS rag_documents (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      source TEXT NOT NULL,
+      title TEXT NOT NULL,
+      url TEXT,
+      content TEXT NOT NULL,
+      fetched_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    )
+  `).run()
+  client.prepare(`
+    CREATE TABLE IF NOT EXISTS rag_chunks (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      document_id INTEGER NOT NULL,
+      text TEXT NOT NULL,
+      embedding TEXT,
+      token_count INTEGER,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (document_id) REFERENCES rag_documents(id)
+    )
+  `).run()
+  client.prepare(`
+    CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)
   `).run()
 }
 

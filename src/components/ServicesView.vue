@@ -1,356 +1,438 @@
 <script setup>
-import { ref, inject } from 'vue'
+import { ref, inject, computed, nextTick } from 'vue'
 
 const t = inject('t')
 
-const journeys = ref([
-  {
-    id: 'business-registration',
-    title: 'Register a Business',
-    description: 'Step-by-step guide to registering a company in Nigeria',
-    steps: [
-      {
-        num: 1,
-        name: 'Check business name availability',
-        agency: 'Corporate Affairs Commission (CAC)',
-        url: 'https://www.cac.gov.ng/newcompanypage/namecheck',
-        requirements: ['Proposed business name', 'Owner details'],
-        timeline: '1–3 days',
-        cost: '₦5,000–₦10,000',
-        notes: 'Search the CAC registry to ensure your name is available and unique.'
-      },
-      {
-        num: 2,
-        name: 'Register company with CAC',
-        agency: 'Corporate Affairs Commission (CAC)',
-        url: 'https://www.cac.gov.ng/registration/',
-        requirements: ['Form CAC 2 (Articles of Association)', 'Incorporation documents', 'Directors and shareholders info'],
-        timeline: '3–5 days',
-        cost: '₦20,000–₦50,000',
-        notes: 'File incorporation documents and get your RC number (registration certificate).'
-      },
-      {
-        num: 3,
-        name: 'Obtain Tax Identification Number (TIN)',
-        agency: 'Federal Inland Revenue Service (FIRS)',
-        url: 'https://www.firs.gov.ng/businesstaxonline/',
-        requirements: ['CAC RC number', 'Business address', 'Business details'],
-        timeline: '1–2 days',
-        cost: 'Free',
-        notes: 'Register with FIRS online or at local tax office. TIN is required for all tax matters.'
-      },
-      {
-        num: 4,
-        name: 'Open a business bank account',
-        agency: 'Your chosen bank',
-        url: 'https://www.cbn.gov.ng/out/publications/guidelines/dsg/guidelines_for_account_opening.pdf',
-        requirements: ['CAC RC number', 'TIN', 'Directors ID proofs', 'Proof of address'],
-        timeline: '1–3 days',
-        cost: 'Free (varies by bank)',
-        notes: 'Contact your preferred bank. Requirements vary; some banks streamlined online.'
-      },
-      {
-        num: 5,
-        name: 'Register for State Board of Internal Revenue (optional)',
-        agency: 'Your State SBIR',
-        url: 'https://sbir.ng/',
-        requirements: ['Business registration details', 'Proof of address in state'],
-        timeline: '1–2 days',
-        cost: 'Varies by state',
-        notes: 'Required if you operate within a specific state. Check your state SBIR portal.'
-      }
-    ]
+const question = ref('')
+const messages = ref([])
+const loading = ref(false)
+const messagesEnd = ref(null)
+
+const hasResults = computed(() => messages.value.some(m => m.sources))
+
+async function askQuestion() {
+  if (!question.value.trim()) return
+
+  const userQuestion = question.value.trim()
+  question.value = ''
+  loading.value = true
+
+  // Add user message
+  messages.value.push({
+    type: 'user',
+    text: userQuestion
+  })
+
+  try {
+    const response = await fetch('/api/rag/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: userQuestion })
+    })
+
+    if (!response.ok) throw new Error('Failed to get answer')
+
+    const data = await response.json()
+
+    // Add assistant message with sources
+    messages.value.push({
+      type: 'assistant',
+      text: userQuestion,
+      sources: data.sources || []
+    })
+  } catch (error) {
+    messages.value.push({
+      type: 'error',
+      text: 'Sorry, I couldn\'t find an answer. Try asking about CAC registration, FIRS taxes, or government budgets.'
+    })
   }
-])
 
-const expandedStep = ref(null)
+  loading.value = false
+  await nextTick(() => messagesEnd.value?.scrollIntoView({ behavior: 'smooth' }))
+}
 
-function toggleStep(stepNum) {
-  expandedStep.value = expandedStep.value === stepNum ? null : stepNum
+function handleKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault()
+    askQuestion()
+  }
 }
 </script>
 
 <template>
-  <div class="sv-container">
-    <div class="sv-header">
-      <h1>Government Services Guide</h1>
-      <p>Find official government resources for common Nigerian procedures.</p>
+  <div class="srv-container">
+    <div class="srv-header">
+      <h1>Ask Government</h1>
+      <p>Find answers in official Nigerian government documents and announcements.</p>
+      <p class="srv-subtitle">Ask about business registration, taxes, budgets, policies, and more.</p>
     </div>
 
-    <div class="sv-journey" v-for="journey in journeys" :key="journey.id">
-      <div class="sv-journey-header">
-        <h2>{{ journey.title }}</h2>
-        <p class="sv-journey-desc">{{ journey.description }}</p>
-      </div>
-
-      <div class="sv-steps">
-        <div
-          v-for="step in journey.steps"
-          :key="step.num"
-          :class="['sv-step', { expanded: expandedStep === step.num }]"
-        >
-          <div class="sv-step-trigger" @click="toggleStep(step.num)">
-            <div class="sv-step-num">{{ step.num }}</div>
-            <div class="sv-step-title">{{ step.name }}</div>
-            <div class="sv-step-agency">{{ step.agency }}</div>
-            <div class="sv-expand-icon">{{ expandedStep === step.num ? '−' : '+' }}</div>
-          </div>
-
-          <div v-if="expandedStep === step.num" class="sv-step-details">
-            <div class="sv-detail-row">
-              <span class="sv-detail-label">Timeline:</span>
-              <span class="sv-detail-value">{{ step.timeline }}</span>
+    <div class="srv-chat">
+      <div class="srv-messages">
+        <div v-if="!messages.length" class="srv-empty">
+          <div class="srv-empty-icon">💬</div>
+          <p>No questions yet. Try asking:</p>
+          <div class="srv-examples">
+            <div class="srv-example" @click="question = 'How do I register a business with CAC?'; askQuestion()">
+              How do I register a business?
             </div>
-            <div class="sv-detail-row">
-              <span class="sv-detail-label">Cost:</span>
-              <span class="sv-detail-value">{{ step.cost }}</span>
+            <div class="srv-example" @click="question = 'What is the current inflation rate?'; askQuestion()">
+              What is the current inflation rate?
             </div>
-            <div class="sv-detail-row">
-              <span class="sv-detail-label">What you need:</span>
-              <ul class="sv-requirements">
-                <li v-for="(req, i) in step.requirements" :key="i">{{ req }}</li>
-              </ul>
-            </div>
-            <div class="sv-detail-row">
-              <span class="sv-detail-label">Notes:</span>
-              <p class="sv-detail-note">{{ step.notes }}</p>
-            </div>
-            <div class="sv-detail-row">
-              <a :href="step.url" target="_blank" class="sv-link">
-                Visit official website →
-              </a>
+            <div class="srv-example" @click="question = 'Where can I find government budget information?'; askQuestion()">
+              Where is the budget information?
             </div>
           </div>
         </div>
+
+        <div v-for="(msg, i) in messages" :key="i" :class="['srv-message', msg.type]">
+          <div v-if="msg.type === 'user'" class="srv-question">{{ msg.text }}</div>
+
+          <div v-else-if="msg.type === 'error'" class="srv-error">
+            {{ msg.text }}
+          </div>
+
+          <div v-else-if="msg.type === 'assistant' && msg.sources" class="srv-answer">
+            <div class="srv-sources-header">
+              Found {{ msg.sources.length }} relevant source{{ msg.sources.length !== 1 ? 's' : '' }}:
+            </div>
+            <div class="srv-sources">
+              <div v-for="(source, j) in msg.sources" :key="j" class="srv-source">
+                <div class="srv-source-header">
+                  <span class="srv-source-title">{{ source.title }}</span>
+                  <span class="srv-source-relevance">{{ source.relevance }}% match</span>
+                </div>
+                <p class="srv-source-text">{{ source.text }}</p>
+                <div class="srv-source-meta">
+                  <span class="srv-source-name">{{ source.source }}</span>
+                  <a v-if="source.url" :href="source.url" target="_blank" class="srv-source-link">
+                    Read more →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="loading" class="srv-loading">
+          <div class="srv-spinner"></div>
+          <span>Searching documents...</span>
+        </div>
+
+        <div ref="messagesEnd"></div>
+      </div>
+
+      <div class="srv-input-area">
+        <textarea
+          v-model="question"
+          @keydown="handleKeydown"
+          :disabled="loading"
+          placeholder="Ask a question about government services, budgets, taxes..."
+          class="srv-input"
+        ></textarea>
+        <button
+          @click="askQuestion"
+          :disabled="!question.trim() || loading"
+          class="srv-send-btn"
+        >
+          {{ loading ? 'Searching...' : 'Ask' }}
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.sv-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+.srv-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f9f9f9;
 }
 
-.sv-header {
+.srv-header {
+  padding: 2rem;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
   text-align: center;
-  margin-bottom: 3rem;
 }
 
-.sv-header h1 {
+.srv-header h1 {
   font-size: 2rem;
   font-weight: 700;
   color: var(--ink, #132a1d);
   margin: 0 0 0.5rem 0;
 }
 
-.sv-header p {
-  font-size: 1rem;
-  color: #666;
+.srv-header p {
   margin: 0;
-}
-
-.sv-journey {
-  margin-bottom: 3rem;
-}
-
-.sv-journey-header {
-  margin-bottom: 2rem;
-}
-
-.sv-journey-header h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--ink, #132a1d);
-  margin: 0 0 0.5rem 0;
-}
-
-.sv-journey-desc {
   color: #666;
-  margin: 0;
   font-size: 0.95rem;
 }
 
-.sv-steps {
+.srv-subtitle {
+  margin-top: 0.5rem !important;
+  font-size: 0.85rem !important;
+  color: #999 !important;
+}
+
+.srv-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.srv-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.sv-step {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
-  overflow: hidden;
-}
-
-.sv-step.expanded {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.sv-step-trigger {
+.srv-empty {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  cursor: pointer;
-  background: #f9f9f9;
-  border-bottom: 1px solid #eee;
-  transition: background 0.2s;
-}
-
-.sv-step.expanded .sv-step-trigger {
-  background: var(--accent, #0a6b45);
-  color: white;
-  border-bottom-color: transparent;
-}
-
-.sv-step-trigger:hover {
-  background: #f0f0f0;
-}
-
-.sv-step.expanded .sv-step-trigger:hover {
-  background: var(--accent, #0a6b45);
-}
-
-.sv-step-num {
-  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  border-radius: 50%;
-  background: var(--accent, #0a6b45);
-  color: white;
+  flex: 1;
+  text-align: center;
+}
+
+.srv-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.srv-empty p {
+  margin: 0;
+  color: #666;
   font-weight: 600;
+}
+
+.srv-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  max-width: 600px;
+}
+
+.srv-example {
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
   font-size: 0.9rem;
 }
 
-.sv-step.expanded .sv-step-num {
-  background: white;
-  color: var(--accent, #0a6b45);
+.srv-example:hover {
+  background: var(--accent, #0a6b45);
+  color: white;
+  border-color: var(--accent, #0a6b45);
 }
 
-.sv-step-title {
+.srv-message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.srv-message.user {
+  align-self: flex-end;
+  max-width: 80%;
+}
+
+.srv-question {
+  background: var(--accent, #0a6b45);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.srv-message.error {
+  align-self: center;
+}
+
+.srv-error {
+  background: #fee;
+  color: #c33;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #c33;
+  font-size: 0.9rem;
+}
+
+.srv-answer {
+  max-width: 800px;
   flex: 1;
+}
+
+.srv-sources-header {
   font-weight: 600;
   color: var(--ink, #132a1d);
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
 }
 
-.sv-step.expanded .sv-step-title {
-  color: white;
+.srv-sources {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.sv-step-agency {
-  font-size: 0.85rem;
-  color: #888;
-  max-width: 200px;
-  text-align: right;
+.srv-source {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
 }
 
-.sv-step.expanded .sv-step-agency {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.sv-expand-icon {
-  font-size: 1.5rem;
-  font-weight: 300;
-  color: #666;
-}
-
-.sv-step.expanded .sv-expand-icon {
-  color: white;
-}
-
-.sv-step-details {
-  padding: 1.5rem;
-  background: #f9f9f9;
-}
-
-.sv-detail-row {
-  margin-bottom: 1.5rem;
-}
-
-.sv-detail-row:last-child {
-  margin-bottom: 0;
-}
-
-.sv-detail-label {
-  display: block;
-  font-weight: 600;
-  color: var(--ink, #132a1d);
+.srv-source-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
   margin-bottom: 0.5rem;
 }
 
-.sv-detail-value {
-  color: #666;
+.srv-source-title {
+  font-weight: 600;
+  color: var(--ink, #132a1d);
+  font-size: 0.95rem;
 }
 
-.sv-requirements {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.srv-source-relevance {
+  font-size: 0.8rem;
+  background: var(--accent, #0a6b45);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  white-space: nowrap;
 }
 
-.sv-requirements li {
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
-  position: relative;
-  color: #666;
-}
-
-.sv-requirements li:before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--accent, #0a6b45);
-  font-weight: bold;
-}
-
-.sv-detail-note {
-  margin: 0;
-  color: #666;
+.srv-source-text {
+  margin: 0.5rem 0;
+  color: #555;
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
-.sv-link {
-  display: inline-block;
-  margin-top: 1rem;
+.srv-source-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.srv-source-name {
+  font-style: italic;
+}
+
+.srv-source-link {
   color: var(--accent, #0a6b45);
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.2s;
 }
 
-.sv-link:hover {
-  color: #054a2e;
+.srv-source-link:hover {
   text-decoration: underline;
 }
 
+.srv-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.srv-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #e0e0e0;
+  border-top-color: var(--accent, #0a6b45);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg) }
+}
+
+.srv-input-area {
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #ddd;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.srv-input {
+  flex: 1;
+  min-height: 50px;
+  max-height: 120px;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+}
+
+.srv-input:focus {
+  border-color: var(--accent, #0a6b45);
+}
+
+.srv-send-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--accent, #0a6b45);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.srv-send-btn:hover:not(:disabled) {
+  background: #054a2e;
+}
+
+.srv-send-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
-  .sv-step-trigger {
-    flex-wrap: wrap;
-    gap: 0.5rem;
+  .srv-container {
+    height: auto;
+    min-height: 100vh;
   }
 
-  .sv-step-agency {
-    order: 3;
-    flex-basis: 100%;
-    max-width: none;
-    text-align: left;
-    font-size: 0.8rem;
-    padding-left: 2.5rem;
+  .srv-header {
+    padding: 1.5rem 1rem;
   }
 
-  .sv-header h1 {
+  .srv-header h1 {
     font-size: 1.5rem;
   }
 
-  .sv-journey-header h2 {
-    font-size: 1.25rem;
+  .srv-message.user {
+    max-width: 100%;
+  }
+
+  .srv-messages {
+    padding: 0.5rem;
   }
 }
 </style>

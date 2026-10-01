@@ -16,10 +16,13 @@
     "db:seed:reset": "node --env-file=.env server/seed.js --reset",
     "db:studio": "drizzle-kit studio",
     "export:dataset": "node --env-file=.env scripts/export-dataset.mjs",
-    "sitemap": "node --env-file=.env scripts/generate-sitemap.mjs"
+    "sitemap": "node --env-file=.env scripts/generate-sitemap.mjs",
+    "paystack:setup-plan": "node --env-file=.env scripts/setup-paystack-plan.mjs",
+    "rag:ingest": "node --env-file=.env scripts/ingest-documents.mjs"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
+    "@xenova/transformers": "^2.6.0",
     "better-sqlite3": "^12.10.0",
     "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
