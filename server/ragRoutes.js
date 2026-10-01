@@ -47,31 +47,58 @@ export function createRagRouter() {
         ? `\n\nRelevant government documents:\n${sources.map(s => `- ${s.title} (${s.source}, ${s.similarity}% relevant): ${s.text}`).join('\n')}`
         : '\n\n(No specific documents retrieved - answer based on training data)'
 
-      const message = await anthropic.messages.create({
-        model: 'claude-3-5-sonnet-20241022',
-        max_tokens: 500,
-        messages: [
-          {
-            role: 'user',
-            content: `You are a helpful Nigerian government services assistant. Answer this question about government procedures, policies, or services in Nigeria.\n\nQuestion: ${question}\n${context}\n\nProvide a clear, accurate answer. If you reference specific documents, mention the source.`
-          }
-        ]
-      })
-
-      const answer = message.content[0].type === 'text' ? message.content[0].text : 'Unable to generate answer'
-
-      const formatted = {
-        question: question,
-        answer: answer,
-        sources: sources.map(s => ({
-          title: s.title,
-          source: s.source,
-          url: s.url,
-          relevance: s.similarity
-        }))
+      // Check if API key is configured
+      if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY.startsWith('sk-ant-v7-placeholder')) {
+        return res.status(503).json({
+          error: 'AI synthesis not available',
+          sources: sources.map(s => ({
+            title: s.title,
+            source: s.source,
+            url: s.url,
+            relevance: s.similarity
+          })),
+          message: 'System is retrieving relevant documents but AI synthesis is not configured. Retrieved documents above may help answer your question.'
+        })
       }
 
-      res.json(formatted)
+      try {
+        const message = await anthropic.messages.create({
+          model: 'claude-3-5-sonnet-20241022',
+          max_tokens: 500,
+          messages: [
+            {
+              role: 'user',
+              content: `You are a helpful Nigerian government services assistant. Answer this question about government procedures, policies, or services in Nigeria.\n\nQuestion: ${question}\n${context}\n\nProvide a clear, accurate answer. If you reference specific documents, mention the source.`
+            }
+          ]
+        })
+
+        const answer = message.content[0].type === 'text' ? message.content[0].text : 'Unable to generate answer'
+
+        const formatted = {
+          question: question,
+          answer: answer,
+          sources: sources.map(s => ({
+            title: s.title,
+            source: s.source,
+            url: s.url,
+            relevance: s.similarity
+          }))
+        }
+
+        res.json(formatted)
+      } catch (apiError) {
+        console.error('Claude API error:', apiError.message)
+        res.status(503).json({
+          error: 'Answer synthesis temporarily unavailable',
+          sources: sources.map(s => ({
+            title: s.title,
+            source: s.source,
+            url: s.url,
+            relevance: s.similarity
+          }))
+        })
+      }
     } catch (error) {
       console.error('RAG error:', error)
       res.status(500).json({ error: 'Failed to process question' })

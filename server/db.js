@@ -172,6 +172,32 @@ async function createDb() {
       authToken: process.env.TURSO_AUTH_TOKEN,
     })
     const db = drizzle(client, { schema })
+
+    // Ensure RAG schema exists in Turso (safe to run multiple times)
+    try {
+      client.execute(`CREATE TABLE IF NOT EXISTS rag_documents (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        source TEXT NOT NULL,
+        title TEXT NOT NULL,
+        url TEXT,
+        content TEXT NOT NULL,
+        fetched_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      )`)
+      client.execute(`CREATE TABLE IF NOT EXISTS rag_chunks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        document_id INTEGER NOT NULL,
+        text TEXT NOT NULL,
+        embedding TEXT,
+        token_count INTEGER,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY (document_id) REFERENCES rag_documents(id)
+      )`)
+      client.execute(`CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)`)
+    } catch (e) {
+      console.warn('RAG schema initialization warning:', e.message)
+    }
+
     // Attach raw client for RAG queries
     db._rawClient = client
     return db
