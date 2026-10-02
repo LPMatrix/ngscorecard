@@ -21,33 +21,78 @@ function calculateRelevance(query, text) {
   return relevance
 }
 
-// Chunk text into smaller pieces (roughly 500 tokens per chunk)
-export function chunkText(text, maxChunkSize = 500) {
-  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text]
-  const chunks = []
-  let currentChunk = ''
-  let currentTokenCount = 0
+// Extract sections from structured text (e.g., "## Section Name")
+function extractSections(text) {
+  const sections = []
+  const lines = text.split('\n')
+  let currentSection = null
+  let currentContent = []
 
-  for (const sentence of sentences) {
-    const sentenceTokens = Math.ceil(sentence.length / 4) // rough estimate: 1 token ≈ 4 chars
-    if (currentTokenCount + sentenceTokens > maxChunkSize && currentChunk) {
-      chunks.push(currentChunk.trim())
-      currentChunk = sentence
-      currentTokenCount = sentenceTokens
-    } else {
-      currentChunk += sentence
-      currentTokenCount += sentenceTokens
+  for (const line of lines) {
+    const sectionMatch = line.match(/^#+\s+(.+)$/)
+    if (sectionMatch) {
+      if (currentSection && currentContent.length > 0) {
+        sections.push({
+          name: currentSection,
+          content: currentContent.join('\n').trim()
+        })
+      }
+      currentSection = sectionMatch[1]
+      currentContent = []
+    } else if (currentSection !== null) {
+      currentContent.push(line)
     }
   }
 
-  if (currentChunk.trim()) {
-    chunks.push(currentChunk.trim())
+  if (currentSection && currentContent.length > 0) {
+    sections.push({
+      name: currentSection,
+      content: currentContent.join('\n').trim()
+    })
+  }
+
+  return sections.length > 0 ? sections : [{ name: 'Main', content: text }]
+}
+
+// Chunk text into smaller pieces while preserving structure
+export function chunkText(text, maxChunkSize = 500) {
+  const sections = extractSections(text)
+  const chunks = []
+
+  for (const section of sections) {
+    const sentences = section.content.match(/[^.!?]+[.!?]+/g) || [section.content]
+    let currentChunk = ''
+    let currentTokenCount = 0
+
+    for (const sentence of sentences) {
+      const sentenceTokens = Math.ceil(sentence.length / 4) // rough estimate: 1 token ≈ 4 chars
+      if (currentTokenCount + sentenceTokens > maxChunkSize && currentChunk) {
+        chunks.push({
+          text: currentChunk.trim(),
+          section: section.name,
+          tokens: currentTokenCount
+        })
+        currentChunk = sentence
+        currentTokenCount = sentenceTokens
+      } else {
+        currentChunk += sentence
+        currentTokenCount += sentenceTokens
+      }
+    }
+
+    if (currentChunk.trim()) {
+      chunks.push({
+        text: currentChunk.trim(),
+        section: section.name,
+        tokens: currentTokenCount
+      })
+    }
   }
 
   return chunks
 }
 
-// RAG query: retrieve relevant chunks using keyword matching
+// RAG query: retrieve relevant chunks using keyword matching with metadata
 // Works with both better-sqlite3 and LibSQL clients
 export function queryRAG(dbClient, queryText, topK = 5) {
   let chunks = []
@@ -57,7 +102,7 @@ export function queryRAG(dbClient, queryText, topK = 5) {
     // better-sqlite3 API
     chunks = dbClient.prepare(`
       SELECT
-        c.id, c.text,
+        c.id, c.text, c.section, c.chunk_index,
         d.title, d.source, d.url
       FROM rag_chunks c
       JOIN rag_documents d ON c.document_id = d.id
@@ -66,7 +111,7 @@ export function queryRAG(dbClient, queryText, topK = 5) {
     // LibSQL API
     const result = dbClient.execute(`
       SELECT
-        c.id, c.text,
+        c.id, c.text, c.section, c.chunk_index,
         d.title, d.source, d.url
       FROM rag_chunks c
       JOIN rag_documents d ON c.document_id = d.id
@@ -74,9 +119,11 @@ export function queryRAG(dbClient, queryText, topK = 5) {
     chunks = result.rows.map(row => ({
       id: row[0],
       text: row[1],
-      title: row[2],
-      source: row[3],
-      url: row[4]
+      section: row[2],
+      chunkIndex: row[3],
+      title: row[4],
+      source: row[5],
+      url: row[6]
     }))
   }
 
@@ -92,21 +139,23 @@ export function queryRAG(dbClient, queryText, topK = 5) {
     .filter(chunk => chunk.relevance > 0) // Only keep relevant results
     .sort((a, b) => b.relevance - a.relevance)
 
-  // Return top-K results with 0-100 relevance score
+  // Return top-K results with 0-100 relevance score and metadata
   const results = scored.slice(0, topK).map(r => ({
     text: r.text,
     title: r.title,
     source: r.source,
     url: r.url,
+    section: r.section,
+    chunkIndex: r.chunkIndex,
     similarity: Math.round(r.relevance * 100)
   }))
 
   return { query: queryText, results }
 }
 
-// Add document and chunks to RAG database
+// Add document and chunks to RAG database with metadata preservation
 // Works with both better-sqlite3 and LibSQL clients
-export function addDocument(dbClient, { source, title, url, content }) {
+export function addDocument(dbClient, { source, title, url, content, state }) {
   const now = new Date().toISOString()
 
   // Insert document
@@ -120,13 +169,20 @@ export function addDocument(dbClient, { source, title, url, content }) {
     const documentId = docResult.lastInsertRowid
     const chunks = chunkText(content)
     const chunkStmt = dbClient.prepare(`
-      INSERT INTO rag_chunks (document_id, text, embedding, token_count, created_at)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO rag_chunks (document_id, text, embedding, token_count, section, chunk_index, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `)
 
     for (let i = 0; i < chunks.length; i++) {
-      const tokenCount = Math.ceil(chunks[i].length / 4)
-      chunkStmt.run(documentId, chunks[i], null, tokenCount, now)
+      chunkStmt.run(
+        documentId,
+        chunks[i].text,
+        null,
+        chunks[i].tokens,
+        chunks[i].section,
+        i,
+        now
+      )
     }
 
     return documentId
@@ -144,13 +200,20 @@ export function addDocument(dbClient, { source, title, url, content }) {
     const chunks = chunkText(content)
 
     for (let i = 0; i < chunks.length; i++) {
-      const tokenCount = Math.ceil(chunks[i].length / 4)
       dbClient.execute({
         sql: `
-          INSERT INTO rag_chunks (document_id, text, embedding, token_count, created_at)
-          VALUES (?, ?, ?, ?, ?)
+          INSERT INTO rag_chunks (document_id, text, embedding, token_count, section, chunk_index, created_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
         `,
-        args: [documentId, chunks[i], null, tokenCount, now]
+        args: [
+          documentId,
+          chunks[i].text,
+          null,
+          chunks[i].tokens,
+          chunks[i].section,
+          i,
+          now
+        ]
       })
     }
 

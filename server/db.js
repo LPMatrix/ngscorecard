@@ -154,12 +154,17 @@ function ensureLocalSchema(client) {
       text TEXT NOT NULL,
       embedding TEXT,
       token_count INTEGER,
+      section TEXT,
+      chunk_index INTEGER,
       created_at TEXT NOT NULL,
       FOREIGN KEY (document_id) REFERENCES rag_documents(id)
     )
   `).run()
   client.prepare(`
     CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)
+  `).run()
+  client.prepare(`
+    CREATE INDEX IF NOT EXISTS rag_chunks_section_idx ON rag_chunks(section)
   `).run()
 }
 
@@ -190,10 +195,13 @@ async function createDb() {
         text TEXT NOT NULL,
         embedding TEXT,
         token_count INTEGER,
+        section TEXT,
+        chunk_index INTEGER,
         created_at TEXT NOT NULL,
         FOREIGN KEY (document_id) REFERENCES rag_documents(id)
       )`)
       client.execute(`CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)`)
+      client.execute(`CREATE INDEX IF NOT EXISTS rag_chunks_section_idx ON rag_chunks(section)`)
     } catch (e) {
       console.warn('RAG schema initialization warning:', e.message)
     }
