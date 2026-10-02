@@ -195,13 +195,24 @@ async function createDb() {
         text TEXT NOT NULL,
         embedding TEXT,
         token_count INTEGER,
-        section TEXT,
-        chunk_index INTEGER,
         created_at TEXT NOT NULL,
         FOREIGN KEY (document_id) REFERENCES rag_documents(id)
       )`)
       client.execute(`CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)`)
-      client.execute(`CREATE INDEX IF NOT EXISTS rag_chunks_section_idx ON rag_chunks(section)`)
+
+      // Add missing columns from schema updates (safe to call multiple times)
+      const alterStatements = [
+        `ALTER TABLE rag_chunks ADD COLUMN section TEXT`,
+        `ALTER TABLE rag_chunks ADD COLUMN chunk_index INTEGER`,
+        `CREATE INDEX IF NOT EXISTS rag_chunks_section_idx ON rag_chunks(section)`
+      ]
+      for (const sql of alterStatements) {
+        try {
+          client.execute(sql)
+        } catch (e) {
+          // Column or index already exists - ignore
+        }
+      }
     } catch (e) {
       console.warn('RAG schema initialization warning:', e.message)
     }
