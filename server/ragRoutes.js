@@ -29,7 +29,7 @@ export function createRagRouter() {
       let sources = []
       if (rawClient) {
         try {
-          const result = queryRAG(rawClient, question, 5)
+          const result = await queryRAG(rawClient, question, 5)
           sources = result.results
 
           // If state specified, prioritize state-specific documents

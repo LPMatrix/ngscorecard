@@ -1,3 +1,23 @@
+import { pipeline } from '@xenova/transformers'
+
+// Lazy-loaded cross-encoder reranker
+let rerankerInstance = null
+let rerankerReady = false
+
+async function getReranker() {
+  if (rerankerInstance) return rerankerInstance
+  if (rerankerReady === false) {
+    try {
+      rerankerInstance = await pipeline('feature-extraction', 'Xenova/qnli-distilroberta-base')
+      rerankerReady = true
+    } catch (error) {
+      console.error('Failed to load reranker model:', error.message)
+      rerankerReady = true // Mark as tried to avoid repeated failures
+    }
+  }
+  return rerankerInstance
+}
+
 // Simple tokenizer for keyword extraction
 function tokenize(text) {
   return text.toLowerCase()
@@ -92,9 +112,40 @@ export function chunkText(text, maxChunkSize = 500) {
   return chunks
 }
 
+// Rerank chunks using cross-encoder semantic relevance
+// Only reranks if we have many chunks (> 5) to optimize performance
+async function rerankerChunks(queryText, chunks) {
+  try {
+    const reranker = await getReranker()
+    if (!reranker) return chunks // Fallback if reranker not available
+
+    // Only rerank if we have many chunks
+    if (chunks.length <= 5) return chunks
+
+    console.log(`Reranking ${chunks.length} chunks with cross-encoder...`)
+
+    // Compute similarity scores between query and each chunk
+    const pairs = chunks.map(chunk => [queryText, chunk.text])
+    const scores = await reranker(pairs, { pooling: 'mean_sqrt_freq_idf' })
+
+    // Add scores to chunks and sort
+    const scored = chunks.map((chunk, i) => ({
+      ...chunk,
+      rerankerScore: scores.data[i]
+    }))
+      .sort((a, b) => b.rerankerScore - a.rerankerScore)
+
+    return scored
+  } catch (error) {
+    console.error('Reranking failed, using original order:', error.message)
+    return chunks // Graceful degradation: use original order
+  }
+}
+
 // RAG query: retrieve relevant chunks using keyword matching with metadata
 // Works with both better-sqlite3 and LibSQL clients
-export function queryRAG(dbClient, queryText, topK = 5) {
+// Optionally reranks results using cross-encoder when many chunks retrieved
+export async function queryRAG(dbClient, queryText, topK = 5) {
   let chunks = []
 
   // Handle both better-sqlite3 and LibSQL APIs
@@ -139,15 +190,24 @@ export function queryRAG(dbClient, queryText, topK = 5) {
     .filter(chunk => chunk.relevance > 0) // Only keep relevant results
     .sort((a, b) => b.relevance - a.relevance)
 
+  // Get more candidates if we have them, for reranking
+  const candidates = scored.slice(0, Math.min(topK * 2, scored.length))
+
+  // Rerank if we have many candidates
+  let final = candidates
+  if (candidates.length > 5) {
+    final = await rerankerChunks(queryText, candidates)
+  }
+
   // Return top-K results with 0-100 relevance score and metadata
-  const results = scored.slice(0, topK).map(r => ({
+  const results = final.slice(0, topK).map(r => ({
     text: r.text,
     title: r.title,
     source: r.source,
     url: r.url,
     section: r.section,
     chunkIndex: r.chunkIndex,
-    similarity: Math.round(r.relevance * 100)
+    similarity: Math.round((r.rerankerScore ?? r.relevance ?? 0) * 100)
   }))
 
   return { query: queryText, results }
