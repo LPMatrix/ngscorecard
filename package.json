@@ -18,7 +18,9 @@
     "export:dataset": "node --env-file=.env scripts/export-dataset.mjs",
     "sitemap": "node --env-file=.env scripts/generate-sitemap.mjs",
     "paystack:setup-plan": "node --env-file=.env scripts/setup-paystack-plan.mjs",
-    "rag:ingest": "node --env-file=.env scripts/ingest-documents.mjs"
+    "rag:ingest": "node --env-file=.env scripts/ingest-documents.mjs",
+    "rag:fetch": "node --env-file=.env scripts/fetch-government-documents.mjs",
+    "rag:ingest-all": "node --env-file=.env scripts/ingest-all-documents.mjs"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
