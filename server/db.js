@@ -180,6 +180,7 @@ async function createDb() {
 
     // Ensure RAG schema exists in Turso (safe to run multiple times)
     try {
+      // Create tables if they don't exist
       client.execute(`CREATE TABLE IF NOT EXISTS rag_documents (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         source TEXT NOT NULL,
@@ -189,6 +190,7 @@ async function createDb() {
         fetched_at TEXT NOT NULL,
         updated_at TEXT NOT NULL
       )`)
+
       client.execute(`CREATE TABLE IF NOT EXISTS rag_chunks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         document_id INTEGER NOT NULL,
@@ -198,23 +200,28 @@ async function createDb() {
         created_at TEXT NOT NULL,
         FOREIGN KEY (document_id) REFERENCES rag_documents(id)
       )`)
-      client.execute(`CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)`)
 
-      // Add missing columns from schema updates (safe to call multiple times)
-      const alterStatements = [
-        `ALTER TABLE rag_chunks ADD COLUMN section TEXT`,
-        `ALTER TABLE rag_chunks ADD COLUMN chunk_index INTEGER`,
-        `CREATE INDEX IF NOT EXISTS rag_chunks_section_idx ON rag_chunks(section)`
-      ]
-      for (const sql of alterStatements) {
-        try {
-          client.execute(sql)
-        } catch (e) {
-          // Column or index already exists - ignore
+      client.execute(`CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)`)
+    } catch (e) {
+      console.warn('RAG schema creation warning:', e.message)
+    }
+
+    // Add missing columns from schema updates (safe to call multiple times)
+    const alterStatements = [
+      [`ALTER TABLE rag_chunks ADD COLUMN section TEXT`, 'section'],
+      [`ALTER TABLE rag_chunks ADD COLUMN chunk_index INTEGER`, 'chunk_index'],
+      [`CREATE INDEX IF NOT EXISTS rag_chunks_section_idx ON rag_chunks(section)`, 'index']
+    ]
+    for (const [sql, name] of alterStatements) {
+      try {
+        client.execute(sql)
+      } catch (e) {
+        if (e.message && e.message.includes('duplicate')) {
+          // Column or index already exists
+        } else {
+          console.warn(`RAG schema update (${name}) warning:`, e.message)
         }
       }
-    } catch (e) {
-      console.warn('RAG schema initialization warning:', e.message)
     }
 
     // Attach raw client for RAG queries
