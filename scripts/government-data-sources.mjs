@@ -401,6 +401,224 @@ The Bureau supports unemployment reduction through vocational training and skill
 - Centers in major states and LGAs
 - Mobile training units for remote areas
 - Online courses for select programs`
+  },
+  {
+    source: 'WAEC',
+    title: 'West African Examinations Council - Secondary School Exams',
+    url: 'https://www.waecnigeria.org/',
+    content: `# West African Examinations Council - WAEC
+
+## Secondary School Examination Services
+
+WAEC conducts the West African School Certificate Examination (WASCE) for secondary school students.
+
+## Examination Subjects
+- Mathematics
+- English Language
+- Integrated Science (Biology, Chemistry, Physics)
+- Social Studies
+- Civic Education
+- Electives (Arts, Sciences, Commercial)
+
+## Who Can Register
+- Secondary school students (Internal candidates)
+- Private candidates (External candidates)
+- Adults seeking certification
+
+## Registration Process
+1. Schools register candidates through WAEC portal
+2. Provide student details and subject choices
+3. Pay examination fees
+4. Receive admission slips before exam
+5. Attend examination sessions
+
+## Examination Schedule
+- Conducted twice yearly (May/June and November/December)
+- Computer-based and paper-based options
+- Results issued within 6-8 weeks
+
+## Results and Certification
+- Official result slips issued
+- Multiple copies available for university applications
+- Replacement slips can be obtained
+- Results valid indefinitely`
+  },
+  {
+    source: 'NECO',
+    title: 'National Examinations Council - School Certificate Exams',
+    url: 'https://www.neco.gov.ng/',
+    content: `# National Examinations Council - NECO
+
+## Secondary School Certificate Examination
+
+NECO conducts the Senior Secondary Certificate Examination (SSCE) for Nigerian students.
+
+## Examination Subjects
+- English Language
+- Mathematics
+- Biology, Chemistry, Physics
+- History, Geography
+- Literature in English
+- Commercial subjects
+- Technical and vocational subjects
+
+## Exam Types
+- School-based (Internal candidates)
+- Private candidates (SSCE for Adults)
+- GCE (General Certificate of Education)
+
+## Registration Requirements
+- Candidate personal data
+- School or registration center information
+- Choice of subjects (minimum 4, maximum 9)
+- Valid identification
+
+## Examination Details
+- Conducted twice yearly
+- Computer-based testing
+- Practical examinations for science subjects
+- Results issued within 4-6 weeks
+
+## Result Uses
+- University admission
+- Employment qualifications
+- Vocational training requirements
+- International recognition`
+  },
+  {
+    source: 'Ministry of Health',
+    title: 'Federal Ministry of Health - Healthcare Services',
+    url: 'https://www.health.gov.ng/',
+    content: `# Federal Ministry of Health
+
+## Healthcare Services and Immunization Programs
+
+The Ministry of Health oversees national healthcare policies and disease prevention programs.
+
+## Key Services
+- Disease surveillance and control
+- Immunization programs (routine and campaigns)
+- Maternal and child health services
+- Communicable disease management
+- Emergency response services
+- Health facility regulation
+
+## Immunization Program
+- Routine childhood immunization
+- Adult immunization services
+- Disease outbreak response
+- Vaccination centers in all LGAs
+- Free immunization for children
+
+## How to Access Services
+1. Visit nearest health facility
+2. Bring valid identification
+3. Consult health worker
+4. Receive service or referral
+5. Obtain health records
+
+## Services Available
+- Preventive health services
+- Treatment for communicable diseases
+- Maternal healthcare
+- Child health services
+- Disability and rehabilitation
+
+## Locations
+- Primary health centers (PHCs)
+- State health facilities
+- General hospitals
+- Teaching hospitals`
+  },
+  {
+    source: 'SON',
+    title: 'Standards Organisation of Nigeria - Product Quality Standards',
+    url: 'https://www.sonigeria.gov.ng/',
+    content: `# Standards Organisation of Nigeria - SON
+
+## Quality Assurance and Product Standards
+
+SON ensures products and services meet Nigerian and international quality standards.
+
+## Services Provided
+- Product certification and testing
+- Factory inspection and audits
+- Standards information and training
+- Product quality verification
+- Import/export compliance
+
+## Testing and Certification
+- Laboratory testing of products
+- Compliance with Nigerian standards
+- International standard compliance
+- Certificate issuance for compliant products
+
+## Who Needs Certification
+- Manufacturers in Nigeria
+- Import/export traders
+- Food and beverage producers
+- Construction material suppliers
+- Electrical equipment manufacturers
+
+## Application Process
+1. Submit product samples
+2. Complete application form
+3. Pay certification fees
+4. Undergo factory inspection
+5. Laboratory testing
+6. Issue certificate upon compliance
+
+## Standard Categories
+- Food safety standards
+- Building materials
+- Electrical safety
+- Environmental protection
+- Industrial products`
+  },
+  {
+    source: 'SERAP',
+    title: 'Special Offences Response Team - Anticorruption',
+    url: 'https://www.serap.org.ng/',
+    content: `# Special Offences Response Team - SERAP
+
+## Anti-Corruption and Public Rights Advocacy
+
+SERAP is an organization that files strategic lawsuits and advocacy for government accountability and budget transparency.
+
+## Focus Areas
+- Public sector accountability
+- Budget transparency
+- Anti-corruption litigation
+- Citizens' rights advocacy
+- Freedom of information access
+
+## Services
+- Legal representation in public interest cases
+- Corruption complaint support
+- Budget monitoring and analysis
+- Public interest litigation
+- Capacity building on rights
+
+## How to File a Complaint
+1. Contact SERAP office
+2. Provide details of alleged corruption
+3. Gather supporting documentation
+4. File formal complaint
+5. SERAP legal team assessment
+6. Possible legal action
+
+## Rights Protected
+- Right to public accountability
+- Access to government information
+- Fair budget allocation
+- Anti-corruption enforcement
+- Citizens' participation in governance
+
+## Contact and Support
+- Free legal consultation
+- Complaint handling
+- Case monitoring
+- Public advocacy campaigns`
   }
 ]
 
@@ -579,5 +797,224 @@ The FCT Revenue Board manages local taxation and development levies in Abuja.
 - Tax advisory services
 - Business expansion support
 - Investor facilitation`
+  },
+  {
+    state: 'Enugu',
+    source: 'ENIRS',
+    title: 'Enugu State Internal Revenue Service',
+    url: 'https://www.enuguirs.ng/',
+    content: `# Enugu State Internal Revenue Service
+
+## State Tax Administration and Revenue
+
+ENIRS manages taxation and generates revenue for state government development programs.
+
+## Tax Services
+- Personal income tax
+- Business profit tax
+- Property tax
+- Vehicle and motor tax
+- License and permit fees
+
+## Registration and Compliance
+1. Register business with CAC
+2. Complete ENIRS registration
+3. Obtain tax ID number
+4. Begin tax filing and payment
+
+## Filing Requirements
+- Annual returns for all taxpayers
+- Quarterly payments for corporations
+- Monthly installments for high earners
+- Records maintenance and availability
+
+## Payment Options
+- Online portal payment
+- Bank transfers
+- ENIRS office payment
+- Mobile money services`
+  },
+  {
+    state: 'Abia',
+    source: 'ABIRS',
+    title: 'Abia State Internal Revenue Service',
+    url: 'https://www.abiairb.com/',
+    content: `# Abia State Internal Revenue Service
+
+## Revenue Generation and Tax Collection
+
+ABIRS collects taxes to support development in Abia State.
+
+## Services
+- Business registration and taxation
+- Personal income tax
+- Property tax assessment
+- License and permit services
+- Tax clearance issuance
+
+## Registration Process
+1. Obtain business registration
+2. Visit ABIRS office or portal
+3. Complete registration form
+4. Provide identification documents
+5. Get tax ID and commence operations
+
+## Tax Compliance
+- Regular tax filing required
+- Payment through designated channels
+- Tax clearance for government contracts
+- Support for business compliance
+
+## Office Locations
+- State headquarters
+- Local government area offices
+- Online portal for registration`
+  },
+  {
+    state: 'Cross River',
+    source: 'CRIRS',
+    title: 'Cross River State Internal Revenue Board',
+    url: 'https://www.crossriverirs.ng/',
+    content: `# Cross River State Internal Revenue Board
+
+## Tax and Revenue Administration
+
+CRIRS manages state revenue collection and fiscal operations.
+
+## Revenue Services
+- Business and corporate taxation
+- Personal income tax
+- Property tax collection
+- Vehicle registration tax
+- Business licensing
+
+## How to Register
+1. Complete business registration with CAC
+2. Report to CRIRS office
+3. Provide business details
+4. Receive state tax number
+5. Start tax compliance
+
+## Compliance and Payment
+- Annual tax filing mandatory
+- Quarterly payments for businesses
+- Tax clearance for contracts
+- Penalty for non-compliance
+
+## Support Services
+- Tax information and guidance
+- Clearance verification
+- Records update services`
+  },
+  {
+    state: 'Delta',
+    source: 'DIRS',
+    title: 'Delta State Internal Revenue Service',
+    url: 'https://www.deltairs.gov.ng/',
+    content: `# Delta State Internal Revenue Service
+
+## Tax Collection and Revenue Management
+
+DIRS ensures effective taxation and revenue generation for Delta State.
+
+## Tax Types
+- Corporate income tax
+- Personal income tax
+- Capital gains tax
+- Property tax
+- Business permits and licenses
+
+## Registration and Filing
+1. CAC business registration required
+2. DIRS registration completion
+3. Obtain tax ID
+4. File tax returns as scheduled
+5. Make tax payments
+
+## Payment Methods
+- Online payment portal
+- Bank transfers
+- Cash payment at offices
+- Mobile money options
+
+## Available Services
+- Tax consultation
+- Return preparation assistance
+- Clearance issuance
+- Record maintenance`
+  },
+  {
+    state: 'Imo',
+    source: 'IMIRS',
+    title: 'Imo State Internal Revenue Service',
+    url: 'https://www.imorevenue.gov.ng/',
+    content: `# Imo State Internal Revenue Service
+
+## State Revenue and Tax Administration
+
+IMIRS administers taxation for Imo State development and service delivery.
+
+## Revenue Sources
+- Business income tax
+- Personal income tax
+- Property tax
+- Motor vehicle tax
+- Business registration fees
+
+## Getting Started
+1. Register business with CAC
+2. Visit IMIRS office or website
+3. Complete registration form
+4. Submit required documents
+5. Receive state tax ID
+
+## Tax Filing Schedule
+- Annual returns required
+- Quarterly payments for corporations
+- Monthly for high-income earners
+- Regular updates for changes
+
+## Services and Support
+- Online filing system
+- Tax payment portal
+- Clearance certificates
+- Business registration support`
+  },
+  {
+    state: 'Osun',
+    source: 'OSIRS',
+    title: 'Osun State Internal Revenue Board',
+    url: 'https://www.osunirsb.gov.ng/',
+    content: `# Osun State Internal Revenue Board
+
+## Taxation and Revenue Services
+
+OSIRS manages state taxation and fiscal revenue collection.
+
+## Tax Services Offered
+- Personal income tax
+- Business taxation
+- Property and land tax
+- Cooperative society tax
+- License and permit fees
+
+## Registration Steps
+1. Complete CAC registration
+2. Go to OSIRS office or portal
+3. Provide required information
+4. Pay registration fee
+5. Obtain state tax ID
+
+## Compliance Requirements
+- File annual tax return
+- Pay taxes on schedule
+- Maintain business records
+- Report income accurately
+
+## Available Support
+- Tax information services
+- Online filing and payment
+- Clearance processing
+- Taxpayer education programs`
   }
 ]
