@@ -619,6 +619,753 @@ SERAP is an organization that files strategic lawsuits and advocacy for governme
 - Complaint handling
 - Case monitoring
 - Public advocacy campaigns`
+  },
+  {
+    source: 'INEC',
+    title: 'Independent National Electoral Commission',
+    url: 'https://www.inecnigeria.org/',
+    content: `# Independent National Electoral Commission - INEC
+
+## Electoral Services and Voter Registration
+
+INEC manages all electoral processes in Nigeria including voter registration, election organization, and results management.
+
+## Voter Registration
+1. Visit designated INEC registration center
+2. Provide valid identification (passport, driver's license, NIN)
+3. Complete registration form
+4. Provide biometric data
+5. Receive voter registration slip
+6. Check voter status online
+
+## Voting Requirements
+- Must be Nigerian citizen
+- Must be 18 years or older
+- Must be registered as voter
+- Valid voter card or registration number
+
+## Election Cycles
+- Presidential and National Assembly elections
+- Gubernatorial and State Assembly elections
+- Local Government elections
+- Off-cycle elections as scheduled
+
+## Services
+- Voter registration and verification
+- Election information and schedule
+- Polling unit locator
+- Election observer registration
+- Complaint handling
+
+## Online Services
+- Check voter status: www.inecnigeria.org
+- Download voter registration slip
+- Find polling unit location
+- Register as election observer`
+  },
+  {
+    source: 'NYSC',
+    title: 'National Youth Service Corps - Youth Service',
+    url: 'https://www.nysc.gov.ng/',
+    content: `# National Youth Service Corps - NYSC
+
+## Youth Engagement and National Service
+
+NYSC operates the mandatory one-year national service program for Nigerian graduates.
+
+## Who Must Enlist
+- University graduates (first degree holders)
+- Polytechnic graduates (upper credit and above)
+- Age: between 18-30 years
+- Nigerian citizen with valid identification
+
+## Enrollment Process
+1. Obtain discharge certificate from institution
+2. Register online at portal.nysc.gov.ng
+3. Print registration slip
+4. Attend orientation camp (3 weeks)
+5. Deploy to service location
+6. Complete service year
+7. Obtain discharge certificate
+
+## Service Locations
+- Federal government ministries
+- State government agencies
+- Private organizations
+- Educational institutions
+- Healthcare facilities
+
+## Allowances and Benefits
+- Monthly stipend (₦33,000)
+- Accommodation during camp
+- Clothing and feeding during camp
+- Post-service employment support
+- Loan/grant scheme for entrepreneurs
+
+## Discharge Benefits
+- Certificate of national service
+- Personal accident insurance
+- Employment opportunities
+- Entrepreneurship support`
+  },
+  {
+    source: 'NPC',
+    title: 'National Population Commission - Census and Demographics',
+    url: 'https://www.population.gov.ng/',
+    content: `# National Population Commission - NPC
+
+## Census, Vital Registration and Population Data
+
+NPC conducts national population census and manages demographic statistics.
+
+## National Census
+- Conducted every 10 years
+- Provides population count and demographics
+- Used for planning and resource allocation
+- Census enumerators visit households
+
+## Vital Registration
+- Birth registration
+- Death registration
+- Marriage registration
+- Divorce registration
+
+## Birth Registration
+1. Register within 3 months of birth
+2. Visit nearest NPC office with:
+   - Child's birth notification slip
+   - Parent's identification
+   - Hospital discharge slip (if hospital birth)
+3. Complete registration form
+4. Receive birth certificate
+
+## Death Registration
+1. Report to NPC within 30 days
+2. Provide death certificate
+3. Provide deceased person's details
+4. Pay registration fee
+5. Obtain death registration
+
+## Services
+- Demographic research and data
+- Population projections
+- Census operations
+- Vital statistics
+- Training and awareness`
+  },
+  {
+    source: 'NPF',
+    title: 'Nigeria Police Force - Law Enforcement',
+    url: 'https://www.npf.gov.ng/',
+    content: `# Nigeria Police Force - NPF
+
+## Law Enforcement and Public Safety
+
+The Nigeria Police Force maintains law and order and protects citizens.
+
+## Services
+- Crime investigation and reporting
+- Visa applications and character verification
+- Police clearance certificates
+- Traffic law enforcement
+- Community policing
+- Emergency response (999 hotline)
+
+## Reporting a Crime
+1. Call 999 (emergency) or visit nearest police station
+2. Provide details of incident
+3. File official report
+4. Receive incident number
+5. Follow up on investigation
+
+## Police Clearance Certificate
+- Required for: visa applications, employment, business registration
+- Apply at nearest police station
+- Provide identification and application form
+- Pay processing fee
+- Certificate issued within 1-2 weeks
+
+## Traffic and Vehicle Services
+- Vehicle registration and licensing
+- Traffic offence handling
+- Accident investigation and reporting
+- Driving permit services
+
+## Community Safety
+- Crime prevention awareness
+- Public education programs
+- Community-police relations
+- Neighborhood watch support`
+  },
+  {
+    source: 'EFCC',
+    title: 'Economic and Financial Crimes Commission',
+    url: 'https://www.efccnigeria.org/',
+    content: `# Economic and Financial Crimes Commission - EFCC
+
+## Anti-Money Laundering and Financial Crime Prevention
+
+EFCC combats economic and financial crimes including fraud, corruption, and money laundering.
+
+## Services
+- Financial crime investigation
+- Money laundering prevention
+- Fraud complaint handling
+- Asset recovery
+- Public awareness programs
+
+## Filing a Complaint
+1. Report online at efccnigeria.org
+2. Or visit EFCC office with details
+3. Provide evidence and documentation
+4. Investigation initiated
+5. Regular updates on progress
+
+## Prevention Services
+- Know Your Customer (KYC) verification
+- Transaction monitoring
+- Compliance guidance for businesses
+- Training on financial crime prevention
+
+## Reporting Suspicious Activity
+- Financial institutions required to report
+- Individuals can also report suspicious transactions
+- Anonymous reporting available
+- Protected whistleblower status
+
+## Asset Recovery
+- Civil asset recovery
+- Criminal asset forfeiture
+- International cooperation
+- Restitution to victims`
+  },
+  {
+    source: 'NDLEA',
+    title: 'National Drug Law Enforcement Agency',
+    url: 'https://www.ndlea.gov.ng/',
+    content: `# National Drug Law Enforcement Agency - NDLEA
+
+## Drug Enforcement and Substance Abuse Prevention
+
+NDLEA enforces drug laws and promotes substance abuse prevention in Nigeria.
+
+## Services
+- Drug enforcement operations
+- Drug trafficking investigation
+- Substance abuse rehabilitation
+- Drug demand reduction programs
+- Public education and awareness
+
+## Rehabilitation Services
+- Treatment centers across Nigeria
+- Counseling and therapy services
+- Aftercare and reintegration support
+- Family support programs
+- Outpatient services
+
+## Accessing Rehabilitation
+1. Contact nearest NDLEA facility
+2. Assessment and intake process
+3. Treatment plan development
+4. Enrollment in program
+5. Follow-up and aftercare
+
+## Public Education
+- School-based drug prevention
+- Community awareness programs
+- Workplace drug-free initiatives
+- Rehabilitation success stories
+
+## Reporting Drug Activities
+- Call emergency hotline
+- Report to nearest NDLEA office
+- Anonymous reporting available
+- Witness protection program
+
+## Drug Classification
+- Schedule 1: Highly controlled substances
+- Schedule 2-4: Prescription and controlled drugs
+- Penalties vary by classification`
+  },
+  {
+    source: 'SMEDAN',
+    title: 'Small and Medium Enterprises Development Agency',
+    url: 'https://www.smedan.gov.ng/',
+    content: `# Small and Medium Enterprises Development Agency - SMEDAN
+
+## SME Support and Business Development
+
+SMEDAN provides support, funding, and development services for small and medium enterprises.
+
+## Services Offered
+- Business registration and licensing
+- Training and capacity building
+- Access to finance and credit
+- Market information and linkages
+- Technology and innovation support
+- Export promotion
+- Workplace development
+
+## Funding Programs
+- SMEDAN Credit Guarantee Scheme
+- Direct loans to qualified SMEs
+- Microfinance linkages
+- Venture capital connections
+- Government supplier programs
+
+## Training and Development
+- Entrepreneurship training
+- Business management skills
+- Technical skills training
+- Export readiness training
+- ICT and digital skills
+
+## How to Access Support
+1. Register your business with SMEDAN
+2. Identify needed support (training, funding, etc.)
+3. Apply for specific program
+4. Provide business plan and documents
+5. Assessment and approval
+6. Commence program
+
+## Business Registration
+- Online or physical registration
+- Provide business details and identification
+- NIN and CAC registration required
+- Small registration fee
+
+## Market Access
+- Trade fair participation
+- B2B networking events
+- Supplier directories
+- Export market information`
+  },
+  {
+    source: 'UBEC',
+    title: 'Universal Basic Education Commission - Education',
+    url: 'https://ubec.gov.ng/',
+    content: `# Universal Basic Education Commission - UBEC
+
+## Primary and Secondary Education Administration
+
+UBEC oversees universal basic education implementation across Nigeria.
+
+## Education Levels Covered
+- Primary education (6 years)
+- Lower secondary education (3 years)
+- Upper secondary education (3 years)
+
+## Free Education Program
+- Free and compulsory primary education
+- Free lower secondary education
+- Funded through state ministries
+
+## School Enrollment
+1. Identify nearest school in your locality
+2. Visit school for registration
+3. Provide birth certificate and vaccination records
+4. Complete enrollment forms
+5. Receive admission letter
+
+## Educational Standards
+- National curriculum framework
+- Teacher training and development
+- Infrastructure standards
+- Assessment and examination
+- Quality assurance programs
+
+## Special Programs
+- Girls education initiatives
+- Out-of-school children programs
+- Special needs education
+- Adult literacy programs
+- Vocational training integration
+
+## Resources and Support
+- Teaching and learning materials
+- Infrastructure development
+- Teacher welfare and training
+- Student nutrition programs
+- Scholarship opportunities
+
+## Contact
+- State UBEC offices
+- Local government education authorities
+- Individual school administration`
+  },
+  {
+    source: 'Ministry of Works',
+    title: 'Federal Ministry of Works - Infrastructure',
+    url: 'https://www.works.gov.ng/',
+    content: `# Federal Ministry of Works
+
+## Road Infrastructure and Transportation
+
+The Ministry oversees federal road networks and infrastructure development.
+
+## Services
+- Road maintenance and rehabilitation
+- Bridge construction and maintenance
+- Highway development
+- Transportation planning
+- Infrastructure projects
+
+## Road Network Categories
+- Federal trunk A roads (interstate highways)
+- Federal trunk B roads (major routes)
+- Rural access roads
+- Border roads
+
+## Reporting Road Issues
+1. Identify specific road location
+2. Document issue (potholes, damage, flooding)
+3. Report to nearest ministry office
+4. Provide photographs if possible
+5. Track maintenance schedule
+
+## Infrastructure Projects
+- Highway expansions and improvements
+- Bridge rehabilitation programs
+- Culvert and drainage projects
+- Rural road access programs
+- Disaster recovery and reconstruction
+
+## Public Participation
+- Stakeholder engagement in projects
+- Community feedback mechanisms
+- Project information availability
+- Complaint handling system
+
+## Contact
+- Federal Ministry offices in each state
+- Regional highway offices
+- Project site offices
+- Toll gate management offices`
+  },
+  {
+    source: 'Ministry of Power',
+    title: 'Federal Ministry of Power - Electricity',
+    url: 'https://power.gov.ng/',
+    content: `# Federal Ministry of Power
+
+## Electricity Generation, Transmission and Distribution
+
+The Ministry oversees Nigeria's power sector including generation, transmission and distribution.
+
+## Power Distribution Companies (DisCos)
+- Abuja Electricity Distribution Company (AEDC)
+- Benin Electricity Distribution Company (BEDC)
+- Eko Electricity Distribution Company (EKEDC)
+- Enugu Electricity Distribution Company (EEDC)
+- Ibadan Electricity Distribution Company (IBEDC)
+- Ikeja Electricity Distribution Company (IKEDC)
+- Jos Electricity Distribution Company (JEDC)
+- Kaduna Electricity Distribution Company (KAEDCO)
+- Kano Electricity Distribution Company (KANO DISCOS)
+- Port Harcourt Electricity Distribution Company (PHEDC)
+
+## Electricity Connection
+1. Contact your DisCo customer service center
+2. Complete connection application
+3. Provide property details and identification
+4. Pay application and processing fees
+5. Meter installation and testing
+6. Commence billing
+
+## Billing and Payments
+- Monthly electricity bills issued
+- Multiple payment channels (online, bank, agents)
+- Prepaid and postpaid metering options
+- Meter reading and disputes resolution
+
+## Disconnection and Reconnection
+- Disconnection for non-payment after notice
+- Reconnection application and processing
+- Appeal and dispute procedures
+
+## Consumer Protection
+- Metering accuracy checks
+- Complaint handling mechanisms
+- Consumer protection offices
+- Tariff information and transparency`
+  },
+  {
+    source: 'BoI',
+    title: 'Bank of Industry - Development Finance',
+    url: 'https://www.boigroup.com/',
+    content: `# Bank of Industry - BoI
+
+## Industrial Development and Business Financing
+
+Bank of Industry provides development financing and support services for businesses.
+
+## Financing Products
+- Working capital financing
+- Term loans for expansion
+- Equipment financing
+- Trade finance
+- Project finance
+
+## Business Support Services
+- Technical assistance
+- Business advisory services
+- Training and capacity building
+- Market intelligence
+- Mentorship programs
+
+## Loan Application Process
+1. Prepare business plan and financial statements
+2. Gather required documentation
+3. Submit application to nearest BoI office
+4. Business assessment and appraisal
+5. Credit committee review
+6. Approval and disbursement
+7. Loan monitoring and repayment
+
+## Eligibility Requirements
+- Registered business (CAC registration)
+- Valid business license
+- Bank account and financial records
+- Business plan with projections
+- Personal identification of owners
+
+## Sectors Supported
+- Manufacturing
+- Agriculture
+- Technology
+- Energy
+- Construction
+- Service industries
+- Tourism
+
+## Contact and Offices
+- Head office in Lagos
+- Regional offices in major cities
+- Business development centers
+- Online portal: www.boigroup.com`
+  },
+  {
+    source: 'FG-Customs',
+    title: 'Nigeria Customs Service - Import/Export',
+    url: 'https://www.customs.gov.ng/',
+    content: `# Nigeria Customs Service
+
+## Import/Export and Border Control
+
+Nigeria Customs Service manages import/export operations and border control.
+
+## Services
+- Import and export clearance
+- Customs duty and tax collection
+- Border patrol and security
+- Anti-smuggling operations
+- Export promotion
+
+## Import Process
+1. Obtain shipping documents from supplier
+2. File import declaration and bill of lading
+3. Declare goods at nearest customs office
+4. Pay import duties and taxes
+5. Goods inspection if selected
+6. Receive customs release permit
+7. Collect goods
+
+## Export Process
+1. Prepare goods and export documents
+2. File export declaration
+3. Goods inspection (depending on product)
+4. Payment of export taxes if applicable
+5. Receive export permit
+6. Ship goods
+
+## Duty Calculation
+- Based on product classification (HS code)
+- CIF value (Cost, Insurance, Freight)
+- Applicable tariff rates
+- Exemptions and waivers (if applicable)
+
+## Required Documents
+- Bill of lading (ocean shipment)
+- Airway bill (air shipment)
+- Commercial invoice
+- Packing list
+- Certificate of origin
+- Product-specific certificates
+
+## Contact
+- Nearest customs office
+- Port customs authority
+- Customs broker registration
+- Emergency hotline`
+  },
+  {
+    source: 'Federal Civil Service',
+    title: 'Federal Civil Service - Government Employment',
+    url: 'https://www.firs.gov.ng/',
+    content: `# Federal Civil Service Commission - FCSC
+
+## Government Employment and Civil Service Recruitment
+
+Federal Civil Service Commission manages recruitment and employment in federal government.
+
+## Civil Service Grades
+- GL 1-6: Clerical and support staff
+- GL 7-8: Junior professional staff
+- GL 9-12: Professional and management staff
+- GL 13-14: Senior management
+- GL 15-17: Executive positions
+
+## Recruitment Process
+1. Vacancy announcement on FCSC website
+2. Online application with required documents
+3. Written examination (where applicable)
+4. Interview for qualified candidates
+5. Medical examination
+6. Security clearance verification
+7. Appointment letter and onboarding
+
+## Required Qualifications
+- Educational requirements (by position)
+- Valid identification (NIN, passport)
+- Character certification
+- Health fitness
+- Citizenship of Nigeria
+
+## Employment Benefits
+- Salary and allowances
+- Pension benefits
+- Medical facilities
+- Leave entitlements
+- Professional development
+
+## Posting and Deployment
+- Initial posting to federal ministry
+- Rotation to different departments
+- Promotion based on performance
+- Transfer requests and processing
+
+## Contact
+- FCSC head office (Abuja)
+- State civil service commissions
+- Individual ministry HR departments
+- Online job portal`
+  },
+  {
+    source: 'FG-Health',
+    title: 'Federal Ministry of Health - Healthcare Infrastructure',
+    url: 'https://www.health.gov.ng/',
+    content: `# Federal Ministry of Health and Social Welfare
+
+## Healthcare Policy and Infrastructure
+
+The Ministry develops healthcare policies and manages federal health facilities.
+
+## Federal Health Facilities
+- Teaching hospitals (6 major centers)
+- Federal medical centers
+- Federal psychiatric hospitals
+- Specialized treatment centers
+- Primary health care centers
+
+## Healthcare Services
+- Outpatient consultation
+- Inpatient admission
+- Emergency care
+- Specialized treatments
+- Surgical procedures
+- Reproductive health services
+- Child health services
+
+## Immunization Programs
+- Childhood routine immunization
+- Maternal tetanus immunization
+- Disease-specific campaigns
+- Adult immunization services
+
+## National Health Insurance Scheme (NHIS)
+- Partner with NHIS for coverage
+- Registration and enrollment
+- Benefit utilization
+- Claim processing
+
+## Maternal and Child Health
+- Antenatal care services
+- Delivery services
+- Postnatal care
+- Family planning services
+- Child growth monitoring
+
+## Disease Prevention
+- Disease surveillance systems
+- Outbreak response
+- Health education programs
+- Preventive services
+
+## Accessing Federal Facilities
+1. Self-referral for outpatient services
+2. GP referral for specialist care
+3. Emergency admission procedures
+4. Bring identification and NHIS card
+5. Pay consultation fees (if uninsured)`
+  },
+  {
+    source: 'Federal-Agriculture',
+    title: 'Federal Ministry of Agriculture - Agribusiness Support',
+    url: 'https://www.fmard.gov.ng/',
+    content: `# Federal Ministry of Agriculture and Rural Development
+
+## Agricultural Support and Agribusiness Development
+
+The Ministry supports agricultural development and rural economic growth.
+
+## Services
+- Agricultural extension services
+- Farmer registration and support
+- Credit access for agriculture
+- Input supply (seeds, fertilizer)
+- Market linkages
+- Training and capacity building
+- Technology transfer
+
+## Agricultural Support Programs
+- Presidential Fertilizer Initiative (PFI)
+- Anchor Borrowers Program
+- Rice Value Chain
+- Cassava Value Chain
+- Fisheries development
+
+## Farmer Registration
+1. Visit nearest agricultural extension office
+2. Provide identification and farm details
+3. Register farm location and size
+4. Provide crops grown
+5. Receive farmer registration card
+6. Access services and programs
+
+## Input Subsidies
+- Fertilizer subsidy access
+- Improved seed distribution
+- Agricultural tool support
+- Livestock support programs
+
+## Training Services
+- Crop production training
+- Livestock rearing courses
+- Agritech and mechanization
+- Food processing
+- Agribusiness management
+
+## Credit Programs
+- Loans for farm expansion
+- Working capital financing
+- Equipment financing
+- Commodity marketing support
+
+## Contact
+- State Agricultural Development Programs
+- Agricultural extension offices
+- Farmer cooperative associations
+- Ministry regional offices`
   }
 ]
 
