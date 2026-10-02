@@ -12,9 +12,13 @@ const dbPath = path.join(__dirname, '../data/ngscorecard.db')
 async function ingestAllDocuments() {
   console.log('Ingesting all government documents...')
 
+  // Create data directory if it doesn't exist
+  const { mkdirSync } = await import('fs')
+  mkdirSync(path.dirname(dbPath), { recursive: true })
+
   const db = new Database(dbPath)
 
-  // Ensure RAG tables exist
+  // Ensure RAG tables exist with metadata-preserving schema
   db.prepare(`
     CREATE TABLE IF NOT EXISTS rag_documents (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,6 +38,8 @@ async function ingestAllDocuments() {
       text TEXT NOT NULL,
       embedding TEXT,
       token_count INTEGER,
+      section TEXT,
+      chunk_index INTEGER,
       created_at TEXT NOT NULL,
       FOREIGN KEY (document_id) REFERENCES rag_documents(id)
     )
@@ -41,6 +47,10 @@ async function ingestAllDocuments() {
 
   db.prepare(`
     CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)
+  `).run()
+
+  db.prepare(`
+    CREATE INDEX IF NOT EXISTS rag_chunks_section_idx ON rag_chunks(section)
   `).run()
 
   // Clear existing documents for fresh ingest
