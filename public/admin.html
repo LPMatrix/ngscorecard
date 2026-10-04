@@ -131,10 +131,19 @@
     .form-card h3 { margin: 0 0 16px; font-size: 17px; font-weight: 800; color: var(--g800); }
     .field { margin-bottom: 12px; }
     .field label { display: block; font-size: 11.5px; font-weight: 700; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.03em; }
-    .field input[type=text], .field input[type=number], .field select, .field textarea {
+    .field input[type=text], .field input[type=number], .field input[type=email], .field input[type=password], .field select, .field textarea {
       width: 100%; padding: 8px 10px; border: 1px solid var(--line-strong); border-radius: 6px; font-size: 13.5px;
     }
+    .overlay.confirm { z-index: 40; align-items: center; padding: 16px; }
+    .overlay.confirm .form-card { max-width: 440px; }
+    .overlay.confirm p { margin: 0; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+    .btn.danger-solid { background: var(--red); color: #fff; border-color: var(--red); }
+    .btn.danger-solid:hover { background: var(--red); color: #fff; filter: brightness(0.92); }
+    .btn[disabled] { opacity: 0.55; cursor: default; }
     .field textarea { min-height: 64px; resize: vertical; }
+    .field .hint { font-size: 12px; color: var(--faint); margin-top: 4px; }
+    .secret-row { display: flex; gap: 8px; }
+    .secret-row input { flex: 1; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; letter-spacing: 0.02em; }
     .field.checkbox { display: flex; align-items: center; gap: 8px; }
     .field.checkbox label { margin: 0; text-transform: none; font-size: 13px; }
     .form-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 10px; }
@@ -187,6 +196,62 @@
         </div>
       </div>
     </form>
+  </div>
+
+  <div class="overlay confirm" id="confirm-overlay" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-message">
+    <div class="form-card">
+      <h3 id="confirm-title">Are you sure?</h3>
+      <p id="confirm-message"></p>
+      <div class="field" id="confirm-field" style="display:none;margin:14px 0 0">
+        <label for="confirm-input" id="confirm-field-label"></label>
+        <input type="text" id="confirm-input" autocomplete="off">
+      </div>
+      <div class="form-error" id="confirm-error" style="margin-top:12px"></div>
+      <div class="form-actions">
+        <div></div>
+        <div>
+          <button type="button" class="btn" id="confirm-cancel">Cancel</button>
+          <button type="button" class="btn danger-solid" id="confirm-ok">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="person-overlay">
+    <form class="form-card" id="person-form">
+      <h3>Add person</h3>
+      <div class="field"><label for="person-name">Full name</label><input type="text" id="person-name" autocomplete="off" required></div>
+      <div class="field"><label for="person-email">Email <span style="text-transform:none;font-weight:400;color:var(--faint)">(their login)</span></label><input type="email" id="person-email" autocomplete="off" required></div>
+      <div class="field">
+        <label for="person-role">Role</label>
+        <select id="person-role">
+          <option value="editor">Editor: research and data work</option>
+          <option value="owner">Owner: full access, including team and API keys</option>
+        </select>
+        <div class="hint">Editors can edit content and work the corrections inbox. They can't see API keys, manage the team or read the activity log.</div>
+      </div>
+      <div class="form-error" id="person-error"></div>
+      <div class="form-actions">
+        <div></div>
+        <div>
+          <button type="button" class="btn" id="person-cancel">Cancel</button>
+          <button type="submit" class="btn primary" id="person-submit">Create account</button>
+        </div>
+      </div>
+    </form>
+    <div class="form-card" id="person-result" style="display:none">
+      <h3 id="person-result-title">Account created</h3>
+      <p style="margin:0 0 14px;font-size:13px;color:var(--muted)" id="person-result-lead"></p>
+      <div class="field">
+        <label for="person-temp">Temporary password</label>
+        <div class="secret-row"><input type="text" id="person-temp" readonly><button type="button" class="btn" id="person-copy">Copy</button></div>
+        <div class="hint">Shown once. It is not stored anywhere readable, so copy it now and send it privately. They will be asked to choose their own at first sign-in.</div>
+      </div>
+      <div class="form-actions">
+        <div></div>
+        <div><button type="button" class="btn primary" id="person-done">Done</button></div>
+      </div>
+    </div>
   </div>
 
   <div class="overlay" id="pw-overlay">
@@ -537,6 +602,74 @@
     return res.json()
   }
 
+  // ---------- Confirmation modal ----------
+  // One modal for every confirmation, notice and short text prompt, replacing
+  // the browser's confirm/alert/prompt.
+  //   run(value)   the action itself. While it is in flight the buttons are
+  //                locked, if it throws the message is shown in the modal and
+  //                it stays open, and only on success does it close.
+  //   input        { label, value } adds a text field; its value is passed to run.
+  //   hideCancel   a plain notice: one OK button.
+  // Resolves true if the action ran (or the notice was dismissed), false if
+  // the person cancelled. Cancel has the initial focus on destructive
+  // confirmations, so a stray Enter never confirms one.
+  function confirmAction(opts) {
+    return new Promise(function (resolve) {
+      var overlay = $('#confirm-overlay'), ok = $('#confirm-ok'), cancel = $('#confirm-cancel')
+      var field = $('#confirm-field'), input = $('#confirm-input')
+      var busy = false
+      $('#confirm-title').textContent = opts.title
+      $('#confirm-message').textContent = opts.message || ''
+      $('#confirm-error').textContent = ''
+      ok.textContent = opts.confirmLabel || (opts.hideCancel ? 'OK' : 'Confirm')
+      ok.className = 'btn ' + (opts.danger === false || opts.hideCancel ? 'primary' : 'danger-solid')
+      ok.disabled = false
+      cancel.disabled = false
+      cancel.style.display = opts.hideCancel ? 'none' : ''
+      field.style.display = opts.input ? '' : 'none'
+      if (opts.input) {
+        $('#confirm-field-label').textContent = opts.input.label
+        input.value = opts.input.value || ''
+      }
+
+      function close(result) {
+        overlay.classList.remove('show')
+        document.removeEventListener('keydown', onKey)
+        ok.onclick = cancel.onclick = overlay.onclick = input.onkeydown = null
+        resolve(result)
+      }
+      function onKey(e) { if (e.key === 'Escape' && !busy) close(opts.hideCancel ? true : false) }
+      cancel.onclick = function () { if (!busy) close(false) }
+      overlay.onclick = function (e) { if (e.target === overlay && !busy) close(opts.hideCancel ? true : false) }
+      input.onkeydown = function (e) { if (e.key === 'Enter') { e.preventDefault(); ok.click() } }
+      ok.onclick = async function () {
+        busy = true
+        ok.disabled = cancel.disabled = true
+        $('#confirm-error').textContent = ''
+        try {
+          if (opts.run) await opts.run(opts.input ? input.value : undefined)
+          busy = false
+          close(true)
+        } catch (err) {
+          busy = false
+          ok.disabled = cancel.disabled = false
+          $('#confirm-error').textContent = err.message
+        }
+      }
+      document.addEventListener('keydown', onKey)
+      overlay.classList.add('show')
+      if (opts.input) { input.focus(); input.select() }
+      else if (opts.hideCancel) ok.focus()
+      else cancel.focus()
+    })
+  }
+
+  function notice(title, message) {
+    return confirmAction({ title: title, message: message, hideCancel: true })
+  }
+
+  var DELETE_NOTE = 'The deletion is logged, and the owner can restore it from the Activity log.'
+
   // ---------- Login ----------
   function showLogin() {
     // Wipe whatever the last person had open, so a second person signing in on
@@ -729,12 +862,12 @@
       if (!Array.isArray(rows)) rows = [rows]
       if (!rows.length) throw new Error('File contains no rows')
       var result = await api('/bulk/' + state.table, { method: 'POST', body: JSON.stringify(rows) })
-      alert('Imported ' + result.inserted + ' row(s) into ' + state.table + ' (DB only — seed files unchanged).')
       e.target.value = ''
       await loadRows()
+      await notice('Import complete', 'Imported ' + result.inserted + ' row(s) into ' + (TABLES[state.table] ? TABLES[state.table].label : state.table) + '. Database only: seed files are unchanged.')
     } catch (err) {
-      alert('Import failed: ' + err.message)
       e.target.value = ''
+      await notice('Import failed', err.message)
     }
   }
 
@@ -821,10 +954,15 @@
     })
     $$('[data-apply]').forEach(function (b) {
       b.addEventListener('click', async function () {
-        var note = prompt('Optional moderator note', 'Applied by administrator')
-        if (note === null) return
-        await api('/corrections/' + b.dataset.apply + '/apply', { method: 'POST', body: JSON.stringify({ adminNote: note }) })
-        await loadRows()
+        var done = await confirmAction({
+          title: 'Mark this correction as actioned?',
+          message: 'Make the change to the entry first. This records that it has been dealt with.',
+          input: { label: 'Moderator note (optional)', value: 'Applied by administrator' },
+          confirmLabel: 'Mark actioned',
+          danger: false,
+          run: function (note) { return api('/corrections/' + b.dataset.apply + '/apply', { method: 'POST', body: JSON.stringify({ adminNote: note }) }) },
+        })
+        if (done) await loadRows()
       })
     })
     wirePagination()
@@ -870,9 +1008,14 @@
   }
 
   async function deleteRow(id) {
-    if (!confirm('Delete this row? The deletion is logged, and the owner can restore it from the Activity log.')) return
-    await api('/' + state.table + '/' + id, { method: 'DELETE' })
-    await loadRows()
+    var label = TABLES[state.table] ? TABLES[state.table].label : 'this table'
+    var done = await confirmAction({
+      title: 'Delete this row?',
+      message: 'Row ' + id + ' will be removed from ' + label + '. ' + DELETE_NOTE,
+      confirmLabel: 'Delete',
+      run: function () { return api('/' + state.table + '/' + id, { method: 'DELETE' }) },
+    })
+    if (done) await loadRows()
   }
 
   // ---------- Form ----------
@@ -951,8 +1094,15 @@
 
   $('#form-delete').addEventListener('click', async function () {
     if (!state.editingId) return
-    if (!confirm('Delete this row? The deletion is logged, and the owner can restore it from the Activity log.')) return
-    await api('/' + state.table + '/' + state.editingId, { method: 'DELETE' })
+    var id = state.editingId
+    var label = TABLES[state.table] ? TABLES[state.table].label : 'this table'
+    var done = await confirmAction({
+      title: 'Delete this row?',
+      message: 'Row ' + id + ' will be removed from ' + label + '. ' + DELETE_NOTE,
+      confirmLabel: 'Delete',
+      run: function () { return api('/' + state.table + '/' + id, { method: 'DELETE' }) },
+    })
+    if (!done) return
     closeForm()
     await loadRows()
   })
@@ -1059,9 +1209,13 @@
     })
     $$('[data-delkey]').forEach(function (b) {
       b.addEventListener('click', async function () {
-        if (!confirm('Permanently delete this API key?')) return
-        await api('/keys/' + b.dataset.delkey, { method: 'DELETE' })
-        selectKeys(true)
+        var done = await confirmAction({
+          title: 'Delete this API key?',
+          message: 'Anyone using this key loses access immediately. Unlike a table row, a deleted key cannot be restored; issue a new one instead.',
+          confirmLabel: 'Delete key',
+          run: function () { return api('/keys/' + b.dataset.delkey, { method: 'DELETE' }) },
+        })
+        if (done) selectKeys(true)
       })
     })
     wirePagination()
@@ -1073,7 +1227,7 @@
     setActiveNav('__team')
     $('#section-title').textContent = 'Team'
     $('#section-controls').innerHTML = '<button class="btn primary" id="team-add">+ Add person</button>'
-    $('#team-add').addEventListener('click', addPerson)
+    $('#team-add').addEventListener('click', openPersonForm)
     $('#content').innerHTML = '<div class="loading">Loading…</div>'
     var users = await api('/users')
     var html = '<div class="table-scroll"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last sign-in</th><th></th></tr></thead><tbody>'
@@ -1089,42 +1243,88 @@
     $('#content').innerHTML = '<div class="notice">Editors can edit every content table, work the corrections queue and import in bulk. They cannot see API keys, manage the team or read the activity log. Every change they make is recorded with their name in the Activity log.</div>' + html + '</tbody></table></div>'
     $$('[data-reset]').forEach(function (b) {
       b.addEventListener('click', async function () {
-        if (!confirm('Reset this person\'s password? Their current password stops working immediately.')) return
-        try {
-          var r = await api('/users/' + b.dataset.reset + '/reset', { method: 'POST' })
-          showTemporaryPassword(r.temporaryPassword)
-        } catch (err) { alert(err.message) }
-        selectTeam()
+        var r
+        var done = await confirmAction({
+          title: 'Reset this password?',
+          message: 'Their current password stops working immediately and they are signed out. You will get a temporary password to send them.',
+          confirmLabel: 'Reset password',
+          run: async function () { r = await api('/users/' + b.dataset.reset + '/reset', { method: 'POST' }) },
+        })
+        if (done) showPersonResult('Password reset', 'Their old password has stopped working. Send them this temporary one; they will choose their own at next sign-in.', r.temporaryPassword)
       })
     })
     $$('[data-active]').forEach(function (b) {
       b.addEventListener('click', async function () {
         var to = b.dataset.to === 'true'
-        if (!to && !confirm('Deactivate this person? They are signed out immediately.')) return
-        try { await api('/users/' + b.dataset.active + '/active', { method: 'POST', body: JSON.stringify({ active: to }) }) } catch (err) { alert(err.message) }
-        selectTeam()
+        var setActive = function () { return api('/users/' + b.dataset.active + '/active', { method: 'POST', body: JSON.stringify({ active: to }) }) }
+        if (to) { try { await setActive() } catch (err) { await notice('Could not reactivate', err.message) } selectTeam(); return }
+        var done = await confirmAction({
+          title: 'Deactivate this person?',
+          message: 'They are signed out immediately and can no longer sign in. Their history stays in the activity log, and you can reactivate them later.',
+          confirmLabel: 'Deactivate',
+          run: setActive,
+        })
+        if (done) selectTeam()
       })
     })
   }
 
-  function showTemporaryPassword(pw) {
-    // Shown once and never stored in readable form. Send it to the person
-    // over a private channel; they must replace it at first sign-in.
-    prompt('Temporary password (shown once). Copy it and send it to them privately. They will choose their own at first sign-in:', pw)
+  // The temporary password is shown once, in the same modal used to create the
+  // account (and by "Reset password"), and is never stored in readable form.
+  function showPersonResult(title, lead, pw) {
+    $('#person-form').style.display = 'none'
+    $('#person-result').style.display = ''
+    $('#person-result-title').textContent = title
+    $('#person-result-lead').textContent = lead
+    $('#person-temp').value = pw
+    $('#person-copy').textContent = 'Copy'
+    $('#person-overlay').classList.add('show')
+    $('#person-temp').select()
   }
 
-  async function addPerson() {
-    var name = prompt('Full name:')
-    if (!name) return
-    var email = prompt('Email address (this is their login):')
-    if (!email) return
-    var role = confirm('Make this person an editor?\n\nOK = Editor (research/data work)\nCancel = Owner (full access, including team and API keys)') ? 'editor' : 'owner'
-    try {
-      var r = await api('/users', { method: 'POST', body: JSON.stringify({ name: name, email: email, role: role }) })
-      showTemporaryPassword(r.temporaryPassword)
-    } catch (err) { alert(err.message) }
-    selectTeam()
+  function openPersonForm() {
+    $('#person-form').reset()
+    $('#person-error').textContent = ''
+    $('#person-submit').disabled = false
+    $('#person-form').style.display = ''
+    $('#person-result').style.display = 'none'
+    $('#person-overlay').classList.add('show')
+    $('#person-name').focus()
   }
+
+  function closePersonModal() {
+    $('#person-overlay').classList.remove('show')
+    $('#person-temp').value = ''
+  }
+
+  $('#person-cancel').addEventListener('click', closePersonModal)
+  $('#person-done').addEventListener('click', function () { closePersonModal(); selectTeam() })
+  // Backdrop click closes the form, but not the one-time password view.
+  $('#person-overlay').addEventListener('click', function (e) {
+    if (e.target.id === 'person-overlay' && $('#person-form').style.display !== 'none') closePersonModal()
+  })
+  $('#person-copy').addEventListener('click', async function () {
+    var input = $('#person-temp')
+    input.select()
+    try { await navigator.clipboard.writeText(input.value); this.textContent = 'Copied' } catch (e) { document.execCommand('copy'); this.textContent = 'Copied' }
+  })
+
+  $('#person-form').addEventListener('submit', async function (e) {
+    e.preventDefault()
+    $('#person-error').textContent = ''
+    $('#person-submit').disabled = true
+    try {
+      var r = await api('/users', { method: 'POST', body: JSON.stringify({
+        name: $('#person-name').value.trim(),
+        email: $('#person-email').value.trim(),
+        role: $('#person-role').value,
+      }) })
+      showPersonResult('Account created', r.user.name + ' can sign in at this page with ' + r.user.email + ' and the temporary password below.', r.temporaryPassword)
+    } catch (err) {
+      $('#person-error').textContent = err.message
+      $('#person-submit').disabled = false
+    }
+  })
 
   // ---------- Activity log (owner) ----------
   async function selectActivity(keepPage) {
@@ -1153,9 +1353,14 @@
     $('#content').innerHTML = html
     $$('[data-restore]').forEach(function (b) {
       b.addEventListener('click', async function () {
-        if (!confirm('Restore this deleted row exactly as it was?')) return
-        try { await api('/activity/' + b.dataset.restore + '/restore', { method: 'POST' }); alert('Restored.') } catch (err) { alert(err.message) }
-        selectActivity(true)
+        var done = await confirmAction({
+          title: 'Restore this row?',
+          message: 'It goes back into its table exactly as it was, with its original id.',
+          confirmLabel: 'Restore',
+          danger: false,
+          run: function () { return api('/activity/' + b.dataset.restore + '/restore', { method: 'POST' }) },
+        })
+        if (done) selectActivity(true)
       })
     })
     wirePagination()
@@ -1187,7 +1392,7 @@
       await api('/password', { method: 'POST', body: JSON.stringify({ current: $('#pw-current').value, next: next }) })
       closePasswordForm()
       if (pwForced) { pwForced = false; await boot() }
-      else alert('Password changed.')
+      else notice('Password changed', 'Your password has been updated.')
     } catch (err) {
       $('#pw-error').textContent = err.message === 'unauthenticated' ? 'Current password is incorrect.' : err.message
     }
