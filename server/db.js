@@ -125,6 +125,34 @@ function ensureLocalSchema(client) {
     )
   `).run()
   client.prepare(`
+    CREATE TABLE IF NOT EXISTS admin_users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL,
+      role TEXT NOT NULL DEFAULT 'editor',
+      password_hash TEXT NOT NULL,
+      must_change_password INTEGER NOT NULL DEFAULT 1,
+      active INTEGER NOT NULL DEFAULT 1,
+      created_at TEXT NOT NULL,
+      created_by TEXT,
+      last_login_at TEXT
+    )
+  `).run()
+  client.prepare(`
+    CREATE TABLE IF NOT EXISTS admin_audit (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      at TEXT NOT NULL,
+      actor_email TEXT NOT NULL,
+      actor_role TEXT NOT NULL,
+      action TEXT NOT NULL,
+      table_name TEXT,
+      row_id INTEGER,
+      administration TEXT,
+      before_json TEXT,
+      after_json TEXT
+    )
+  `).run()
+  client.prepare(`
     CREATE TABLE IF NOT EXISTS api_keys (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       key TEXT NOT NULL UNIQUE,

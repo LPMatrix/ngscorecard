@@ -1,11 +1,15 @@
 import { Router, json } from 'express'
 import { readFileSync } from 'fs'
 import path from 'path'
-import { eq, desc, count } from 'drizzle-orm'
+import { eq, desc, count, and } from 'drizzle-orm'
+import { rateLimit, ipKeyGenerator } from 'express-rate-limit'
 import { db } from './db.js'
 import * as t from './schema.js'
 import * as q from './queries.js'
-import { checkCredentials, setAdminCookie, clearAdminCookie, isAuthed, requireAdmin } from './adminAuth.js'
+import {
+  authenticate, setAdminCookie, clearAdminCookie, loadSession, requireAdmin, requireOwner,
+  hashPassword, generateTemporaryPassword, verifyUserPassword, userSubject, ENV_OWNER_ID, MIN_PASSWORD_LENGTH,
+} from './adminAuth.js'
 
 // Admin table listings are paginated so a table with hundreds of rows (e.g.
 // promises, ministers) never ships as one giant unpaginated response.
@@ -44,12 +48,52 @@ const TABLES = {
   donations:        { table: t.donations,        adminCol: null }, // Paystack ledger, written by server/paystackRoutes.js
 }
 
+// Roles. The owner can do everything. An editor does the research work (every
+// content table, the corrections queue, bulk import) but cannot see donor
+// records, issue or revoke API keys, manage the team, or read the audit log.
+// The donations table is a ledger written only by Paystack's webhook, so nobody
+// edits it by hand, owner included.
+const OWNER_ONLY_TABLES = new Set(['donations'])
+const READ_ONLY_TABLES = new Set(['donations'])
+
 function resolveTable(req, res, next) {
   const entry = TABLES[req.params.table]
   if (!entry) return res.status(404).json({ error: `Unknown table "${req.params.table}"` })
+  if (OWNER_ONLY_TABLES.has(req.params.table) && req.admin.role !== 'owner') {
+    return res.status(403).json({ error: 'Owner access required' })
+  }
+  if (READ_ONLY_TABLES.has(req.params.table) && !['GET', 'HEAD'].includes(req.method)) {
+    return res.status(405).json({ error: 'This table is read-only' })
+  }
   req.tableEntry = entry
   next()
 }
+
+// Private accountability log (see adminAudit in schema.js). Destructive
+// actions pass strict: true so a failure to record them aborts the action
+// rather than letting a row vanish with no way back. Everything else is
+// best-effort: a logging hiccup shouldn't block a legitimate edit.
+async function audit(req, action, { table = null, rowId = null, administration = null, before = null, after = null, strict = false } = {}) {
+  try {
+    await db.insert(t.adminAudit).values({
+      at: new Date().toISOString(),
+      actorEmail: req.admin.email,
+      actorRole: req.admin.role,
+      action,
+      tableName: table,
+      rowId,
+      administration,
+      beforeJson: before ? JSON.stringify(before) : null,
+      afterJson: after ? JSON.stringify(after) : null,
+    })
+  } catch (e) {
+    console.error('admin audit write failed:', e.message)
+    if (strict) throw new Error('Could not record this action in the audit log, so it was not carried out.')
+  }
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const publicUser = ({ passwordHash, ...rest }) => rest
 
 // Tables where every rated row must carry a source (schema already declares
 // `source`/`sourceLabel` NOT NULL). We enforce it at the write boundary too,
@@ -88,11 +132,25 @@ export function createAdminRouter() {
   const router = Router()
   router.use(json())
 
-  router.post('/login', (req, res) => {
-    if (!checkCredentials(req.body?.email, req.body?.password)) {
-      return res.status(401).json({ error: 'Wrong email or password' })
+  const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 10, // 10 attempts / 15 min / IP, counting failures only
+    skipSuccessfulRequests: true,
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => ipKeyGenerator(req.ip),
+    message: { error: 'Too many sign-in attempts. Try again in a few minutes.' },
+  })
+
+  router.post('/login', loginLimiter, async (req, res) => {
+    const subject = await authenticate(req.body?.email, req.body?.password)
+    if (!subject) return res.status(401).json({ error: 'Wrong email or password' })
+    setAdminCookie(res, subject)
+    if (subject.id !== ENV_OWNER_ID) {
+      await db.update(t.adminUsers).set({ lastLoginAt: new Date().toISOString() }).where(eq(t.adminUsers.id, subject.id)).catch(() => {})
     }
-    setAdminCookie(res)
+    req.admin = subject
+    await audit(req, 'login')
     res.json({ ok: true })
   })
 
@@ -101,19 +159,32 @@ export function createAdminRouter() {
     res.json({ ok: true })
   })
 
-  router.get('/session', (req, res) => {
-    res.json({ authenticated: isAuthed(req) })
+  router.get('/session', async (req, res) => {
+    const admin = await loadSession(req)
+    if (!admin) return res.json({ authenticated: false })
+    res.json({
+      authenticated: true,
+      user: {
+        email: admin.email,
+        name: admin.name,
+        role: admin.role,
+        mustChangePassword: admin.mustChangePassword,
+        isEnvOwner: admin.id === ENV_OWNER_ID,
+      },
+    })
   })
 
   router.use(requireAdmin)
 
-  router.get('/tables', (_req, res) => {
+  router.get('/tables', (req, res) => {
     res.json(
-      Object.entries(TABLES).map(([name, { adminCol }]) => ({ name, scopedToAdmin: !!adminCol }))
+      Object.entries(TABLES)
+        .filter(([name]) => req.admin.role === 'owner' || !OWNER_ONLY_TABLES.has(name))
+        .map(([name, { adminCol }]) => ({ name, scopedToAdmin: !!adminCol }))
     )
   })
 
-  router.get('/keys', async (req, res) => {
+  router.get('/keys', requireOwner, async (req, res) => {
     const { page, pageSize, offset } = parsePagination(req)
     const [rows, [{ value: total }]] = await Promise.all([
       db.select().from(t.apiKeys).orderBy(desc(t.apiKeys.createdAt)).limit(pageSize).offset(offset),
@@ -122,18 +193,28 @@ export function createAdminRouter() {
     res.json({ rows, total, page, pageSize, pageCount: Math.max(1, Math.ceil(total / pageSize)) })
   })
 
-  router.post('/keys/:id/revoke', async (req, res) => {
+  router.post('/keys/:id/revoke', requireOwner, async (req, res) => {
     await db.update(t.apiKeys).set({ revoked: true }).where(eq(t.apiKeys.id, Number(req.params.id)))
+    await audit(req, 'key_revoke', { table: 'api_keys', rowId: Number(req.params.id) })
     res.json({ ok: true })
   })
 
-  router.post('/keys/:id/unrevoke', async (req, res) => {
+  router.post('/keys/:id/unrevoke', requireOwner, async (req, res) => {
     await db.update(t.apiKeys).set({ revoked: false }).where(eq(t.apiKeys.id, Number(req.params.id)))
+    await audit(req, 'key_unrevoke', { table: 'api_keys', rowId: Number(req.params.id) })
     res.json({ ok: true })
   })
 
-  router.delete('/keys/:id', async (req, res) => {
-    await db.delete(t.apiKeys).where(eq(t.apiKeys.id, Number(req.params.id)))
+  router.delete('/keys/:id', requireOwner, async (req, res) => {
+    const id = Number(req.params.id)
+    const [row] = await db.select().from(t.apiKeys).where(eq(t.apiKeys.id, id)).limit(1)
+    if (!row) return res.status(404).json({ error: 'Not found' })
+    try {
+      await audit(req, 'key_delete', { table: 'api_keys', rowId: id, before: { ...row, key: '[redacted]' }, strict: true })
+    } catch (e) {
+      return res.status(500).json({ error: e.message })
+    }
+    await db.delete(t.apiKeys).where(eq(t.apiKeys.id, id))
     res.status(204).end()
   })
 
@@ -211,6 +292,123 @@ export function createAdminRouter() {
     res.json({ eraCoverage, eraTotals, missingByKey, drift, totalAdmins: presidents.length })
   })
 
+  // ---- Account: change your own password (any signed-in database user) ----
+  router.post('/password', async (req, res) => {
+    if (req.admin.id === ENV_OWNER_ID) {
+      return res.status(400).json({ error: 'The owner password is set by the ADMIN_PASSWORD environment variable.' })
+    }
+    const current = String(req.body?.current || '')
+    const next = String(req.body?.next || '')
+    if (next.length < MIN_PASSWORD_LENGTH) {
+      return res.status(422).json({ error: `Use at least ${MIN_PASSWORD_LENGTH} characters.` })
+    }
+    if (next === current) return res.status(422).json({ error: 'Choose a different password from the current one.' })
+    if (!(await verifyUserPassword(req.admin.id, current))) {
+      return res.status(401).json({ error: 'Current password is incorrect.' })
+    }
+    const [user] = await db.update(t.adminUsers)
+      .set({ passwordHash: await hashPassword(next), mustChangePassword: false })
+      .where(eq(t.adminUsers.id, req.admin.id)).returning()
+    // The old session is now invalid (its tag came from the old hash), so
+    // issue a fresh one and the person stays signed in.
+    setAdminCookie(res, userSubject(user))
+    await audit(req, 'password_change')
+    res.json({ ok: true })
+  })
+
+  // ---- Team (owner only) ----
+  router.get('/users', requireOwner, async (_req, res) => {
+    const rows = await db.select().from(t.adminUsers).orderBy(t.adminUsers.id)
+    const envEmail = (process.env.ADMIN_EMAIL || '').trim().toLowerCase()
+    res.json([
+      ...(envEmail ? [{ id: ENV_OWNER_ID, email: envEmail, name: 'Owner (environment login)', role: 'owner', active: true, mustChangePassword: false, createdAt: null, lastLoginAt: null }] : []),
+      ...rows.map(publicUser),
+    ])
+  })
+
+  router.post('/users', requireOwner, async (req, res) => {
+    const email = String(req.body?.email || '').trim().toLowerCase()
+    const name = String(req.body?.name || '').trim().slice(0, 100)
+    const role = req.body?.role === 'owner' ? 'owner' : 'editor'
+    if (!EMAIL_RE.test(email) || email.length > 200) return res.status(422).json({ error: 'Enter a valid email address.' })
+    if (!name) return res.status(422).json({ error: 'Enter the person\'s name.' })
+    if (email === (process.env.ADMIN_EMAIL || '').trim().toLowerCase()) {
+      return res.status(422).json({ error: 'That email is the environment owner login.' })
+    }
+    const [taken] = await db.select({ id: t.adminUsers.id }).from(t.adminUsers).where(eq(t.adminUsers.email, email)).limit(1)
+    if (taken) return res.status(409).json({ error: 'An account with that email already exists.' })
+
+    const temporaryPassword = generateTemporaryPassword()
+    const [user] = await db.insert(t.adminUsers).values({
+      email, name, role,
+      passwordHash: await hashPassword(temporaryPassword),
+      mustChangePassword: true,
+      active: true,
+      createdAt: new Date().toISOString(),
+      createdBy: req.admin.email,
+    }).returning()
+    await audit(req, 'user_create', { table: 'admin_users', rowId: user.id, after: { email, name, role } })
+    res.status(201).json({ user: publicUser(user), temporaryPassword })
+  })
+
+  router.post('/users/:id/reset', requireOwner, async (req, res) => {
+    const id = Number(req.params.id)
+    const [existing] = await db.select().from(t.adminUsers).where(eq(t.adminUsers.id, id)).limit(1)
+    if (!existing) return res.status(404).json({ error: 'Not found' })
+    const temporaryPassword = generateTemporaryPassword()
+    await db.update(t.adminUsers)
+      .set({ passwordHash: await hashPassword(temporaryPassword), mustChangePassword: true })
+      .where(eq(t.adminUsers.id, id))
+    await audit(req, 'user_reset_password', { table: 'admin_users', rowId: id, after: { email: existing.email } })
+    res.json({ ok: true, temporaryPassword })
+  })
+
+  router.post('/users/:id/active', requireOwner, async (req, res) => {
+    const id = Number(req.params.id)
+    const active = Boolean(req.body?.active)
+    const [existing] = await db.select().from(t.adminUsers).where(eq(t.adminUsers.id, id)).limit(1)
+    if (!existing) return res.status(404).json({ error: 'Not found' })
+    if (id === req.admin.id) return res.status(422).json({ error: 'You can\'t deactivate your own account.' })
+    await db.update(t.adminUsers).set({ active }).where(eq(t.adminUsers.id, id))
+    await audit(req, active ? 'user_activate' : 'user_deactivate', { table: 'admin_users', rowId: id, after: { email: existing.email } })
+    res.json({ ok: true })
+  })
+
+  // ---- Activity log (owner only) ----
+  router.get('/activity', requireOwner, async (req, res) => {
+    const { page, pageSize, offset } = parsePagination(req)
+    const filters = []
+    if (typeof req.query.actor === 'string' && req.query.actor) filters.push(eq(t.adminAudit.actorEmail, req.query.actor))
+    if (typeof req.query.table === 'string' && req.query.table) filters.push(eq(t.adminAudit.tableName, req.query.table))
+    if (typeof req.query.action === 'string' && req.query.action) filters.push(eq(t.adminAudit.action, req.query.action))
+    const where = filters.length ? and(...filters) : undefined
+    let rowsQuery = db.select().from(t.adminAudit)
+    let countQuery = db.select({ value: count() }).from(t.adminAudit)
+    if (where) { rowsQuery = rowsQuery.where(where); countQuery = countQuery.where(where) }
+    const [rows, [{ value: total }]] = await Promise.all([
+      rowsQuery.orderBy(desc(t.adminAudit.id)).limit(pageSize).offset(offset),
+      countQuery,
+    ])
+    res.json({ rows, total, page, pageSize, pageCount: Math.max(1, Math.ceil(total / pageSize)) })
+  })
+
+  // Put a deleted row back exactly as it was (original id included), as long
+  // as nothing has taken that id since.
+  router.post('/activity/:id/restore', requireOwner, async (req, res) => {
+    const [entry] = await db.select().from(t.adminAudit).where(eq(t.adminAudit.id, Number(req.params.id))).limit(1)
+    if (!entry || entry.action !== 'delete' || !entry.beforeJson) {
+      return res.status(422).json({ error: 'Only a delete entry with a saved row can be restored.' })
+    }
+    const target = TABLES[entry.tableName]
+    if (!target || READ_ONLY_TABLES.has(entry.tableName)) return res.status(422).json({ error: 'This table cannot be restored from here.' })
+    const row = JSON.parse(entry.beforeJson)
+    const [clash] = await db.select().from(target.table).where(eq(target.table.id, row.id)).limit(1)
+    if (clash) return res.status(409).json({ error: 'A row with that id already exists, so there is nothing to restore.' })
+    await db.insert(target.table).values(row)
+    await audit(req, 'restore', { table: entry.tableName, rowId: row.id, administration: entry.administration, after: row })
+    res.json({ ok: true })
+  })
+
   router.post('/bulk/:table', resolveTable, async (req, res) => {
     const rows = req.body
     if (!Array.isArray(rows) || !rows.length) return res.status(422).json({ error: 'Expected a non-empty JSON array' })
@@ -231,6 +429,7 @@ export function createAdminRouter() {
       const [created] = await db.insert(table).values(values).returning()
       inserted.push(created)
     }
+    await audit(req, 'bulk_create', { table: tableName, after: { count: inserted.length, ids: inserted.map(r => r.id) } })
     res.status(201).json({ inserted: inserted.length, rows: inserted })
   })
 
@@ -243,7 +442,8 @@ export function createAdminRouter() {
       return res.status(422).json({ error: 'Correction is not attached to an editable administration entry' })
     }
     const note = typeof req.body?.adminNote === 'string' ? req.body.adminNote.trim() : ''
-    await db.update(t.corrections).set({ status: 'actioned', adminNote: note || 'Applied by administrator' }).where(eq(t.corrections.id, id))
+    await db.update(t.corrections).set({ status: 'actioned', adminNote: note || `Applied by ${req.admin.name}` }).where(eq(t.corrections.id, id))
+    await audit(req, 'apply_correction', { table: 'corrections', rowId: id, administration: correction.administration })
     res.json({ ok: true, correctionId: id, entryTable: correction.entryTable, entryId: correction.entryId })
   })
 
@@ -279,6 +479,7 @@ export function createAdminRouter() {
       return res.status(422).json({ error: 'Source must be an http(s) URL.' })
     }
     const [row] = await db.insert(table).values(values).returning()
+    await audit(req, 'create', { table: req.params.table, rowId: row.id, administration: row.administration ?? null, after: row })
     res.status(201).json(row)
   })
 
@@ -294,11 +495,8 @@ export function createAdminRouter() {
 
     const logged = HISTORY_FIELDS[tableName] || []
     const touchesRating = RATING_FIELDS.some(f => f in values)
-    const needCurrent = logged.some(f => f in values) || (SOURCE_REQUIRED.has(tableName) && touchesRating)
-    const [cur] = needCurrent
-      ? await db.select().from(table).where(eq(table.id, id)).limit(1)
-      : []
-    if (needCurrent && !cur) return res.status(404).json({ error: 'Not found' })
+    const [cur] = await db.select().from(table).where(eq(table.id, id)).limit(1)
+    if (!cur) return res.status(404).json({ error: 'Not found' })
 
     // Block changing a rating while the row would be left without a source.
     if (SOURCE_REQUIRED.has(tableName) && touchesRating) {
@@ -325,12 +523,23 @@ export function createAdminRouter() {
     const [row] = await db.update(table).set(values).where(eq(table.id, id)).returning()
     if (!row) return res.status(404).json({ error: 'Not found' })
     if (historyRows.length) await db.insert(t.entryHistory).values(historyRows)
+    await audit(req, 'update', { table: tableName, rowId: id, administration: cur.administration ?? null, before: cur, after: row })
     res.json(row)
   })
 
   router.delete('/:table/:id', resolveTable, async (req, res) => {
     const { table } = req.tableEntry
-    await db.delete(table).where(eq(table.id, Number(req.params.id)))
+    const id = Number(req.params.id)
+    const [cur] = await db.select().from(table).where(eq(table.id, id)).limit(1)
+    if (!cur) return res.status(404).json({ error: 'Not found' })
+    // The full row is written to the audit log before it is deleted, so a
+    // mistaken delete can be undone from Activity log → Restore.
+    try {
+      await audit(req, 'delete', { table: req.params.table, rowId: id, administration: cur.administration ?? null, before: cur, strict: true })
+    } catch (e) {
+      return res.status(500).json({ error: e.message })
+    }
+    await db.delete(table).where(eq(table.id, id))
     res.status(204).end()
   })
 

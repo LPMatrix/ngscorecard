@@ -77,6 +77,10 @@
       color: #dff5e8; font-size: 12.5px; font-weight: 700; text-align: left; opacity: 0.75;
     }
     aside .logout:hover { opacity: 1; }
+    aside .whoami { padding: 10px 16px 0; font-size: 12px; color: #a9d6bd; line-height: 1.35; word-break: break-word; }
+    aside .whoami strong { display: block; color: #fff; font-size: 13px; }
+    pre.json { margin: 6px 0 0; padding: 8px 10px; background: #f1fbf5; border: 1px solid var(--line); border-radius: 6px; font-size: 11.5px; max-height: 260px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+    .notice { background: #fff8e1; border: 1px solid #f0d58a; color: #6b4e00; padding: 12px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 14px; }
 
     main { flex: 1; overflow-y: auto; padding: 26px 32px 60px; }
     .main-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
@@ -156,6 +160,7 @@
     <aside>
       <div class="brand">NGScorecard<span>Admin</span></div>
       <nav id="nav"></nav>
+      <div class="whoami" id="whoami"></div>
       <button class="logout" id="logout-btn">Sign out</button>
     </aside>
     <main>
@@ -179,6 +184,24 @@
         <div>
           <button type="button" class="btn" id="form-cancel">Cancel</button>
           <button type="submit" class="btn primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="overlay" id="pw-overlay">
+    <form class="form-card" id="pw-form">
+      <h3 id="pw-title">Change password</h3>
+      <p id="pw-lead" style="margin:0 0 14px;font-size:13px;color:var(--muted)"></p>
+      <div class="field"><label>Current password</label><input type="password" id="pw-current" autocomplete="current-password" required></div>
+      <div class="field"><label>New password <span style="text-transform:none;font-weight:400;color:var(--faint)">(at least 12 characters)</span></label><input type="password" id="pw-new" autocomplete="new-password" minlength="12" required></div>
+      <div class="field"><label>Confirm new password</label><input type="password" id="pw-confirm" autocomplete="new-password" minlength="12" required></div>
+      <div class="form-error" id="pw-error"></div>
+      <div class="form-actions">
+        <div></div>
+        <div>
+          <button type="button" class="btn" id="pw-cancel">Cancel</button>
+          <button type="submit" class="btn primary">Save password</button>
         </div>
       </div>
     </form>
@@ -485,7 +508,7 @@
 
   var DEFAULT_PAGE_SIZE = 100
   var state = {
-    table: null, administration: '', administrations: [], rows: [], editingId: null,
+    user: null, table: null, administration: '', administrations: [], rows: [], editingId: null,
     page: 1, pageSize: DEFAULT_PAGE_SIZE, total: 0, pageCount: 1,
   }
 
@@ -503,9 +526,11 @@
     var headers = { 'Content-Type': 'application/json' }
     if (csrf) headers['x-csrf-token'] = decodeURIComponent(csrf[1])
     var res = await fetch('/api/admin' + path, Object.assign({ headers: headers }, opts))
-    if (res.status === 401) { showLogin(); throw new Error('unauthenticated') }
+    if (res.status === 401 && path !== '/login' && path !== '/password') { showLogin(); throw new Error('unauthenticated') }
     if (!res.ok) {
       var body = await res.json().catch(function () { return {} })
+      if (body.error === 'password_change_required') { openPasswordForm(true); throw new Error('You must set a new password before continuing.') }
+      if (res.status === 401 && path === '/login') throw new Error('unauthenticated')
       throw new Error(body.error || ('Request failed (' + res.status + ')'))
     }
     if (res.status === 204) return null
@@ -514,6 +539,15 @@
 
   // ---------- Login ----------
   function showLogin() {
+    // Wipe whatever the last person had open, so a second person signing in on
+    // the same browser tab never sees the previous session's data.
+    state.user = null
+    state.rows = []
+    $('#content').innerHTML = ''
+    $('#section-title').textContent = '—'
+    $('#section-controls').innerHTML = ''
+    $('#nav').innerHTML = ''
+    $('#whoami').innerHTML = ''
     $('#app').classList.remove('ready')
     $('#login-screen').style.display = 'flex'
   }
@@ -538,6 +572,7 @@
 
   $('#logout-btn').addEventListener('click', async function () {
     await api('/logout', { method: 'POST' }).catch(function () {})
+    state.user = null
     showLogin()
   })
 
@@ -557,16 +592,19 @@
       btn.addEventListener('click', function () { selectTable(name) })
       nav.appendChild(btn)
     })
+    var isOwner = state.user && state.user.role === 'owner'
     var group2 = document.createElement('div')
     group2.className = 'group-label'
-    group2.textContent = 'Public API'
+    group2.textContent = isOwner ? 'Public API' : 'Reference'
     nav.appendChild(group2)
-    var keysBtn = document.createElement('button')
-    keysBtn.className = 'nav-item'
-    keysBtn.textContent = 'API Keys'
-    keysBtn.dataset.table = '__keys'
-    keysBtn.addEventListener('click', function () { selectKeys() })
-    nav.appendChild(keysBtn)
+    if (isOwner) {
+      var keysBtn = document.createElement('button')
+      keysBtn.className = 'nav-item'
+      keysBtn.textContent = 'API Keys'
+      keysBtn.dataset.table = '__keys'
+      keysBtn.addEventListener('click', function () { selectKeys() })
+      nav.appendChild(keysBtn)
+    }
     var registryBtn = document.createElement('button')
     registryBtn.className = 'nav-item'
     registryBtn.textContent = 'Indicator Registry'
@@ -585,6 +623,32 @@
     auditBtn.dataset.table = '__audit'
     auditBtn.addEventListener('click', function () { selectAudit() })
     nav.appendChild(auditBtn)
+
+    var group3 = document.createElement('div')
+    group3.className = 'group-label'
+    group3.textContent = 'Account'
+    nav.appendChild(group3)
+    if (isOwner) {
+      var teamBtn = document.createElement('button')
+      teamBtn.className = 'nav-item'
+      teamBtn.textContent = 'Team'
+      teamBtn.dataset.table = '__team'
+      teamBtn.addEventListener('click', function () { selectTeam() })
+      nav.appendChild(teamBtn)
+      var activityBtn = document.createElement('button')
+      activityBtn.className = 'nav-item'
+      activityBtn.textContent = 'Activity log'
+      activityBtn.dataset.table = '__activity'
+      activityBtn.addEventListener('click', function () { selectActivity() })
+      nav.appendChild(activityBtn)
+    }
+    if (state.user && !state.user.isEnvOwner) {
+      var pwBtn = document.createElement('button')
+      pwBtn.className = 'nav-item'
+      pwBtn.textContent = 'Change password'
+      pwBtn.addEventListener('click', function () { openPasswordForm(false) })
+      nav.appendChild(pwBtn)
+    }
   }
 
   function setActiveNav(name) {
@@ -806,7 +870,7 @@
   }
 
   async function deleteRow(id) {
-    if (!confirm('Delete this row? This cannot be undone.')) return
+    if (!confirm('Delete this row? The deletion is logged, and the owner can restore it from the Activity log.')) return
     await api('/' + state.table + '/' + id, { method: 'DELETE' })
     await loadRows()
   }
@@ -887,7 +951,7 @@
 
   $('#form-delete').addEventListener('click', async function () {
     if (!state.editingId) return
-    if (!confirm('Delete this row? This cannot be undone.')) return
+    if (!confirm('Delete this row? The deletion is logged, and the owner can restore it from the Activity log.')) return
     await api('/' + state.table + '/' + state.editingId, { method: 'DELETE' })
     closeForm()
     await loadRows()
@@ -1003,12 +1067,141 @@
     wirePagination()
   }
 
+  // ---------- Team (owner) ----------
+  async function selectTeam() {
+    state.table = '__team'
+    setActiveNav('__team')
+    $('#section-title').textContent = 'Team'
+    $('#section-controls').innerHTML = '<button class="btn primary" id="team-add">+ Add person</button>'
+    $('#team-add').addEventListener('click', addPerson)
+    $('#content').innerHTML = '<div class="loading">Loading…</div>'
+    var users = await api('/users')
+    var html = '<div class="table-scroll"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last sign-in</th><th></th></tr></thead><tbody>'
+    users.forEach(function (u) {
+      var env = u.id === 0
+      html += '<tr><td>' + esc(u.name) + '</td><td>' + esc(u.email) + '</td><td>' + esc(u.role) + '</td>' +
+        '<td><span class="badge ' + (u.active ? '' : 'revoked') + '">' + (u.active ? (u.mustChangePassword ? 'invited' : 'active') : 'deactivated') + '</span></td>' +
+        '<td>' + esc(u.lastLoginAt || '—') + '</td><td class="actions">' +
+        (env ? '' : '<button class="btn small" data-reset="' + u.id + '">Reset password</button>' +
+          '<button class="btn small ' + (u.active ? 'danger' : '') + '" data-active="' + u.id + '" data-to="' + (u.active ? 'false' : 'true') + '">' + (u.active ? 'Deactivate' : 'Reactivate') + '</button>') +
+        '</td></tr>'
+    })
+    $('#content').innerHTML = '<div class="notice">Editors can edit every content table, work the corrections queue and import in bulk. They cannot see API keys, manage the team or read the activity log. Every change they make is recorded with their name in the Activity log.</div>' + html + '</tbody></table></div>'
+    $$('[data-reset]').forEach(function (b) {
+      b.addEventListener('click', async function () {
+        if (!confirm('Reset this person\'s password? Their current password stops working immediately.')) return
+        try {
+          var r = await api('/users/' + b.dataset.reset + '/reset', { method: 'POST' })
+          showTemporaryPassword(r.temporaryPassword)
+        } catch (err) { alert(err.message) }
+        selectTeam()
+      })
+    })
+    $$('[data-active]').forEach(function (b) {
+      b.addEventListener('click', async function () {
+        var to = b.dataset.to === 'true'
+        if (!to && !confirm('Deactivate this person? They are signed out immediately.')) return
+        try { await api('/users/' + b.dataset.active + '/active', { method: 'POST', body: JSON.stringify({ active: to }) }) } catch (err) { alert(err.message) }
+        selectTeam()
+      })
+    })
+  }
+
+  function showTemporaryPassword(pw) {
+    // Shown once and never stored in readable form. Send it to the person
+    // over a private channel; they must replace it at first sign-in.
+    prompt('Temporary password (shown once). Copy it and send it to them privately. They will choose their own at first sign-in:', pw)
+  }
+
+  async function addPerson() {
+    var name = prompt('Full name:')
+    if (!name) return
+    var email = prompt('Email address (this is their login):')
+    if (!email) return
+    var role = confirm('Make this person an editor?\n\nOK = Editor (research/data work)\nCancel = Owner (full access, including team and API keys)') ? 'editor' : 'owner'
+    try {
+      var r = await api('/users', { method: 'POST', body: JSON.stringify({ name: name, email: email, role: role }) })
+      showTemporaryPassword(r.temporaryPassword)
+    } catch (err) { alert(err.message) }
+    selectTeam()
+  }
+
+  // ---------- Activity log (owner) ----------
+  async function selectActivity(keepPage) {
+    state.table = '__activity'
+    state.reload = function () { selectActivity(true) }
+    if (!keepPage) state.page = 1
+    setActiveNav('__activity')
+    $('#section-title').textContent = 'Activity log'
+    $('#section-controls').innerHTML = ''
+    $('#content').innerHTML = '<div class="loading">Loading…</div>'
+    var result = await api('/activity?page=' + state.page + '&pageSize=' + state.pageSize)
+    applyPageResult(result)
+    if (!state.total) { $('#content').innerHTML = '<div class="empty-state">Nothing recorded yet.</div>'; return }
+    var html = '<div class="table-scroll"><table><thead><tr><th>When</th><th>Who</th><th>Action</th><th>Table</th><th>Row</th><th>Administration</th><th>Details</th></tr></thead><tbody>'
+    state.rows.forEach(function (r) {
+      var detail = ''
+      if (r.beforeJson || r.afterJson) {
+        detail = '<details><summary>View</summary>' +
+          (r.beforeJson ? '<div>Before</div><pre class="json">' + esc(pretty(r.beforeJson)) + '</pre>' : '') +
+          (r.afterJson ? '<div>After</div><pre class="json">' + esc(pretty(r.afterJson)) + '</pre>' : '') + '</details>'
+      }
+      if (r.action === 'delete') detail += ' <button class="btn small" data-restore="' + r.id + '">Restore</button>'
+      html += '<tr><td>' + esc(r.at) + '</td><td>' + esc(r.actorEmail) + '<br><span style="color:var(--faint);font-size:11px">' + esc(r.actorRole) + '</span></td><td>' + esc(r.action) + '</td><td>' + esc(r.tableName || '') + '</td><td>' + esc(r.rowId == null ? '' : r.rowId) + '</td><td>' + esc(r.administration || '') + '</td><td>' + detail + '</td></tr>'
+    })
+    html += '</tbody></table></div>' + renderPagination()
+    $('#content').innerHTML = html
+    $$('[data-restore]').forEach(function (b) {
+      b.addEventListener('click', async function () {
+        if (!confirm('Restore this deleted row exactly as it was?')) return
+        try { await api('/activity/' + b.dataset.restore + '/restore', { method: 'POST' }); alert('Restored.') } catch (err) { alert(err.message) }
+        selectActivity(true)
+      })
+    })
+    wirePagination()
+  }
+
+  function pretty(json) {
+    try { return JSON.stringify(JSON.parse(json), null, 2) } catch (e) { return json }
+  }
+
+  // ---------- Password ----------
+  var pwForced = false
+  function openPasswordForm(forced) {
+    pwForced = !!forced
+    $('#pw-title').textContent = forced ? 'Choose your password' : 'Change password'
+    $('#pw-lead').textContent = forced ? 'You signed in with a temporary password. Choose your own to continue.' : ''
+    $('#pw-cancel').style.display = forced ? 'none' : ''
+    $('#pw-error').textContent = ''
+    $('#pw-form').reset()
+    $('#pw-overlay').classList.add('show')
+  }
+  function closePasswordForm() { $('#pw-overlay').classList.remove('show') }
+
+  $('#pw-cancel').addEventListener('click', closePasswordForm)
+  $('#pw-form').addEventListener('submit', async function (e) {
+    e.preventDefault()
+    var next = $('#pw-new').value
+    if (next !== $('#pw-confirm').value) { $('#pw-error').textContent = 'The new passwords do not match.'; return }
+    try {
+      await api('/password', { method: 'POST', body: JSON.stringify({ current: $('#pw-current').value, next: next }) })
+      closePasswordForm()
+      if (pwForced) { pwForced = false; await boot() }
+      else alert('Password changed.')
+    } catch (err) {
+      $('#pw-error').textContent = err.message === 'unauthenticated' ? 'Current password is incorrect.' : err.message
+    }
+  })
+
   // ---------- Boot ----------
   async function boot() {
     var session = await fetch('/api/admin/session').then(function (r) { return r.json() })
     if (!session.authenticated) { showLogin(); return }
+    state.user = session.user
+    $('#whoami').innerHTML = '<strong>' + esc(state.user.name) + '</strong>' + esc(state.user.email) + ' · ' + esc(state.user.role)
     showApp()
     buildNav()
+    if (state.user.mustChangePassword) { openPasswordForm(true); return }
     await selectTable(Object.keys(TABLES)[0])
   }
 

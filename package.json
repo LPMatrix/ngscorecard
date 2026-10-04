@@ -15,6 +15,7 @@
     "db:seed": "node --env-file=.env server/seed.js",
     "db:seed:reset": "node --env-file=.env server/seed.js --reset",
     "db:studio": "drizzle-kit studio",
+    "db:backup": "node --env-file=.env scripts/backup-db.mjs",
     "export:dataset": "node --env-file=.env scripts/export-dataset.mjs",
     "sitemap": "node --env-file=.env scripts/generate-sitemap.mjs",
     "paystack:setup-plan": "node --env-file=.env scripts/setup-paystack-plan.mjs"

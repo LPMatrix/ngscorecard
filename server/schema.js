@@ -380,3 +380,37 @@ export const donations = sqliteTable('donations', {
   createdAt:            text('created_at').notNull(),
   verifiedAt:           text('verified_at'),
 })
+
+// Per-person /admin accounts. The ADMIN_EMAIL/ADMIN_PASSWORD env pair stays as
+// a break-glass owner login that lives outside this table; everyone else
+// (researchers, editors) gets a row here with their own password, so access
+// can be granted, reset and revoked individually. Passwords are scrypt hashes.
+export const adminUsers = sqliteTable('admin_users', {
+  id:                 integer('id').primaryKey({ autoIncrement: true }),
+  email:              text('email').notNull().unique(), // stored lowercase
+  name:               text('name').notNull(),
+  role:               text('role').notNull().default('editor'), // 'owner' | 'editor'
+  passwordHash:       text('password_hash').notNull(),
+  mustChangePassword: integer('must_change_password', { mode: 'boolean' }).notNull().default(true),
+  active:             integer('active', { mode: 'boolean' }).notNull().default(true),
+  createdAt:          text('created_at').notNull(),
+  createdBy:          text('created_by'),
+  lastLoginAt:        text('last_login_at'),
+})
+
+// Private, append-only record of who did what in /admin. Distinct from
+// entry_history, which is public and deliberately anonymous: this one names
+// the person, and keeps the full before/after row so a mistaken edit or
+// delete can be reviewed and a deleted row restored. Owner-only to read.
+export const adminAudit = sqliteTable('admin_audit', {
+  id:             integer('id').primaryKey({ autoIncrement: true }),
+  at:             text('at').notNull(),
+  actorEmail:     text('actor_email').notNull(),
+  actorRole:      text('actor_role').notNull(),
+  action:         text('action').notNull(), // login|create|bulk_create|update|delete|restore|apply_correction|user_*|password_change|key_*
+  tableName:      text('table_name'),
+  rowId:          integer('row_id'),
+  administration: text('administration'),
+  beforeJson:     text('before_json'),
+  afterJson:      text('after_json'),
+})
