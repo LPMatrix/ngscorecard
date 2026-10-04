@@ -4,6 +4,7 @@ import { createPublicApiRouter } from './publicApi.js'
 import { createAdminRouter } from './adminRoutes.js'
 import { createCorrectionsRouter } from './correctionsRoutes.js'
 import { createOgRouter } from './ogRoutes.js'
+import { createPaystackRouter } from './paystackRoutes.js'
 
 // Single source of truth for how the API routers are mounted, used by both
 // the Vercel serverless entrypoint (api/index.js) and the standalone Express
@@ -24,6 +25,7 @@ export function createApiApp() {
   app.use('/api/v1', createPublicApiRouter())
   app.use('/api/admin', createAdminRouter())
   app.use('/api/corrections', createCorrectionsRouter())
+  app.use('/api/donate', createPaystackRouter())
   app.use('/api', createApiRouter())
 
   return app

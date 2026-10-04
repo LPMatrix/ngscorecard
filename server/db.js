@@ -108,6 +108,23 @@ function ensureLocalSchema(client) {
     )
   `).run()
   client.prepare(`
+    CREATE TABLE IF NOT EXISTS donations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      reference TEXT NOT NULL UNIQUE,
+      email TEXT NOT NULL,
+      amount_kobo INTEGER NOT NULL,
+      currency TEXT NOT NULL DEFAULT 'NGN',
+      frequency TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending',
+      channel TEXT,
+      plan_code TEXT,
+      paystack_customer_code TEXT,
+      subscription_code TEXT,
+      created_at TEXT NOT NULL,
+      verified_at TEXT
+    )
+  `).run()
+  client.prepare(`
     CREATE TABLE IF NOT EXISTS api_keys (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       key TEXT NOT NULL UNIQUE,

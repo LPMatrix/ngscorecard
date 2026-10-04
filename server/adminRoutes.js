@@ -41,6 +41,7 @@ const TABLES = {
   governors:        { table: t.governors,        adminCol: 'administration' },
   projects:         { table: t.projects,         adminCol: 'administration' },
   corrections:      { table: t.corrections,      adminCol: null }, // reader-submitted moderation queue
+  donations:        { table: t.donations,        adminCol: null }, // Paystack ledger, written by server/paystackRoutes.js
 }
 
 function resolveTable(req, res, next) {
