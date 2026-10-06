@@ -101,6 +101,7 @@ const zones = ['North Central', 'North East', 'North West', 'South East', 'South
             <dt>{{ t('status.ongoing') }}</dt><dd>{{ t('guide.statuses.fraud.ongoing.body') }}</dd>
             <dt>{{ t('status.dismissed') }}</dt><dd>{{ t('guide.statuses.fraud.dismissed.body') }}</dd>
             <dt>{{ t('status.acquitted') }}</dt><dd>{{ t('guide.statuses.fraud.acquitted.body') }}</dd>
+            <dt>{{ t('status.abated') }}</dt><dd>{{ t('guide.statuses.fraud.abated.body') }}</dd>
           </dl>
         </div>
         <p class="hint" v-html="t('guide.statuses.fraud.note')"></p>

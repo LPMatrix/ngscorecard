@@ -1048,6 +1048,7 @@ a:focus-visible {
 .pt-badge-pending,
 .pt-badge-ongoing,
 .pt-badge-dismissed,
+.pt-badge-abated,
 .pt-badge-sacked,
 .pt-badge-resigned {
   border-color: var(--pt-line-strong);

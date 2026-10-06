@@ -655,6 +655,7 @@ const FRAUD_STATUSES = computed(() => [
   { key: 'ongoing',   label: t('status.ongoing') },
   { key: 'dismissed', label: t('status.dismissed') },
   { key: 'acquitted', label: t('status.acquitted') },
+  { key: 'abated',    label: t('status.abated') },
 ])
 
 const FRAUD_RESPONSES = computed(() => [

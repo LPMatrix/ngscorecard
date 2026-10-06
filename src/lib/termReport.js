@@ -33,11 +33,11 @@ export function pickHighlights(promises, status, limit = HIGHLIGHT_LIMIT) {
     .map((p) => ({ id: p.id, title: p.title, category: p.category }))
 }
 
-const FRAUD_OUTCOMES = ['convicted', 'ongoing', 'dismissed', 'acquitted']
+const FRAUD_OUTCOMES = ['convicted', 'ongoing', 'dismissed', 'acquitted', 'abated']
 
 function fraudExposure(fraud) {
   if (!fraud?.length) return null
-  const out = { total: fraud.length, convicted: 0, ongoing: 0, dismissed: 0, acquitted: 0, other: 0 }
+  const out = { total: fraud.length, convicted: 0, ongoing: 0, dismissed: 0, acquitted: 0, abated: 0, other: 0 }
   for (const f of fraud) {
     if (FRAUD_OUTCOMES.includes(f.status)) out[f.status]++
     else out.other++

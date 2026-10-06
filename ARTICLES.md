@@ -43,3 +43,16 @@ pattern found in the data, not a methodology explainer.
   Tinubu in 2026), plus the Wike-Fubara rivalry and Rivers's 2025 state of
   emergency running alongside it the whole time.
   `/publications/the-bridge-everyone-commissions`
+
+- **How a governor's corruption case ends** (2026-10-06, drafted, not yet
+  deployed) — of 31 former governors the EFCC took to court between 2003
+  and 2023, twelve reached a verdict that held (five convictions, seven
+  acquittals) and nineteen did not: nine ended on procedure, a point of law
+  or a prosecutor's withdrawal, two on the defendant's death, eight are
+  unresolved. Of the five convictions, three ended in pardons, one in a fine,
+  one in London; none of the nine cases opened since 2016 has produced a
+  conviction that stands. A closing section covers the five charged since
+  2024 (Obiano, Ahmed, Bello, Ishaku, Orji), none yet with a verdict; Ngige
+  (ministerial charges), El-Rufai (ICPC) and Okowa/Udom (detained, not
+  charged) are named but not counted.
+  `/publications/how-a-governors-corruption-case-ends`

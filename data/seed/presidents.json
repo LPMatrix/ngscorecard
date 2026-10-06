@@ -2755,5 +2755,57 @@
     "termEnd": "2019",
     "status": "completed",
     "note": "Served two full terms; NGF Chairman 2015-2019"
+  },
+  {
+    "key": "shema",
+    "name": "Shema",
+    "fullName": "Ibrahim Shehu Shema",
+    "termStart": "2007-05-29",
+    "termEnd": "2015-05-29",
+    "tagline": null,
+    "party": "PDP",
+    "reviewed": "October 2026",
+    "level": "state",
+    "state": "Katsina",
+    "isCurrent": false
+  },
+  {
+    "key": "ngilari",
+    "name": "Ngilari",
+    "fullName": "Bala James Ngilari",
+    "termStart": "2014-10-08",
+    "termEnd": "2015-05-29",
+    "tagline": null,
+    "party": "PDP",
+    "reviewed": "October 2026",
+    "level": "state",
+    "state": "Adamawa",
+    "isCurrent": false
+  },
+  {
+    "key": "yero",
+    "name": "Yero",
+    "fullName": "Mukhtar Ramalan Yero",
+    "termStart": "2012-12-16",
+    "termEnd": "2015-05-29",
+    "tagline": null,
+    "party": "PDP",
+    "reviewed": "October 2026",
+    "level": "state",
+    "state": "Kaduna",
+    "isCurrent": false
+  },
+  {
+    "key": "okorocha",
+    "name": "Okorocha",
+    "fullName": "Owelle Rochas Anayo Okorocha",
+    "termStart": "2011-05-29",
+    "termEnd": "2019-05-29",
+    "tagline": null,
+    "party": "APGA/APC",
+    "reviewed": "October 2026",
+    "level": "state",
+    "state": "Imo",
+    "isCurrent": false
   }
 ]
