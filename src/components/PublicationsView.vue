@@ -28,6 +28,14 @@ function parts(str) {
 }
 
 const isArticle = computed(() => !!props.publication)
+
+// Newest first: the latest piece is featured, the rest follow as a list.
+const sorted = computed(() => [...props.list].sort((a, b) => b.date.localeCompare(a.date)))
+const featured = computed(() => sorted.value[0] ?? null)
+const earlier = computed(() => sorted.value.slice(1))
+
+// Section headings arrive numbered ("1. Absent"); the list numbers them itself.
+const tocOf = (p) => (p.headings ?? []).map((h) => h.replace(/^\d+\.\s*/, ''))
 </script>
 
 <template>
@@ -65,22 +73,46 @@ const isArticle = computed(() => !!props.publication)
 
     <template v-else>
       <header class="hero">
-        <div class="wrap">
+        <div class="wrap wide">
           <div class="eyebrow">{{ t('publications.eyebrow') }}</div>
           <h1>{{ t('publications.title') }}</h1>
           <p class="lede">{{ t('publications.lede') }}</p>
         </div>
       </header>
-      <main class="wrap">
-        <ul class="pub-list">
-          <li v-for="p in list" :key="p.slug" class="pub-item">
-            <div class="pub-item-date">{{ fmtDate(p.date) }}</div>
-            <h2 class="pub-item-title"><a :href="lp(`/publications/${p.slug}`)">{{ p.title }}</a></h2>
-            <p class="pub-item-sub">{{ p.subtitle }}</p>
-            <p class="pub-item-sum">{{ p.summary }}</p>
-            <a class="pub-item-more" :href="lp(`/publications/${p.slug}`)">{{ t('publications.read') }} →</a>
-          </li>
-        </ul>
+      <main class="wrap wide">
+        <article v-if="featured" class="pub-feature" :class="{ solo: !tocOf(featured).length }">
+          <div class="pub-feature-body">
+            <div class="pub-kicker">
+              <span class="pub-tag">{{ t('publications.latest') }}</span>
+              <span class="pub-when">{{ fmtDate(featured.date) }}</span>
+            </div>
+            <h2 class="pub-feature-title"><a class="stretch" :href="lp(`/publications/${featured.slug}`)">{{ featured.title }}</a></h2>
+            <p class="pub-feature-sub">{{ featured.subtitle }}</p>
+            <p class="pub-feature-sum">{{ featured.summary }}</p>
+            <span class="pub-cta">{{ t('publications.readPiece') }} →</span>
+          </div>
+          <aside v-if="tocOf(featured).length" class="pub-toc">
+            <div class="pub-toc-label">{{ t('publications.inThisPiece') }}</div>
+            <ol>
+              <li v-for="h in tocOf(featured)" :key="h">{{ h }}</li>
+            </ol>
+          </aside>
+        </article>
+
+        <section v-if="earlier.length" class="pub-earlier">
+          <h2 class="pub-earlier-title">{{ t('publications.earlier') }}</h2>
+          <ul class="pub-rows">
+            <li v-for="p in earlier" :key="p.slug" class="pub-row">
+              <div class="pub-row-meta">{{ fmtDate(p.date) }}</div>
+              <div class="pub-row-body">
+                <h3 class="pub-row-title"><a class="stretch" :href="lp(`/publications/${p.slug}`)">{{ p.title }}</a></h3>
+                <p class="pub-row-sub">{{ p.subtitle }}</p>
+                <p class="pub-row-sum">{{ p.summary }}</p>
+              </div>
+              <span class="pub-row-go" aria-hidden="true">→</span>
+            </li>
+          </ul>
+        </section>
       </main>
     </template>
   </div>
@@ -112,18 +144,83 @@ main { padding: 36px 24px 72px; }
 .pub-back { margin: 28px 0 0; font-size: 14px; }
 .pub-back a { color: var(--g700); }
 
-.pub-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
-.pub-item { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 20px 22px; }
-.pub-item-date { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; color: var(--faint); }
-.pub-item-title { font-family: "Playfair Display", Georgia, serif; font-size: 24px; line-height: 1.2; margin: 6px 0 4px; }
-.pub-item-title a { color: var(--ink); text-decoration: none; }
-.pub-item-title a:hover { color: var(--g700); text-decoration: underline; }
-.pub-item-sub { color: var(--muted); font-size: 15px; margin: 0 0 10px; }
-.pub-item-sum { font-size: 15px; line-height: 1.6; margin: 0 0 12px; }
-.pub-item-more { color: var(--g700); font-weight: 700; font-size: 14px; text-decoration: none; }
-.pub-item-more:hover { text-decoration: underline; }
+.wrap.wide { max-width: 1120px; }
+/* main's side padding sits inside its width; widen it so its content lines up with the heading above. */
+main.wrap.wide { max-width: 1168px; }
+
+/* Whole-card links: the title link stretches over its card, so the card is the
+   click target while screen readers still hear one link per piece. */
+.stretch { color: inherit; text-decoration: none; }
+.stretch::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+.stretch:focus-visible { outline: none; }
+.stretch:focus-visible::after { outline: 2px solid var(--g700); outline-offset: -3px; }
+
+.pub-feature {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  background: var(--surface); border: 1px solid var(--line-strong); border-radius: 12px; overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.pub-feature.solo { grid-template-columns: minmax(0, 1fr); }
+.pub-feature:hover { border-color: var(--g700); box-shadow: 0 10px 30px rgba(7, 63, 42, 0.08); }
+.pub-feature-body { padding: 34px 38px 32px; }
+.pub-kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+.pub-tag {
+  font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  background: var(--g700); color: #fff; padding: 3px 9px; border-radius: 999px;
+}
+.pub-when { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; color: var(--faint); }
+.pub-feature-title { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 38px; line-height: 1.12; margin: 0 0 10px; overflow-wrap: anywhere; }
+.pub-feature:hover .pub-feature-title { color: var(--g800); }
+.pub-feature-sub { font-size: 18px; line-height: 1.45; color: var(--muted); margin: 0 0 16px; }
+.pub-feature-sum { font-size: 15.5px; line-height: 1.65; margin: 0 0 22px; max-width: 62ch; }
+.pub-cta { color: var(--g700); font-weight: 800; font-size: 14.5px; }
+.pub-feature:hover .pub-cta { text-decoration: underline; }
+.pub-toc { background: #f1fbf5; border-left: 1px solid var(--line); padding: 34px 32px; }
+.pub-toc-label { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g700); margin-bottom: 14px; }
+.pub-toc ol { margin: 0; padding: 0; list-style: none; counter-reset: toc; display: grid; gap: 12px; }
+.pub-toc li { counter-increment: toc; display: grid; grid-template-columns: 24px 1fr; gap: 8px; font-size: 14.5px; line-height: 1.4; color: var(--ink); }
+.pub-toc li::before { content: counter(toc); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; color: var(--g700); padding-top: 2px; }
+
+.pub-earlier { margin-top: 48px; }
+.pub-earlier-title { font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); }
+.pub-rows { list-style: none; margin: 0; padding: 0; }
+.pub-row {
+  position: relative; display: grid; grid-template-columns: 170px minmax(0, 1fr) 28px; gap: 8px 28px; align-items: start;
+  padding: 24px 12px; margin: 0 -12px; border-bottom: 1px solid var(--line); border-radius: 8px;
+  transition: background 0.15s;
+}
+.pub-row:hover { background: var(--surface); }
+.pub-row-meta { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; color: var(--faint); line-height: 1.7; padding-top: 5px; }
+.pub-row-title { font-family: "Playfair Display", Georgia, serif; font-size: 25px; line-height: 1.2; margin: 0 0 6px; }
+.pub-row:hover .pub-row-title { color: var(--g700); }
+.pub-row-sub { color: var(--muted); font-size: 16px; line-height: 1.45; margin: 0 0 8px; }
+.pub-row-sum { font-size: 14.5px; line-height: 1.6; color: var(--ink); margin: 0; max-width: 70ch; }
+.pub-row-go { color: var(--g700); font-weight: 800; font-size: 20px; padding-top: 2px; transition: transform 0.15s; }
+.pub-row:hover .pub-row-go { transform: translateX(4px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pub-feature, .pub-row, .pub-row-go { transition: none; }
+  .pub-row:hover .pub-row-go { transform: none; }
+}
+
+@media (max-width: 900px) {
+  .pub-feature { grid-template-columns: minmax(0, 1fr); }
+  .pub-toc { border-left: none; border-top: 1px solid var(--line); padding: 24px 28px; }
+  .pub-feature-body { padding: 28px 28px 26px; }
+  .pub-feature-title { font-size: 32px; }
+}
 
 @media (max-width: 600px) {
+  .pub-feature-body { padding: 22px 20px 20px; }
+  .pub-feature-title { font-size: 27px; }
+  .pub-feature-sub { font-size: 16.5px; }
+  .pub-feature-sum { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; overflow: hidden; }
+  .pub-row-sum { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
+  .pub-row { grid-template-columns: minmax(0, 1fr) 24px; padding: 20px 10px; margin: 0 -10px; }
+  .pub-row-meta { grid-column: 1 / -1; display: flex; gap: 12px; padding-top: 0; }
+  .pub-row-body { grid-column: 1; }
+  .pub-row-go { grid-column: 2; grid-row: 2; }
+  .pub-row-title { font-size: 22px; }
   h1 { font-size: 28px; }
   .hero { padding: 22px 16px; }
   main { padding: 28px 16px 56px; }

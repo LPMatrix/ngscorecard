@@ -132,8 +132,9 @@ async function donate() {
     </header>
 
     <main class="wrap">
+      <div class="support-grid">
 
-      <section id="give">
+      <section id="give" class="support-aside">
         <div class="card give-card">
           <div class="freq-toggle" role="tablist">
             <button
@@ -196,6 +197,8 @@ async function donate() {
         </div>
       </section>
 
+      <div class="support-main">
+
       <section id="funds">
         <h2><span class="num">1</span> {{ t('support.funds.title') }}</h2>
         <ul class="point-list">
@@ -227,6 +230,9 @@ async function donate() {
         </div>
       </section>
 
+      </div>
+      </div>
+
     </main>
   </div>
 </template>
@@ -239,13 +245,28 @@ async function donate() {
   --surface: #fffef9;
   color: var(--ink);
 }
-.wrap { max-width: 860px; margin: 0 auto; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+
+/* Explanations on the left, the donate card on the right and kept in view as
+   you read. The card comes first in the markup, so on narrow screens it
+   leads the page. */
+.support-grid { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 0 56px; align-items: start; }
+.support-aside { grid-column: 2; grid-row: 1; position: sticky; top: 128px; margin-bottom: 0; }
+.support-main { grid-column: 1; grid-row: 1; }
+.support-main section:last-child { margin-bottom: 0; }
 .hero { border-bottom: 1px solid var(--line-strong); background: var(--surface); padding: 28px 24px; }
 .eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g700); }
 h1 { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 34px; margin: 6px 0 8px; }
 .lede { color: var(--muted); font-size: 16px; max-width: 620px; margin: 0; }
 
 main { padding: 40px 24px 80px; }
+/* main's side padding sits inside its width; widen it so its content lines up with the heading above. */
+main.wrap { max-width: 1168px; }
+@media (max-width: 900px) {
+  .support-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .support-aside { grid-column: 1; grid-row: auto; position: static; margin-bottom: 40px; }
+  .support-main { grid-column: 1; grid-row: auto; }
+}
 section { margin-bottom: 52px; }
 h2 { font-size: 20px; font-weight: 800; color: var(--g800); margin: 0 0 6px; display: flex; align-items: center; gap: 8px; }
 h2 .num {

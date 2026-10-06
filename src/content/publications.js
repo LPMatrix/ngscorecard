@@ -196,7 +196,16 @@ export function findPublication(slug) {
   return PUBLICATIONS.find((p) => p.slug === slug) ?? null
 }
 
-// Index view: everything except the section bodies.
+// Index view: everything except the section bodies, plus each piece's section
+// headings, which the index shows as a contents list.
 export function listPublications() {
-  return PUBLICATIONS.map(({ slug, title, subtitle, date, author, summary }) => ({ slug, title, subtitle, date, author, summary }))
+  return PUBLICATIONS.map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    subtitle: p.subtitle,
+    date: p.date,
+    author: p.author,
+    summary: p.summary,
+    headings: p.sections.map((s) => s.heading).filter(Boolean),
+  }))
 }
