@@ -2,6 +2,7 @@
 // Publications — an index at /publications and an article at
 // /publications/<slug>. Content lives in src/content/publications.js.
 import { computed, inject } from 'vue'
+import ShareActions from './ShareActions.vue'
 
 const t = inject('t', (k) => k)
 const lp = inject('lp', (p) => p)
@@ -29,6 +30,11 @@ function parts(str) {
 
 const isArticle = computed(() => !!props.publication)
 
+// Shares always point at the English canonical address (same as the page's
+// canonical link), whichever language the reader is browsing in.
+const SITE_ORIGIN = 'https://ngscorecard.com'
+const shareUrl = computed(() => props.publication ? `${SITE_ORIGIN}/publications/${props.publication.slug}` : '')
+
 // Newest first: the latest piece is featured, the rest follow as a list.
 const sorted = computed(() => [...props.list].sort((a, b) => b.date.localeCompare(a.date)))
 const featured = computed(() => sorted.value[0] ?? null)
@@ -55,6 +61,7 @@ const tocOf = (p) => (p.headings ?? []).map((h) => h.replace(/^\d+\.\s*/, ''))
           <h1>{{ publication.title }}</h1>
           <p class="lede">{{ publication.subtitle }}</p>
           <p class="pub-meta">{{ t('publications.byline', { author: publication.author, date: fmtDate(publication.date) }) }}</p>
+          <ShareActions class="pub-share-top" :url="shareUrl" :title="publication.title" :text="publication.subtitle" />
         </div>
       </header>
       <main class="wrap pub-article">
@@ -67,6 +74,10 @@ const tocOf = (p) => (p.headings ?? []).map((h) => h.replace(/^\d+\.\s*/, ''))
         <aside v-if="publication.notes?.length" class="pub-notes">
           <p v-for="(n, i) in publication.notes" :key="i">{{ n }}</p>
         </aside>
+        <div class="pub-share-end">
+          <div class="pub-share-label">{{ t('publications.shareThis') }}</div>
+          <ShareActions :url="shareUrl" :title="publication.title" :text="publication.subtitle" />
+        </div>
         <p class="pub-back"><a :href="lp('/publications')">← {{ t('publications.all') }}</a></p>
       </main>
     </template>
@@ -141,6 +152,10 @@ main { padding: 36px 24px 72px; }
 .pub-section p { font-size: 17px; line-height: 1.7; margin: 0 0 14px; overflow-wrap: anywhere; }
 .pub-notes { border-top: 1px solid var(--line-strong); margin-top: 40px; padding-top: 16px; }
 .pub-notes p { font-size: 13.5px; line-height: 1.6; color: var(--muted); margin: 0 0 8px; }
+.pub-share-top { margin-top: 16px; }
+.pub-share-end { border-top: 1px solid var(--line-strong); margin-top: 40px; padding-top: 18px; }
+.pub-notes + .pub-share-end { margin-top: 24px; border-top: none; padding-top: 0; }
+.pub-share-label { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .pub-back { margin: 28px 0 0; font-size: 14px; }
 .pub-back a { color: var(--g700); }
 
