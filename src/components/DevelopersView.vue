@@ -184,9 +184,8 @@ curl https://ngscorecard.com/api/v1/tinubu/promises \
           <li><strong>Additive changes are not breaking.</strong> New fields on a response, new endpoints, and new optional parameters can land in <code>v1</code> at any time — write clients that ignore fields they don't recognise.</li>
           <li><strong>Breaking changes get a new version.</strong> Removing or renaming a field, changing a type, or changing the meaning of a value happens under <code>/api/v2</code>, never in place.</li>
           <li><strong>Old versions stay up for at least 12 months</strong> after a successor ships.</li>
-          <li><strong>Sunsets are announced,</strong> not silent — in this page's change history, in the <code>GET /api/v1</code> index response, and via a <code>Sunset</code> HTTP header (RFC&nbsp;8594) on the affected endpoints for the whole deprecation window.</li>
+          <li><strong>Sunsets are announced,</strong> not silent. We post the notice on this page and email everyone who holds an API key, and the old version keeps working for the whole window.</li>
         </ul>
-        <p class="try-note">Nothing is deprecated today. The dataset and its licence are covered separately in <a href="/guide#independence">the methodology</a> and <code>DATA-LICENSE.md</code>.</p>
       </section>
 
     </main>

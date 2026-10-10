@@ -96,6 +96,16 @@ export async function render({ route, id } = {}) {
     return { html, initialData, meta, notFound: false, canonical: routePath(name, params) }
   }
 
+  // ── "/nigeria-promise-trackers-compared" — comparison with other Nigerian
+  // trackers. Deliberately not linked from the site (it is in the sitemap).
+  // English-only content, so other locales are served but kept out of search.
+  if (name === 'trackersCompared') {
+    const initialData = { ...baseState(), page: name }
+    const html = await mount(initialData)
+    const meta = { title: t('meta.trackersCompared.title'), description: t('meta.trackersCompared.desc') }
+    return { html, initialData, meta, notFound: false, canonical: routePath(name, params), robots: loc !== 'en' ? 'noindex, follow' : null }
+  }
+
   // ── "/publications" and "/publications/<slug>" — editorial pieces. The
   // content is bundled (src/content/publications.js) and English only, so
   // other locales are served but kept out of search results.

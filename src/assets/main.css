@@ -121,6 +121,13 @@ a:focus-visible {
   white-space: nowrap;
 }
 .pt-header-docs-link:hover { color: var(--pt-green-700); text-decoration: underline; }
+/* Current section: colour plus a heavier underline, so the state doesn't rely on colour alone. */
+.pt-header-docs-link.active {
+  color: var(--pt-green-700);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
 
 .pt-header-support-link {
   color: #fff;
@@ -133,6 +140,7 @@ a:focus-visible {
   border-radius: 999px;
 }
 .pt-header-support-link:hover { background: var(--pt-green-800); }
+.pt-header-support-link.active { background: var(--pt-green-900); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4); }
 
 .pt-header-menu { display: none; justify-self: end; position: relative; }
 .pt-header-menu-btn {
@@ -165,6 +173,7 @@ a:focus-visible {
   text-decoration: none;
 }
 .pt-header-menu-link:hover { background: var(--pt-green-050); color: var(--pt-green-700); }
+.pt-header-menu-link.active { background: var(--pt-green-050); color: var(--pt-green-700); box-shadow: inset 3px 0 0 var(--pt-green-700); }
 .pt-header-menu-link + .pt-header-menu-link { border-top: 1px solid var(--pt-line); }
 .pt-header-menu-support { color: var(--pt-green-700); }
 .pt-header-menu-lang {

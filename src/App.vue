@@ -17,6 +17,7 @@ import GuideView       from './components/GuideView.vue'
 import PressView       from './components/PressView.vue'
 import DevelopersView  from './components/DevelopersView.vue'
 import SupportView     from './components/SupportView.vue'
+import TrackersComparedView from './components/TrackersComparedView.vue'
 import ReportView      from './components/ReportView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
 import LangSwitcher    from './components/LangSwitcher.vue'
@@ -78,6 +79,23 @@ const isReport = ref(initial?.report === true)
 const publicationData = ref(initial?.publication ?? null)
 const publicationList = ref(initial?.publications ?? listPublications())
 const publicationMissing = ref(initial?.publicationMissing === true)
+
+// Header menu. `current` marks the item for the page being viewed: 'page' on
+// the section's own page, 'true' on something inside it (an article, a theme).
+const HEADER_NAV = [
+  { key: 'themes', path: '/themes', label: 'header.themes' },
+  { key: 'publications', path: '/publications', label: 'header.publications' },
+  { key: 'guide', path: '/guide', label: 'header.guide' },
+  { key: 'developers', path: '/developers', label: 'header.developers' },
+  { key: 'press', path: '/press', label: 'header.press' },
+  { key: 'support', path: '/support', label: 'header.support' },
+]
+const activeNavKey = computed(() => (isThemes.value ? 'themes' : pageView.value))
+function navCurrent(key) {
+  if (activeNavKey.value !== key) return undefined
+  const inside = (key === 'publications' && publicationData.value) || (key === 'themes' && themesData.value?.mode === 'lineage')
+  return inside ? 'true' : 'page'
+}
 const activeAdmin = ref(isLanding.value || isThemes.value || pageView.value ? null : (initial?.admin ?? 'tinubu'))
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
@@ -396,7 +414,7 @@ onMounted(async () => {
       activeAdmin.value = null
       const list = await fetch('/api/themes').then(r => r.ok ? r.json() : []).catch(() => [])
       landingThemes.value = list.map(th => ({ slug: th.slug, title: th.title, adminCount: th.adminCount }))
-    } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers' || route.name === 'support') {
+    } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers' || route.name === 'support' || route.name === 'trackersCompared') {
       pageView.value = route.name
       activeAdmin.value = null
     } else if (route.name === 'publications' || route.name === 'publication') {
@@ -929,12 +947,12 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           </div>
         </a>
         <div class="pt-header-links">
-          <a :href="lp('/themes')" class="pt-header-docs-link">{{ t('header.themes') }}</a>
-          <a :href="lp('/publications')" class="pt-header-docs-link">{{ t('header.publications') }}</a>
-          <a :href="lp('/guide')" class="pt-header-docs-link">{{ t('header.guide') }}</a>
-          <a :href="lp('/developers')" class="pt-header-docs-link">{{ t('header.developers') }}</a>
-          <a :href="lp('/press')" class="pt-header-docs-link">{{ t('header.press') }}</a>
-          <a :href="lp('/support')" class="pt-header-support-link">{{ t('header.support') }}</a>
+          <a
+            v-for="item in HEADER_NAV" :key="item.key"
+            :href="lp(item.path)"
+            :class="[item.key === 'support' ? 'pt-header-support-link' : 'pt-header-docs-link', { active: !!navCurrent(item.key) }]"
+            :aria-current="navCurrent(item.key)"
+          >{{ t(item.label) }}</a>
           <LangSwitcher />
         </div>
         <div class="pt-header-menu">
@@ -947,12 +965,13 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           <template v-if="headerMenuOpen">
             <div class="pt-header-menu-backdrop" @click="headerMenuOpen = false"></div>
             <div class="pt-header-menu-panel">
-              <a :href="lp('/themes')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.themes') }}</a>
-              <a :href="lp('/publications')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.publications') }}</a>
-              <a :href="lp('/guide')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.guide') }}</a>
-              <a :href="lp('/developers')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.developers') }}</a>
-              <a :href="lp('/press')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.press') }}</a>
-              <a :href="lp('/support')" class="pt-header-menu-link pt-header-menu-support" @click="headerMenuOpen = false">{{ t('header.support') }}</a>
+              <a
+                v-for="item in HEADER_NAV" :key="item.key"
+                :href="lp(item.path)"
+                :class="['pt-header-menu-link', { 'pt-header-menu-support': item.key === 'support', active: !!navCurrent(item.key) }]"
+                :aria-current="navCurrent(item.key)"
+                @click="headerMenuOpen = false"
+              >{{ t(item.label) }}</a>
               <div class="pt-header-menu-lang"><LangSwitcher /></div>
             </div>
           </template>
@@ -1191,6 +1210,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
     <PressView v-else-if="pageView === 'press'" />
     <DevelopersView v-else-if="pageView === 'developers'" />
     <SupportView v-else-if="pageView === 'support'" />
+    <TrackersComparedView v-else-if="pageView === 'trackersCompared'" />
 
     <!-- ── Term report card ("/<admin>/report") ── -->
     <ReportView

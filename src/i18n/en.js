@@ -489,6 +489,8 @@ export default {
   'meta.guide.desc': 'What NGScorecard tracks, what every status label and budget term means, and how ratings, sourcing, review, and corrections work. Versioned methodology with a change log.',
   'meta.press.title': 'NGScorecard — Press & Media Kit',
   'meta.press.desc': 'Boilerplate, key facts, and brand assets for journalists and civic-tech writers covering NGScorecard, the independent Nigerian government accountability tracker.',
+  'meta.trackersCompared.title': 'Nigerian Promise Trackers Compared | NGScorecard',
+  'meta.trackersCompared.desc': 'How NGScorecard compares with Promise Tracker, Track My Leader, OurNigeria and Pledge Tracker: who each covers, what it records, how it rates promises, and how to get the data.',
   'meta.support.title': 'NGScorecard — Support the Tracker',
   'meta.support.desc': 'NGScorecard is free to read. Support funds the sourcing and verification work behind it, under a public funding policy.',
   'meta.developers.title': 'NGScorecard — API & Widget Documentation',
