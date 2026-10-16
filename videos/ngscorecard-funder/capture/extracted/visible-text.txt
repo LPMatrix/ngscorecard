@@ -1,0 +1,184 @@
+[div] Civic Accountability · Nigeria
+[h1] NGScorecard
+[a] Recurring commitments
+[a] Publications
+[a] Guide
+[a] Developers
+[a] Press
+[a] Support
+[span] Language
+[option] English
+[option] Hausa
+[option] Yorùbá
+[option] Igbo
+[option] Naijá
+[span] Find an administration
+[span] 217 tracked · federal & state · 1960–present
+[p] Civic accountability · Nigeria
+[h2] Every Nigerian government, held to its word.
+[p] NGScorecard tracks campaign promises, fraud cases, executive orders, ministerial performance, budgets and court judgments across 217 administrations — every federal government since 1960, and elected state governors back to 1979. Independent, non-partisan, every claim linked to its source.
+[button] Find an administration
+[a] How this works
+[p] 16 federal · 201 state · 1960–present
+[h3] Recurring commitments
+[p] Fixing the power supply, diversifying off oil, restructuring the federation — pledges threaded through every administration that made them, with what happened each time.
+[span] Fight corruption in government
+[span] 7 administrations
+[span] Hand over to civilian rule
+[span] 6 administrations
+[span] Deliver a reliable electricity supply
+[span] 5 administrations
+[span] Restructure the federation
+[span] 5 administrations
+[a] All recurring commitments →
+[h3] In office now
+[span] President
+[span] Bola Tinubu
+[span] APC · 2023–present
+[div] North Central
+[span] Benue
+[span] Alia
+[span] Kogi
+[span] Ododo
+[span] Kwara
+[span] AbdulRazaq
+[span] Nasarawa
+[span] Sule
+[span] Niger
+[span] Bago
+[span] Plateau
+[span] Mutfwang
+[div] North East
+[span] Adamawa
+[span] Fintiri
+[span] Bauchi
+[span] Bala Mohammed
+[span] Borno
+[span] Zulum
+[span] Gombe
+[span] Inuwa Yahaya
+[span] Taraba
+[span] Kefas
+[span] Yobe
+[span] Buni
+[div] North West
+[span] Jigawa
+[span] Namadi
+[span] Kaduna
+[span] Uba Sani
+[span] Kano
+[span] Yusuf
+[span] Katsina
+[span] Radda
+[span] Kebbi
+[span] Idris
+[span] Sokoto
+[span] Aliyu
+[span] Zamfara
+[span] Dauda Lawal
+[div] South East
+[span] Abia
+[span] Otti
+[span] Anambra
+[span] Soludo
+[span] Ebonyi
+[span] Nwifuru
+[span] Enugu
+[span] Mbah
+[span] Imo
+[span] Uzodinma
+[div] South South
+[span] Akwa Ibom
+[span] Eno
+[span] Bayelsa
+[span] Diri
+[span] Cross River
+[span] Otu
+[span] Delta
+[span] Oborevwori
+[span] Edo
+[span] Okpebholo
+[span] Rivers
+[span] Fubara
+[div] South West
+[span] Ekiti
+[span] Oyebanji
+[span] Lagos
+[span] Sanwo-Olu
+[span] Ogun
+[span] Abiodun
+[span] Ondo
+[span] Aiyedatiwa
+[span] Osun
+[span] Adeleke
+[span] Oyo
+[span] Makinde
+[h3] Federal governments by era
+[div] Fourth Republic · 1999–present
+[span] Tinubu
+[span] 2023–present
+[span] Buhari
+[span] 2015–2023
+[span] Jonathan
+[span] 2010–2015
+[span] Yar'Adua
+[span] 2007–2010
+[span] Obasanjo
+[span] 1999–2007
+[div] Second Republic & military rule · 1979–1999
+[span] Abubakar (Abdulsalami)
+[span] 1998–1999
+[span] Abacha
+[span] 1993–1998
+[span] Shonekan
+[span] 1993–1993
+[span] Babangida
+[span] 1985–1993
+[span] Buhari (military)
+[span] 1983–1985
+[span] Shagari
+[span] 1979–1983
+[div] Independence & the first military era · 1960–1979
+[span] Obasanjo (military)
+[span] 1976–1979
+[span] Murtala Mohammed
+[span] 1975–1976
+[span] Gowon
+[span] 1966–1975
+[span] Aguiyi-Ironsi
+[span] 1966–1966
+[span] Balewa
+[span] 1960–1966
+[h3] Recently reviewed
+[span] Shema
+[span] · Katsina
+[span] October 2026
+[span] Ngilari
+[span] · Adamawa
+[span] October 2026
+[span] Yero
+[span] · Kaduna
+[span] October 2026
+[span] Okorocha
+[span] · Imo
+[span] October 2026
+[span] Sheriff
+[span] · Borno
+[span] September 2026
+[span] Goje
+[span] · Gombe
+[span] September 2026
+[span] Dakingari
+[span] · Kebbi
+[span] September 2026
+[span] Saraki
+[span] · Kwara
+[span] September 2026
+[p] Coverage and rating method are documented in the
+[a] guide
+[p] . Spotted an error? Every card carries a “Report an issue” link.
+[a] Publications
+[a] Developers
+[p] NGScorecard is a free, open, independent project — not affiliated with the Nigerian government. Data CC BY 4.0.
+[a] mubaraqsanusi908@gmail.com
+[p] · © 2026 NGScorecard

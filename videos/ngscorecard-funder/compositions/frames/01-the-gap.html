@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frame 1 — The Gap</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; }
+    body { background: #1B2720; font-family: 'Instrument Sans', sans-serif; color: #F6F8F3; }
+    #root { width: 100%; height: 100%; position: relative; overflow: hidden; }
+    .clip { position: absolute; width: 100%; height: 100%; }
+
+    /* Frame setup */
+    .gap-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .promise-line {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, #006B45 0%, transparent 100%);
+      width: 40%;
+      opacity: 0;
+    }
+
+    .promise-line:nth-child(1) { top: 25%; animation: fadeInFadeOut 5s ease-in-out forwards; }
+    .promise-line:nth-child(2) { top: 50%; animation: fadeInFadeOut 5s ease-in-out 1s forwards; }
+    .promise-line:nth-child(3) { top: 75%; animation: fadeInFadeOut 5s ease-in-out 2s forwards; }
+
+    .gap-symbol {
+      font-size: 120px;
+      font-weight: 300;
+      opacity: 0;
+      animation: gapGrow 5s ease-in-out forwards;
+    }
+
+    .text-overlay {
+      position: absolute;
+      bottom: 120px;
+      font-size: 48px;
+      font-weight: 400;
+      letter-spacing: -0.022em;
+      line-height: 1.06;
+      text-align: center;
+      width: 80%;
+      opacity: 0;
+      animation: textReveal 5s ease-in-out 5s forwards;
+    }
+
+    @keyframes fadeInFadeOut {
+      0% { opacity: 0; }
+      30% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes gapGrow {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes textReveal {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="01-the-gap" data-width="1080" data-height="1920" data-duration="5.5">
+    <div class="clip" data-composition-id="01-the-gap" data-start="0" data-duration="5000">
+      <div class="gap-container">
+        <div class="promise-line"></div>
+        <div class="promise-line"></div>
+        <div class="promise-line"></div>
+        <div class="gap-symbol">?</div>
+        <div class="text-overlay">The gap between what leaders say and what happens</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const timeline = gsap.timeline({ paused: true });
+    window.__timelines = window.__timelines || {};
+    window.__timelines['01-the-gap'] = timeline;
+  </script>
+</body>
+</html>

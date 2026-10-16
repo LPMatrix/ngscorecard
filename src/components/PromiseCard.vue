@@ -33,7 +33,7 @@ const BADGE_KEY = {
   kept: 'status.kept', broken: 'status.broken', partial: 'status.partial',
   pending: 'status.pending', unassessed: 'status.unassessed', fixed: 'status.fixed',
   convicted: 'status.convicted', ongoing: 'status.ongoing',
-  dismissed: 'status.dismissed', acquitted: 'status.acquitted',
+  dismissed: 'status.dismissed', acquitted: 'status.acquitted', abated: 'status.abated',
   pursuing: 'response.pursuing', stalled: 'response.stalled',
   political: 'response.political', abandoned: 'response.abandoned',
   complied: 'response.complied',

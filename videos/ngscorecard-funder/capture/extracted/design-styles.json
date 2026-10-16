@@ -1,0 +1,255 @@
+{
+  "typography": [
+    {
+      "role": "heading",
+      "fontFamily": "Instrument Sans",
+      "fontSize": "42px",
+      "fontWeight": "800",
+      "lineHeight": "47.04px",
+      "letterSpacing": "-0.84px",
+      "color": "#1B2720",
+      "sampleText": "Every Nigerian government, held to its word."
+    },
+    {
+      "role": "display",
+      "fontFamily": "Georgia",
+      "fontSize": "34px",
+      "fontWeight": "800",
+      "lineHeight": "34px",
+      "letterSpacing": "normal",
+      "color": "#073F2A",
+      "sampleText": "NGScorecard"
+    },
+    {
+      "role": "body",
+      "fontFamily": "Instrument Sans",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "25.6px",
+      "letterSpacing": "normal",
+      "color": "#5F6F66",
+      "sampleText": "NGScorecard tracks campaign promises, fraud cases, executive"
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "Instrument Sans",
+      "fontSize": "13px",
+      "fontWeight": "800",
+      "lineHeight": "19.5px",
+      "letterSpacing": "0.78px",
+      "color": "#7F8C84",
+      "sampleText": "Recurring commitments"
+    },
+    {
+      "role": "link",
+      "fontFamily": "Instrument Sans",
+      "fontSize": "13px",
+      "fontWeight": "700",
+      "lineHeight": "19.5px",
+      "letterSpacing": "normal",
+      "color": "#7F8C84",
+      "sampleText": "Recurring commitments"
+    },
+    {
+      "role": "label",
+      "fontFamily": "Instrument Sans",
+      "fontSize": "11px",
+      "fontWeight": "700",
+      "lineHeight": "16.5px",
+      "letterSpacing": "0.66px",
+      "color": "#7F8C84",
+      "sampleText": "North Central"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      4,
+      6,
+      8,
+      10,
+      11,
+      12,
+      14,
+      16,
+      18,
+      20,
+      24,
+      28,
+      32
+    ],
+    "baseUnit": 4
+  },
+  "radius": [
+    "7px",
+    "8px",
+    "12px",
+    "999px"
+  ],
+  "shadows": [
+    {
+      "value": "rgba(7, 63, 42, 0.04) 0px 1px 0px 0px",
+      "count": 1
+    }
+  ],
+  "buttons": [
+    {
+      "label": "Find an administration217 tracked · fede",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#000000",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(0, 0, 0)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "20.25px"
+    },
+    {
+      "label": "Find an administration",
+      "background": "#006B45",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "11px 20px",
+      "borderRadius": "8px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "700",
+      "height": "45px"
+    },
+    {
+      "label": "How this works",
+      "background": "#FFFEF9",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1B2720",
+      "padding": "11px 18px",
+      "borderRadius": "8px",
+      "border": "1px solid rgb(185, 203, 193)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "700",
+      "height": "45px"
+    },
+    {
+      "label": "PresidentBola TinubuAPC · 2023–present",
+      "background": "#FFFEF9",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#000000",
+      "padding": "16px 18px",
+      "borderRadius": "12px",
+      "border": "1px solid rgb(185, 203, 193)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "108px"
+    },
+    {
+      "label": "BenueAlia",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#000000",
+      "padding": "8px 10px",
+      "borderRadius": "7px",
+      "border": "0px none rgb(0, 0, 0)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "35.5px"
+    }
+  ],
+  "cards": [
+    {
+      "label": "card",
+      "background": "#FFFEF9",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#0000EE",
+      "padding": "12px 14px",
+      "borderRadius": "8px",
+      "border": "",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "85.6875px"
+    }
+  ],
+  "nav": {
+    "label": "navigation",
+    "background": "#FFFEF9",
+    "backgroundImage": "",
+    "backdropFilter": "",
+    "color": "#1B2720",
+    "padding": "0px",
+    "borderRadius": "0px",
+    "border": "",
+    "boxShadow": "rgba(7, 63, 42, 0.04) 0px 1px 0px 0px",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "height": "160.75px"
+  },
+  "chips": [
+    {
+      "label": "Tinubu2023–present",
+      "background": "#FFFEF9",
+      "color": "#000000",
+      "padding": "8px 12px",
+      "borderRadius": "999px",
+      "border": "1px solid rgb(185, 203, 193)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "37.5px"
+    },
+    {
+      "label": "Tinubu",
+      "background": "transparent",
+      "color": "#1B2720",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(27, 39, 32)",
+      "boxShadow": "none",
+      "fontSize": "13px",
+      "fontWeight": "700",
+      "height": "19.5px"
+    },
+    {
+      "label": "2023–present",
+      "background": "transparent",
+      "color": "#7F8C84",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(127, 140, 132)",
+      "boxShadow": "none",
+      "fontSize": "12px",
+      "fontWeight": "400",
+      "height": "18px"
+    },
+    {
+      "label": "Support",
+      "background": "#006B45",
+      "color": "#FFFFFF",
+      "padding": "6px 14px",
+      "borderRadius": "999px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "fontSize": "13px",
+      "fontWeight": "700",
+      "height": "31.5px"
+    }
+  ],
+  "statCells": [],
+  "tabs": [],
+  "backgrounds": [
+    {
+      "value": "linear-gradient(90deg, rgba(0, 135, 81, 0.055) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(0deg, rgba(0, 135, 81, 0.04) 1px, rgba(0, 0, 0, 0) 1px), none",
+      "area": 4737000
+    }
+  ],
+  "glass": []
+}

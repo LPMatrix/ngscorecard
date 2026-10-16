@@ -1,7 +1,15 @@
 import { Router } from 'express'
 import { rateLimit, ipKeyGenerator } from 'express-rate-limit'
 import * as q from './queries.js'
-import { renderReportPng } from './ogReport.js'
+
+// satori and sharp are heavy, load wasm/native code at import time, and are
+// only needed by this one route. They are imported on first use rather than
+// at the top of this file: this router is mounted in the same serverless
+// function as the admin API, the public API and the Paystack webhook, and a
+// failure to initialise the image stack (a missing wasm file in the bundle
+// took the whole /api function down once) must not be able to break those.
+let renderer = null
+const loadRenderer = () => (renderer ??= import('./ogReport.js').catch((e) => { renderer = null; throw e }))
 
 // GET /api/og/report/<admin>.png — the share image for a term report card.
 // Mounted ahead of the general /api router (see server/apiApp.js). Public,
@@ -27,6 +35,7 @@ export function createOgRouter() {
       const [promises, fraud, budget] = await Promise.all([
         q.getPromises(admin.key), q.getFraud(admin.key), q.getBudget(admin.key),
       ])
+      const { renderReportPng } = await loadRenderer()
       const png = await renderReportPng({ admin, promises, fraud, budget })
       res.set({
         'Content-Type': 'image/png',

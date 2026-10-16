@@ -51,7 +51,7 @@ const barLabel = computed(() =>
 const fraudBreakdown = computed(() => {
   const f = report.value.fraud
   if (!f) return []
-  return ['convicted', 'ongoing', 'dismissed', 'acquitted']
+  return ['convicted', 'ongoing', 'dismissed', 'acquitted', 'abated']
     .filter((k) => f[k] > 0)
     .map((k) => ({ key: k, n: f[k] }))
 })

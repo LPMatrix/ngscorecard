@@ -1,9 +1,9 @@
 <script setup>
 // Support / donate page — unified into the app route table (see
 // GuideView.vue's header comment for why). Payment runs through Paystack's
-// Inline popup (no redirect): the client never sees the secret key, and the
-// server always re-verifies the transaction with Paystack directly rather
-// than trusting the popup's own "success" callback (see server/paystackRoutes.js).
+// Inline popup (no redirect): the client only ever sees the public key, and
+// the server re-verifies every transaction with Paystack directly rather
+// than trusting the popup's own "success" callback (server/paystackRoutes.js).
 import { inject, ref, computed, onMounted } from 'vue'
 import { ONE_TIME_AMOUNTS, MONTHLY_AMOUNT, MIN_AMOUNT_NAIRA } from '../lib/donation.js'
 
@@ -14,17 +14,18 @@ const selectedAmount = ref(ONE_TIME_AMOUNTS[1])
 const customAmount = ref('')
 const email = ref('')
 
-// 'idle' | 'loading-config' | 'paying' | 'verifying' | 'done' | 'error'
+// 'loading-config' | 'idle' | 'paying' | 'verifying' | 'done' | 'error'
 const state = ref('loading-config')
 const errorMsg = ref('')
-const config = ref({ enabled: false, publicKey: null, monthlyEnabled: false })
+const config = ref({ enabled: false, publicKey: null, monthlyEnabled: false, monthlyPlanCode: null })
 
 onMounted(async () => {
   try {
-    const res = await fetch('/api/donate/config')
+    const res = await fetch('/api/donate/config', { cache: 'no-store' })
+    if (!res.ok) throw new Error(`config ${res.status}`)
     config.value = await res.json()
   } catch {
-    config.value = { enabled: false, publicKey: null, monthlyEnabled: false }
+    config.value = { enabled: false, publicKey: null, monthlyEnabled: false, monthlyPlanCode: null }
   }
   state.value = 'idle'
 })
@@ -49,16 +50,12 @@ const amountNaira = computed(() => {
 
 const emailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
 const amountValid = computed(() => amountNaira.value >= MIN_AMOUNT_NAIRA)
-const providerReady = computed(() => frequency.value === 'monthly' ? config.value.monthlyEnabled : config.value.enabled)
-
-const canSubmit = computed(() =>
-  providerReady.value && emailValid.value && amountValid.value &&
-  !['paying', 'verifying', 'loading-config'].includes(state.value)
-)
+const providerReady = computed(() => (frequency.value === 'monthly' ? config.value.monthlyEnabled : config.value.enabled))
+const busy = computed(() => ['loading-config', 'paying', 'verifying'].includes(state.value))
+const canSubmit = computed(() => providerReady.value && emailValid.value && amountValid.value && !busy.value)
 
 let paystackScriptPromise = null
 function loadPaystackScript() {
-  if (typeof window === 'undefined') return Promise.reject(new Error('no window'))
   if (window.PaystackPop) return Promise.resolve()
   if (paystackScriptPromise) return paystackScriptPromise
   paystackScriptPromise = new Promise((resolve, reject) => {
@@ -66,7 +63,10 @@ function loadPaystackScript() {
     script.src = 'https://js.paystack.co/v1/inline.js'
     script.async = true
     script.onload = () => resolve()
-    script.onerror = () => reject(new Error('Could not load the payment provider. Please check your connection.'))
+    script.onerror = () => {
+      paystackScriptPromise = null
+      reject(new Error(t('support.errScript')))
+    }
     document.head.appendChild(script)
   })
   return paystackScriptPromise
@@ -94,17 +94,10 @@ async function verify(reference) {
 }
 
 async function donate() {
-  if (!emailValid.value) {
-    state.value = 'error'
-    errorMsg.value = t('support.errEmail')
-    return
-  }
-  if (!amountValid.value) {
-    state.value = 'error'
-    errorMsg.value = t('support.errAmount')
-    return
-  }
+  if (!emailValid.value) { state.value = 'error'; errorMsg.value = t('support.errEmail'); return }
+  if (!amountValid.value) { state.value = 'error'; errorMsg.value = t('support.errAmount'); return }
   state.value = 'paying'
+  errorMsg.value = ''
   try {
     await loadPaystackScript()
   } catch (e) {
@@ -112,7 +105,6 @@ async function donate() {
     errorMsg.value = e.message
     return
   }
-
   window.PaystackPop.setup({
     key: config.value.publicKey,
     email: email.value.trim(),
@@ -140,8 +132,9 @@ async function donate() {
     </header>
 
     <main class="wrap">
+      <div class="support-grid">
 
-      <section id="give">
+      <section id="give" class="support-aside">
         <div class="card give-card">
           <div class="freq-toggle" role="tablist">
             <button
@@ -189,11 +182,8 @@ async function donate() {
             :disabled="state === 'done'"
           />
 
-          <p v-if="frequency === 'monthly' && !config.monthlyEnabled && state !== 'loading-config'" class="give-note">
-            {{ t('support.monthlyUnavailable') }}
-          </p>
-          <p v-else-if="!config.enabled && state !== 'loading-config'" class="give-note">
-            {{ t('support.unavailable') }}
+          <p v-if="state !== 'loading-config' && !providerReady" class="give-note">
+            {{ frequency === 'monthly' && config.enabled ? t('support.monthlyUnavailable') : t('support.unavailable') }}
           </p>
           <p v-if="state === 'error'" class="give-note give-error">{{ errorMsg }}</p>
 
@@ -201,15 +191,13 @@ async function donate() {
             <strong>{{ t('support.successTitle') }}</strong>
             <p>{{ t('support.successBody') }}</p>
           </div>
-          <button
-            v-else
-            type="button"
-            class="continue-btn"
-            :disabled="!canSubmit"
-            @click="donate"
-          >{{ state === 'paying' || state === 'verifying' ? t('support.processing') : t('support.continue') }}</button>
+          <button v-else type="button" class="continue-btn" :disabled="!canSubmit" @click="donate">
+            {{ state === 'paying' || state === 'verifying' ? t('support.processing') : t('support.continue') }}
+          </button>
         </div>
       </section>
+
+      <div class="support-main">
 
       <section id="funds">
         <h2><span class="num">1</span> {{ t('support.funds.title') }}</h2>
@@ -242,6 +230,9 @@ async function donate() {
         </div>
       </section>
 
+      </div>
+      </div>
+
     </main>
   </div>
 </template>
@@ -254,13 +245,28 @@ async function donate() {
   --surface: #fffef9;
   color: var(--ink);
 }
-.wrap { max-width: 860px; margin: 0 auto; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+
+/* Explanations on the left, the donate card on the right and kept in view as
+   you read. The card comes first in the markup, so on narrow screens it
+   leads the page. */
+.support-grid { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 0 56px; align-items: start; }
+.support-aside { grid-column: 2; grid-row: 1; position: sticky; top: 128px; margin-bottom: 0; }
+.support-main { grid-column: 1; grid-row: 1; }
+.support-main section:last-child { margin-bottom: 0; }
 .hero { border-bottom: 1px solid var(--line-strong); background: var(--surface); padding: 28px 24px; }
 .eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--g700); }
 h1 { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: 34px; margin: 6px 0 8px; }
 .lede { color: var(--muted); font-size: 16px; max-width: 620px; margin: 0; }
 
 main { padding: 40px 24px 80px; }
+/* main's side padding sits inside its width; widen it so its content lines up with the heading above. */
+main.wrap { max-width: 1168px; }
+@media (max-width: 900px) {
+  .support-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .support-aside { grid-column: 1; grid-row: auto; position: static; margin-bottom: 40px; }
+  .support-main { grid-column: 1; grid-row: auto; }
+}
 section { margin-bottom: 52px; }
 h2 { font-size: 20px; font-weight: 800; color: var(--g800); margin: 0 0 6px; display: flex; align-items: center; gap: 8px; }
 h2 .num {
@@ -301,6 +307,7 @@ h2 .num {
   font-size: 14px; font-family: inherit; color: var(--ink); background: #fff;
 }
 .amount-custom:focus { outline: none; border-color: var(--g700); }
+
 .email-input { width: 100%; box-sizing: border-box; margin-bottom: 14px; }
 .email-input:disabled { background: var(--g050); color: var(--muted); }
 

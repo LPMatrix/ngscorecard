@@ -361,23 +361,56 @@ export const corrections = sqliteTable('corrections', {
 })
 
 // One row per Paystack charge: the initial one-time or first-subscription
-// charge, and each later monthly renewal. `verify` (the client-side popup
-// callback) and the webhook both write here, keyed on Paystack's own
-// `reference`, so whichever arrives first records it and the other is a
-// no-op — the webhook is the authoritative source since a closed browser
-// tab can't skip it. Never edited from the admin UI; Paystack is the ledger.
+// charge, and each later monthly renewal. `verify` (the popup callback) and
+// the webhook both write here, keyed on Paystack's `reference`, so whichever
+// arrives first records it and the other is a no-op. Paystack is the ledger;
+// nothing edits these rows by hand.
 export const donations = sqliteTable('donations', {
   id:                   integer('id').primaryKey({ autoIncrement: true }),
-  reference:            text('reference').notNull().unique(), // Paystack transaction reference
+  reference:            text('reference').notNull().unique(),
   email:                text('email').notNull(),
   amountKobo:           integer('amount_kobo').notNull(),
   currency:             text('currency').notNull().default('NGN'),
   frequency:            text('frequency').notNull(), // 'once' | 'monthly'
   status:               text('status').notNull().default('pending'), // pending|success|failed
-  channel:              text('channel'), // card|bank|ussd|… from Paystack
+  channel:              text('channel'),
   planCode:             text('plan_code'),
   paystackCustomerCode: text('paystack_customer_code'),
-  subscriptionCode:     text('subscription_code'), // set for monthly, once Paystack creates it
+  subscriptionCode:     text('subscription_code'),
   createdAt:            text('created_at').notNull(),
   verifiedAt:           text('verified_at'),
+})
+
+// Per-person /admin accounts. The ADMIN_EMAIL/ADMIN_PASSWORD env pair stays as
+// a break-glass owner login that lives outside this table; everyone else
+// (researchers, editors) gets a row here with their own password, so access
+// can be granted, reset and revoked individually. Passwords are scrypt hashes.
+export const adminUsers = sqliteTable('admin_users', {
+  id:                 integer('id').primaryKey({ autoIncrement: true }),
+  email:              text('email').notNull().unique(), // stored lowercase
+  name:               text('name').notNull(),
+  role:               text('role').notNull().default('editor'), // 'owner' | 'editor'
+  passwordHash:       text('password_hash').notNull(),
+  mustChangePassword: integer('must_change_password', { mode: 'boolean' }).notNull().default(true),
+  active:             integer('active', { mode: 'boolean' }).notNull().default(true),
+  createdAt:          text('created_at').notNull(),
+  createdBy:          text('created_by'),
+  lastLoginAt:        text('last_login_at'),
+})
+
+// Private, append-only record of who did what in /admin. Distinct from
+// entry_history, which is public and deliberately anonymous: this one names
+// the person, and keeps the full before/after row so a mistaken edit or
+// delete can be reviewed and a deleted row restored. Owner-only to read.
+export const adminAudit = sqliteTable('admin_audit', {
+  id:             integer('id').primaryKey({ autoIncrement: true }),
+  at:             text('at').notNull(),
+  actorEmail:     text('actor_email').notNull(),
+  actorRole:      text('actor_role').notNull(),
+  action:         text('action').notNull(), // login|create|bulk_create|update|delete|restore|apply_correction|user_*|password_change|key_*
+  tableName:      text('table_name'),
+  rowId:          integer('row_id'),
+  administration: text('administration'),
+  beforeJson:     text('before_json'),
+  afterJson:      text('after_json'),
 })

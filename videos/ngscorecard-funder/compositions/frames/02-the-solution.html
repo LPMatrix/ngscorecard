@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frame 2 — The Solution</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; }
+    body { background: #F6F8F3; font-family: 'Instrument Sans', sans-serif; color: #1B2720; }
+    #root { width: 100%; height: 100%; position: relative; overflow: hidden; }
+    .clip { position: absolute; width: 100%; height: 100%; }
+
+    .solution-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .logo {
+      width: 120px;
+      height: 120px;
+      opacity: 0;
+      animation: logoScale 2s ease-out forwards;
+    }
+
+    .tagline {
+      font-size: 36px;
+      font-weight: 400;
+      letter-spacing: -0.018em;
+      opacity: 0;
+      animation: taglineAppear 2s ease-out 1s forwards;
+      text-align: center;
+    }
+
+    @keyframes logoScale {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes taglineAppear {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="02-the-solution" data-width="1080" data-height="1920" data-duration="2.5">
+    <div class="clip" data-composition-id="02-the-solution" data-start="0" data-duration="2000">
+      <div class="solution-container">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NGScorecard">
+          <rect width="64" height="64" rx="14" fill="#132a1d"/>
+          <path d="M17 16h7v32h-7zM40 16h7v32h-7z" fill="#f7f5ec"/>
+          <path d="M17 16h8l22 32h-8z" fill="#3fbf82"/>
+        </svg>
+        <div class="tagline">Independent · Transparent · Durable</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const timeline = gsap.timeline({ paused: true });
+    window.__timelines = window.__timelines || {};
+    window.__timelines['02-the-solution'] = timeline;
+  </script>
+</body>
+</html>

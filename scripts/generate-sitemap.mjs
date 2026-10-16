@@ -58,6 +58,8 @@ for (const l of READY_LOCALES) {
   if (code === DEFAULT_SITEMAP_LOCALE) {
     push(buildPath('publications', {}, code), today, 'weekly', '0.7')
     for (const pub of PUBLICATIONS) push(buildPath('publication', { slug: pub.slug }, code), pub.date, 'monthly', '0.7')
+    // Not linked from the site on purpose; the sitemap is how crawlers find it.
+    push(buildPath('trackersCompared', {}, code), today, 'monthly', '0.6')
   }
   push(buildPath('developers', {}, code), today, 'monthly', '0.6')
   push(buildPath('press', {}, code), today, 'monthly', '0.5')

@@ -9,17 +9,9 @@ pattern found in the data, not a methodology explainer.
 
 - **₦195 billion, or $200 billion?** — a Rivers State flagship project
   circulated in public reporting with its currency wrong by roughly 300x
-  (larger than Nigeria's entire federal budget), and nothing caught it before
-  it reached our own dataset. Short, single-example piece about how casually
-  large numbers move through Nigerian infrastructure reporting.
-
-- **What "completed" means** — three cases where a project's own cited
-  source contradicts the "completed"/"X% done" claim next to it: a coastal
-  highway "98% done" whose own article describes active construction on the
-  unfinished stretch; a road marked completed for 17 years that its source
-  says was never finished; a governor's "transformed" roads that an
-  independent investigation found abandoned. Built around the gap between
-  the status word and the reporting underneath it.
+  (larger than Nigeria's entire federal budget). Short, single-example piece
+  about how casually large numbers move through Nigerian infrastructure
+  reporting.
 
 - **One feature story, eight flyovers** — the supply-side companion to
   "Which seven-point agenda?": why infrastructure delivery is hard to check
@@ -31,13 +23,6 @@ pattern found in the data, not a methodology explainer.
   "we know this happened" and "we don't," and it's frequently the
   government's own account of itself. Needs another research pass to firm
   up examples.
-
-- **The promise that outlived the file** — single-thread case study: Kefas
-  announces Jalingo road dualisation Jan 2024, promises it again more
-  dramatically in May 2024, and by Sept 2026 it's on a citizen group's list
-  of 42 unfulfilled promises — timed to the 2027 election. Shorter and more
-  shareable; doubles as a template for tracking any one entry through its
-  own timeline.
 
 - **Money in, road out?** — pairs indicator data (public debt, IGR) against
   verified physical delivery in the Projects tab. Needs Projects coverage to
@@ -58,3 +43,16 @@ pattern found in the data, not a methodology explainer.
   Tinubu in 2026), plus the Wike-Fubara rivalry and Rivers's 2025 state of
   emergency running alongside it the whole time.
   `/publications/the-bridge-everyone-commissions`
+
+- **How a governor's corruption case ends** (2026-10-06, drafted, not yet
+  deployed) — of 31 former governors the EFCC took to court between 2003
+  and 2023, twelve reached a verdict that held (five convictions, seven
+  acquittals) and nineteen did not: nine ended on procedure, a point of law
+  or a prosecutor's withdrawal, two on the defendant's death, eight are
+  unresolved. Of the five convictions, three ended in pardons, one in a fine,
+  one in London; none of the nine cases opened since 2016 has produced a
+  conviction that stands. A closing section covers the five charged since
+  2024 (Obiano, Ahmed, Bello, Ishaku, Orji), none yet with a verdict; Ngige
+  (ministerial charges), El-Rufai (ICPC) and Okowa/Udom (detained, not
+  charged) are named but not counted.
+  `/publications/how-a-governors-corruption-case-ends`

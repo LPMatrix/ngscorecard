@@ -1,0 +1,147 @@
+{
+  "files": [
+    {
+      "file": "nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_qiTXt7A-X-uE0qEE5Do.woff2",
+      "family": "Playfair Display",
+      "rawFamily": "Playfair Display",
+      "subfamily": "Italic",
+      "postscript": "PlayfairDisplay-Italic",
+      "weight": 400,
+      "style": "italic",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_qiTXtXA-X-uE0qEE5Do.woff2",
+      "family": "Playfair Display",
+      "rawFamily": "Playfair Display",
+      "subfamily": "Italic",
+      "postscript": "PlayfairDisplay-Italic",
+      "weight": 400,
+      "style": "italic",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgEM86xRbPQ.woff2",
+      "family": "Playfair Display",
+      "rawFamily": "Playfair Display",
+      "subfamily": "Regular",
+      "postscript": "PlayfairDisplay-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgEM86xRbPQ.woff2",
+      "family": "Playfair Display",
+      "rawFamily": "Playfair Display",
+      "subfamily": "Regular",
+      "postscript": "PlayfairDisplay-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgEM86xRbPQ.woff2",
+      "family": "Playfair Display",
+      "rawFamily": "Playfair Display",
+      "subfamily": "Regular",
+      "postscript": "PlayfairDisplay-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgEM86xQ.woff2",
+      "family": "Playfair Display",
+      "rawFamily": "Playfair Display",
+      "subfamily": "Regular",
+      "postscript": "PlayfairDisplay-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "pxiTypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr0SZe1ZuWi3g.woff2",
+      "family": "Instrument Sans",
+      "rawFamily": "Instrument Sans",
+      "subfamily": "Regular",
+      "postscript": "InstrumentSans-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "pxiTypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr0She1ZuWi3hKpA.woff2",
+      "family": "Instrument Sans",
+      "rawFamily": "Instrument Sans",
+      "subfamily": "Regular",
+      "postscript": "InstrumentSans-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    }
+  ],
+  "families": [
+    {
+      "family": "Instrument Sans",
+      "weights": [
+        400
+      ],
+      "variable": true,
+      "fileCount": 2,
+      "files": [
+        "pxiTypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr0SZe1ZuWi3g.woff2",
+        "pxiTypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr0She1ZuWi3hKpA.woff2"
+      ]
+    },
+    {
+      "family": "Playfair Display",
+      "weights": [
+        400
+      ],
+      "variable": true,
+      "fileCount": 6,
+      "files": [
+        "nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_qiTXt7A-X-uE0qEE5Do.woff2",
+        "nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_qiTXtXA-X-uE0qEE5Do.woff2",
+        "nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgEM86xRbPQ.woff2",
+        "nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgEM86xRbPQ.woff2",
+        "nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgEM86xRbPQ.woff2",
+        "nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgEM86xQ.woff2"
+      ]
+    }
+  ],
+  "unidentified": [],
+  "meta": {
+    "generatedAt": "2026-10-09T20:05:01.191Z",
+    "tool": "fontkit"
+  }
+}
