@@ -3,6 +3,7 @@
 // quietly making answers worse: it fails `npm test` below the committed baseline.
 import { test, describe, before } from 'node:test'
 import assert from 'node:assert/strict'
+import { REWRITE_MODEL } from '../server/ragFollowUp.js'
 import {
   loadDataset, loadBaseline, corpusDocuments, buildCorpusDb,
   runRetrieval, runGeneration, compareToBaseline,
@@ -44,6 +45,19 @@ describe('eval dataset integrity', () => {
     for (const c of dataset.cases.filter(c => c.type === 'unanswerable')) {
       assert.equal(c.expectedSources, undefined, c.id)
       for (const p of c.forbidden ?? []) assert.doesNotThrow(() => new RegExp(p, 'i'), `${c.id}: ${p}`)
+    }
+  })
+
+  test('follow-up cases carry a well-formed history', () => {
+    const followUps = dataset.cases.filter(c => c.category === 'follow-up')
+    assert.ok(followUps.length >= 8, 'enough follow-up cases to matter')
+    assert.ok(followUps.some(c => c.type === 'unanswerable'), 'including ones that must be declined')
+    for (const c of followUps) {
+      assert.ok(Array.isArray(c.history) && c.history.length >= 2, `${c.id}: history`)
+      for (const m of c.history) {
+        assert.ok(['user', 'assistant'].includes(m.role) && typeof m.content === 'string' && m.content, `${c.id}: bad history item`)
+      }
+      assert.equal(c.history[0].role, 'user', `${c.id}: a conversation starts with the user`)
     }
   })
 
@@ -108,6 +122,25 @@ describe('retrieval gate', () => {
       assert.equal(r.summary.modelCalls, 1)
       assert.equal(r.summary.promptTokens, 10)
       assert.equal(c.cited, true)
+    })
+
+    test('follow-up cases run the rewrite and then the answer, and are scored like any other', async () => {
+      const client = { chat: { completions: { create: async (body) => ({
+        choices: [{ message: { content: body.model === REWRITE_MODEL ? 'What are the NIN requirements for minors?' : 'Minors need guardian consent [1].' } }],
+        usage: { prompt_tokens: 10, completion_tokens: 5 },
+      }) } } }
+      const r = await runGeneration({ db, dataset, client, only: ['fu-nin-minors'] })
+      assert.equal(r.summary.modelCalls, 2, 'one rewrite + one answer')
+      assert.equal(r.cases[0].pass, true, JSON.stringify(r.cases[0].problems))
+    })
+
+    test('a model that repeats a false earlier turn as fact is caught on the injected-history case', async () => {
+      const client = { chat: { completions: { create: async (body) => ({
+        choices: [{ message: { content: body.model === REWRITE_MODEL ? 'How much does a TIN cost?' : 'A TIN costs 50,000 naira [1].' } }],
+      }) } } }
+      const r = await runGeneration({ db, dataset, client, only: ['fu-injected-history'] })
+      assert.equal(r.cases[0].pass, false)
+      assert.match(r.cases[0].problems[0], /do not contain/)
     })
 
     test('an uncited answer to an answerable question is flagged', async () => {

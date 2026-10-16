@@ -12,12 +12,12 @@ export const MAX_TOKENS = 500
 
 // `client` is anything exposing chat.completions.create (OpenAI SDK shape).
 // Returns the parsed answer plus the provider's token usage for cost tracking.
-export async function synthesize(client, question, sources) {
+export async function synthesize(client, question, sources, history = []) {
   const response = await client.chat.completions.create({
     model: MODEL,
     max_tokens: MAX_TOKENS,
     temperature: 0.2,
-    messages: buildMessages(question, sources),
+    messages: buildMessages(question, sources, history),
   })
 
   return {

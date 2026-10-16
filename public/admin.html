@@ -725,11 +725,28 @@
       btn.addEventListener('click', function () { selectTable(name) })
       nav.appendChild(btn)
     })
-    var isOwner = state.user && state.user.role === 'owner'
     var group2 = document.createElement('div')
     group2.className = 'group-label'
-    group2.textContent = isOwner ? 'Public API' : 'Reference'
+    group2.textContent = 'AI Tools'
     nav.appendChild(group2)
+    var outcomeBtn = document.createElement('button')
+    outcomeBtn.className = 'nav-item'
+    outcomeBtn.textContent = 'Outcome Verifier'
+    outcomeBtn.dataset.table = '__outcome'
+    outcomeBtn.addEventListener('click', function () { selectOutcomeVerifier() })
+    nav.appendChild(outcomeBtn)
+    var classifierBtn = document.createElement('button')
+    classifierBtn.className = 'nav-item'
+    classifierBtn.textContent = 'Promise Classifier'
+    classifierBtn.dataset.table = '__classifier'
+    classifierBtn.addEventListener('click', function () { selectPromiseClassifier() })
+    nav.appendChild(classifierBtn)
+
+    var isOwner = state.user && state.user.role === 'owner'
+    var group3 = document.createElement('div')
+    group3.className = 'group-label'
+    group3.textContent = isOwner ? 'Public API' : 'Reference'
+    nav.appendChild(group3)
     if (isOwner) {
       var keysBtn = document.createElement('button')
       keysBtn.className = 'nav-item'
@@ -757,10 +774,10 @@
     auditBtn.addEventListener('click', function () { selectAudit() })
     nav.appendChild(auditBtn)
 
-    var group3 = document.createElement('div')
-    group3.className = 'group-label'
-    group3.textContent = 'Account'
-    nav.appendChild(group3)
+    var group4 = document.createElement('div')
+    group4.className = 'group-label'
+    group4.textContent = 'Account'
+    nav.appendChild(group4)
     if (isOwner) {
       var teamBtn = document.createElement('button')
       teamBtn.className = 'nav-item'
@@ -1136,6 +1153,366 @@
       $('#form-error').textContent = err.message
     }
   })
+
+  // ---------- AI Tools: Promise Classifier ----------
+  async function selectPromiseClassifier() {
+    state.table = '__classifier'
+    setActiveNav('__classifier')
+    $('#section-title').textContent = 'Promise Classifier'
+    $('#section-controls').innerHTML = ''
+    await ensureAdministrations()
+
+    var html = `
+      <div style="max-width: 700px;">
+        <form id="classifier-form">
+          <div class="field">
+            <label for="classifier-admin">Administration</label>
+            <select id="classifier-admin" required>
+              <option value="">Choose an administration</option>
+              ${state.administrations.map(function (a) { return '<option value="' + esc(a.key) + '">' + esc(a.name) + '</option>' }).join('')}
+            </select>
+          </div>
+          <div class="field">
+            <label for="classifier-promise">New Promise</label>
+            <textarea id="classifier-promise" placeholder="Paste the full promise text..." required style="min-height: 100px;"></textarea>
+            <div class="hint">Source: campaign speech, manifesto, budget announcement, official statement, etc.</div>
+          </div>
+          <div style="margin-top: 16px;">
+            <button type="submit" class="btn primary">Classify Promise</button>
+            <div class="form-error" id="classifier-error" style="margin-top: 12px;"></div>
+          </div>
+        </form>
+        <div id="classifier-results" style="display: none;">
+          <button type="button" class="btn" id="classifier-back" style="margin-bottom: 16px;">← Back to Form</button>
+
+          <div style="margin-bottom: 16px; padding: 12px; background: var(--g050); border-radius: 6px;">
+            <div style="margin-bottom: 8px;">
+              <strong>Suggested Category:</strong> <span id="classifier-category" style="font-weight: 700; color: var(--g800);"></span>
+              <span id="classifier-confidence" style="font-size: 12px; color: var(--muted); margin-left: 8px;"></span>
+            </div>
+            <div><strong>Reasoning:</strong></div>
+            <p id="classifier-reasoning" style="margin: 6px 0 0; font-size: 13px; color: var(--muted);"></p>
+          </div>
+
+          <div id="classifier-similar" style="display: none; margin-bottom: 16px;">
+            <h4 style="margin: 0 0 8px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: var(--muted);">Similar Promises from This Administration</h4>
+            <div id="classifier-similar-list"></div>
+          </div>
+
+          <div id="classifier-contradictions" style="display: none; margin-bottom: 16px; padding: 12px; background: var(--red-bg); border-radius: 6px; border: 1px solid var(--red);">
+            <h4 style="margin: 0 0 8px 0; font-size: 13px; font-weight: 800; color: var(--red);">⚠ Possible Contradictions</h4>
+            <div id="classifier-contradictions-list"></div>
+          </div>
+
+          <div id="classifier-historical" style="display: none; margin-bottom: 16px;">
+            <h4 style="margin: 0 0 8px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: var(--muted);">Similar Promises Across History</h4>
+            <div id="classifier-historical-list"></div>
+          </div>
+        </div>
+      </div>
+    `
+    $('#content').innerHTML = html
+
+    $('#classifier-form').addEventListener('submit', handleClassifyPromise)
+    $('#classifier-back').addEventListener('click', function () {
+      $('#classifier-form').style.display = 'block'
+      $('#classifier-results').style.display = 'none'
+    })
+  }
+
+  async function handleClassifyPromise(e) {
+    e.preventDefault()
+    var administration = $('#classifier-admin').value
+    var promiseText = $('#classifier-promise').value
+
+    try {
+      $('#classifier-error').textContent = ''
+      $('#classifier-results').style.display = 'none'
+
+      // Classify in the selected administration
+      var response = await fetch('/api/outcome/classify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ promiseText: promiseText, administration: administration })
+      })
+
+      if (!response.ok) {
+        var err = await response.json()
+        throw new Error(err.error || 'Classification failed')
+      }
+
+      var result = await response.json()
+      displayClassifierResults(result)
+
+      // Also get historical similarities in parallel
+      try {
+        var histResponse = await fetch('/api/outcome/classify/historical', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ promiseText: promiseText })
+        })
+        if (histResponse.ok) {
+          var historical = await histResponse.json()
+          displayHistoricalSimilar(historical)
+        }
+      } catch (e) {
+        // Historical search is optional, don't fail on error
+      }
+    } catch (err) {
+      $('#classifier-error').textContent = err.message
+    }
+  }
+
+  function displayClassifierResults(result) {
+    $('#classifier-form').style.display = 'none'
+    $('#classifier-results').style.display = 'block'
+
+    $('#classifier-category').textContent = result.suggested_category
+    $('#classifier-confidence').textContent = '(' + result.confidence_category + ' confidence)'
+    $('#classifier-reasoning').textContent = result.reasoning
+
+    if (result.similar_promises && result.similar_promises.length) {
+      $('#classifier-similar').style.display = 'block'
+      var list = $('#classifier-similar-list')
+      list.innerHTML = result.similar_promises.map(function (p) {
+        return '<div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 4px; border-left: 3px solid var(--g700);">' +
+          '<div style="font-weight: 600; font-size: 13px;">#' + p.id + ' — ' + esc(p.title) + '</div>' +
+          '<div style="font-size: 12px; color: var(--muted); margin-top: 4px;">' + esc(p.category) + ' · ' + p.status + '</div>' +
+          '<div style="font-size: 12px; margin-top: 4px; line-height: 1.4;">' + esc(p.promise.substring(0, 150)) + (p.promise.length > 150 ? '...' : '') + '</div>' +
+          '</div>'
+      }).join('')
+    } else {
+      $('#classifier-similar').style.display = 'none'
+    }
+
+    if (result.contradictions && result.contradictions.length) {
+      $('#classifier-contradictions').style.display = 'block'
+      var list = $('#classifier-contradictions-list')
+      list.innerHTML = result.contradictions.map(function (c) {
+        return '<div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 4px;">' +
+          '<div style="font-weight: 600; font-size: 13px;">#' + c.id + ' — ' + esc(c.title) + '</div>' +
+          '<div style="font-size: 12px; margin-top: 4px;">' + esc(c.reason) + '</div>' +
+          '</div>'
+      }).join('')
+    } else {
+      $('#classifier-contradictions').style.display = 'none'
+    }
+  }
+
+  function displayHistoricalSimilar(historical) {
+    if (historical && historical.length) {
+      $('#classifier-historical').style.display = 'block'
+      var list = $('#classifier-historical-list')
+      list.innerHTML = historical.map(function (p) {
+        return '<div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 4px; border-left: 3px solid var(--g600);">' +
+          '<div style="font-weight: 600; font-size: 13px;">#' + p.id + ' (' + esc(p.administration) + ') — ' + esc(p.title) + '</div>' +
+          '<div style="font-size: 12px; color: var(--muted); margin-top: 4px;">' + esc(p.category) + ' · ' + p.status + '</div>' +
+          '</div>'
+      }).join('')
+    } else {
+      $('#classifier-historical').style.display = 'none'
+    }
+  }
+
+  // ---------- AI Tools: Outcome Verifier ----------
+  async function selectOutcomeVerifier() {
+    state.table = '__outcome'
+    setActiveNav('__outcome')
+    $('#section-title').textContent = 'Outcome Verifier'
+    $('#section-controls').innerHTML = ''
+    var html = `
+      <div style="max-width: 600px;">
+        <form id="outcome-form">
+          <div class="field">
+            <label for="outcome-promise-id">Promise ID</label>
+            <input type="number" id="outcome-promise-id" placeholder="e.g., 142" required>
+          </div>
+          <div class="field">
+            <label>Article Source</label>
+            <div style="display: flex; gap: 20px; margin: 8px 0;">
+              <label style="margin: 0; font-weight: normal; text-transform: none;">
+                <input type="radio" name="outcome-input-type" value="text" checked> Paste text
+              </label>
+              <label style="margin: 0; font-weight: normal; text-transform: none;">
+                <input type="radio" name="outcome-input-type" value="url"> Article URL
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="outcome-article">Article Text</label>
+            <textarea id="outcome-article" placeholder="Paste article text here..." required style="min-height: 120px;"></textarea>
+          </div>
+          <div style="margin-top: 16px;">
+            <button type="submit" class="btn primary">Verify Promise</button>
+            <div class="form-error" id="outcome-error" style="margin-top: 12px;"></div>
+          </div>
+        </form>
+        <div id="outcome-results" style="display: none; margin-top: 24px; padding: 16px; background: var(--g050); border-radius: 8px;">
+          <button type="button" class="btn" id="outcome-back" style="margin-bottom: 16px;">← Back to Form</button>
+          <h3 id="outcome-promise-title" style="margin: 0 0 12px 0; font-size: 16px;"></h3>
+          <div style="margin-bottom: 12px;"><strong>Current Status:</strong> <span id="outcome-current-status"></span></div>
+          <div style="padding: 8px 12px; background: white; border-radius: 6px; margin-bottom: 12px;">
+            <div><strong>Confidence:</strong> <span id="outcome-confidence"></span></div>
+            <div style="margin-top: 8px;"><strong>Suggested Status:</strong> <span id="outcome-suggested"></span></div>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <strong>Reasoning:</strong>
+            <p id="outcome-reasoning" style="margin: 8px 0 0; font-size: 13px;"></p>
+          </div>
+          <div id="outcome-claims" style="display: none; margin-bottom: 12px;">
+            <strong>Extracted Claims:</strong>
+            <ul id="outcome-claims-list" style="margin: 8px 0; padding-left: 20px;"></ul>
+          </div>
+          <div id="outcome-quotes" style="display: none; margin-bottom: 12px;">
+            <strong>Evidence Quotes:</strong>
+            <div id="outcome-quotes-list"></div>
+          </div>
+          <div id="outcome-approval" style="display: none; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 12px;">
+            <p style="margin: 0 0 12px 0; font-size: 13px;"><strong>Save this status update?</strong></p>
+            <div class="field">
+              <label for="outcome-source-url">Source URL (optional)</label>
+              <input type="url" id="outcome-source-url" placeholder="https://...">
+            </div>
+            <div class="field">
+              <label for="outcome-note">Note (optional)</label>
+              <textarea id="outcome-note" placeholder="Additional context..." style="min-height: 60px;"></textarea>
+            </div>
+            <button type="button" class="btn primary" id="outcome-save">Approve & Save</button>
+            <div class="form-error" id="outcome-save-error" style="margin-top: 12px;"></div>
+          </div>
+        </div>
+      </div>
+    `
+    $('#content').innerHTML = html
+
+    // Event listeners
+    var form = $('#outcome-form')
+    form.addEventListener('submit', handleOutcomeVerify)
+
+    $$('[name="outcome-input-type"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        var label = form.querySelector('label[for="outcome-article"]')
+        var textarea = $('#outcome-article')
+        if (this.value === 'url') {
+          label.textContent = 'Article URL'
+          textarea.placeholder = 'https://example.com/article'
+          textarea.type = 'url'
+        } else {
+          label.textContent = 'Article Text'
+          textarea.placeholder = 'Paste article text here...'
+          textarea.type = 'text'
+        }
+      })
+    })
+
+    $('#outcome-back').addEventListener('click', function () {
+      $('#outcome-form').style.display = 'block'
+      $('#outcome-results').style.display = 'none'
+    })
+
+    $('#outcome-save').addEventListener('click', saveOutcomeVerification)
+  }
+
+  async function handleOutcomeVerify(e) {
+    e.preventDefault()
+    var promiseId = parseInt($('#outcome-promise-id').value)
+    var inputType = document.querySelector('[name="outcome-input-type"]:checked').value
+    var articleValue = $('#outcome-article').value
+
+    var payload = { promiseId: promiseId }
+    if (inputType === 'url') {
+      payload.articleUrl = articleValue
+    } else {
+      payload.articleText = articleValue
+    }
+
+    try {
+      $('#outcome-error').textContent = ''
+      $('#outcome-results').style.display = 'none'
+
+      var response = await fetch('/api/outcome/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+
+      if (!response.ok) {
+        var err = await response.json()
+        throw new Error(err.error || 'Verification failed')
+      }
+
+      var result = await response.json()
+      displayOutcomeResults(result)
+    } catch (err) {
+      $('#outcome-error').textContent = err.message
+    }
+  }
+
+  function displayOutcomeResults(result) {
+    $('#outcome-form').style.display = 'none'
+    $('#outcome-results').style.display = 'block'
+    $('#outcome-promise-title').textContent = result.promise.title
+    $('#outcome-current-status').textContent = result.promise.current_status
+    $('#outcome-confidence').textContent = result.confidence
+    $('#outcome-suggested').textContent = result.suggested_status || 'No clear evidence'
+    $('#outcome-reasoning').textContent = result.reasoning
+
+    if (result.claims && result.claims.length) {
+      $('#outcome-claims').style.display = 'block'
+      var claimsList = $('#outcome-claims-list')
+      claimsList.innerHTML = result.claims.map(function (c) { return '<li>' + esc(c) + '</li>' }).join('')
+    } else {
+      $('#outcome-claims').style.display = 'none'
+    }
+
+    if (result.evidence_quotes && result.evidence_quotes.length) {
+      $('#outcome-quotes').style.display = 'block'
+      var quotesList = $('#outcome-quotes-list')
+      quotesList.innerHTML = result.evidence_quotes.map(function (q) { return '<blockquote style="margin: 8px 0; padding-left: 12px; border-left: 3px solid var(--g700); font-style: italic; font-size: 13px;">"' + esc(q) + '"</blockquote>' }).join('')
+    } else {
+      $('#outcome-quotes').style.display = 'none'
+    }
+
+    if (result.suggested_status) {
+      $('#outcome-approval').style.display = 'block'
+    } else {
+      $('#outcome-approval').style.display = 'none'
+    }
+  }
+
+  async function saveOutcomeVerification() {
+    var promiseId = parseInt($('#outcome-promise-id').value)
+    var sourceUrl = $('#outcome-source-url').value
+    var note = $('#outcome-note').value
+    var suggestedStatus = $('#outcome-suggested').textContent
+
+    try {
+      $('#outcome-save-error').textContent = ''
+
+      var response = await fetch('/api/outcome/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          promiseId: promiseId,
+          newStatus: suggestedStatus,
+          sourceUrl: sourceUrl || undefined,
+          note: note || undefined
+        })
+      })
+
+      if (!response.ok) {
+        var err = await response.json()
+        throw new Error(err.error || 'Save failed')
+      }
+
+      $('#outcome-save-error').innerHTML = '<div style="color: var(--g700); background: none; border: none; padding: 0;">✓ Promise #' + promiseId + ' updated to ' + suggestedStatus + '</div>'
+      setTimeout(function () {
+        selectOutcomeVerifier()
+      }, 1500)
+    } catch (err) {
+      $('#outcome-save-error').textContent = err.message
+    }
+  }
 
   // ---------- Registry and history ----------
   async function selectRegistry() {

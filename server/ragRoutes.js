@@ -4,6 +4,7 @@ import OpenAI from 'openai'
 import { queryRAG } from './rag.js'
 import { hasUsableSources, NO_ANSWER_MESSAGE } from './ragPrompt.js'
 import { synthesize } from './ragAnswer.js'
+import { sanitizeHistory, rewriteQuestion } from './ragFollowUp.js'
 
 // Built on first use: the SDK throws on a missing key, and doing that at import
 // time took down every /api route (not just this one) when the key was unset.
@@ -80,25 +81,36 @@ export function createRagRouter({ db: injectedDb, openai } = {}) {
         })
       }
 
+      const history = sanitizeHistory(body.history)
+      const client = openai ?? (process.env.OPENROUTER_API_KEY ? getOpenRouter() : null)
+
+      // A follow-up ("And for minors?") cannot be searched as typed, so retrieval
+      // runs on a standalone version of it. With no history this costs nothing:
+      // the question is searched exactly as typed and no extra model call is made.
+      const { query: searchQuery, how } = await rewriteQuestion(client, question, history)
+
       // Retrieval. A failure here is an outage, not "no answer": say so rather
       // than telling the user the documents don't cover their question.
       let sources
       try {
         const db = await getDb()
         await db._ragReady
-        sources = (await queryRAG(db._rawClient, question, 5, { state })).results
+        sources = (await queryRAG(db._rawClient, searchQuery, 5, { state })).results
       } catch (e) {
         console.error('RAG retrieval failed:', e.code || e.message)
         return res.status(503).json({ error: 'Document search is temporarily unavailable. Please try again shortly.' })
       }
 
+      // Shown to the user when the model rewrote their follow-up, so a wrong
+      // reading of "it" or "that" is visible rather than silently answered.
+      const searchedFor = how === 'rewritten' ? searchQuery : undefined
+
       // Nothing relevant retrieved: say so without calling the model. This is
       // the "I don't know" path; the model is never asked to answer from memory.
       if (!hasUsableSources(sources)) {
-        return res.json({ question, answer: NO_ANSWER_MESSAGE, grounded: false, cited: false, sources: [] })
+        return res.json({ question, answer: NO_ANSWER_MESSAGE, grounded: false, cited: false, sources: [], ...(searchedFor ? { searchedFor } : {}) })
       }
 
-      const client = openai ?? (process.env.OPENROUTER_API_KEY ? getOpenRouter() : null)
       if (!client) {
         return res.status(503).json({
           error: 'AI synthesis not available',
@@ -108,13 +120,14 @@ export function createRagRouter({ db: injectedDb, openai } = {}) {
       }
 
       try {
-        const parsed = await synthesize(client, question, sources)
+        const parsed = await synthesize(client, question, sources, history)
         return res.json({
           question,
           answer: parsed.answer,
           grounded: parsed.grounded,
           cited: parsed.cited,
           sources: sourceList(parsed.sources),
+          ...(searchedFor ? { searchedFor } : {}),
         })
       } catch (apiError) {
         console.error('OpenRouter API error:', apiError.message)
