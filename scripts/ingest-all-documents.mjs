@@ -68,7 +68,7 @@ async function ingestAllDocuments() {
   console.log(`\nFederal Documents (${governmentDocuments.length})`)
   for (const doc of governmentDocuments) {
     try {
-      const docId = addDocument(db, doc)
+      const docId = await addDocument(db, doc)
       console.log(`  ✓ ${doc.title}`)
       ingested++
     } catch (error) {
@@ -81,7 +81,7 @@ async function ingestAllDocuments() {
   console.log(`\nState Documents (${stateServices.length})`)
   for (const doc of stateServices) {
     try {
-      const docId = addDocument(db, doc)
+      const docId = await addDocument(db, doc)
       console.log(`  ✓ [${doc.state}] ${doc.title}`)
       ingested++
     } catch (error) {

@@ -10,6 +10,7 @@
     "build:client": "vite build",
     "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
     "preview": "vite preview",
+    "test": "node --test \"test/*.test.mjs\"",
     "start": "node server/index.js",
     "db:push": "drizzle-kit push",
     "db:seed": "node --env-file=.env server/seed.js",
@@ -24,7 +25,6 @@
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
-    "@xenova/transformers": "^2.6.5",
     "better-sqlite3": "^12.10.0",
     "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",

@@ -242,7 +242,7 @@ async function ingestDocumentsFromSources() {
       }
 
       // Add to database
-      const docId = addDocument(db, {
+      const docId = await addDocument(db, {
         source: source.source,
         title: source.title,
         url: source.url,

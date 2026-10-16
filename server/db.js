@@ -1,4 +1,5 @@
 import * as schema from './schema.js'
+import { ensureRagSchema } from './ragSchema.js'
 
 function ensureColumn(client, table, column, definition) {
   try {
@@ -178,51 +179,13 @@ async function createDb() {
     })
     const db = drizzle(client, { schema })
 
-    // Ensure RAG schema exists in Turso (safe to run multiple times)
-    try {
-      // Create tables if they don't exist
-      client.execute(`CREATE TABLE IF NOT EXISTS rag_documents (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        source TEXT NOT NULL,
-        title TEXT NOT NULL,
-        url TEXT,
-        content TEXT NOT NULL,
-        fetched_at TEXT NOT NULL,
-        updated_at TEXT NOT NULL
-      )`)
-
-      client.execute(`CREATE TABLE IF NOT EXISTS rag_chunks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        document_id INTEGER NOT NULL,
-        text TEXT NOT NULL,
-        embedding TEXT,
-        token_count INTEGER,
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (document_id) REFERENCES rag_documents(id)
-      )`)
-
-      client.execute(`CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)`)
-    } catch (e) {
-      console.warn('RAG schema creation warning:', e.message)
-    }
-
-    // Add missing columns from schema updates (safe to call multiple times)
-    const alterStatements = [
-      [`ALTER TABLE rag_chunks ADD COLUMN section TEXT`, 'section'],
-      [`ALTER TABLE rag_chunks ADD COLUMN chunk_index INTEGER`, 'chunk_index'],
-      [`CREATE INDEX IF NOT EXISTS rag_chunks_section_idx ON rag_chunks(section)`, 'index']
-    ]
-    for (const [sql, name] of alterStatements) {
-      try {
-        client.execute(sql)
-      } catch (e) {
-        if (e.message && e.message.includes('duplicate')) {
-          // Column or index already exists
-        } else {
-          console.warn(`RAG schema update (${name}) warning:`, e.message)
-        }
-      }
-    }
+    // Ensure RAG schema exists in Turso. Every call is awaited (an unawaited
+    // libSQL execute turns schema errors into unhandled rejections) but kept off
+    // the startup path: RAG routes await db._ragReady instead, so a cold start
+    // doesn't pay these round trips for requests that never touch RAG.
+    db._ragReady = ensureRagSchema(client).catch(e => {
+      console.error('RAG schema setup failed:', e.message)
+    })
 
     // Attach raw client for RAG queries
     db._rawClient = client
@@ -264,6 +227,7 @@ async function createDb() {
 
   // Attach raw client to Drizzle instance for RAG and other direct SQL use
   db._rawClient = client
+  db._ragReady = Promise.resolve()
   return db
 }
 
