@@ -151,6 +151,7 @@ export default {
   'header.guide': 'Guide',
   'header.developers': 'Developers',
   'header.press': 'Press',
+  'header.ask': 'Ask',
   'header.support': 'Support',
   'header.themes': 'Recurring commitments',
   'header.moreLinks': 'More links',

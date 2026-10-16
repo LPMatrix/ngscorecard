@@ -941,7 +941,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           <a :href="lp('/guide')" class="pt-header-docs-link">{{ t('header.guide') }}</a>
           <a :href="lp('/developers')" class="pt-header-docs-link">{{ t('header.developers') }}</a>
           <a :href="lp('/press')" class="pt-header-docs-link">{{ t('header.press') }}</a>
-          <a :href="lp('/services')" class="pt-header-docs-link">Services</a>
+          <a :href="lp('/services')" class="pt-header-docs-link">{{ t('header.ask') }}</a>
           <a :href="lp('/support')" class="pt-header-support-link">{{ t('header.support') }}</a>
           <LangSwitcher />
         </div>
@@ -960,6 +960,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
               <a :href="lp('/guide')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.guide') }}</a>
               <a :href="lp('/developers')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.developers') }}</a>
               <a :href="lp('/press')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.press') }}</a>
+              <a :href="lp('/services')" class="pt-header-menu-link" @click="headerMenuOpen = false">{{ t('header.ask') }}</a>
               <a :href="lp('/support')" class="pt-header-menu-link pt-header-menu-support" @click="headerMenuOpen = false">{{ t('header.support') }}</a>
               <div class="pt-header-menu-lang"><LangSwitcher /></div>
             </div>
@@ -974,7 +975,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
             @click="activeAdmin = g.key"
           >{{ g.name }} ({{ g.term }})</button>
         </div>
-        <div v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport" class="pt-view-actions">
+        <div v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport && !isServices" class="pt-view-actions">
           <button class="pt-compare-btn" @click="enterCompareMode">{{ t('viewActions.compare') }}</button>
           <a
             :href="lp(`/${activeAdmin}/report`)"
@@ -988,7 +989,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           >{{ t('viewActions.copyLink') }}</button>
         </div>
       </div>
-      <div v-if="viewMode === 'single' && !notFound && !pageView" class="pt-picker">
+      <div v-if="viewMode === 'single' && !notFound && !pageView && !isServices" class="pt-picker">
         <div class="pt-picker-bar">
           <div :class="['pt-picker-field', { open: pickerOpen }]">
             <span class="pt-picker-mag" aria-hidden="true">⌕</span>
@@ -1103,7 +1104,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
         </template>
       </div>
       <!-- Mobile-only section nav -->
-      <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
+      <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport && !isServices" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup :label="t('nav.group.government')">
           <option value="promises">{{ t('tab.promises') }}</option>
           <option value="manifesto">{{ t('tab.manifesto') }}</option>

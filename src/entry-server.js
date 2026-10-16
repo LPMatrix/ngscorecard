@@ -96,11 +96,11 @@ export async function render({ route, id } = {}) {
     return { html, initialData, meta, notFound: false, canonical: routePath(name, params) }
   }
 
-  // ── "/services" — government services guide ────────────────────────────
+  // ── "/services" — "Ask": document Q&A about government services ────────────────────────────
   if (name === 'services') {
     const initialData = { ...baseState(), services: true }
     const html = await mount(initialData)
-    const meta = { title: 'Government Services | NGScorecard', description: 'Find official government resources and procedures for common Nigerian services.' }
+    const meta = { title: 'Ask about government services | NGScorecard', description: 'Ask a question and get an answer drawn from official Nigerian government documents, with the sources shown. Covers business registration, taxes, ID, passports and more.' }
     return { html, initialData, meta, notFound: false, canonical: routePath(name, params) }
   }
 
