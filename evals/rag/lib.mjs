@@ -16,6 +16,7 @@ import Database from 'better-sqlite3'
 import { addDocument, queryRAG, chunkText } from '../../server/rag.js'
 import { hasUsableSources, MIN_COVERAGE } from '../../server/ragPrompt.js'
 import { synthesize } from '../../server/ragAnswer.js'
+import { sanitizeHistory, fallbackQuery, rewriteQuestion } from '../../server/ragFollowUp.js'
 import { governmentDocuments, stateServices } from '../../scripts/government-data-sources.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -55,7 +56,11 @@ export async function runRetrieval({ db, dataset = loadDataset(), docs = corpusD
 
   const cases = []
   for (const c of dataset.cases) {
-    const { results } = await queryRAG(db, c.question, k)
+    // Follow-ups: the offline eval has no model, so it scores the fallback query
+    // (previous question + this one). The model's rewrite is scored by --generate.
+    const history = sanitizeHistory(c.history ?? [])
+    const query = history.length ? fallbackQuery(c.question, history) : c.question
+    const { results } = await queryRAG(db, query, k)
     const topCoverage = results[0]?.coverage ?? 0
     const usable = hasUsableSources(results)
 
@@ -168,7 +173,10 @@ export async function runGeneration({ db, client, dataset = loadDataset(), only 
 
   for (const c of dataset.cases) {
     if (only && !only.includes(c.id)) continue
-    const { results } = await queryRAG(db, c.question, k)
+    const history = sanitizeHistory(c.history ?? [])
+    const { query } = await rewriteQuestion(client, c.question, history)
+    if (history.length) calls++ // the rewrite is a model call too
+    const { results } = await queryRAG(db, query, k)
 
     if (!hasUsableSources(results)) {
       // Blocked before the model: correct for unanswerable, a miss otherwise.
@@ -177,7 +185,7 @@ export async function runGeneration({ db, client, dataset = loadDataset(), only 
       continue
     }
 
-    const parsed = await synthesize(client, c.question, results)
+    const parsed = await synthesize(client, c.question, results, history)
     calls++
     promptTokens += parsed.usage?.prompt_tokens ?? 0
     completionTokens += parsed.usage?.completion_tokens ?? 0

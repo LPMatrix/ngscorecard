@@ -2,6 +2,7 @@
 import { ref, inject, computed, nextTick } from 'vue'
 import AnswerBlocks from './AnswerBlocks.vue'
 import { formatAnswer } from '../lib/formatAnswer.js'
+import { buildHistory } from '../lib/conversation.js'
 
 const t = inject('t')
 
@@ -11,6 +12,12 @@ const loading = ref(false)
 const messagesEnd = ref(null)
 
 const hasResults = computed(() => messages.value.some(m => m.sources))
+
+// once there is a conversation, the box invites a follow-up
+const placeholder = computed(() =>
+  messages.value.some(m => m.type === 'assistant')
+    ? 'Ask a follow-up, or a new question...'
+    : 'Ask a question about government services, budgets, taxes...')
 
 // Starter questions. Each was checked against the document set: the passage that
 // answers it ranks first or second in retrieval. Check any new one the same way
@@ -31,6 +38,7 @@ async function askQuestion() {
   if (!question.value.trim()) return
 
   const userQuestion = question.value.trim()
+  const history = buildHistory(messages.value) // earlier turns only; taken before the new one is added
   question.value = ''
   loading.value = true
 
@@ -44,7 +52,7 @@ async function askQuestion() {
     const response = await fetch('/api/rag/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: userQuestion })
+      body: JSON.stringify({ question: userQuestion, history })
     })
 
     // Rate-limit and length errors carry a message the user can act on.
@@ -64,6 +72,9 @@ async function askQuestion() {
     messages.value.push({
       type: 'assistant',
       answer,
+      grounded: data.grounded,
+      // set when a follow-up was rewritten into a standalone question for the search
+      searchedFor: data.searchedFor,
       // parsed once here; the page renders these blocks, never the raw string
       blocks: formatAnswer(answer, sources.map(s => s.id)),
       sources
@@ -137,6 +148,7 @@ function handleKeydown(e) {
                 @cite="(id) => jumpToSource(i, id)"
               />
             </div>
+            <div v-if="msg.searchedFor" class="srv-searched">Searched for: {{ msg.searchedFor }}</div>
             <div v-if="msg.sources && msg.sources.length > 0" class="srv-sources">
               <div class="srv-sources-header">
                 {{ msg.sources.length }} source{{ msg.sources.length !== 1 ? 's' : '' }}:
@@ -173,7 +185,7 @@ function handleKeydown(e) {
           @keydown="handleKeydown"
           :disabled="loading"
           maxlength="500"
-          placeholder="Ask a question about government services, budgets, taxes..."
+          :placeholder="placeholder"
           class="srv-input"
         ></textarea>
         <button
@@ -429,6 +441,13 @@ function handleKeydown(e) {
   color: #999;
   margin-bottom: 0.75rem;
   font-weight: 600;
+}
+
+.srv-searched {
+  margin: -0.4rem 0 0.9rem;
+  font-size: 0.8rem;
+  color: #777;
+  font-style: italic;
 }
 
 .srv-source-small.hit {

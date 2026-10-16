@@ -22,6 +22,10 @@ drop below `baseline.json`.
 - **unanswerable**: the corpus does not contain the answer. Add `forbidden`
   regexes for near-misses where the topic is covered but the figure is not.
 
+- **follow-up**: add `history` (earlier turns, a user question first) and a bare
+  `question` such as "What about for minors?". Offline retrieval is scored with
+  the no-model fallback query; `--generate` scores the model's rewrite.
+
 Write the question the way a user would, not the way the document words it.
 Add a case whenever a real user question goes wrong.
 
