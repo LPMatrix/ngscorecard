@@ -1,18 +1,31 @@
 <script setup>
 import { ref, inject, computed, nextTick } from 'vue'
+import AnswerBlocks from './AnswerBlocks.vue'
+import { formatAnswer } from '../lib/formatAnswer.js'
 
 const t = inject('t')
 
 const question = ref('')
 const messages = ref([])
 const loading = ref(false)
-const selectedState = ref('')
 const messagesEnd = ref(null)
 
-// Nigerian states for filtering
-const states = ['', 'Lagos', 'Rivers', 'Kano', 'Kaduna', 'FCT', 'Abia', 'Enugu', 'Cross River', 'Akwa Ibom', 'Delta', 'Edo', 'Ogun', 'Osun', 'Ondo', 'Ekiti', 'Oyo', 'Kwara', 'Kogi', 'Bauchi', 'Gombe', 'Adamawa', 'Taraba', 'Yobe', 'Borno', 'Zamfara', 'Kebbi', 'Niger', 'Sokoto', 'Jigawa', 'Nasarawa', 'Plateau', 'Benue', 'Imo', 'Anambra']
-
 const hasResults = computed(() => messages.value.some(m => m.sources))
+
+// Starter questions. Each was checked against the document set: the passage that
+// answers it ranks first or second in retrieval. Check any new one the same way
+// before adding it; a starter that gets "I couldn't find this" makes the page
+// look broken.
+const EXAMPLES = [
+  'What documents do I need to apply for a NIN?',
+  'How do I register a birth?',
+  'What documents do I need for a passport?',
+]
+
+function askExample(text) {
+  question.value = text
+  askQuestion()
+}
 
 async function askQuestion() {
   if (!question.value.trim()) return
@@ -31,21 +44,29 @@ async function askQuestion() {
     const response = await fetch('/api/rag/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        question: userQuestion,
-        state: selectedState.value || undefined
-      })
+      body: JSON.stringify({ question: userQuestion })
     })
 
+    // Rate-limit and length errors carry a message the user can act on.
+    if (response.status === 429 || response.status === 400) {
+      const detail = await response.json().catch(() => ({}))
+      messages.value.push({ type: 'error', text: detail.error || 'Please try again in a moment.' })
+      loading.value = false
+      return
+    }
     if (!response.ok) throw new Error('Failed to get answer')
 
     const data = await response.json()
 
     // Add assistant message with answer and sources
+    const sources = data.sources || []
+    const answer = data.answer || 'No answer generated'
     messages.value.push({
       type: 'assistant',
-      answer: data.answer || 'No answer generated',
-      sources: data.sources || []
+      answer,
+      // parsed once here; the page renders these blocks, never the raw string
+      blocks: formatAnswer(answer, sources.map(s => s.id)),
+      sources
     })
   } catch (error) {
     messages.value.push({
@@ -55,7 +76,22 @@ async function askQuestion() {
   }
 
   loading.value = false
-  await nextTick(() => messagesEnd.value?.scrollIntoView({ behavior: 'smooth' }))
+  await nextTick(() => messagesEnd.value?.scrollIntoView({ behavior: 'smooth', block: 'end' }))
+}
+
+// A citation like [2] in an answer jumps to that source and briefly highlights it.
+const hit = ref('')
+let hitTimer = null
+
+function jumpToSource(messageIndex, id) {
+  const el = document.getElementById(`srv-src-${messageIndex}-${id}`)
+  if (!el) return
+  const calm = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  el.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'center' })
+  el.focus({ preventScroll: true })
+  hit.value = `${messageIndex}-${id}`
+  clearTimeout(hitTimer)
+  hitTimer = setTimeout(() => { hit.value = '' }, 2000)
 }
 
 function handleKeydown(e) {
@@ -69,9 +105,9 @@ function handleKeydown(e) {
 <template>
   <div class="srv-container">
     <div class="srv-header">
-      <h1>Ask Government</h1>
-      <p>Find answers in official Nigerian government documents and announcements.</p>
-      <p class="srv-subtitle">Ask about business registration, taxes, budgets, policies, and more.</p>
+      <h1>Ask about government services</h1>
+      <p>Answers come from official Nigerian government documents, with the sources shown.</p>
+      <p class="srv-subtitle">Ask about business registration, taxes, ID, passports and more. If the documents don't cover it, it will say so.</p>
     </div>
 
     <div class="srv-chat">
@@ -80,14 +116,8 @@ function handleKeydown(e) {
           <div class="srv-empty-icon">💬</div>
           <p>No questions yet. Try asking:</p>
           <div class="srv-examples">
-            <div class="srv-example" @click="question = 'How do I register a business with CAC?'; askQuestion()">
-              How do I register a business?
-            </div>
-            <div class="srv-example" @click="question = 'What is the current inflation rate?'; askQuestion()">
-              What is the current inflation rate?
-            </div>
-            <div class="srv-example" @click="question = 'Where can I find government budget information?'; askQuestion()">
-              Where is the budget information?
+            <div v-for="example in EXAMPLES" :key="example" class="srv-example" @click="askExample(example)">
+              {{ example }}
             </div>
           </div>
         </div>
@@ -101,13 +131,24 @@ function handleKeydown(e) {
 
           <div v-else-if="msg.type === 'assistant' && msg.answer" class="srv-answer">
             <div class="srv-answer-text">
-              {{ msg.answer }}
+              <AnswerBlocks
+                :blocks="msg.blocks"
+                :source-href="(id) => `#srv-src-${i}-${id}`"
+                @cite="(id) => jumpToSource(i, id)"
+              />
             </div>
             <div v-if="msg.sources && msg.sources.length > 0" class="srv-sources">
               <div class="srv-sources-header">
                 {{ msg.sources.length }} source{{ msg.sources.length !== 1 ? 's' : '' }}:
               </div>
-              <div v-for="(source, j) in msg.sources" :key="j" class="srv-source-small">
+              <div
+                v-for="(source, j) in msg.sources"
+                :key="j"
+                :id="source.id ? `srv-src-${i}-${source.id}` : undefined"
+                tabindex="-1"
+                :class="['srv-source-small', { hit: hit === `${i}-${source.id}` }]"
+              >
+                <span v-if="source.id" class="srv-source-num">[{{ source.id }}]</span>
                 <span class="srv-source-badge">{{ source.source }}</span>
                 <a v-if="source.url" :href="source.url" target="_blank" class="srv-source-link">
                   {{ source.title }}
@@ -123,22 +164,15 @@ function handleKeydown(e) {
           <span>Searching documents...</span>
         </div>
 
-        <div ref="messagesEnd"></div>
+        <div ref="messagesEnd" class="srv-end"></div>
       </div>
 
       <div class="srv-input-area">
-        <div class="srv-state-selector">
-          <select v-model="selectedState" class="srv-state-select">
-            <option value="">All Nigeria</option>
-            <option v-for="state in states.filter(s => s)" :key="state" :value="state">
-              {{ state }} State
-            </option>
-          </select>
-        </div>
         <textarea
           v-model="question"
           @keydown="handleKeydown"
           :disabled="loading"
+          maxlength="500"
           placeholder="Ask a question about government services, budgets, taxes..."
           class="srv-input"
         ></textarea>
@@ -155,19 +189,25 @@ function handleKeydown(e) {
 </template>
 
 <style scoped>
+/* One centred reading column (--col) shared by the intro, the conversation and
+   the input; the backgrounds stay full width. The page scrolls normally (the
+   chat used to be a fixed 100vh box inside a taller page, giving two scrollbars)
+   and the input sticks to the bottom of the window. */
 .srv-container {
-  height: 100vh;
+  --col: 760px;
+  min-height: calc(100dvh - 3.5rem);
   display: flex;
   flex-direction: column;
   background: #f9f9f9;
 }
 
 .srv-header {
-  padding: 2rem;
+  padding: 2rem 1rem;
   background: white;
   border-bottom: 1px solid #e0e0e0;
   text-align: center;
 }
+
 
 .srv-header h1 {
   font-size: 2rem;
@@ -188,20 +228,35 @@ function handleKeydown(e) {
   color: #999 !important;
 }
 
+/* after the margin shorthands above, so these side margins are not reset to 0 */
+.srv-header h1,
+.srv-header p {
+  max-width: var(--col);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .srv-chat {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .srv-messages {
   flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
+  width: 100%;
+  max-width: var(--col);
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+/* keeps the newest message clear of the sticky input when scrolled into view */
+.srv-end {
+  scroll-margin-bottom: 9rem;
 }
 
 .srv-empty {
@@ -281,7 +336,7 @@ function handleKeydown(e) {
 }
 
 .srv-answer {
-  max-width: 800px;
+  max-width: 100%;
   flex: 1;
 }
 
@@ -376,14 +431,32 @@ function handleKeydown(e) {
   font-weight: 600;
 }
 
+.srv-source-small.hit {
+  background: #e3f3ea;
+  border-radius: 6px;
+}
+
+.srv-source-small:focus {
+  outline: none;
+}
+
 .srv-source-small {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.5rem 0;
+  /* side padding with a matching negative margin leaves room for the highlight */
+  padding: 0.5rem 0.5rem;
+  margin: 0 -0.5rem;
+  border-radius: 6px;
   font-size: 0.85rem;
 }
 
+.srv-source-num {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--g700, #006b45);
+  margin-right: 6px;
+}
 .srv-source-badge {
   display: inline-block;
   background: var(--accent, #0a6b45);
@@ -420,32 +493,17 @@ function handleKeydown(e) {
 }
 
 .srv-input-area {
-  padding: 1rem;
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  /* side padding grows to centre the controls in the column */
+  padding: 1rem max(1rem, calc((100% - var(--col)) / 2 + 1rem));
   background: white;
   border-top: 1px solid #ddd;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-end;
   gap: 0.75rem;
-}
-
-.srv-state-selector {
-  display: flex;
-  align-items: center;
-}
-
-.srv-state-select {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  background: white;
-  color: #333;
-  cursor: pointer;
-  outline: none;
-}
-
-.srv-state-select:focus {
-  border-color: var(--accent, #0a6b45);
 }
 
 .srv-input {
@@ -466,6 +524,8 @@ function handleKeydown(e) {
 }
 
 .srv-send-btn {
+  flex: none;
+  min-height: 50px;
   padding: 0.75rem 1.5rem;
   background: var(--accent, #0a6b45);
   color: white;
@@ -487,11 +547,6 @@ function handleKeydown(e) {
 }
 
 @media (max-width: 768px) {
-  .srv-container {
-    height: auto;
-    min-height: 100vh;
-  }
-
   .srv-header {
     padding: 1.5rem 1rem;
   }
@@ -505,7 +560,7 @@ function handleKeydown(e) {
   }
 
   .srv-messages {
-    padding: 0.5rem;
+    padding: 1rem 0.75rem;
   }
 }
 </style>
