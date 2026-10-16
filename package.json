@@ -23,7 +23,8 @@
     "rag:fetch": "node --env-file=.env scripts/fetch-government-documents.mjs",
     "rag:ingest-all": "node --env-file=.env scripts/ingest-all-documents.mjs",
     "rag:sync": "node --env-file=.env scripts/sync-rag-corpus.mjs",
-    "rag:rechunk": "node --env-file=.env scripts/rechunk-rag.mjs"
+    "rag:rechunk": "node --env-file=.env scripts/rechunk-rag.mjs",
+    "eval:rag": "node --env-file-if-exists=.env scripts/eval-rag.mjs"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
