@@ -21,7 +21,9 @@
     "paystack:setup-plan": "node --env-file=.env scripts/setup-paystack-plan.mjs",
     "rag:ingest": "node --env-file=.env scripts/ingest-documents.mjs",
     "rag:fetch": "node --env-file=.env scripts/fetch-government-documents.mjs",
-    "rag:ingest-all": "node --env-file=.env scripts/ingest-all-documents.mjs"
+    "rag:ingest-all": "node --env-file=.env scripts/ingest-all-documents.mjs",
+    "rag:sync": "node --env-file=.env scripts/sync-rag-corpus.mjs",
+    "rag:rechunk": "node --env-file=.env scripts/rechunk-rag.mjs"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",

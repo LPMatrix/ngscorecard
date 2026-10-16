@@ -214,7 +214,7 @@ Each chunk:
 When users ask questions, the RAG system:
 
 1. Tokenizes the question
-2. Searches all chunks by keyword relevance
+2. Ranks all chunks with BM25 over title, section and text (scores are shown relative to the best match)
 3. Returns top-K chunks with section information
 4. LLM synthesizes answer using context
 5. Provides source citations
@@ -336,3 +336,42 @@ npm run dev
 4. Verify in database: `sqlite3 data/ngscorecard.db`
 5. Start server and test Q&A: `npm run dev`
 
+
+## Loading the corpus (local or Turso)
+
+`scripts/government-data-sources.mjs` is the source of truth. To make a database
+match it:
+
+```bash
+npm run rag:sync                  # dry run: lists inserts/updates, writes nothing
+npm run rag:sync -- --apply       # write (Turso if TURSO_DATABASE_URL is set, else data/ngscorecard.db)
+npm run rag:sync -- --db path     # a specific local SQLite file
+```
+
+Documents are matched on (source, title), so it is safe to re-run: unchanged
+documents are skipped, edited ones are updated with their chunks rebuilt, and
+nothing is ever deleted (documents in the database but not in the source are
+only reported). Missing RAG tables are created. Prefer this to
+`rag:ingest-all`, which wipes every document first and only targets the local
+file.
+
+## How documents are chunked
+
+`chunkText` (server/rag.js) splits at markdown headings, keeps each heading with
+its body inside the chunk text, and merges neighbouring sections up to ~200
+tokens, so one chunk can hold related steps, fees and timelines. A section
+larger than that is split by lines with its heading repeated. No text is
+dropped (covered by test/rag-chunker.test.mjs).
+
+## Rebuilding chunks after a chunker change
+
+Chunks are derived from each document's stored `content`, so a chunker fix does
+not need a re-fetch:
+
+```bash
+npm run rag:rechunk                 # dry run: shows how many documents would change
+npm run rag:rechunk -- --apply      # replace chunks (Turso if TURSO_DATABASE_URL is set, else data/ngscorecard.db)
+npm run rag:rechunk -- --db path    # a specific local SQLite file
+```
+
+Run `npm run eval:rag` afterwards to confirm retrieval did not regress.

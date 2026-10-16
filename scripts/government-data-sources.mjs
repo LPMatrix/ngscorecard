@@ -159,7 +159,7 @@ The National Identification Number is a unique identity document required for mo
     source: 'BPP',
     title: 'Government Procurement Portal',
     url: 'https://www.bpp.gov.ng/',
-    content: `# Budget Office of the Federation - Government Procurement
+    content: `# Bureau of Public Procurement - Government Procurement
 
 ## Public Procurement Process
 
@@ -301,7 +301,7 @@ The National Health Insurance Scheme (NHIS) provides healthcare coverage for Nig
 1. Visit nearest NHIS office or accredited provider
 2. Complete registration form
 3. Provide identification documents
-- Pay annual membership fee
+4. Pay annual membership fee
 5. Receive NHIS card
 6. Visit any accredited healthcare facility
 
@@ -577,9 +577,10 @@ SON ensures products and services meet Nigerian and international quality standa
   },
   {
     source: 'SERAP',
-    title: 'Special Offences Response Team - Anticorruption',
-    url: 'https://www.serap.org.ng/',
-    content: `# Special Offences Response Team - SERAP
+    title: 'Socio-Economic Rights and Accountability Project (SERAP)',
+    replaces: ['Special Offences Response Team - Anticorruption'],
+    url: 'https://serap-nigeria.org/',
+    content: `# Socio-Economic Rights and Accountability Project (SERAP)
 
 ## Anti-Corruption and Public Rights Advocacy
 
@@ -1201,7 +1202,7 @@ Nigeria Customs Service manages import/export operations and border control.
   {
     source: 'Federal Civil Service',
     title: 'Federal Civil Service - Government Employment',
-    url: 'https://www.firs.gov.ng/',
+    url: 'https://fedcivilservice.gov.ng/',
     content: `# Federal Civil Service Commission - FCSC
 
 ## Government Employment and Civil Service Recruitment
