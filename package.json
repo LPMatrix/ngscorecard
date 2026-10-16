@@ -10,6 +10,7 @@
     "build:client": "vite build",
     "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
     "preview": "vite preview",
+    "test": "node --test \"test/*.test.mjs\"",
     "start": "node server/index.js",
     "db:push": "drizzle-kit push",
     "db:seed": "node --env-file=.env server/seed.js",
@@ -18,7 +19,13 @@
     "db:backup": "node --env-file=.env scripts/backup-db.mjs",
     "export:dataset": "node --env-file=.env scripts/export-dataset.mjs",
     "sitemap": "node --env-file=.env scripts/generate-sitemap.mjs",
-    "paystack:setup-plan": "node --env-file=.env scripts/setup-paystack-plan.mjs"
+    "paystack:setup-plan": "node --env-file=.env scripts/setup-paystack-plan.mjs",
+    "rag:ingest": "node --env-file=.env scripts/ingest-documents.mjs",
+    "rag:fetch": "node --env-file=.env scripts/fetch-government-documents.mjs",
+    "rag:ingest-all": "node --env-file=.env scripts/ingest-all-documents.mjs",
+    "rag:sync": "node --env-file=.env scripts/sync-rag-corpus.mjs",
+    "rag:rechunk": "node --env-file=.env scripts/rechunk-rag.mjs",
+    "eval:rag": "node --env-file-if-exists=.env scripts/eval-rag.mjs"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
@@ -26,6 +33,7 @@
     "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
     "express-rate-limit": "^8.6.2",
+    "openai": "^4.72.0",
     "satori": "^0.33.4",
     "sharp": "^0.34.5",
     "vue": "^3.5.0"

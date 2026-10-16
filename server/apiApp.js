@@ -5,6 +5,7 @@ import { createAdminRouter } from './adminRoutes.js'
 import { createCorrectionsRouter } from './correctionsRoutes.js'
 import { createOgRouter } from './ogRoutes.js'
 import { createPaystackRouter } from './paystackRoutes.js'
+import { createRagRouter } from './ragRoutes.js'
 
 // Single source of truth for how the API routers are mounted, used by both
 // the Vercel serverless entrypoint (api/index.js) and the standalone Express
@@ -16,6 +17,9 @@ import { createPaystackRouter } from './paystackRoutes.js'
 export function createApiApp() {
   const app = express()
 
+  // Parse JSON bodies
+  app.use(express.json())
+
   // /api/v1 and /api/admin must be mounted before the more general /api:
   // Express checks mounts in registration order, and /api's internal routes
   // (:admin/category) would otherwise swallow a more specific request
@@ -26,6 +30,7 @@ export function createApiApp() {
   app.use('/api/admin', createAdminRouter())
   app.use('/api/corrections', createCorrectionsRouter())
   app.use('/api/donate', createPaystackRouter())
+  app.use('/api/rag', createRagRouter())
   app.use('/api', createApiRouter())
 
   return app

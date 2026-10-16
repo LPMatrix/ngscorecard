@@ -1,4 +1,5 @@
 import * as schema from './schema.js'
+import { ensureRagSchema } from './ragSchema.js'
 
 function ensureColumn(client, table, column, definition) {
   try {
@@ -164,6 +165,36 @@ function ensureLocalSchema(client) {
       revoked INTEGER NOT NULL DEFAULT 0
     )
   `).run()
+  client.prepare(`
+    CREATE TABLE IF NOT EXISTS rag_documents (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      source TEXT NOT NULL,
+      title TEXT NOT NULL,
+      url TEXT,
+      content TEXT NOT NULL,
+      fetched_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    )
+  `).run()
+  client.prepare(`
+    CREATE TABLE IF NOT EXISTS rag_chunks (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      document_id INTEGER NOT NULL,
+      text TEXT NOT NULL,
+      embedding TEXT,
+      token_count INTEGER,
+      section TEXT,
+      chunk_index INTEGER,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (document_id) REFERENCES rag_documents(id)
+    )
+  `).run()
+  client.prepare(`
+    CREATE INDEX IF NOT EXISTS rag_chunks_doc_idx ON rag_chunks(document_id)
+  `).run()
+  client.prepare(`
+    CREATE INDEX IF NOT EXISTS rag_chunks_section_idx ON rag_chunks(section)
+  `).run()
 }
 
 async function createDb() {
@@ -174,7 +205,19 @@ async function createDb() {
       url:       process.env.TURSO_DATABASE_URL,
       authToken: process.env.TURSO_AUTH_TOKEN,
     })
-    return drizzle(client, { schema })
+    const db = drizzle(client, { schema })
+
+    // Ensure RAG schema exists in Turso. Every call is awaited (an unawaited
+    // libSQL execute turns schema errors into unhandled rejections) but kept off
+    // the startup path: RAG routes await db._ragReady instead, so a cold start
+    // doesn't pay these round trips for requests that never touch RAG.
+    db._ragReady = ensureRagSchema(client).catch(e => {
+      console.error('RAG schema setup failed:', e.message)
+    })
+
+    // Attach raw client for RAG queries
+    db._rawClient = client
+    return db
   }
 
   // Local dev: better-sqlite3
@@ -209,7 +252,14 @@ async function createDb() {
   }
 
   ensureLocalSchema(client)
+
+  // Attach raw client to Drizzle instance for RAG and other direct SQL use
+  db._rawClient = client
+  db._ragReady = Promise.resolve()
   return db
 }
 
-export const db = await createDb()
+const _db = await createDb()
+// Export both Drizzle ORM and raw client
+export const db = _db
+export const rawDb = _db._rawClient

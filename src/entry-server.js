@@ -74,7 +74,7 @@ export async function render({ route, id } = {}) {
 
   const baseState = () => ({
     locale: loc, landing: false, admin: null, tab: 'promises', notFound: false,
-    requestedAdmin: null, expandedId: null, presidents: projectedPresidents, data: {}, page: null, report: false, publication: null, publications: null, publicationMissing: false,
+    requestedAdmin: null, expandedId: null, presidents: projectedPresidents, data: {}, page: null, report: false, publication: null, publications: null, publicationMissing: false, services: false,
   })
 
   // ── "/" — the neutral landing page ────────────────────────────────────
@@ -93,6 +93,14 @@ export async function render({ route, id } = {}) {
     const initialData = { ...baseState(), page: name }
     const html = await mount(initialData)
     const meta = { title: t(`meta.${name}.title`), description: t(`meta.${name}.desc`) }
+    return { html, initialData, meta, notFound: false, canonical: routePath(name, params) }
+  }
+
+  // ── "/services" — "Ask": document Q&A about government services ────────────────────────────
+  if (name === 'services') {
+    const initialData = { ...baseState(), services: true }
+    const html = await mount(initialData)
+    const meta = { title: 'Ask about government services | NGScorecard', description: 'Ask a question and get an answer drawn from official Nigerian government documents, with the sources shown. Covers business registration, taxes, ID, passports and more.' }
     return { html, initialData, meta, notFound: false, canonical: routePath(name, params) }
   }
 

@@ -17,6 +17,7 @@ import GuideView       from './components/GuideView.vue'
 import PressView       from './components/PressView.vue'
 import DevelopersView  from './components/DevelopersView.vue'
 import SupportView     from './components/SupportView.vue'
+import ServicesView    from './components/ServicesView.vue'
 import TrackersComparedView from './components/TrackersComparedView.vue'
 import ReportView      from './components/ReportView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
@@ -72,6 +73,8 @@ const isThemes = ref(!!initial?.themes && initial?.themes.mode !== 'missing')
 // "/guide", "/press", "/developers" — unified content pages (see
 // GuideView.vue's header comment). `pageView` holds which one, or null.
 const pageView = ref(initial?.page ?? null)
+// "/services" — government services guide
+const isServices = ref(initial?.services === true)
 // "/<admin>/report" — the term report card (ReportView.vue). Unlike the pages
 // above it belongs to one administration, so activeAdmin stays set.
 const isReport = ref(initial?.report === true)
@@ -88,15 +91,16 @@ const HEADER_NAV = [
   { key: 'guide', path: '/guide', label: 'header.guide' },
   { key: 'developers', path: '/developers', label: 'header.developers' },
   { key: 'press', path: '/press', label: 'header.press' },
+  { key: 'ask', path: '/services', label: 'header.ask' },
   { key: 'support', path: '/support', label: 'header.support' },
 ]
-const activeNavKey = computed(() => (isThemes.value ? 'themes' : pageView.value))
+const activeNavKey = computed(() => (isThemes.value ? 'themes' : isServices.value ? 'ask' : pageView.value))
 function navCurrent(key) {
   if (activeNavKey.value !== key) return undefined
   const inside = (key === 'publications' && publicationData.value) || (key === 'themes' && themesData.value?.mode === 'lineage')
   return inside ? 'true' : 'page'
 }
-const activeAdmin = ref(isLanding.value || isThemes.value || pageView.value ? null : (initial?.admin ?? 'tinubu'))
+const activeAdmin = ref(isLanding.value || isThemes.value || pageView.value || isServices.value ? null : (initial?.admin ?? 'tinubu'))
 const currentAdmin = computed(() => ADMINISTRATIONS.value.find(a => a.key === activeAdmin.value) ?? {})
 const LAST_REVIEWED = computed(() => currentAdmin.value.reviewed)
 
@@ -171,6 +175,7 @@ function selectAdminFromFinder(admin) {
   isLanding.value = false
   isThemes.value = false
   pageView.value = null
+  isServices.value = false
   activeAdmin.value = admin.key
   adminFinderQuery.value = ''
   pushRecent(admin.key)
@@ -190,6 +195,7 @@ function goToAdminFromLanding(key) {
   isLanding.value = false
   isThemes.value = false
   pageView.value = null
+  isServices.value = false
   if (activeAdmin.value === key) { loadData(key); syncUrl() }
   else activeAdmin.value = key
   if (typeof window !== 'undefined') window.scrollTo(0, 0)
@@ -417,6 +423,9 @@ onMounted(async () => {
     } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers' || route.name === 'support' || route.name === 'trackersCompared') {
       pageView.value = route.name
       activeAdmin.value = null
+    } else if (route.name === 'services') {
+      isServices.value = true
+      activeAdmin.value = null
     } else if (route.name === 'publications' || route.name === 'publication') {
       pageView.value = 'publications'
       activeAdmin.value = null
@@ -552,7 +561,7 @@ function adminPath(admin, tab) {
 function syncUrl() {
   // Landing / themes / compare are SSR-canonical views with fixed URLs and no
   // client-synced filters — never let a stray watcher rewrite their address.
-  if (viewMode.value === 'compare' || isLanding.value || isThemes.value || pageView.value || isReport.value) return
+  if (viewMode.value === 'compare' || isLanding.value || isThemes.value || pageView.value || isReport.value || isServices.value) return
   const url = new URL(window.location)
   url.pathname = adminPath(activeAdmin.value, activeTab.value)
   const setOrDrop = (key, value, dflt) => {
@@ -985,7 +994,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
             @click="activeAdmin = g.key"
           >{{ g.name }} ({{ g.term }})</button>
         </div>
-        <div v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport" class="pt-view-actions">
+        <div v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport && !isServices" class="pt-view-actions">
           <button class="pt-compare-btn" @click="enterCompareMode">{{ t('viewActions.compare') }}</button>
           <a
             :href="lp(`/${activeAdmin}/report`)"
@@ -999,7 +1008,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
           >{{ t('viewActions.copyLink') }}</button>
         </div>
       </div>
-      <div v-if="viewMode === 'single' && !notFound && !pageView" class="pt-picker">
+      <div v-if="viewMode === 'single' && !notFound && !pageView && !isServices" class="pt-picker">
         <div class="pt-picker-bar">
           <div :class="['pt-picker-field', { open: pickerOpen }]">
             <span class="pt-picker-mag" aria-hidden="true">⌕</span>
@@ -1114,7 +1123,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
         </template>
       </div>
       <!-- Mobile-only section nav -->
-      <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
+      <select v-if="viewMode === 'single' && !notFound && !isLanding && !isThemes && !pageView && !isReport && !isServices" class="pt-mobile-nav" v-model="activeTab" @change="switchTab($event.target.value)">
         <optgroup :label="t('nav.group.government')">
           <option value="promises">{{ t('tab.promises') }}</option>
           <option value="manifesto">{{ t('tab.manifesto') }}</option>
@@ -1211,6 +1220,9 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
     <DevelopersView v-else-if="pageView === 'developers'" />
     <SupportView v-else-if="pageView === 'support'" />
     <TrackersComparedView v-else-if="pageView === 'trackersCompared'" />
+
+    <!-- ── Government services ("/services") ── -->
+    <ServicesView v-else-if="isServices" />
 
     <!-- ── Term report card ("/<admin>/report") ── -->
     <ReportView
