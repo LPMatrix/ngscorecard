@@ -18,8 +18,8 @@ The Outcome Verifier is an AI-powered fact-checker that extracts evidence from n
 Add to your `.env`:
 
 ```bash
-# Claude API
-ANTHROPIC_API_KEY=sk-ant-your-key-here
+# AI (OpenRouter), shared by the Ask page and the promise tools
+OPENROUTER_API_KEY=sk-or-your-key-here   # https://openrouter.ai/keys
 ```
 
 ### 2. Add Component to Your App
@@ -116,7 +116,7 @@ Edit `app/components/OutcomeVerifier.vue` to change styling, labels, or form lay
 ## Troubleshooting
 
 ### Claude API errors
-- Verify `ANTHROPIC_API_KEY` is set and valid
+- Verify `OPENROUTER_API_KEY` is set and valid (OpenRouter keys start with `sk-or-`)
 - Check your API key has budget
 - Look for rate limiting (wait 60 seconds and retry)
 

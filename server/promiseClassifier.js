@@ -3,18 +3,19 @@
  * Categorizes new promises, finds similar historical promises, flags contradictions
  */
 
-import Anthropic from '@anthropic-ai/sdk'
 import { eq } from 'drizzle-orm'
 import { db } from './db.js'
 import * as t from './schema.js'
+import { chatJson, DEFAULT_MODEL } from './openrouter.js'
 
-const client = new Anthropic()
+// Override with AI_TOOLS_MODEL (an OpenRouter model id) without a code change.
+const MODEL = process.env.AI_TOOLS_MODEL || DEFAULT_MODEL
 
 /**
  * Classify a new promise
  * Returns: { suggested_category, similar_promises, contradictions, confidence, reasoning }
  */
-export async function classifyPromise(administration, promiseText) {
+export async function classifyPromise(administration, promiseText, { client } = {}) {
   // Fetch all promises from this administration for context
   const adminPromises = await db
     .select()
@@ -56,56 +57,37 @@ ${existingPromisesContext || '(none)'}
 
 Classify this new promise. What category fits best? Are there similar promises already tracked? Any contradictions with existing promises?`
 
-  const response = await client.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
-    max_tokens: 1024,
-    system: systemPrompt,
-    messages: [
-      {
-        role: 'user',
-        content: userPrompt,
-      },
-    ],
+  const classification = await chatJson({ client, model: MODEL, maxTokens: 1024, system: systemPrompt, user: userPrompt })
+
+  // A model can omit a field it had nothing to put in; treat that as "none".
+  const similarIds = Array.isArray(classification.similar_promise_ids) ? classification.similar_promise_ids : []
+  const contradictions = Array.isArray(classification.contradictions) ? classification.contradictions : []
+
+  // Enrich with full promise objects for similar promises
+  const similarPromises = adminPromises.filter(p => similarIds.includes(p.id))
+
+  // Enrich contradictions with full promise details
+  const enrichedContradictions = contradictions.map(c => {
+    const promise = adminPromises.find(p => p.id === c.id)
+    return {
+      id: c.id,
+      title: promise?.title,
+      reason: c.reason
+    }
   })
 
-  const content = response.content[0]
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type from Claude')
-  }
-
-  try {
-    const classification = JSON.parse(content.text)
-
-    // Enrich with full promise objects for similar promises
-    const similarPromises = adminPromises.filter(p =>
-      classification.similar_promise_ids.includes(p.id)
-    )
-
-    // Enrich contradictions with full promise details
-    const enrichedContradictions = classification.contradictions.map(c => {
-      const promise = adminPromises.find(p => p.id === c.id)
-      return {
-        id: c.id,
-        title: promise?.title,
-        reason: c.reason
-      }
-    })
-
-    return {
-      suggested_category: classification.suggested_category,
-      confidence_category: classification.confidence_category,
-      similar_promises: similarPromises.map(p => ({
-        id: p.id,
-        title: p.title,
-        category: p.category,
-        status: p.status,
-        promise: p.promise
-      })),
-      contradictions: enrichedContradictions,
-      reasoning: classification.reasoning
-    }
-  } catch (e) {
-    throw new Error(`Failed to parse Claude response: ${content.text}`)
+  return {
+    suggested_category: classification.suggested_category,
+    confidence_category: classification.confidence_category,
+    similar_promises: similarPromises.map(p => ({
+      id: p.id,
+      title: p.title,
+      category: p.category,
+      status: p.status,
+      promise: p.promise
+    })),
+    contradictions: enrichedContradictions,
+    reasoning: classification.reasoning
   }
 }
 
@@ -113,7 +95,7 @@ Classify this new promise. What category fits best? Are there similar promises a
  * Find similar promises across all administrations
  * Useful for finding historical patterns and duplicates
  */
-export async function findSimilarHistoricalPromises(promiseText, limit = 5) {
+export async function findSimilarHistoricalPromises(promiseText, limit = 5, { client } = {}) {
   // Fetch a sample of promises from all administrations
   const allPromises = await db
     .select()
@@ -143,27 +125,14 @@ ${promisesContext}
 
 Which promises from history are most similar to this new one?`
 
-  const response = await client.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
-    max_tokens: 512,
-    system: systemPrompt,
-    messages: [
-      {
-        role: 'user',
-        content: userPrompt,
-      },
-    ],
-  })
-
-  const content = response.content[0]
-  if (content.type !== 'text') {
-    return []
-  }
-
+  // This is a convenience lookup: a failed or unparseable model call means "no
+  // suggestions", not an error for the caller.
   try {
-    const result = JSON.parse(content.text)
-    return allPromises.filter(p => result.similar_ids.includes(p.id))
+    const result = await chatJson({ client, model: MODEL, maxTokens: 512, system: systemPrompt, user: userPrompt })
+    const ids = Array.isArray(result.similar_ids) ? result.similar_ids : []
+    return allPromises.filter(p => ids.includes(p.id))
   } catch (e) {
+    console.warn('findSimilarHistoricalPromises:', e.message)
     return []
   }
 }

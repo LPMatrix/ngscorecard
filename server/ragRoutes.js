@@ -1,25 +1,10 @@
 import express from 'express'
 import { rateLimit, ipKeyGenerator } from 'express-rate-limit'
-import OpenAI from 'openai'
+import { getOpenRouter } from './openrouter.js'
 import { queryRAG } from './rag.js'
 import { hasUsableSources, NO_ANSWER_MESSAGE } from './ragPrompt.js'
 import { synthesize } from './ragAnswer.js'
 import { sanitizeHistory, rewriteQuestion } from './ragFollowUp.js'
-
-// Built on first use: the SDK throws on a missing key, and doing that at import
-// time took down every /api route (not just this one) when the key was unset.
-let openrouter = null
-function getOpenRouter() {
-  openrouter ??= new OpenAI({
-    apiKey: process.env.OPENROUTER_API_KEY,
-    baseURL: 'https://openrouter.ai/api/v1',
-    defaultHeaders: {
-      'HTTP-Referer': 'https://ngscorecard.ng',
-      'X-Title': 'NGScorecard',
-    }
-  })
-  return openrouter
-}
 
 // Every question can trigger a paid model call, so this endpoint is capped per
 // caller. Vercel overwrites x-vercel-forwarded-for with the real client address;

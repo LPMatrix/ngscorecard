@@ -10,7 +10,7 @@
     "build:client": "vite build",
     "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
     "preview": "vite preview",
-    "test": "node --test \"test/*.test.mjs\"",
+    "test": "node --test --experimental-test-module-mocks \"test/*.test.mjs\"",
     "start": "node server/index.js",
     "db:push": "drizzle-kit push",
     "db:seed": "node --env-file=.env server/seed.js",

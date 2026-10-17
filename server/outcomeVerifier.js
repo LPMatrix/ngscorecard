@@ -3,18 +3,20 @@
  * Takes news articles and extracts evidence supporting/contradicting promises
  */
 
-import Anthropic from '@anthropic-ai/sdk'
 import { eq } from 'drizzle-orm'
 import { db } from './db.js'
 import * as t from './schema.js'
+import { chatJson, DEFAULT_MODEL } from './openrouter.js'
 
-const client = new Anthropic()
+// Override with AI_TOOLS_MODEL (an OpenRouter model id) without a code change.
+const MODEL = process.env.AI_TOOLS_MODEL || DEFAULT_MODEL
 
 /**
  * Fact-check an article against a promise
  * Returns: { claims: [], confidence: "high"|"medium"|"low", suggested_status, reasoning, evidence_quotes: [] }
+ * `client` is optional (any chat.completions client); it defaults to OpenRouter.
  */
-export async function verifyPromiseOutcome(promiseId, articleText) {
+export async function verifyPromiseOutcome(promiseId, articleText, { client } = {}) {
   // Fetch the promise
   const promise = await db.select().from(t.promises).where(eq(t.promises.id, promiseId))
   if (!promise.length) {
@@ -62,36 +64,15 @@ Extract claims from the article about this promise. What does the article say ab
 
 Respond in JSON: { claims: ["claim1", "claim2"], confidence: "high|medium|low", suggested_status: "kept|partial|broken|in_progress|null", reasoning: "...", evidence_quotes: ["quote1"] }`
 
-  const response = await client.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
-    max_tokens: 1024,
-    system: systemPrompt,
-    messages: [
-      {
-        role: 'user',
-        content: userPrompt,
-      },
-    ],
-  })
+  const result = await chatJson({ client, model: MODEL, maxTokens: 1024, system: systemPrompt, user: userPrompt })
 
-  // Parse the response
-  const content = response.content[0]
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type from Claude')
-  }
-
-  try {
-    const result = JSON.parse(content.text)
-    return {
-      ...result,
-      promise: {
-        id: p.id,
-        title: p.title,
-        current_status: p.status,
-      },
-    }
-  } catch (e) {
-    throw new Error(`Failed to parse Claude response: ${content.text}`)
+  return {
+    ...result,
+    promise: {
+      id: p.id,
+      title: p.title,
+      current_status: p.status,
+    },
   }
 }
 

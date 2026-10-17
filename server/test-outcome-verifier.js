@@ -76,7 +76,7 @@ async function test() {
   } catch (err) {
     console.error(`\n❌ Error: ${err.message}`)
     console.error('\nMake sure:')
-    console.error('1. ANTHROPIC_API_KEY is set in .env')
+    console.error('1. OPENROUTER_API_KEY is set in .env (it should start with sk-or-)')
     console.error('2. The promise ID exists in your database')
     console.error('3. The database connection is working')
   }
