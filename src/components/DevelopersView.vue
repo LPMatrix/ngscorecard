@@ -106,9 +106,13 @@ curl https://ngscorecard.com/api/v1/tinubu/promises \
         <p>{{ t('developers.auth.lede') }}</p>
         <div class="table-scroll">
           <table>
-            <tr><th>Tier</th><th>Rate limit</th><th>Auth</th></tr>
-            <tr><td><strong>Free</strong> (current)</td><td>60 requests/minute per key</td><td><code>X-API-Key</code> header</td></tr>
-            <tr><td>Widget summary</td><td>30 requests/minute per caller IP</td><td>none — public, CORS-open</td></tr>
+            <thead>
+              <tr><th>Tier</th><th>Rate limit</th><th>Auth</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Free</strong> (current)</td><td>60 requests/minute per key</td><td><code>X-API-Key</code> header</td></tr>
+              <tr><td>Widget summary</td><td>30 requests/minute per caller IP</td><td>none — public, CORS-open</td></tr>
+            </tbody>
           </table>
         </div>
         <p style="margin-top:14px;">Exceeding the limit returns <code>429</code> with a JSON error body. Missing or invalid keys return <code>401</code>.
@@ -122,21 +126,25 @@ curl https://ngscorecard.com/api/v1/tinubu/promises \
           <code>GET /api/v1/presidents</code> for the 5 federal presidents, <code>GET /api/v1/governors</code> for the 36 state governors.</p>
         <div class="table-scroll">
           <table>
-            <tr><th>Method</th><th>Path</th><th>Returns</th></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/presidents</code></td><td>The 5 federal presidents and their <code>:admin</code> keys</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/governors</code></td><td>The 36 state governors and their <code>:admin</code> keys</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/promises</code></td><td>Campaign promises, status, and sourcing</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/inherited</code></td><td>Inherited problems and their resolution status</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/fraud</code></td><td>Fraud allegations, amounts, and outcomes</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/orders</code></td><td>Executive orders and directives</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/ministers</code></td><td>Ministers/commissioners and performance notes</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/bills</code></td><td>Legislation (federal administrations only)</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/appointments</code></td><td>Key appointments across government</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/judgments</code></td><td>Court judgments and compliance</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/budget</code></td><td>Annual budgets, revenue, and debt service (see note below)</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/governors</code></td><td>Historical state governors listed under a <em>president's</em> own profile — not the same list as <code>GET /api/v1/governors</code> above (federal administrations only)</td></tr>
-            <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/indicators</code></td><td>Tracked economic/performance indicators over time</td></tr>
-            <tr><td><span class="badge post">POST</span></td><td><code>/api/v1/keys</code></td><td>Issue (or retrieve) a free API key for an email</td></tr>
+            <thead>
+              <tr><th>Method</th><th>Path</th><th>Returns</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/presidents</code></td><td>The 5 federal presidents and their <code>:admin</code> keys</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/governors</code></td><td>The 36 state governors and their <code>:admin</code> keys</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/promises</code></td><td>Campaign promises, status, and sourcing</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/inherited</code></td><td>Inherited problems and their resolution status</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/fraud</code></td><td>Fraud allegations, amounts, and outcomes</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/orders</code></td><td>Executive orders and directives</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/ministers</code></td><td>Ministers/commissioners and performance notes</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/bills</code></td><td>Legislation (federal administrations only)</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/appointments</code></td><td>Key appointments across government</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/judgments</code></td><td>Court judgments and compliance</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/budget</code></td><td>Annual budgets, revenue, and debt service (see note below)</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/governors</code></td><td>Historical state governors listed under a <em>president's</em> own profile — not the same list as <code>GET /api/v1/governors</code> above (federal administrations only)</td></tr>
+              <tr><td><span class="badge get">GET</span></td><td><code>/api/v1/:admin/indicators</code></td><td>Tracked economic/performance indicators over time</td></tr>
+              <tr><td><span class="badge post">POST</span></td><td><code>/api/v1/keys</code></td><td>Issue (or retrieve) a free API key for an email</td></tr>
+            </tbody>
           </table>
         </div>
         <p style="margin-top:14px;">

@@ -66,6 +66,18 @@
     aside .brand span { display: block; font-family: "Instrument Sans", sans-serif; font-weight: 600; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #9fd8b8; margin-top: 2px; }
     aside nav { flex: 1; padding: 10px 0; }
     aside .group-label { padding: 14px 16px 4px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #7fb99a; }
+    /* Collapsible groups: the heading is a button that folds its items. */
+    aside button.group-toggle {
+      display: flex; align-items: center; justify-content: space-between; width: 100%;
+      background: none; border: none; cursor: pointer; text-align: left; font-family: inherit;
+    }
+    aside button.group-toggle:hover { color: #b9e6cd; }
+    aside button.group-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+    aside .group-toggle .chev { font-size: 11px; line-height: 1; transition: transform 0.15s ease; }
+    aside .nav-group.collapsed .group-toggle .chev { transform: rotate(-90deg); }
+    aside .group-items[hidden] { display: none; }
+    aside .nav-group.collapsed.has-active .group-toggle { color: #fff; box-shadow: inset 3px 0 0 var(--gold); }
+    @media (prefers-reduced-motion: reduce) { aside .group-toggle .chev { transition: none; } }
     aside button.nav-item {
       display: block; width: 100%; text-align: left; background: none; border: none; color: #dff5e8;
       padding: 8px 16px; font-size: 13px; font-weight: 600; opacity: 0.85;
@@ -710,99 +722,110 @@
   })
 
   // ---------- Nav ----------
+  // The sidebar is a set of groups; each heading is a button that folds its items.
+  // Which groups are folded is remembered per browser. A folded group that holds
+  // the page you are on is marked (see setActiveNav) rather than forced open, so
+  // a fold is respected on every visit, including the default landing page.
+  var NAV_COLLAPSED_KEY = 'ngscorecard.admin.navCollapsed'
+  function loadCollapsedGroups() {
+    try {
+      var saved = JSON.parse(window.localStorage.getItem(NAV_COLLAPSED_KEY) || '[]')
+      return Array.isArray(saved) ? saved : []
+    } catch (e) { return [] }
+  }
+  function saveCollapsedGroups(list) {
+    try { window.localStorage.setItem(NAV_COLLAPSED_KEY, JSON.stringify(list)) } catch (e) { /* private mode: just not remembered */ }
+  }
+  function setGroupOpen(group, open) {
+    group.classList.toggle('collapsed', !open)
+    group.querySelector('.group-toggle').setAttribute('aria-expanded', open ? 'true' : 'false')
+    group.querySelector('.group-items').hidden = !open
+  }
+
   function buildNav() {
     var nav = $('#nav')
     nav.innerHTML = ''
-    var group = document.createElement('div')
-    group.className = 'group-label'
-    group.textContent = 'Content'
-    nav.appendChild(group)
-    Object.keys(TABLES).forEach(function (name) {
-      var btn = document.createElement('button')
-      btn.className = 'nav-item'
-      btn.textContent = TABLES[name].label
-      btn.dataset.table = name
-      btn.addEventListener('click', function () { selectTable(name) })
-      nav.appendChild(btn)
-    })
-    var group2 = document.createElement('div')
-    group2.className = 'group-label'
-    group2.textContent = 'AI Tools'
-    nav.appendChild(group2)
-    var outcomeBtn = document.createElement('button')
-    outcomeBtn.className = 'nav-item'
-    outcomeBtn.textContent = 'Outcome Verifier'
-    outcomeBtn.dataset.table = '__outcome'
-    outcomeBtn.addEventListener('click', function () { selectOutcomeVerifier() })
-    nav.appendChild(outcomeBtn)
-    var classifierBtn = document.createElement('button')
-    classifierBtn.className = 'nav-item'
-    classifierBtn.textContent = 'Promise Classifier'
-    classifierBtn.dataset.table = '__classifier'
-    classifierBtn.addEventListener('click', function () { selectPromiseClassifier() })
-    nav.appendChild(classifierBtn)
-
     var isOwner = state.user && state.user.role === 'owner'
-    var group3 = document.createElement('div')
-    group3.className = 'group-label'
-    group3.textContent = isOwner ? 'Public API' : 'Reference'
-    nav.appendChild(group3)
-    if (isOwner) {
-      var keysBtn = document.createElement('button')
-      keysBtn.className = 'nav-item'
-      keysBtn.textContent = 'API Keys'
-      keysBtn.dataset.table = '__keys'
-      keysBtn.addEventListener('click', function () { selectKeys() })
-      nav.appendChild(keysBtn)
-    }
-    var registryBtn = document.createElement('button')
-    registryBtn.className = 'nav-item'
-    registryBtn.textContent = 'Indicator Registry'
-    registryBtn.dataset.table = '__registry'
-    registryBtn.addEventListener('click', function () { selectRegistry() })
-    nav.appendChild(registryBtn)
-    var historyBtn = document.createElement('button')
-    historyBtn.className = 'nav-item'
-    historyBtn.textContent = 'Change History'
-    historyBtn.dataset.table = '__history'
-    historyBtn.addEventListener('click', function () { selectHistory() })
-    nav.appendChild(historyBtn)
-    var auditBtn = document.createElement('button')
-    auditBtn.className = 'nav-item'
-    auditBtn.textContent = 'Coverage Audit'
-    auditBtn.dataset.table = '__audit'
-    auditBtn.addEventListener('click', function () { selectAudit() })
-    nav.appendChild(auditBtn)
+    var collapsed = loadCollapsedGroups()
+    var groupCount = 0
 
-    var group4 = document.createElement('div')
-    group4.className = 'group-label'
-    group4.textContent = 'Account'
-    nav.appendChild(group4)
+    // items: [{ label, table, onClick }]; a group with no items is not drawn
+    function addGroup(label, items) {
+      if (!items.length) return
+      var id = 'nav-group-' + (++groupCount)
+      var group = document.createElement('div')
+      group.className = 'nav-group'
+      group.dataset.group = label
+
+      var toggle = document.createElement('button')
+      toggle.type = 'button'
+      toggle.className = 'group-label group-toggle'
+      toggle.setAttribute('aria-controls', id)
+      toggle.innerHTML = '<span></span><span class="chev" aria-hidden="true">\u25BE</span>'
+      toggle.firstChild.textContent = label
+
+      var list = document.createElement('div')
+      list.className = 'group-items'
+      list.id = id
+
+      items.forEach(function (it) {
+        var btn = document.createElement('button')
+        btn.className = 'nav-item'
+        btn.textContent = it.label
+        if (it.table) btn.dataset.table = it.table
+        btn.addEventListener('click', it.onClick)
+        list.appendChild(btn)
+      })
+
+      group.appendChild(toggle)
+      group.appendChild(list)
+      nav.appendChild(group)
+      setGroupOpen(group, collapsed.indexOf(label) === -1)
+
+      toggle.addEventListener('click', function () {
+        var open = group.classList.contains('collapsed') // it is about to open
+        setGroupOpen(group, open)
+        var now = loadCollapsedGroups().filter(function (l) { return l !== label })
+        if (!open) now.push(label)
+        saveCollapsedGroups(now)
+      })
+    }
+
+    addGroup('Content', Object.keys(TABLES).map(function (name) {
+      return { label: TABLES[name].label, table: name, onClick: function () { selectTable(name) } }
+    }))
+
+    addGroup('AI Tools', [
+      { label: 'Outcome Verifier', table: '__outcome', onClick: function () { selectOutcomeVerifier() } },
+      { label: 'Promise Classifier', table: '__classifier', onClick: function () { selectPromiseClassifier() } },
+    ])
+
+    var reference = []
+    if (isOwner) reference.push({ label: 'API Keys', table: '__keys', onClick: function () { selectKeys() } })
+    reference.push(
+      { label: 'Indicator Registry', table: '__registry', onClick: function () { selectRegistry() } },
+      { label: 'Change History', table: '__history', onClick: function () { selectHistory() } },
+      { label: 'Coverage Audit', table: '__audit', onClick: function () { selectAudit() } }
+    )
+    addGroup(isOwner ? 'Public API' : 'Reference', reference)
+
+    var account = []
     if (isOwner) {
-      var teamBtn = document.createElement('button')
-      teamBtn.className = 'nav-item'
-      teamBtn.textContent = 'Team'
-      teamBtn.dataset.table = '__team'
-      teamBtn.addEventListener('click', function () { selectTeam() })
-      nav.appendChild(teamBtn)
-      var activityBtn = document.createElement('button')
-      activityBtn.className = 'nav-item'
-      activityBtn.textContent = 'Activity log'
-      activityBtn.dataset.table = '__activity'
-      activityBtn.addEventListener('click', function () { selectActivity() })
-      nav.appendChild(activityBtn)
+      account.push(
+        { label: 'Team', table: '__team', onClick: function () { selectTeam() } },
+        { label: 'Activity log', table: '__activity', onClick: function () { selectActivity() } }
+      )
     }
     if (state.user && !state.user.isEnvOwner) {
-      var pwBtn = document.createElement('button')
-      pwBtn.className = 'nav-item'
-      pwBtn.textContent = 'Change password'
-      pwBtn.addEventListener('click', function () { openPasswordForm(false) })
-      nav.appendChild(pwBtn)
+      account.push({ label: 'Change password', onClick: function () { openPasswordForm(false) } })
     }
+    addGroup('Account', account)
   }
 
   function setActiveNav(name) {
     $$('.nav-item').forEach(function (b) { b.classList.toggle('active', b.dataset.table === name) })
+    // a folded group hides its items, so mark the one that holds the current page
+    $$('.nav-group').forEach(function (g) { g.classList.toggle('has-active', !!g.querySelector('.nav-item.active')) })
   }
 
   // ---------- Table view ----------
