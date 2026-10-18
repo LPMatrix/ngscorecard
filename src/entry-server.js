@@ -100,7 +100,7 @@ export async function render({ route, id } = {}) {
   if (name === 'services') {
     const initialData = { ...baseState(), services: true }
     const html = await mount(initialData)
-    const meta = { title: 'Ask about government services | NGScorecard', description: 'Ask a question and get an answer drawn from official Nigerian government documents, with the sources shown. Covers business registration, taxes, ID, passports and more.' }
+    const meta = { title: 'Ask about government services | NGScorecard', description: 'Ask a question about a Nigerian government service and get an answer drawn from the Government Service Portal (services.gov.ng), with the sources shown.' }
     return { html, initialData, meta, notFound: false, canonical: routePath(name, params) }
   }
 

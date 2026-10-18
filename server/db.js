@@ -255,7 +255,8 @@ async function createDb() {
 
   // Attach raw client to Drizzle instance for RAG and other direct SQL use
   db._rawClient = client
-  db._ragReady = Promise.resolve()
+  // adds any RAG columns an older local database is missing (a no-op once current)
+  db._ragReady = ensureRagSchema(client).catch(e => console.error('RAG schema setup failed:', e.message))
   return db
 }
 

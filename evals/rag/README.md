@@ -1,7 +1,16 @@
 # Q&A assistant evals
 
-Scores retrieval and answer quality against `dataset.json`, using the corpus in
-`scripts/government-data-sources.mjs` (no database needed).
+Scores retrieval and answer quality against `dataset.json`. The corpus is
+`corpus/portal-snapshot.json`, a dated, trimmed copy of the Government Service
+Portal's data, turned into documents by the same code that loads the live corpus,
+so there is no database to set up and no text written by hand.
+
+```bash
+npm run eval:rag:corpus      # refresh the corpus copy from data/portal-snapshot.json
+```
+
+After refreshing it, run the eval; if scores moved for understood reasons, accept
+them with `--write-baseline`.
 
 ```bash
 npm run eval:rag                       # retrieval only: offline, free, ~1s
@@ -10,12 +19,12 @@ npm run eval:rag -- --generate         # also call the model; needs OPENROUTER_A
 npm run eval:rag -- --write-baseline   # accept current retrieval scores as the new floor
 ```
 
-`npm test` runs the retrieval gate: it fails if `hitAt5`, `mrr` or `evidenceAt5`
+`npm test` runs the retrieval gate: it fails if `hitAtK`, `mrr` or `evidenceAtK`
 drop below `baseline.json`.
 
 ## Adding a case
 
-- **answerable**: `expectedSources` are source codes from the corpus (any one counts);
+- **answerable**: `expectedSources` are agency codes from the corpus, e.g. `FRSC` (any one counts);
   `evidence` is a literal string from the *body* of the answering document (not a
   heading; headings are stored apart from chunk text); `answerMentions` are
   strings a generated answer must contain (`a|b` means either).

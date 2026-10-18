@@ -222,12 +222,25 @@ async function loadCorpus(dbClient) {
   const hit = corpusCache.get(dbClient)
   if (hit && Date.now() - hit.at < CACHE_TTL_MS) return hit.corpus
 
-  const rows = await all(dbClient, `
-    SELECT c.id, c.text, c.section, c.chunk_index AS chunkIndex,
-           d.title, d.source, d.url
-    FROM rag_chunks c
-    JOIN rag_documents d ON c.document_id = d.id
-  `)
+  // origin and the checked-on date exist once the provenance columns have been
+  // added; an older database without them still works, just without provenance.
+  let rows
+  try {
+    rows = await all(dbClient, `
+      SELECT c.id, c.document_id AS documentId, c.text, c.section, c.chunk_index AS chunkIndex,
+             d.title, d.source, d.url, d.origin, d.fetched_at AS checkedAt
+      FROM rag_chunks c
+      JOIN rag_documents d ON c.document_id = d.id
+    `)
+  } catch (e) {
+    if (!/no such column/i.test(e.message)) throw e
+    rows = await all(dbClient, `
+      SELECT c.id, c.document_id AS documentId, c.text, c.section, c.chunk_index AS chunkIndex,
+             d.title, d.source, d.url
+      FROM rag_chunks c
+      JOIN rag_documents d ON c.document_id = d.id
+    `)
+  }
 
   const docs = rows.map(row => {
     const tokens = tokenize(`${row.title} ${row.section || ''} ${row.text}`)
@@ -240,7 +253,16 @@ async function loadCorpus(dbClient) {
   for (const d of docs) for (const t of d.tf.keys()) df.set(t, (df.get(t) || 0) + 1)
   const avgLength = docs.reduce((n, d) => n + d.length, 0) / Math.max(docs.length, 1)
 
-  const corpus = { docs, df, avgLength }
+  // every chunk of each document, in reading order, so a whole document can be
+  // handed to the model once any part of it has been found
+  const byDocument = new Map()
+  for (const { row } of docs) {
+    if (!byDocument.has(row.documentId)) byDocument.set(row.documentId, [])
+    byDocument.get(row.documentId).push(row)
+  }
+  for (const rows of byDocument.values()) rows.sort((a, b) => (a.chunkIndex ?? 0) - (b.chunkIndex ?? 0) || a.id - b.id)
+
+  const corpus = { docs, df, avgLength, byDocument }
   corpusCache.set(dbClient, { at: Date.now(), corpus })
   return corpus
 }
@@ -251,16 +273,26 @@ export function clearRagCache(dbClient) {
 
 const K1 = 1.5
 const B = 0.75
+// Search terms added by query expansion (formal words for what the user said in
+// everyday ones) count for half as much as the user's own words, so expansion can
+// bring a document into view without outvoting the question itself.
+const EXPANSION_WEIGHT = 0.5
 // A chunk from the state the user picked outranks an equally good national one.
 const STATE_BOOST = 1.5
 
 // BM25 over title + section + text. Scores are unbounded, so `similarity` is
 // each result's score as a percentage of the best result, not an absolute;
 // use `coverage` to judge whether a result actually answers the question.
-export async function queryRAG(dbClient, queryText, topK = 5, { state } = {}) {
-  const { docs, df, avgLength } = await loadCorpus(dbClient)
+function rankChunks(corpus, queryText, { state, expansion } = {}) {
+  const { docs, df, avgLength } = corpus
   const queryTerms = [...new Set(tokenize(queryText))]
-  if (!docs.length || !queryTerms.length) return { query: queryText, results: [] }
+  // Expansion only widens a real question; a question with nothing searchable in
+  // it ("what is the") finds nothing, however it is expanded.
+  if (!docs.length || !queryTerms.length) return { scored: [], best: 1 }
+
+  const own = new Set(queryTerms)
+  const extra = [...new Set(tokenize(Array.isArray(expansion) ? expansion.join(' ') : expansion ?? ''))].filter(t => !own.has(t))
+  const terms = [...queryTerms.map(t => [t, 1]), ...extra.map(t => [t, EXPANSION_WEIGHT])]
 
   const n = docs.length
   const wanted = state ? String(state).toLowerCase() : ''
@@ -270,18 +302,18 @@ export async function queryRAG(dbClient, queryText, topK = 5, { state } = {}) {
   }
   // A term that appears nowhere in the corpus still counts against coverage:
   // "VAT" matching nothing is exactly the sign the documents don't answer it.
-  const totalIdf = queryTerms.reduce((sum, term) => sum + idfOf(term), 0)
+  const totalIdf = terms.reduce((sum, [term, w]) => sum + w * idfOf(term), 0)
 
   const scored = []
   for (const d of docs) {
     let score = 0
     let matchedIdf = 0
-    for (const term of queryTerms) {
+    for (const [term, w] of terms) {
       const f = d.tf.get(term)
       if (!f) continue
       const idf = idfOf(term)
-      matchedIdf += idf
-      score += idf * ((f * (K1 + 1)) / (f + K1 * (1 - B + B * (d.length / avgLength))))
+      matchedIdf += w * idf
+      score += w * idf * ((f * (K1 + 1)) / (f + K1 * (1 - B + B * (d.length / avgLength))))
     }
     if (score <= 0) continue
     if (wanted && `${d.row.title} ${d.row.source}`.toLowerCase().includes(wanted)) score *= STATE_BOOST
@@ -289,13 +321,20 @@ export async function queryRAG(dbClient, queryText, topK = 5, { state } = {}) {
   }
 
   scored.sort((a, b) => b.score - a.score)
-  const best = scored[0]?.score || 1
+  return { scored, best: scored[0]?.score || 1 }
+}
+
+// The best chunks, one result per chunk.
+export async function queryRAG(dbClient, queryText, topK = 5, { state, expansion } = {}) {
+  const { scored, best } = rankChunks(await loadCorpus(dbClient), queryText, { state, expansion })
 
   const results = scored.slice(0, topK).map(({ row, score, coverage }) => ({
     text: row.text,
     title: row.title,
     source: row.source,
     url: row.url,
+    origin: row.origin ?? null,
+    checkedAt: row.checkedAt ?? null,
     section: row.section,
     chunkIndex: row.chunkIndex,
     similarity: Math.round((score / best) * 100),
@@ -303,6 +342,68 @@ export async function queryRAG(dbClient, queryText, topK = 5, { state } = {}) {
     // contains. Unlike `similarity` this is absolute, so it can say "no good match".
     coverage: Math.round(coverage * 100) / 100
   }))
+
+  return { query: queryText, results }
+}
+
+// Characters of one document handed to the model (about 1,500 tokens). Typical
+// documents are far smaller, so most are passed whole.
+const DOCUMENT_CHAR_BUDGET = 6000
+
+// The best documents, one result per document. Ranking is still by chunk (small
+// pieces rank precisely), but what is returned is the whole parent document: a
+// question about "steps and requirements" often matches the steps chunk and not
+// the requirements chunk, and the answer needs both. A document is ordered by
+// its best chunk, `coverage` and `similarity` are that chunk's, and each document
+// appears once. A document over the character budget keeps its best-matching
+// chunks (in reading order) and is marked `truncated`.
+export async function queryDocuments(dbClient, queryText, { maxDocs = 3, state, expansion, charBudget = DOCUMENT_CHAR_BUDGET } = {}) {
+  const corpus = await loadCorpus(dbClient)
+  const { scored, best } = rankChunks(corpus, queryText, { state, expansion })
+
+  const picked = new Map() // documentId -> { best, scores: chunkIndex -> score }
+  for (const entry of scored) {
+    const id = entry.row.documentId
+    if (!picked.has(id)) {
+      if (picked.size >= maxDocs) continue
+      picked.set(id, { best: entry, scores: new Map() })
+    }
+    picked.get(id).scores.set(entry.row.chunkIndex, entry.score)
+  }
+
+  const results = []
+  for (const [id, { best: top, scores }] of picked) {
+    const all_ = corpus.byDocument.get(id) ?? [top.row]
+    const total = all_.reduce((n, r) => n + r.text.length, 0)
+
+    let chosen = all_
+    let truncated = false
+    if (total > charBudget) {
+      truncated = true
+      chosen = []
+      let used = 0
+      const byRelevance = [...all_].sort((a, b) => (scores.get(b.chunkIndex) ?? 0) - (scores.get(a.chunkIndex) ?? 0) || (a.chunkIndex ?? 0) - (b.chunkIndex ?? 0))
+      for (const r of byRelevance) {
+        if (chosen.length && used + r.text.length > charBudget) continue
+        chosen.push(r)
+        used += r.text.length
+      }
+      chosen.sort((a, b) => (a.chunkIndex ?? 0) - (b.chunkIndex ?? 0) || a.id - b.id)
+    }
+
+    results.push({
+      text: chosen.map(r => r.text).join('\n'),
+      title: top.row.title,
+      source: top.row.source,
+      url: top.row.url,
+      origin: top.row.origin ?? null,
+      checkedAt: top.row.checkedAt ?? null,
+      chunks: chosen.length,
+      truncated,
+      similarity: Math.round((top.score / best) * 100),
+      coverage: Math.round(top.coverage * 100) / 100,
+    })
+  }
 
   return { query: queryText, results }
 }
@@ -388,7 +489,9 @@ export async function rechunkAll(dbClient, { apply = false } = {}) {
 }
 
 // Bring the database in line with a list of source documents without ever
-// deleting wholesale. Documents are matched on (source, title):
+// deleting wholesale. Documents are matched on (source, title), or, when a
+// source document has an `externalId`, on (origin, externalId) so that a rename
+// at the source updates the row in place instead of adding a second copy:
 //   insert     not in the database yet
 //   update     content, url or title differs from the source
 //   rechunk    unchanged, but stored chunks differ from what the current chunker
@@ -397,22 +500,40 @@ export async function rechunkAll(dbClient, { apply = false } = {}) {
 // A source document can list earlier titles in `replaces`; if no row has its
 // current title but one has an old title, that row is updated in place (and
 // renamed) instead of a second copy being inserted beside it.
+// `origin` names what `docs` represents (null for the hand-written corpus,
+// 'portal' for the Government Service Portal). Only stored documents with that
+// same origin take part, so each kind of source can be synced without reporting
+// the other's documents as missing.
 // Documents that exist in the database but not in `docs` are reported and left
 // alone, as are duplicate rows for one key (the first is treated as canonical).
+// With touchChecked, documents found unchanged still get their checked-on date
+// (fetched_at) moved to now, which is what "verified again today" means.
 // Running it twice in a row changes nothing the second time. With apply:false
 // it only reports. Each document is written in one transaction/batch.
-export async function syncDocuments(dbClient, docs, { apply = false } = {}) {
+export async function syncDocuments(dbClient, docs, { apply = false, origin = null, touchChecked = false } = {}) {
   let existing
   let tablesMissing = false
   try {
-    existing = await all(dbClient, 'SELECT id, source, title, url, content FROM rag_documents ORDER BY id')
+    try {
+      existing = await all(dbClient, 'SELECT id, source, title, url, content, origin, external_id FROM rag_documents ORDER BY id')
+    } catch (e) {
+      if (!/no such column/i.test(e.message)) throw e
+      // a database from before the provenance columns: everything in it is hand-written
+      existing = (await all(dbClient, 'SELECT id, source, title, url, content FROM rag_documents ORDER BY id'))
+        .map(row => ({ ...row, origin: null, external_id: null }))
+    }
   } catch (e) {
     if (!/no such table/i.test(e.message)) throw e
     existing = []
     tablesMissing = true
   }
+  existing = existing.filter(row => (row.origin ?? null) === origin)
+  docs = docs.map(d => ({ ...d, origin }))
 
-  const keyOf = (d) => JSON.stringify([d.source, d.title])
+  const keyOf = (d) => {
+    const ext = d.externalId ?? d.external_id
+    return ext ? JSON.stringify(['ext', origin, ext]) : JSON.stringify(['st', d.source, d.title])
+  }
   const byKey = new Map()
   const duplicates = []
   for (const row of existing) {
@@ -444,7 +565,8 @@ export async function syncDocuments(dbClient, docs, { apply = false } = {}) {
     if (!hit) { plan.push({ source: doc.source, title: doc.title, action: 'insert', chunks: chunks.length, doc, chunkRows: chunks }); continue }
 
     const { row, renamedFrom } = hit
-    const changed = row.content !== doc.content || (row.url ?? null) !== (doc.url ?? null) || row.title !== doc.title
+    const changed = row.content !== doc.content || (row.url ?? null) !== (doc.url ?? null) ||
+      row.title !== doc.title || row.source !== doc.source
     let action = changed ? 'update' : 'unchanged'
     if (!changed) {
       const stored = await all(dbClient,
@@ -459,15 +581,15 @@ export async function syncDocuments(dbClient, docs, { apply = false } = {}) {
   const result = {
     tablesMissing,
     inserted: count('insert'), updated: count('update'), rechunked: count('rechunk'), unchanged: count('unchanged'),
+    touched: 0,
     extra, duplicates,
     plan: plan.map(({ doc, chunkRows, ...rest }) => rest),
   }
   if (!apply) return result
 
-  if (tablesMissing) {
-    const { ensureRagSchema } = await import('./ragSchema.js')
-    await ensureRagSchema(dbClient)
-  }
+  // always: creates missing tables and adds the provenance columns to older ones
+  const { ensureRagSchema } = await import('./ragSchema.js')
+  await ensureRagSchema(dbClient)
 
   const now = new Date().toISOString()
   for (const p of plan) {
@@ -475,8 +597,8 @@ export async function syncDocuments(dbClient, docs, { apply = false } = {}) {
     const { doc, chunkRows } = p
 
     if (p.action === 'insert') {
-      const insertDoc = `INSERT INTO rag_documents (source, title, url, content, fetched_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)`
-      const docArgs = [doc.source, doc.title, doc.url ?? null, doc.content, now, now]
+      const insertDoc = `INSERT INTO rag_documents (source, title, url, content, origin, external_id, fetched_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+      const docArgs = [doc.source, doc.title, doc.url ?? null, doc.content, doc.origin ?? null, doc.externalId ?? null, now, now]
       if (dbClient.prepare) {
         dbClient.transaction(() => {
           const id = Number(dbClient.prepare(insertDoc).run(...docArgs).lastInsertRowid)
@@ -486,13 +608,17 @@ export async function syncDocuments(dbClient, docs, { apply = false } = {}) {
       } else {
         // The chunk rows find their parent by key inside the same batch, so the
         // document and all its chunks commit together or not at all.
-        const parent = '(SELECT id FROM rag_documents WHERE source = ? AND title = ? ORDER BY id DESC LIMIT 1)'
+        const byExternal = doc.externalId != null
+        const parent = byExternal
+          ? '(SELECT id FROM rag_documents WHERE origin IS ? AND external_id = ? ORDER BY id DESC LIMIT 1)'
+          : '(SELECT id FROM rag_documents WHERE source = ? AND title = ? ORDER BY id DESC LIMIT 1)'
+        const parentArgs = byExternal ? [doc.origin ?? null, doc.externalId] : [doc.source, doc.title]
         const chunkSql = INSERT_CHUNK.replace('VALUES (?,', `VALUES (${parent},`)
         await dbClient.batch([
           { sql: insertDoc, args: docArgs },
           ...chunkRows.map((c, i) => ({
             sql: chunkSql,
-            args: [doc.source, doc.title, c.text, null, c.tokens, c.section, i, now],
+            args: [...parentArgs, c.text, null, c.tokens, c.section, i, now],
           })),
         ], 'write')
       }
@@ -501,8 +627,8 @@ export async function syncDocuments(dbClient, docs, { apply = false } = {}) {
 
     // update / rechunk: replace this document's chunks (and its row, for update)
     const rows = chunkArgs(p.id, chunkRows, now)
-    const updateDoc = 'UPDATE rag_documents SET title = ?, content = ?, url = ?, updated_at = ? WHERE id = ?'
-    const updateArgs = [doc.title, doc.content, doc.url ?? null, now, p.id]
+    const updateDoc = 'UPDATE rag_documents SET source = ?, title = ?, content = ?, url = ?, origin = ?, external_id = ?, fetched_at = ?, updated_at = ? WHERE id = ?'
+    const updateArgs = [doc.source, doc.title, doc.content, doc.url ?? null, doc.origin ?? null, doc.externalId ?? null, now, now, p.id]
     if (dbClient.prepare) {
       dbClient.transaction(() => {
         if (p.action === 'update') dbClient.prepare(updateDoc).run(...updateArgs)
@@ -519,6 +645,88 @@ export async function syncDocuments(dbClient, docs, { apply = false } = {}) {
     }
   }
 
+  // Unchanged documents were read again and found the same: say so.
+  if (touchChecked) {
+    const unchanged = plan.filter(p => p.action === 'unchanged')
+    const touch = 'UPDATE rag_documents SET fetched_at = ? WHERE id = ?'
+    if (unchanged.length) {
+      if (dbClient.prepare) {
+        const stmt = dbClient.prepare(touch)
+        dbClient.transaction(() => unchanged.forEach(p => stmt.run(now, p.id)))()
+      } else {
+        await dbClient.batch(unchanged.map(p => ({ sql: touch, args: [now, p.id] })), 'write')
+      }
+    }
+    result.touched = unchanged.length
+  }
+
   clearRagCache(dbClient)
   return result
+}
+
+// Number of stored documents with a given origin (null = the hand-written ones).
+export async function countDocuments(dbClient, origin = null) {
+  let rows
+  try {
+    rows = await all(dbClient, 'SELECT origin FROM rag_documents')
+  } catch (e) {
+    if (/no such table/i.test(e.message)) return 0
+    if (!/no such column/i.test(e.message)) throw e
+    rows = (await all(dbClient, 'SELECT id FROM rag_documents')).map(() => ({ origin: null }))
+  }
+  return rows.filter(r => (r.origin ?? null) === origin).length
+}
+
+// Remove every document of one origin, together with its chunks. This is the one
+// place anything is deleted, and it is deliberately narrow: a single origin
+// (null for the hand-written corpus, 'portal' for the portal), reported before
+// it is done (apply:false), and returned in full so a caller can keep a backup.
+// All the deletes go in one transaction/batch, so it happens entirely or not at all.
+export async function removeDocuments(dbClient, { origin = null, apply = false } = {}) {
+  let rows
+  try {
+    try {
+      rows = await all(dbClient, 'SELECT id, source, title, url, content, origin, external_id, fetched_at, updated_at FROM rag_documents ORDER BY id')
+    } catch (e) {
+      if (!/no such column/i.test(e.message)) throw e
+      rows = (await all(dbClient, 'SELECT id, source, title, url, content, fetched_at, updated_at FROM rag_documents ORDER BY id'))
+        .map(r => ({ ...r, origin: null, external_id: null }))
+    }
+  } catch (e) {
+    if (!/no such table/i.test(e.message)) throw e
+    return { documents: 0, chunks: 0, rows: [], removed: false }
+  }
+  rows = rows.filter(r => (r.origin ?? null) === origin)
+
+  let chunks = 0
+  for (const r of rows) {
+    chunks += Number((await all(dbClient, 'SELECT COUNT(*) AS c FROM rag_chunks WHERE document_id = ?', [r.id]))[0].c)
+  }
+  const result = { documents: rows.length, chunks, rows, removed: false }
+  if (!apply || rows.length === 0) return result
+
+  if (dbClient.prepare) {
+    const delChunks = dbClient.prepare('DELETE FROM rag_chunks WHERE document_id = ?')
+    const delDoc = dbClient.prepare('DELETE FROM rag_documents WHERE id = ?')
+    dbClient.transaction(() => rows.forEach(r => { delChunks.run(r.id); delDoc.run(r.id) }))()
+  } else {
+    await dbClient.batch(rows.flatMap(r => [
+      { sql: 'DELETE FROM rag_chunks WHERE document_id = ?', args: [r.id] },
+      { sql: 'DELETE FROM rag_documents WHERE id = ?', args: [r.id] },
+    ]), 'write')
+  }
+  clearRagCache(dbClient)
+  return { ...result, removed: true }
+}
+
+// Stored documents of one origin (without their chunks), newest schema first and
+// falling back to "none" on a database from before provenance existed.
+export async function listDocuments(dbClient, { origin = 'portal' } = {}) {
+  try {
+    const rows = await all(dbClient, 'SELECT id, source, title, url, content, origin, external_id, fetched_at FROM rag_documents ORDER BY id')
+    return rows.filter(r => (r.origin ?? null) === origin)
+  } catch (e) {
+    if (/no such (table|column)/i.test(e.message)) return []
+    throw e
+  }
 }

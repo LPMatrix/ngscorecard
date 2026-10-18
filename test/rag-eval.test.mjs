@@ -6,18 +6,21 @@ import assert from 'node:assert/strict'
 import { REWRITE_MODEL } from '../server/ragFollowUp.js'
 import {
   loadDataset, loadBaseline, corpusDocuments, buildCorpusDb,
-  runRetrieval, runGeneration, compareToBaseline,
+  runRetrieval, runGeneration, compareToBaseline, assertedForbidden,
 } from '../evals/rag/lib.mjs'
 
 const norm = (s) => String(s).toLowerCase().replace(/\s+/g, ' ')
 const dataset = loadDataset()
 const docs = corpusDocuments()
 const sources = new Set(docs.map(d => d.source))
-const bySource = new Map(docs.map(d => [d.source, d]))
+const docsOf = (code) => docs.filter(d => d.source === code)
 
 describe('eval dataset integrity', () => {
-  test('corpus source codes are unique', () => {
-    assert.equal(sources.size, docs.length)
+  test('the corpus is real portal data, with unique ids and nothing written by hand', () => {
+    assert.ok(docs.length >= 100, 'a corpus big enough for retrieval to mean something')
+    const ids = docs.map(d => d.externalId)
+    assert.equal(new Set(ids).size, ids.length)
+    assert.ok(docs.every(d => d.origin === 'portal' && d.url.startsWith('https://services.gov.ng/')))
   })
 
   test('case ids are unique and types are known', () => {
@@ -36,7 +39,7 @@ describe('eval dataset integrity', () => {
   test('evidence is answer text that really appears in an expected document', () => {
     // A typo here would otherwise show up as a phantom retrieval failure.
     for (const c of dataset.cases.filter(c => c.type === 'answerable')) {
-      const found = c.expectedSources.some(s => norm(bySource.get(s).content).includes(norm(c.evidence)))
+      const found = c.expectedSources.some(s => docsOf(s).some(d => norm(d.content).includes(norm(c.evidence))))
       assert.ok(found, `${c.id}: evidence "${c.evidence}" not found in ${c.expectedSources.join('/')}`)
     }
   })
@@ -85,10 +88,10 @@ describe('retrieval gate', () => {
 
   test('summary exposes the numbers the CLI prints', () => {
     const s = retrieval.summary
-    for (const k of ['hitAt1', 'hitAt3', 'hitAt5', 'mrr', 'evidenceAt5', 'floors', 'categories']) {
+    for (const k of ['hitAt1', 'hitAtK', 'mrr', 'evidenceAtK', 'floors', 'categories']) {
       assert.ok(k in s, k)
     }
-    assert.ok(s.hitAt5 >= s.hitAt1)
+    assert.ok(s.hitAtK >= s.hitAt1)
   })
 
   describe('generation scorer (scripted model, no network)', () => {
@@ -97,10 +100,10 @@ describe('retrieval gate', () => {
     })
 
     test('a model that always declines passes unanswerable cases and fails answerable ones', async () => {
-      const r = await runGeneration({ db, dataset, client: scripted('NOT_FOUND'), only: ['cac-fee', 'world-cup', 'vat-rate'] })
+      const r = await runGeneration({ db, dataset, client: scripted('NOT_FOUND'), only: ['cac-bn-fee', 'world-cup', 'vat-rate'] })
       const by = Object.fromEntries(r.cases.map(c => [c.id, c]))
-      assert.equal(by['cac-fee'].pass, false)
-      assert.match(by['cac-fee'].problems.join(' '), /could not find/)
+      assert.equal(by['cac-bn-fee'].pass, false)
+      assert.match(by['cac-bn-fee'].problems.join(' '), /could not find/)
       assert.equal(by['world-cup'].pass, true)
       assert.equal(by['vat-rate'].pass, true)
     })
@@ -113,40 +116,77 @@ describe('retrieval gate', () => {
 
     test('a correct, cited answer passes and token usage is tallied', async () => {
       const r = await runGeneration({
-        db, dataset, only: ['cac-fee'],
-        client: scripted('The fee is between ₦20,000 and ₦50,000 depending on company type [1].'),
+        db, dataset, only: ['cac-bn-fee'],
+        client: scripted('The portal lists the fee as ₦3,000 [1].'),
       })
       const c = r.cases[0]
       // the scripted answer cites [1]; whichever excerpt that is must be CAC for a pass
-      assert.equal(c.grounded, true)
-      assert.equal(r.summary.modelCalls, 1)
+      assert.equal(c.grounded, true, JSON.stringify(c))
+      assert.equal(r.summary.modelCalls, 2, 'one call to prepare the question for searching, one to answer')
       assert.equal(r.summary.promptTokens, 10)
       assert.equal(c.cited, true)
     })
 
     test('follow-up cases run the rewrite and then the answer, and are scored like any other', async () => {
       const client = { chat: { completions: { create: async (body) => ({
-        choices: [{ message: { content: body.model === REWRITE_MODEL ? 'What are the NIN requirements for minors?' : 'Minors need guardian consent [1].' } }],
+        choices: [{ message: { content: body.model === REWRITE_MODEL ? JSON.stringify({ question: 'How much does it cost to register a business name with the CAC?', keywords: ['business name', 'fee'] }) : 'The portal lists the fee as ₦3,000 [1].' } }],
         usage: { prompt_tokens: 10, completion_tokens: 5 },
       }) } } }
-      const r = await runGeneration({ db, dataset, client, only: ['fu-nin-minors'] })
+      const r = await runGeneration({ db, dataset, client, only: ['fu-bn-cost'] })
       assert.equal(r.summary.modelCalls, 2, 'one rewrite + one answer')
       assert.equal(r.cases[0].pass, true, JSON.stringify(r.cases[0].problems))
     })
 
     test('a model that repeats a false earlier turn as fact is caught on the injected-history case', async () => {
       const client = { chat: { completions: { create: async (body) => ({
-        choices: [{ message: { content: body.model === REWRITE_MODEL ? 'How much does a TIN cost?' : 'A TIN costs 50,000 naira [1].' } }],
+        choices: [{ message: { content: body.model === REWRITE_MODEL ? JSON.stringify({ question: 'How much does a CAC business name cost?', keywords: [] }) : 'A business name costs 90,000 naira [1].' } }],
       }) } } }
       const r = await runGeneration({ db, dataset, client, only: ['fu-injected-history'] })
       assert.equal(r.cases[0].pass, false)
-      assert.match(r.cases[0].problems[0], /do not contain/)
+      assert.ok(r.cases[0].problems.some(p => /contradict or do not contain/.test(p)), JSON.stringify(r.cases[0].problems))
     })
 
     test('an uncited answer to an answerable question is flagged', async () => {
-      const r = await runGeneration({ db, dataset, client: scripted('The fee is ₦20,000.'), only: ['cac-fee'] })
+      const r = await runGeneration({ db, dataset, client: scripted('The fee is ₦3,000.'), only: ['cac-bn-fee'] })
       assert.equal(r.cases[0].pass, false)
       assert.match(r.cases[0].problems.join(' '), /citation/)
     })
+  })
+})
+
+describe('assertedForbidden', () => {
+  const pats = ['90,000', 'six months']
+
+  test('a figure stated as fact is caught', () => {
+    assert.deepEqual(assertedForbidden('A business name costs 90,000 naira and takes six months.', pats), ['90,000', 'six months'])
+    assert.deepEqual(assertedForbidden('The fee is ₦3,000. It also costs 90,000.', pats), ['90,000'])
+  })
+
+  test('a figure that is quoted only to disown it is not', () => {
+    for (const ok of [
+      'The fee is ₦3,000 [2]. The ₦90,000 figure in my earlier reply is not in the documents, so please disregard it.',
+      'My earlier answer, which said 90,000 naira and six months, is not supported by the documents.',
+      'This differs from the 90,000 figure given earlier.',
+      'The portal does not list a fee of 90,000 for this service.',
+    ]) assert.deepEqual(assertedForbidden(ok, pats), [], ok)
+  })
+
+  test('the disowning has to be in the same sentence as the figure', () => {
+    assert.deepEqual(assertedForbidden('Please disregard anything odd. The fee is 90,000 naira.', pats), ['90,000'])
+  })
+
+  test('no patterns, or no answer, is nothing to flag', () => {
+    assert.deepEqual(assertedForbidden('anything', []), [])
+    assert.deepEqual(assertedForbidden(undefined, pats), [])
+  })
+
+  test('the scorer applies it: a correct answer that retracts the false figure passes', async () => {
+    const db = await buildCorpusDb()
+    const client = { chat: { completions: { create: async (body) => ({ choices: [{ message: { content:
+      body.model === REWRITE_MODEL
+        ? JSON.stringify({ question: 'How much does a CAC business name cost?', keywords: [] })
+        : 'The portal lists the fee as ₦3,000 [1]. The ₦90,000 figure in my earlier reply is not in the documents, so please disregard it.' } }] }) } } }
+    const r = await runGeneration({ db, dataset: loadDataset(), client, only: ['fu-injected-history'] })
+    assert.equal(r.cases[0].pass, true, JSON.stringify(r.cases[0].problems))
   })
 })

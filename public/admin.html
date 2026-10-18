@@ -798,6 +798,9 @@
     addGroup('AI Tools', [
       { label: 'Outcome Verifier', table: '__outcome', onClick: function () { selectOutcomeVerifier() } },
       { label: 'Promise Classifier', table: '__classifier', onClick: function () { selectPromiseClassifier() } },
+      { label: 'Pattern Detector', table: '__patterns', onClick: function () { selectPatternDetector() } },
+      { label: 'Real-time Tracker', table: '__tracker', onClick: function () { selectRealTimeTracker() } },
+      { label: 'Lie Detector', table: '__factcheck', onClick: function () { selectLieDetector() } },
     ])
 
     var reference = []
@@ -1535,6 +1538,322 @@
     } catch (err) {
       $('#outcome-save-error').textContent = err.message
     }
+  }
+
+  // ---------- AI Tools: Lie Detector ----------
+  async function selectLieDetector() {
+    state.table = '__factcheck'
+    setActiveNav('__factcheck')
+    $('#section-title').textContent = 'Lie Detector'
+    $('#section-controls').innerHTML = ''
+    await ensureAdministrations()
+
+    var html = `
+      <div style="max-width: 680px;">
+        <form id="factcheck-form">
+          <div class="field">
+            <label for="factcheck-admin">Administration (optional)</label>
+            <select id="factcheck-admin">
+              <option value="">All administrations</option>
+              ${state.administrations.map(function (a) { return '<option value="' + esc(a.key) + '">' + esc(a.name) + '</option>' }).join('')}
+            </select>
+            <div class="hint">Scoping to one administration makes fact-checks faster and more accurate.</div>
+          </div>
+          <div class="field">
+            <label for="factcheck-text">Statement or Speech</label>
+            <textarea id="factcheck-text" placeholder="Paste the government statement, press release, or budget speech..." required style="min-height: 140px;"></textarea>
+          </div>
+          <div style="margin-top: 16px;">
+            <button type="submit" class="btn primary">Fact-Check</button>
+            <div class="form-error" id="factcheck-error" style="margin-top: 12px;"></div>
+          </div>
+        </form>
+
+        <div id="factcheck-results" style="display: none; margin-top: 24px;">
+          <button type="button" class="btn" id="factcheck-back" style="margin-bottom: 16px;">← New Statement</button>
+          <div id="factcheck-summary" style="margin-bottom: 20px; display: flex; gap: 12px; flex-wrap: wrap;"></div>
+          <div id="factcheck-claims" style="display: flex; flex-direction: column; gap: 12px;"></div>
+        </div>
+      </div>
+    `
+    $('#content').innerHTML = html
+    $('#factcheck-form').addEventListener('submit', handleFactCheck)
+    $('#factcheck-back').addEventListener('click', function () {
+      $('#factcheck-form').style.display = 'block'
+      $('#factcheck-results').style.display = 'none'
+    })
+  }
+
+  async function handleFactCheck(e) {
+    e.preventDefault()
+    var statementText = $('#factcheck-text').value
+    var administration = $('#factcheck-admin').value
+    $('#factcheck-error').textContent = ''
+
+    try {
+      var submitBtn = $('#factcheck-form').querySelector('button[type=submit]')
+      submitBtn.disabled = true
+      submitBtn.textContent = 'Checking…'
+
+      var response = await fetch('/api/outcome/factcheck', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ statementText: statementText, administration: administration || undefined }),
+      })
+
+      if (!response.ok) {
+        var err = await response.json()
+        throw new Error(err.error || 'Fact-check failed')
+      }
+
+      var result = await response.json()
+      renderFactCheckResults(result)
+    } catch (err) {
+      $('#factcheck-error').textContent = err.message
+    } finally {
+      var submitBtn = $('#factcheck-form').querySelector('button[type=submit]')
+      submitBtn.disabled = false
+      submitBtn.textContent = 'Fact-Check'
+    }
+  }
+
+  function renderFactCheckResults(result) {
+    $('#factcheck-form').style.display = 'none'
+    $('#factcheck-results').style.display = 'block'
+
+    if (!result.claims_checked) {
+      $('#factcheck-summary').innerHTML = '<div class="notice">' + esc(result.message || 'No verifiable claims found.') + '</div>'
+      $('#factcheck-claims').innerHTML = ''
+      return
+    }
+
+    var s = result.summary
+    var summaryColors = { true: 'var(--g700)', misleading: '#c47f00', false: 'var(--red)', unverifiable: 'var(--muted)' }
+    var summaryLabels = { true: 'True', misleading: 'Misleading', false: 'False', unverifiable: 'Unverifiable' }
+    $('#factcheck-summary').innerHTML = Object.keys(s).map(function (k) {
+      return '<div style="padding: 10px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; text-align: center;">' +
+        '<div style="font-size: 22px; font-weight: 800; color: ' + summaryColors[k] + ';">' + s[k] + '</div>' +
+        '<div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-top: 2px;">' + summaryLabels[k] + '</div>' +
+        '</div>'
+    }).join('')
+
+    var verdictColors = { true: '#e8f5e9', misleading: '#fff8e1', false: '#ffebee', unverifiable: '#f5f5f5' }
+    var verdictBorders = { true: 'var(--g700)', misleading: 'var(--gold)', false: 'var(--red)', unverifiable: 'var(--line-strong)' }
+    var verdictIcons = { true: '✓', misleading: '⚠', false: '✗', unverifiable: '?' }
+
+    $('#factcheck-claims').innerHTML = result.results.map(function (r) {
+      var bg = verdictColors[r.verdict] || '#f5f5f5'
+      var border = verdictBorders[r.verdict] || 'var(--line)'
+      var icon = verdictIcons[r.verdict] || '?'
+
+      var html = '<div style="padding: 14px 16px; background: ' + bg + '; border-left: 4px solid ' + border + '; border-radius: 6px;">'
+      html += '<div style="display: flex; gap: 10px; align-items: flex-start;">'
+      html += '<span style="font-weight: 800; font-size: 16px; color: ' + border + '; flex-shrink: 0;">' + icon + '</span>'
+      html += '<div style="flex: 1;">'
+      html += '<div style="font-weight: 600; font-size: 13.5px; margin-bottom: 6px;">"' + esc(r.claim) + '"</div>'
+      html += '<div style="font-size: 13px; color: var(--ink); margin-bottom: 8px;">' + esc(r.reason) + '</div>'
+      if (r.matched_promises && r.matched_promises.length) {
+        html += '<div style="font-size: 12px; color: var(--muted); margin-top: 6px;">'
+        html += r.matched_promises.map(function (p) {
+          return '<span style="display: inline-block; margin-right: 10px;"><strong>#' + p.id + '</strong> ' + esc(p.title) + ' — ' + p.status + '</span>'
+        }).join('')
+        html += '</div>'
+      }
+      html += '</div></div></div>'
+      return html
+    }).join('')
+  }
+
+  // ---------- AI Tools: Real-time Tracker ----------
+  async function selectRealTimeTracker() {
+    state.table = '__tracker'
+    setActiveNav('__tracker')
+    $('#section-title').textContent = 'Real-time Tracker'
+    $('#section-controls').innerHTML = '<button class="btn primary" id="tracker-scan">Scan Feeds Now</button>'
+    loadTrackerQueue()
+    $('#tracker-scan').addEventListener('click', runTrackerScan)
+  }
+
+  async function loadTrackerQueue() {
+    try {
+      var res = await fetch('/api/outcome/tracker/queue')
+      var queue = await res.json()
+      renderTrackerQueue(queue)
+    } catch (err) {
+      $('#content').innerHTML = '<div class="form-error" style="padding: 20px;">' + esc(err.message) + '</div>'
+    }
+  }
+
+  async function runTrackerScan() {
+    $('#tracker-scan').disabled = true
+    $('#tracker-scan').textContent = 'Scanning…'
+    try {
+      var res = await fetch('/api/outcome/tracker/scan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })
+      var result = await res.json()
+      await loadTrackerQueue()
+      var msg = 'Scanned ' + result.scanned + ' articles, found ' + result.found + ' promises, added ' + result.added + ' new.'
+      var notice = document.createElement('div')
+      notice.className = 'notice'
+      notice.textContent = msg
+      $('#content').prepend(notice)
+      setTimeout(function () { notice.remove() }, 5000)
+    } catch (err) {
+      alert('Scan error: ' + err.message)
+    } finally {
+      $('#tracker-scan').disabled = false
+      $('#tracker-scan').textContent = 'Scan Feeds Now'
+    }
+  }
+
+  function renderTrackerQueue(queue) {
+    if (!queue.length) {
+      $('#content').innerHTML = '<div class="empty-state">No pending promises. Click "Scan Feeds Now" to check for new ones.</div>'
+      return
+    }
+
+    var pending = queue.filter(function (q) { return q.status === 'pending' })
+    if (!pending.length) {
+      $('#content').innerHTML = '<div class="empty-state">Queue is empty — all items reviewed.</div>'
+      return
+    }
+
+    var html = '<div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px;">'
+    pending.forEach(function (item) {
+      var confidenceColor = item.confidence === 'high' ? 'var(--g700)' : item.confidence === 'medium' ? '#c47f00' : 'var(--red)'
+      html += '<div style="background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px;" data-id="' + esc(item.id) + '">'
+      html += '<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;">'
+      html += '<div style="flex: 1;">'
+      html += '<div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;">'
+      html += '<strong>' + esc(item.source_name) + '</strong>'
+      if (item.category) html += ' · <span style="background: var(--g100); color: var(--g800); padding: 1px 6px; border-radius: 3px; font-size: 11px;">' + esc(item.category) + '</span>'
+      html += ' · <span style="color: ' + confidenceColor + '; font-weight: 700;">' + esc(item.confidence) + ' confidence</span>'
+      html += ' · ' + esc(item.detected_at.slice(0, 10))
+      html += '</div>'
+      html += '<p style="margin: 0 0 8px; font-size: 13.5px; font-weight: 600; line-height: 1.4;">' + esc(item.promise_text) + '</p>'
+      if (item.official) html += '<div style="font-size: 12px; color: var(--muted);">Official: ' + esc(item.official) + (item.administration_hint ? ' (' + esc(item.administration_hint) + ')' : '') + '</div>'
+      if (item.source_url) html += '<a href="' + esc(item.source_url) + '" target="_blank" rel="noopener" style="font-size: 12px; color: var(--g700); text-decoration: none; margin-top: 4px; display: block;">↗ ' + esc(item.source_title || item.source_url) + '</a>'
+      html += '</div>'
+      html += '<div style="display: flex; flex-direction: column; gap: 6px; flex-shrink: 0;">'
+      html += '<button class="btn small primary" onclick="addTrackerItemToPromises(\'' + esc(item.id) + '\')">Add to Tracker</button>'
+      html += '<button class="btn small danger" onclick="dismissTrackerItem(\'' + esc(item.id) + '\')">Dismiss</button>'
+      html += '</div></div></div>'
+    })
+    html += '</div>'
+    $('#content').innerHTML = html
+  }
+
+  async function dismissTrackerItem(id) {
+    try {
+      await fetch('/api/outcome/tracker/queue/' + encodeURIComponent(id), { method: 'DELETE' })
+      var el = document.querySelector('[data-id="' + id + '"]')
+      if (el) el.remove()
+    } catch (err) {
+      alert('Error: ' + err.message)
+    }
+  }
+
+  async function addTrackerItemToPromises(id) {
+    var el = document.querySelector('[data-id="' + id + '"]')
+    if (!el) return
+    var item = { id: id }
+    // Navigate to the promises table with pre-fill (editor takes it from here)
+    var promiseText = el.querySelector('p') ? el.querySelector('p').textContent : ''
+    alert('Copy this promise text and add it via Promises → New:\n\n' + promiseText)
+  }
+
+  // ---------- AI Tools: Pattern Detector ----------
+  async function selectPatternDetector() {
+    state.table = '__patterns'
+    setActiveNav('__patterns')
+    $('#section-title').textContent = 'Pattern Detector'
+
+    await ensureAdministrations()
+    var adminOptions = '<option value="">All administrations</option>' +
+      state.administrations.map(function (a) {
+        return '<option value="' + esc(a.key) + '">' + esc(a.name) + '</option>'
+      }).join('')
+
+    $('#section-controls').innerHTML = '<select id="patterns-admin">' + adminOptions + '</select>' +
+      '<button class="btn primary" id="patterns-run">Analyse</button>'
+
+    $('#content').innerHTML = '<div class="empty-state">Select an administration (or leave blank for all) and click Analyse.</div>'
+
+    $('#patterns-run').addEventListener('click', runPatternDetector)
+  }
+
+  async function runPatternDetector() {
+    var administration = $('#patterns-admin').value
+    $('#content').innerHTML = '<div class="loading">Analysing patterns… (this may take a moment)</div>'
+
+    try {
+      var url = '/api/outcome/patterns' + (administration ? '?administration=' + encodeURIComponent(administration) : '')
+      var response = await fetch(url)
+      if (!response.ok) {
+        var err = await response.json()
+        throw new Error(err.error || 'Analysis failed')
+      }
+      var report = await response.json()
+      renderPatternReport(report)
+    } catch (err) {
+      $('#content').innerHTML = '<div class="form-error" style="padding: 20px;">' + esc(err.message) + '</div>'
+    }
+  }
+
+  function renderPatternReport(report) {
+    var html = ''
+
+    // AI Insights
+    if (report.insights && report.insights.length) {
+      html += '<div style="margin-bottom: 24px; padding: 16px; background: var(--g050); border-radius: 8px; border-left: 4px solid var(--g700);">'
+      html += '<h3 style="margin: 0 0 12px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--g700);">AI Insights</h3>'
+      html += '<ul style="margin: 0; padding-left: 20px;">'
+      report.insights.forEach(function (insight) {
+        html += '<li style="margin-bottom: 8px; font-size: 13.5px; line-height: 1.5;">' + esc(insight) + '</li>'
+      })
+      html += '</ul></div>'
+    }
+
+    // Anomalies
+    var allAnomalies = (report.anomalies.sector_anomalies || []).concat(report.anomalies.admin_anomalies || [])
+    if (allAnomalies.length) {
+      html += '<div style="margin-bottom: 24px; padding: 12px 16px; background: #fff8e1; border-radius: 8px; border-left: 4px solid var(--gold);">'
+      html += '<h3 style="margin: 0 0 10px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #8a6000;">Anomalies</h3>'
+      allAnomalies.forEach(function (a) {
+        var label = a.category || a.administration
+        var icon = a.type === 'overperformer' ? '↑' : '↓'
+        html += '<div style="margin-bottom: 6px; font-size: 13px;">' + icon + ' <strong>' + esc(label) + '</strong> — ' + a.kept_rate + '% kept (' + a.deviation + 'pts from average), ' + a.type + '</div>'
+      })
+      html += '</div>'
+    }
+
+    // Sector table
+    if (report.sector_patterns && report.sector_patterns.length) {
+      html += '<h3 style="margin: 0 0 10px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);">By Sector</h3>'
+      html += '<div class="table-scroll" style="margin-bottom: 24px;"><table>'
+      html += '<thead><tr><th>Category</th><th>Total</th><th>Kept</th><th>Partial</th><th>Broken</th><th>Pending</th><th>Kept %</th><th>Broken %</th></tr></thead><tbody>'
+      report.sector_patterns.forEach(function (r) {
+        var keptColor = r.kept_rate >= 50 ? 'color: var(--g700); font-weight: 700;' : r.kept_rate <= 20 ? 'color: var(--red); font-weight: 700;' : ''
+        html += '<tr><td>' + esc(r.category) + '</td><td>' + r.total + '</td><td>' + r.kept + '</td><td>' + r.partial + '</td><td>' + r.broken + '</td><td>' + r.pending + '</td>'
+        html += '<td style="' + keptColor + '">' + r.kept_rate + '%</td><td>' + r.broken_rate + '%</td></tr>'
+      })
+      html += '</tbody></table></div>'
+    }
+
+    // Admin comparison table
+    if (report.admin_comparison && report.admin_comparison.length) {
+      html += '<h3 style="margin: 0 0 10px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);">By Administration</h3>'
+      html += '<div class="table-scroll"><table>'
+      html += '<thead><tr><th>Administration</th><th>Total</th><th>Kept</th><th>Partial</th><th>Broken</th><th>Pending</th><th>Kept %</th><th>Broken %</th></tr></thead><tbody>'
+      report.admin_comparison.forEach(function (r) {
+        var keptColor = r.kept_rate >= 50 ? 'color: var(--g700); font-weight: 700;' : r.kept_rate <= 20 ? 'color: var(--red); font-weight: 700;' : ''
+        html += '<tr><td>' + esc(r.administration) + '</td><td>' + r.total + '</td><td>' + r.kept + '</td><td>' + r.partial + '</td><td>' + r.broken + '</td><td>' + r.pending + '</td>'
+        html += '<td style="' + keptColor + '">' + r.kept_rate + '%</td><td>' + r.broken_rate + '%</td></tr>'
+      })
+      html += '</tbody></table></div>'
+    }
+
+    if (!html) html = '<div class="empty-state">No promise data found for this selection.</div>'
+    $('#content').innerHTML = html
   }
 
   // ---------- Registry and history ----------

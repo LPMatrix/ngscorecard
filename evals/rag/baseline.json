@@ -1,8 +1,8 @@
 {
   "note": "Floor for the offline retrieval gate. Regenerate with --write-baseline only when a drop is understood and accepted.",
   "retrieval": {
-    "hitAt5": 0.941,
-    "mrr": 0.9,
-    "evidenceAt5": 0.897
+    "hitAtK": 0.881,
+    "mrr": 0.862,
+    "evidenceAtK": 0.864
   }
 }

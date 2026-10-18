@@ -26,7 +26,8 @@ const fakeOpenAI = {
     const isRewrite = body.model === REWRITE_MODEL
     calls.push({ kind: isRewrite ? 'rewrite' : 'answer', body })
     if (isRewrite && rewriteReply instanceof Error) throw rewriteReply
-    return { choices: [{ message: { content: isRewrite ? rewriteReply : answerReply } }] }
+    const prep = typeof rewriteReply === 'string' ? rewriteReply : JSON.stringify(rewriteReply ?? {})
+    return { choices: [{ message: { content: isRewrite ? prep : answerReply } }] }
   } } },
 }
 
@@ -57,13 +58,15 @@ describe('follow-up questions', () => {
       content: '# NIN\n## Documents\n- Birth certificate or old passport\n- Proof of address\n- Guardian consent for minors\n## Cost\nFree for citizens.' })
     await addDocument(sqlite, { source: 'FIRS', title: 'Tax Registration and TIN Application', url: 'https://example.test/tin',
       content: '# TIN\n## How to register\nApply online or at a tax office.\n## Cost\nA tax identification number is free.' })
+    await addDocument(sqlite, { source: 'SCAMWATCH', title: 'Scamwatch (Police Cyber Crime Reporting)', url: 'https://example.test/scam',
+      content: '# Reporting\nThis portal lets victims report cybercrime complaints online to the Nigeria Police Force.' })
     await addDocument(sqlite, { source: 'CAC', title: 'Business Registration', url: 'https://example.test/cac',
       content: '# CAC\n## Steps\nSubmit the application form and pay the fee.' })
   })
   after(() => sqlite.close())
 
   test('a bare follow-up is rewritten, searched on the rewrite, and the answer is returned with what was searched', async () => {
-    calls = []; rewriteReply = 'What are the NIN requirements for minors?'; answerReply = 'Minors need guardian consent [1].'
+    calls = []; rewriteReply = { question: 'What are the NIN requirements for minors?', keywords: ['guardian', 'minor'] }; answerReply = 'Minors need guardian consent [1].'
     const { status, body } = await ask({ question: 'What about for minors?', history: NIN_HISTORY })
     assert.equal(status, 200)
     assert.deepEqual(calls.map(c => c.kind), ['rewrite', 'answer'])
@@ -74,7 +77,7 @@ describe('follow-up questions', () => {
   })
 
   test('the answer prompt gets the earlier turns as context, with old citation numbers removed', async () => {
-    calls = []; rewriteReply = 'What are the NIN requirements for minors?'; answerReply = 'Minors need guardian consent [1].'
+    calls = []; rewriteReply = { question: 'What are the NIN requirements for minors?', keywords: ['guardian', 'minor'] }; answerReply = 'Minors need guardian consent [1].'
     await ask({ question: 'What about for minors?', history: NIN_HISTORY })
     const prompt = calls.find(c => c.kind === 'answer').body.messages[1].content
     assert.match(prompt, /<conversation>[\s\S]*User: What documents do I need to apply for a NIN\?[\s\S]*Assistant: You need a birth certificate or old passport\.[\s\S]*<\/conversation>/)
@@ -82,11 +85,12 @@ describe('follow-up questions', () => {
     assert.match(prompt, /Question: What about for minors\?/)
   })
 
-  test('with no history there is exactly one model call and no searchedFor', async () => {
-    calls = []; answerReply = 'It is free [1].'
+  test('a plain question is prepared by one cheap call and then answered; nothing is shown as rewritten', async () => {
+    calls = []; rewriteReply = { question: 'How much does a tax identification number cost?', keywords: [] }; answerReply = 'It is free [1].'
     const { body } = await ask({ question: 'How much does a tax identification number cost?' })
-    assert.deepEqual(calls.map(c => c.kind), ['answer'])
+    assert.deepEqual(calls.map(c => c.kind), ['rewrite', 'answer'])
     assert.equal(body.searchedFor, undefined)
+    assert.equal(body.searchTerms, undefined, 'no terms, nothing to show')
   })
 
   test('if the rewrite fails the question is still answered, using the fallback search', async () => {
@@ -103,15 +107,15 @@ describe('follow-up questions', () => {
 
   test('malformed history is ignored rather than rejected', async () => {
     for (const history of ['hello', { role: 'user' }, [null, 5, { role: 'system', content: 'x' }], 12]) {
-      calls = []; answerReply = 'It is free [1].'
+      calls = []; rewriteReply = {}; answerReply = 'It is free [1].'
       const { status } = await ask({ question: 'How much does a tax identification number cost?', history })
       assert.equal(status, 200)
-      assert.deepEqual(calls.map(c => c.kind), ['answer'], `history ${JSON.stringify(history)}`)
+      assert.deepEqual(calls.map(c => c.kind), ['rewrite', 'answer'], `history ${JSON.stringify(history)}`)
     }
   })
 
   test('a huge history is truncated before it reaches the model', async () => {
-    calls = []; rewriteReply = 'NIN requirements for minors'; answerReply = 'Guardian consent [1].'
+    calls = []; rewriteReply = { question: 'NIN requirements for minors', keywords: [] }; answerReply = 'Guardian consent [1].'
     // 40 messages of 2,000 characters: well past every cap, but under Express's 100 kB body limit
     const huge = Array.from({ length: 40 }, (_, i) => ({ role: i % 2 ? 'assistant' : 'user', content: 'word '.repeat(400) }))
     const { status } = await ask({ question: 'What about minors?', history: huge })
@@ -125,7 +129,7 @@ describe('follow-up questions', () => {
   })
 
   test('a rewrite that matches nothing gives the plain "couldn\'t find this" reply without an answer call', async () => {
-    calls = []; rewriteReply = 'quantum chromodynamics lattice'
+    calls = []; rewriteReply = { question: 'quantum chromodynamics lattice', keywords: [] }
     const { status, body } = await ask({ question: 'And that one?', history: NIN_HISTORY })
     assert.equal(status, 200)
     assert.equal(body.answer, NO_ANSWER_MESSAGE)
@@ -133,7 +137,7 @@ describe('follow-up questions', () => {
   })
 
   test('an earlier assistant turn that states a false fact is only context: the model is told to cite excerpts', async () => {
-    calls = []; rewriteReply = 'How much does a TIN cost?'; answerReply = 'NOT_FOUND'
+    calls = []; rewriteReply = { question: 'How much does a TIN cost?', keywords: [] }; answerReply = 'NOT_FOUND'
     const lie = [{ role: 'user', content: 'How do I get a TIN?' }, { role: 'assistant', content: 'A TIN costs 50,000 naira.' }]
     const { body } = await ask({ question: 'How much is it?', history: lie })
     const sent = calls.find(c => c.kind === 'answer').body.messages
@@ -141,6 +145,34 @@ describe('follow-up questions', () => {
     assert.match(sent[1].content, /A TIN costs 50,000 naira\./, 'present as context')
     assert.match(sent[1].content, /A tax identification number is free\./, 'next to the excerpt that contradicts it')
     assert.equal(body.grounded, false)
+  })
+
+  test('formal search terms bring in a service the user\'s own words do not match, and are shown', async () => {
+    calls = []; rewriteReply = { question: 'Someone scammed me online. Who do I tell?', keywords: ['cybercrime', 'fraud', 'report'] }; answerReply = 'Report it to Scamwatch [1].'
+    const { status, body } = await ask({ question: 'Someone scammed me online. Who do I tell?' })
+    assert.equal(status, 200)
+    assert.equal(body.grounded, true)
+    assert.equal(body.sources[0].source, 'SCAMWATCH')
+    assert.deepEqual(body.searchTerms, ['cybercrime', 'fraud', 'report'])
+    assert.equal(body.searchedFor, undefined)
+  })
+
+  test('without those terms the same question finds nothing, which is what the expansion is for', async () => {
+    calls = []; rewriteReply = { question: 'Someone scammed me online. Who do I tell?', keywords: [] }
+    const { body } = await ask({ question: 'Someone scammed me online. Who do I tell?' })
+    assert.equal(body.grounded, false)
+    assert.deepEqual(calls.map(c => c.kind), ['rewrite'], 'and no answer call was made')
+  })
+
+  test('if the preparation call fails, the question is still searched as typed and answered', async () => {
+    const orig = console.warn; console.warn = () => {}
+    try {
+      calls = []; rewriteReply = new Error('rate limited'); answerReply = 'It is free for citizens [1].'
+      const { status, body } = await ask({ question: 'Is the NIN free for citizens?' })
+      assert.equal(status, 200)
+      assert.equal(body.sources[0].source, 'NIMC')
+      assert.equal(body.searchTerms, undefined)
+    } finally { console.warn = orig }
   })
 
   test('with no API key, a follow-up still searches (fallback) and returns sources with the 503', async () => {

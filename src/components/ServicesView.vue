@@ -1,5 +1,5 @@
 <script setup>
-import { ref, inject, computed, nextTick } from 'vue'
+import { ref, inject, computed, nextTick, onMounted } from 'vue'
 import AnswerBlocks from './AnswerBlocks.vue'
 import { formatAnswer } from '../lib/formatAnswer.js'
 import { buildHistory } from '../lib/conversation.js'
@@ -13,21 +13,33 @@ const messagesEnd = ref(null)
 
 const hasResults = computed(() => messages.value.some(m => m.sources))
 
+// "Government Service Portal, checked 18 Oct 2026" for sources read from the
+// portal; nothing for the hand-written summaries, which carry no such date.
+function provenance(source) {
+  if (source.origin !== 'portal') return ''
+  const when = source.checkedAt ? new Date(source.checkedAt) : null
+  const date = when && !Number.isNaN(when.getTime())
+    ? when.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+    : ''
+  return date ? `Government Service Portal, checked ${date}` : 'Government Service Portal'
+}
+
 // once there is a conversation, the box invites a follow-up
 const placeholder = computed(() =>
   messages.value.some(m => m.type === 'assistant')
     ? 'Ask a follow-up, or a new question...'
-    : 'Ask a question about government services, budgets, taxes...')
+    : 'Ask a question about a government service...')
 
-// Starter questions. Each was checked against the document set: the passage that
-// answers it ranks first or second in retrieval. Check any new one the same way
-// before adding it; a starter that gets "I couldn't find this" makes the page
-// look broken.
-const EXAMPLES = [
-  'What documents do I need to apply for a NIN?',
-  'How do I register a birth?',
-  'What documents do I need for a passport?',
-]
+// Starter questions are chosen by the server from the documents themselves (and
+// each is checked to find its own service), so none is written here. If the
+// request fails the page simply shows no starters.
+const suggestions = ref([])
+onMounted(async () => {
+  try {
+    const res = await fetch('/api/rag/suggestions')
+    if (res.ok) suggestions.value = (await res.json()).suggestions ?? []
+  } catch { /* no starters */ }
+})
 
 function askExample(text) {
   question.value = text
@@ -75,6 +87,8 @@ async function askQuestion() {
       grounded: data.grounded,
       // set when a follow-up was rewritten into a standalone question for the search
       searchedFor: data.searchedFor,
+      // formal terms added to the search for everyday wording
+      searchTerms: data.searchTerms ?? [],
       // parsed once here; the page renders these blocks, never the raw string
       blocks: formatAnswer(answer, sources.map(s => s.id)),
       sources
@@ -117,18 +131,18 @@ function handleKeydown(e) {
   <div class="srv-container">
     <div class="srv-header">
       <h1>Ask about government services</h1>
-      <p>Answers come from official Nigerian government documents, with the sources shown.</p>
-      <p class="srv-subtitle">Ask about business registration, taxes, ID, passports and more. If the documents don't cover it, it will say so.</p>
+      <p>Answers come from the service pages on the Government Service Portal, with the sources shown.</p>
+      <p class="srv-subtitle">Ask about any service listed on <a href="https://services.gov.ng" target="_blank" rel="noopener">services.gov.ng</a>. If the portal doesn't cover it, this will say so.</p>
     </div>
 
     <div class="srv-chat">
       <div class="srv-messages">
         <div v-if="!messages.length" class="srv-empty">
           <div class="srv-empty-icon">💬</div>
-          <p>No questions yet. Try asking:</p>
-          <div class="srv-examples">
-            <div v-for="example in EXAMPLES" :key="example" class="srv-example" @click="askExample(example)">
-              {{ example }}
+          <p>{{ suggestions.length ? 'No questions yet. Try asking about:' : 'No questions yet.' }}</p>
+          <div v-if="suggestions.length" class="srv-examples">
+            <div v-for="item in suggestions" :key="item.question" class="srv-example" @click="askExample(item.question)">
+              {{ item.label }}
             </div>
           </div>
         </div>
@@ -149,6 +163,7 @@ function handleKeydown(e) {
               />
             </div>
             <div v-if="msg.searchedFor" class="srv-searched">Searched for: {{ msg.searchedFor }}</div>
+            <div v-if="msg.searchTerms && msg.searchTerms.length" class="srv-searched">Also searched: {{ msg.searchTerms.join(', ') }}</div>
             <div v-if="msg.sources && msg.sources.length > 0" class="srv-sources">
               <div class="srv-sources-header">
                 {{ msg.sources.length }} source{{ msg.sources.length !== 1 ? 's' : '' }}:
@@ -162,10 +177,11 @@ function handleKeydown(e) {
               >
                 <span v-if="source.id" class="srv-source-num">[{{ source.id }}]</span>
                 <span class="srv-source-badge">{{ source.source }}</span>
-                <a v-if="source.url" :href="source.url" target="_blank" class="srv-source-link">
+                <a v-if="source.url" :href="source.url" target="_blank" rel="noopener" class="srv-source-link">
                   {{ source.title }}
                 </a>
                 <span v-else class="srv-source-title">{{ source.title }}</span>
+                <span v-if="provenance(source)" class="srv-source-meta-note">{{ provenance(source) }}</span>
               </div>
             </div>
           </div>
@@ -232,6 +248,11 @@ function handleKeydown(e) {
   margin: 0;
   color: #666;
   font-size: 0.95rem;
+}
+
+.srv-subtitle a {
+  color: inherit;
+  text-decoration: underline;
 }
 
 .srv-subtitle {
@@ -429,7 +450,7 @@ function handleKeydown(e) {
   background: white;
   padding: 1rem;
   border-radius: 6px;
-  border-left: 4px solid var(--accent, #0a6b45);
+  border: 1px solid #e6e6e6; /* a faint edge keeps the white card visible on the grey page */
   color: #333;
   line-height: 1.6;
   font-size: 0.95rem;
@@ -441,6 +462,13 @@ function handleKeydown(e) {
   color: #999;
   margin-bottom: 0.75rem;
   font-weight: 600;
+}
+
+.srv-source-meta-note {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: #777;
+  white-space: nowrap;
 }
 
 .srv-searched {
@@ -461,8 +489,9 @@ function handleKeydown(e) {
 
 .srv-source-small {
   display: flex;
+  flex-wrap: wrap; /* the provenance note drops to its own line on narrow screens */
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.25rem 0.75rem;
   /* side padding with a matching negative margin leaves room for the highlight */
   padding: 0.5rem 0.5rem;
   margin: 0 -0.5rem;

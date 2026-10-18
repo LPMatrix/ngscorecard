@@ -1,6 +1,6 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
-import { parseJsonReply, chatJson, DEFAULT_MODEL } from '../server/openrouter.js'
+import { parseJsonReply, chatJson, chatText, DEFAULT_MODEL } from '../server/openrouter.js'
 
 describe('parseJsonReply', () => {
   test('plain JSON', () => {
@@ -79,5 +79,36 @@ describe('chatJson', () => {
   test('a failing request propagates', async () => {
     const client = { chat: { completions: { create: async () => { throw new Error('401 Missing Authentication header') } } } }
     await assert.rejects(chatJson({ client, system: 's', user: 'u' }), /401/)
+  })
+})
+
+describe('chatText', () => {
+  const fake = (content, record = []) => ({
+    chat: { completions: { create: async (body) => { record.push(body); return { choices: content === undefined ? [] : [{ message: { content } }] } } } },
+  })
+
+  test('returns the reply text unparsed, so callers keep their own fallback logic', async () => {
+    assert.equal(await chatText({ client: fake('not json at all'), system: 's', user: 'u' }), 'not json at all')
+  })
+
+  test('sends the same OpenAI-shaped request as chatJson', async () => {
+    const record = []
+    await chatText({ client: fake('x', record), system: 'SYS', user: 'USR', maxTokens: 256, model: 'anthropic/claude-haiku-5.5' })
+    assert.deepEqual(record[0].messages, [{ role: 'system', content: 'SYS' }, { role: 'user', content: 'USR' }])
+    assert.equal(record[0].max_tokens, 256)
+    assert.equal(record[0].model, 'anthropic/claude-haiku-5.5')
+    assert.equal(record[0].temperature, 0)
+    assert.deepEqual(record[0].reasoning, { effort: 'low' })
+  })
+
+  test('no choices, or a null message, is an empty string rather than a crash', async () => {
+    assert.equal(await chatText({ client: fake(undefined), system: 's', user: 'u' }), '')
+    const nullMsg = { chat: { completions: { create: async () => ({ choices: [{ message: { content: null } }] }) } } }
+    assert.equal(await chatText({ client: nullMsg, system: 's', user: 'u' }), '')
+  })
+
+  test('a failed request throws, so a caller can let API errors propagate', async () => {
+    const failing = { chat: { completions: { create: async () => { throw new Error('503 upstream') } } } }
+    await assert.rejects(chatText({ client: failing, system: 's', user: 'u' }), /503 upstream/)
   })
 })

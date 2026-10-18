@@ -1,359 +1,92 @@
-# RAG Document Ingestion Guide
+# The Ask page's documents
 
-This document explains how to ingest government documents into the NGScorecard RAG (Retrieval-Augmented Generation) system.
+The Ask page (`/services`) answers questions from a corpus of documents stored in
+two tables, `rag_documents` and `rag_chunks`. **No document text is written in
+this repository.** Every document is built from data fetched from a source; today
+the only source is the Government Service Portal.
 
-## Overview
-
-The RAG system supports two ingestion approaches:
-
-### 1. **Hardcoded Documents** (Static, Curated)
-Use when you have specific, well-structured documents you want to maintain control over.
-
-- **Script**: `npm run rag:ingest-all`
-- **Source**: `scripts/government-data-sources.mjs`
-- **Benefits**: 
-  - Complete control over content
-  - Well-structured and validated
-  - Fast ingestion (no network calls)
-  - Consistent formatting
-
-### 2. **Fetched Documents** (Dynamic, Live)
-Use when you want to fetch documents from actual government websites.
-
-- **Script**: `npm run rag:fetch`
-- **Source**: `scripts/fetch-government-documents.mjs`
-- **Benefits**:
-  - Live data from official sources
-  - Automatic updates
-  - No manual document creation
-  - Reflects current information
-
-## Document Structure
-
-### Database Schema
-
-```
-rag_documents
-├── id (PRIMARY KEY)
-├── source (agency code, e.g., "FIRS", "CAC")
-├── title (document title)
-├── url (source URL)
-├── content (full document text)
-├── fetched_at (when document was added)
-└── updated_at (when document was last updated)
-
-rag_chunks
-├── id (PRIMARY KEY)
-├── document_id (FOREIGN KEY)
-├── text (chunk content)
-├── section (section header/name)
-├── chunk_index (position within section)
-├── token_count (estimated tokens)
-└── created_at (when chunk was created)
-```
-
-### Metadata Preservation
-
-Each chunk preserves:
-- **Section name** — Document section from markdown headers (e.g., "Step 1: Registration")
-- **Chunk index** — Position within section (enables section-aware retrieval)
-- **Document ID** — Link to parent document
-- **Token count** — Size estimation for LLM context
-
-## Method 1: Hardcoded Documents (Recommended for Production)
-
-### File: `scripts/government-data-sources.mjs`
-
-Structure of a document:
-
-```javascript
-{
-  source: 'FIRS',           // Agency code
-  title: 'Tax Registration', // Document title
-  url: 'https://...',       // Original source URL
-  content: `# Markdown format with sections
-  
-## Section 1
-Content here...
-
-## Section 2
-More content...`
-}
-```
-
-### Ingestion Process
+## Loading the corpus
 
 ```bash
-# Ingest all hardcoded documents
-npm run rag:ingest-all
-
-# Output:
-# ✓ 28 documents ingested
-# ✓ 139 chunks created
-# ✓ Full metadata preserved
+npm run rag:sync-portal                    # fetch everything, show what would change, write nothing
+npm run rag:sync-portal -- --apply         # write (Turso if TURSO_DATABASE_URL is set, else data/ngscorecard.db)
+npm run rag:sync-portal -- --from-file data/portal-snapshot.json   # reuse a saved fetch, no requests
+npm run rag:sync-portal -- --limit 3       # a quick trial on the first 3 agencies
+npm run rag:sync-portal -- --delay 600     # milliseconds between requests (default 400)
 ```
 
-### Adding New Documents
+It reads the portal's JSON backend (`gsp.galaxybackbone.com.ng`, the same calls
+services.gov.ng makes itself), one request at a time and paced (about 190
+requests, a minute or two), and saves the raw responses to
+`data/portal-snapshot.json`. It builds one document per service and one per
+agency profile, each with a deep link to its portal page.
 
-1. Edit `scripts/government-data-sources.mjs`
-2. Add to `governmentDocuments` or `stateServices` array
-3. Use markdown format with headers for sections
-4. Run `npm run rag:ingest-all`
+- **Safe to re-run.** Documents are matched on the portal's own ids, so a service
+  renamed at the source updates in place. Unchanged documents are only re-dated,
+  and that date (`fetched_at`) is the "checked on" date shown beside each source.
+- **It never deletes.** A service the portal no longer lists is reported and left
+  in place. A partial fetch is refused for `--apply` unless `--allow-partial`.
+- **Dry run first.** It prints its target (Turso host or file) before anything
+  runs, and only writes with `--apply`.
 
-Example:
+### The portal's data is unfinished
 
-```javascript
-{
-  source: 'NewAgency',
-  title: 'New Service',
-  url: 'https://official-url.gov.ng',
-  content: `# Service Overview
+The portal is a pilot. `server/portalSource.js` deals with that, and the sync
+reports what it did:
 
-## Step 1: Register
-Instructions...
+- **Placeholder fees.** Most services list a fee of 0 (a few list 1, 3 or 13). A fee
+  under ₦100 is stated as "no usable fee, confirm with the agency", never as a price.
+- **Placeholder agency contacts.** Most agency profiles hold test data (an address of
+  "6876778", an email of "sfsdf@sdfsd.com", a website of "fdfd.com"). A contact field
+  is kept only if it looks real; the enquiry text each agency wrote on its own service
+  pages is kept as written.
+- **Test and probe records** are skipped: an agency "Test MDA", and a service named
+  "SSRF_<digits>" whose backend field is the cloud-metadata address.
+- **"Coming soon".** Most services are marked coming soon for online application; the
+  document says so, so the assistant does not send people to apply there.
+- **Boilerplate.** About a third of the services carry templated text ("X is a flagship
+  initiative overseen by…"). It is kept as published, but it says little.
 
-## Step 2: Submit
-Instructions...
+The portal has no robots.txt and no published terms or API documentation, and the
+endpoints appear to be internal to the site. Ask Galaxy Backbone or the Ministry of
+Communications, Innovation and Digital Economy for a documented data feed before
+relying on this for production.
 
-## Cost and Timeline
-- Cost: ₦X,XXX
-- Timeline: X days`
-}
-```
+## Removing documents
 
-## Method 2: Fetched Documents (Live Updates)
-
-### File: `scripts/fetch-government-documents.mjs`
-
-### Ingestion Process
+`rag:remove` is the only script that deletes anything. It removes the documents of
+one origin, after backing them up.
 
 ```bash
-# Fetch documents from official government websites
-npm run rag:fetch
-
-# Output:
-# Fetching: Tax Registration Requirements from FIRS...
-#   ✓ Ingested (2500 chars)
-# Fetching: Business Name Registration from CAC...
-#   ✓ Ingested (1800 chars)
-# ...
-# ✅ Ingestion complete:
-#    Documents: X ingested, Y failed, Z skipped
-#    Chunks: N total
+npm run rag:remove -- --origin none            # dry run: documents with no origin (the old hand-written ones)
+npm run rag:remove -- --origin none --apply    # back them up to data/backups/, then remove them
+npm run rag:remove -- --origin portal          # the same for the portal documents
 ```
 
-### Configured Sources
+`--origin` is required. Removing the origin-less documents is refused while no
+portal documents are loaded, so the corpus cannot be emptied by mistake.
 
-Documents are fetched from:
+## How a question is searched
 
-| Agency | Source | URL |
-|--------|--------|-----|
-| FIRS | Tax Registration | https://www.firs.gov.ng/businesstaxonline/ |
-| CAC | Business Registration | https://www.cac.gov.ng/newcompanypage/namecheck |
-| NBS | Economic Data | https://www.nigerianstat.gov.ng/ |
-| CBN | Banking & Monetary | https://www.cbn.gov.ng/ |
-| NIMC | National ID | https://www.nimc.gov.ng/ |
-| BPP | Procurement | https://www.bpp.gov.ng/ |
-| NIS | Immigration | https://immigration.gov.ng/ |
-| FRSC | Road Safety | https://www.frsc.gov.ng/ |
-| JAMB | University Admissions | https://www.jamb.gov.ng/ |
-| Ministry of Health | Healthcare | https://www.health.gov.ng/ |
+1. **Preparation (one cheap model call, `RAG_REWRITE_MODEL`).** The question goes to a
+   small model that returns a standalone version of it (this matters for follow-ups
+   like "and for minors?") and up to 8 *search terms*: the formal words the service
+   pages use for what the person said in everyday ones ("scammed online" gives
+   cybercrime, fraud, report). If the call fails, the question is searched exactly as
+   typed, so retrieval never depends on it.
+2. **Ranking.** BM25 over the chunks. The user's own words count in full; the added
+   terms count for half (`EXPANSION_WEIGHT` in `server/rag.js`), so they can bring a
+   service into view without outvoting the question.
+3. **Whole documents.** The best chunks pick the best documents, and each document is
+   handed to the model whole (up to about 1,500 tokens), once, in reading order. A
+   question about "steps and requirements" therefore sees both, even when only one of
+   them matched.
+4. **Answer (`RAG_MODEL`).** The model answers only from those documents and cites
+   them. The Ask page shows the terms that were searched ("Also searched: ...").
 
-### Adding New Sources
-
-Edit `documentSources` array in `scripts/fetch-government-documents.mjs`:
-
-```javascript
-{
-  source: 'AgencyCode',
-  title: 'Service Title',
-  url: 'https://official-url.gov.ng/',
-  description: 'What this document covers'
-}
-```
-
-### Content Extraction
-
-The fetcher automatically:
-1. Strips HTML tags and boilerplate
-2. Removes navigation/headers/footers
-3. Extracts main content area
-4. Cleans up whitespace
-5. Limits to 5000 characters per document
-6. Splits into sections (chunks)
-
-### Limitations
-
-- Some government websites may block automated requests
-- Dynamic content (JavaScript-rendered) won't be captured
-- PDF documents need additional parsing library
-- May require User-Agent header spoofing
-- Some sites rate-limit requests
-
-## Chunk Structure
-
-When documents are ingested, they're split into chunks by markdown sections:
-
-```
-Document: Tax Registration
-├─ Chunk 0: Overview (150 chars)
-├─ Chunk 1: Step 1: Online Registration (200 chars)
-├─ Chunk 2: Step 2: Physical Registration (180 chars)
-├─ Chunk 3: Required Documents (220 chars)
-└─ Chunk 4: Cost and Timeline (120 chars)
-```
-
-Each chunk:
-- Preserves section context
-- Maintains document link
-- Stores position within section
-- Can be retrieved independently or as part of section
-
-## Retrieval
-
-When users ask questions, the RAG system:
-
-1. Tokenizes the question
-2. Ranks all chunks with BM25 over title, section and text (scores are shown relative to the best match)
-3. Returns top-K chunks with section information
-4. LLM synthesizes answer using context
-5. Provides source citations
-
-Example retrieval:
-
-```
-Question: "How do I register for tax?"
-↓
-Retrieved Chunks:
-  - Document: FIRS Tax Registration
-    Section: Step 1: Online Registration
-    Relevance: 95%
-  - Document: FIRS Tax Registration
-    Section: Step 2: Physical Registration
-    Relevance: 88%
-↓
-LLM Answer: "Based on FIRS documentation, you can register for tax
-either online at taxes.firs.gov.ng or physically at any FIRS office.
-[section: Step 1: Online Registration]"
-```
-
-## Best Practices
-
-### For Hardcoded Documents
-1. ✅ Use markdown headers for clear section structure
-2. ✅ Keep content accurate and up-to-date
-3. ✅ Include cost and timeline information
-4. ✅ Test ingestion after adding documents
-5. ✅ Version control the documents
-
-### For Fetched Documents
-1. ✅ Use reliable government sources with stable URLs
-2. ✅ Test fetch individually before adding to production
-3. ✅ Handle network timeouts gracefully
-4. ✅ Monitor fetch success rate
-5. ✅ Fall back to cached versions if fetch fails
-
-### For Both
-1. ✅ Include agency/source in metadata
-2. ✅ Add official URLs for verification
-3. ✅ Keep documents under 10KB for optimal chunking
-4. ✅ Use consistent formatting across documents
-5. ✅ Update documents regularly (monthly recommended)
-
-## Hybrid Approach (Recommended)
-
-For production systems, use both methods:
-
-```
-Hardcoded Documents:
-├─ Critical services (always available)
-├─ Well-curated content (verified accuracy)
-└─ Manually updated (quality control)
-
-Fetched Documents:
-├─ Supplementary information (reference only)
-├─ Live data (economic indicators, statistics)
-└─ Auto-updated (no manual work)
-```
-
-**Ingestion workflow:**
-
-```bash
-# 1. Ingest curated hardcoded documents first
-npm run rag:ingest-all
-
-# 2. Try to fetch live updates (optional)
-npm run rag:fetch
-
-# 3. Verify ingestion
-sqlite3 data/ngscorecard.db "SELECT COUNT(*) FROM rag_documents;"
-
-# 4. Start the server
-npm run dev
-```
-
-## Troubleshooting
-
-### Fetch script returns no content
-
-**Cause**: Website blocked automated access or content is dynamically loaded
-
-**Solution**: 
-- Check if website requires JavaScript rendering
-- Add to hardcoded documents instead
-- Use a headless browser library (Puppeteer) for JavaScript-heavy sites
-
-### Documents too large
-
-**Cause**: Website includes too much boilerplate content
-
-**Solution**:
-- Content is limited to 5000 chars, increase if needed
-- Extract specific pages manually and add as hardcoded documents
-- Use targeted CSS selectors to extract main content
-
-### Chunks are too large or too small
-
-**Cause**: Markdown structure doesn't match website layout
-
-**Solution**:
-- For hardcoded: Adjust markdown headers
-- For fetched: Pre-process content before adding
-- Consider section size when structuring documents
-
-## Performance
-
-- **Ingestion time**: ~1 minute for 28 documents (100-150 chunks)
-- **Query latency**: <100ms for keyword search across all chunks
-- **Storage**: ~5-10MB for 100-150 documents
-- **Memory**: ~50MB during ingestion, ~10MB runtime
-
-## Next Steps
-
-1. Choose ingestion method based on your needs
-2. Configure sources/documents
-3. Test ingestion: `npm run rag:ingest-all` or `npm run rag:fetch`
-4. Verify in database: `sqlite3 data/ngscorecard.db`
-5. Start server and test Q&A: `npm run dev`
-
-
-## Loading the corpus (local or Turso)
-
-`scripts/government-data-sources.mjs` is the source of truth. To make a database
-match it:
-
-```bash
-npm run rag:sync                  # dry run: lists inserts/updates, writes nothing
-npm run rag:sync -- --apply       # write (Turso if TURSO_DATABASE_URL is set, else data/ngscorecard.db)
-npm run rag:sync -- --db path     # a specific local SQLite file
-```
-
-Documents are matched on (source, title), so it is safe to re-run: unchanged
-documents are skipped, edited ones are updated with their chunks rebuilt, and
-nothing is ever deleted (documents in the database but not in the source are
-only reported). Missing RAG tables are created. Prefer this to
-`rag:ingest-all`, which wipes every document first and only targets the local
-file.
+Both models are set with environment variables (see `.env.example`). Cost per question
+on Haiku is a few hundredths of a cent for each of the two calls; Sonnet is about 20
+times that.
 
 ## How documents are chunked
 
@@ -375,3 +108,10 @@ npm run rag:rechunk -- --db path    # a specific local SQLite file
 ```
 
 Run `npm run eval:rag` afterwards to confirm retrieval did not regress.
+
+## Where a document came from
+
+Each stored document records its `origin` (`portal`, or empty for documents loaded
+before provenance existed), the portal's `external_id`, and `fetched_at`. Retrieval
+returns them, and the Ask page shows "Government Service Portal, checked <date>" on
+portal sources.

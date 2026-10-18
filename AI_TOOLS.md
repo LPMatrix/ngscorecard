@@ -60,6 +60,8 @@ Potential AI-powered features that amplify accountability and accelerate editori
 
 **Effort:** Medium (data pipeline + statistical analysis + visualization)
 
+**Status:** ✅ In progress — SQL aggregations + Claude insights + admin dashboard built
+
 ---
 
 ## 4. Real-time Tracker
@@ -77,6 +79,8 @@ Potential AI-powered features that amplify accountability and accelerate editori
 **Impact:** Keeps dataset current. Catches promises at their moment. Better baseline for outcome tracking.
 
 **Effort:** Medium (feed aggregation + real-time LLM + queue UI)
+
+**Status:** ✅ In progress — RSS scanning + Claude screening + editorial queue in admin dashboard
 
 ---
 
@@ -194,6 +198,8 @@ Potential AI-powered features that amplify accountability and accelerate editori
 **Impact:** Real-time accountability. Catches officials in false claims immediately. Supports fact-checking journalism.
 
 **Effort:** Medium (claim extraction + entity linking + cross-reference logic)
+
+**Status:** ✅ In progress — Claim extraction + database cross-reference + verdict cards in admin dashboard
 
 ---
 

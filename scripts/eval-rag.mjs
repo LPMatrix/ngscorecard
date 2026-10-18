@@ -24,11 +24,11 @@ const retrieval = await runRetrieval({ db, dataset })
 const s = retrieval.summary
 
 console.log(`\nRetrieval  (${s.answerable} answerable, ${s.unanswerable} unanswerable, k=${s.k})`)
-console.log(`  hit@1 ${pct(s.hitAt1)}   hit@3 ${pct(s.hitAt3)}   hit@5 ${pct(s.hitAt5)}   MRR ${s.mrr}`)
-console.log(`  answer text in retrieved chunks (evidence@5): ${pct(s.evidenceAt5)}`)
+console.log(`  hit@1 ${pct(s.hitAt1)}   hit@${s.k} ${pct(s.hitAtK)}   MRR ${s.mrr}   (the model is given the top ${s.k} whole documents)`)
+console.log(`  answer text in the retrieved documents (evidence@${s.k}): ${pct(s.evidenceAtK)}`)
 console.log(`  evidence lost at chunking, unrecoverable by ranking: ${s.chunkingLosses} case(s)`)
 
-console.log('\n  by category          n   hit@1  hit@5   MRR   evidence@5')
+console.log(`\n  by category          n   hit@1  hit@${s.k}   MRR   evidence@${s.k}`)
 for (const [name, g] of Object.entries(s.categories)) {
   console.log(`  ${name.padEnd(18)} ${String(g.n).padStart(3)}   ${pct(g.hitAt1)}   ${pct(g.hitAtK)}   ${g.mrr.toFixed(2)}   ${pct(g.evidenceAtK)}`)
 }
@@ -46,7 +46,7 @@ const leaks = retrieval.cases.filter(c => c.type === 'unanswerable' && c.usable)
 if (args.has('--verbose') || misses.length) {
   console.log(`\nRetrieval misses (${misses.length})`)
   for (const c of misses) {
-    const why = c.chunkingLoss ? 'evidence lost at chunking' : c.rank === null ? 'right document not in top 5' : 'document found, answer text not in chunks'
+    const why = c.chunkingLoss ? 'evidence lost at chunking' : c.rank === null ? `right document not in the top ${s.k}` : 'document found, but the answer text is not in it'
     console.log(`  ${c.id.padEnd(20)} [${c.category}] ${why}`)
     console.log(`      "${c.question}"  expected ${c.expected.slice(0, 3).join('/')}  got ${c.got.slice(0, 3).join(', ') || '(nothing)'}`)
   }
@@ -87,6 +87,8 @@ if (args.has('--generate')) {
   console.log('\nGeneration  (calls the model; this costs money)')
   const gen = await runGeneration({ db, client, dataset })
   const g = gen.summary
+  console.log(`  retrieval with the model's search terms: hit@${s.k} ${pct(g.retrievalHitAtK)}, answer text in the documents ${pct(g.retrievalEvidenceAtK)}`)
+  console.log('    by category: ' + Object.entries(g.retrievalByCategory).map(([c, v]) => `${c} ${pct(v.hitAtK)}`).join(' | '))
   console.log(`  answerable cases correct:   ${pct(g.answerablePass)}  (${g.answerable} cases)`)
   console.log(`  unanswerable handled right: ${pct(g.unanswerablePass)}  (${g.unanswerable} cases)`)
   console.log(`  answers carrying a citation: ${pct(g.citedRate)}`)

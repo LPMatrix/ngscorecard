@@ -7,25 +7,30 @@
 //   generation  calls the model: does the answer stay grounded, cite, mention
 //               the facts, and decline when the documents don't cover it?
 //
-// The corpus is scripts/government-data-sources.mjs, loaded into an in-memory
-// database, so results depend only on the repo, not on any live database.
+// The corpus is evals/rag/corpus/portal-snapshot.json, a dated copy of what the
+// Government Service Portal returned (refresh it with `npm run eval:rag:corpus`),
+// turned into documents by the same code that loads the live corpus and put in an
+// in-memory database. Results therefore depend only on the repo, not on any live
+// database, and no document text is written by hand anywhere.
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import Database from 'better-sqlite3'
-import { addDocument, queryRAG, chunkText } from '../../server/rag.js'
+import { addDocument, queryDocuments, chunkText } from '../../server/rag.js'
 import { hasUsableSources, MIN_COVERAGE } from '../../server/ragPrompt.js'
 import { synthesize } from '../../server/ragAnswer.js'
 import { sanitizeHistory, fallbackQuery, rewriteQuestion } from '../../server/ragFollowUp.js'
-import { governmentDocuments, stateServices } from '../../scripts/government-data-sources.mjs'
+import { portalDocuments } from '../../server/portalSource.js'
 
 const here = dirname(fileURLToPath(import.meta.url))
 export const DATASET_PATH = join(here, 'dataset.json')
 export const BASELINE_PATH = join(here, 'baseline.json')
+export const CORPUS_PATH = join(here, 'corpus', 'portal-snapshot.json')
 
 export const loadDataset = () => JSON.parse(readFileSync(DATASET_PATH, 'utf8'))
 export const loadBaseline = () => JSON.parse(readFileSync(BASELINE_PATH, 'utf8'))
-export const corpusDocuments = () => [...governmentDocuments, ...stateServices]
+export const loadCorpusSnapshot = () => JSON.parse(readFileSync(CORPUS_PATH, 'utf8'))
+export const corpusDocuments = () => portalDocuments(loadCorpusSnapshot()).docs
 
 const norm = (s) => String(s).toLowerCase().replace(/\s+/g, ' ')
 const round = (n, d = 3) => Math.round(n * 10 ** d) / 10 ** d
@@ -49,10 +54,23 @@ export async function buildCorpusDb(docs = corpusDocuments()) {
 
 // --- retrieval --------------------------------------------------------------
 
+// Did retrieval put the right document, and the answer text, in front of the model?
+function retrievalOutcome(c, results) {
+  const wanted = new Set(c.expectedSources)
+  const rankIndex = results.findIndex(r => wanted.has(r.source))
+  const evidence = norm(c.evidence)
+  return {
+    rank: rankIndex === -1 ? null : rankIndex + 1,
+    evidenceFound: results.some(r => norm(r.text).includes(evidence)),
+  }
+}
+
 export async function runRetrieval({ db, dataset = loadDataset(), docs = corpusDocuments() } = {}) {
   const k = dataset.k ?? 5
-  const bySource = new Map(docs.map(d => [d.source, d]))
-  const chunkTexts = new Map(docs.map(d => [d.source, chunkText(d.content).map(c => norm(c.text))]))
+  // an agency has several documents, so group them by source code
+  const bySource = new Map()
+  for (const d of docs) bySource.set(d.source, [...(bySource.get(d.source) ?? []), d])
+  const chunkTexts = new Map(docs.map(d => [d.externalId, chunkText(d.content).map(c => norm(c.text))]))
 
   const cases = []
   for (const c of dataset.cases) {
@@ -60,7 +78,7 @@ export async function runRetrieval({ db, dataset = loadDataset(), docs = corpusD
     // (previous question + this one). The model's rewrite is scored by --generate.
     const history = sanitizeHistory(c.history ?? [])
     const query = history.length ? fallbackQuery(c.question, history) : c.question
-    const { results } = await queryRAG(db, query, k)
+    const { results } = await queryDocuments(db, query, { maxDocs: k })
     const topCoverage = results[0]?.coverage ?? 0
     const usable = hasUsableSources(results)
 
@@ -70,22 +88,20 @@ export async function runRetrieval({ db, dataset = loadDataset(), docs = corpusD
       continue
     }
 
-    const wanted = new Set(c.expectedSources)
-    const rankIndex = results.findIndex(r => wanted.has(r.source))
+    const { rank, evidenceFound } = retrievalOutcome(c, results)
     const evidence = norm(c.evidence)
-    const evidenceFound = results.some(r => norm(r.text).includes(evidence))
 
     // Evidence that exists in an expected document but in none of that
     // document's chunks was lost at ingestion; ranking can't recover it.
     const holders = c.expectedSources
-      .map(s => bySource.get(s))
-      .filter(d => d && norm(d.content).includes(evidence))
+      .flatMap(s => bySource.get(s) ?? [])
+      .filter(d => norm(d.content).includes(evidence))
     const chunkingLoss = holders.length > 0 &&
-      holders.every(d => !chunkTexts.get(d.source).some(t => t.includes(evidence)))
+      holders.every(d => !chunkTexts.get(d.externalId).some(t => t.includes(evidence)))
 
     cases.push({
       id: c.id, type: c.type, category: c.category, question: c.question,
-      rank: rankIndex === -1 ? null : rankIndex + 1,
+      rank,
       evidenceFound, chunkingLoss, topCoverage, usable,
       got: results.map(r => r.source),
       expected: c.expectedSources,
@@ -128,10 +144,9 @@ function summarizeRetrieval(cases, k) {
     answerable: ans.length,
     unanswerable: unans.length,
     hitAt1: round(hit(1)),
-    hitAt3: round(hit(3)),
-    hitAt5: round(hit(5)),
+    hitAtK: round(hit(k)),
     mrr: round(mean(ans.map(c => (c.rank ? 1 / c.rank : 0)))),
-    evidenceAt5: round(mean(ans.map(c => (c.evidenceFound ? 1 : 0)))),
+    evidenceAtK: round(mean(ans.map(c => (c.evidenceFound ? 1 : 0)))),
     chunkingLosses: ans.filter(c => c.chunkingLoss).length,
     unanswerableBlockedAtFloor: round(mean(unans.map(c => (c.usable ? 0 : 1)))),
     answerableBlockedAtFloor: round(mean(ans.map(c => (c.usable ? 0 : 1)))),
@@ -145,7 +160,7 @@ function summarizeRetrieval(cases, k) {
 }
 
 // Metrics the gate protects. A drop below the committed baseline fails.
-export const GATED_METRICS = ['hitAt5', 'mrr', 'evidenceAt5']
+export const GATED_METRICS = ['hitAtK', 'mrr', 'evidenceAtK']
 
 export function compareToBaseline(summary, baseline = loadBaseline()) {
   const failures = []
@@ -161,6 +176,18 @@ export function compareToBaseline(summary, baseline = loadBaseline()) {
 
 // --- generation -------------------------------------------------------------
 
+// A forbidden figure only counts when the answer asserts it. A model that says
+// "the 90,000 figure in my earlier reply is not in the documents, disregard it" is
+// doing what we want, so a sentence that disowns the figure is not a failure.
+const RETRACTION = /\b(not (in|supported|listed|given|stated|contained|found|part)|isn['’]t|does not (list|give|state|say|contain|support)|do not (list|give|state|say|contain|support)|disregard|ignore (it|that|this)|incorrect|inaccurate|unsupported|contradict|differs?|corrects?|correction|cannot confirm|can['’]t confirm|no basis|mistaken|wrong)\b/i
+export function assertedForbidden(answer, patterns = []) {
+  const sentences = String(answer ?? '').split(/(?<=[.!?])\s+|\n+/)
+  return patterns.filter(p => {
+    const re = new RegExp(p, 'i')
+    return sentences.some(sentence => re.test(sentence) && !RETRACTION.test(sentence))
+  })
+}
+
 const mentions = (answer, requirement) =>
   requirement.split('|').some(alt => norm(answer).includes(norm(alt)))
 
@@ -174,13 +201,15 @@ export async function runGeneration({ db, client, dataset = loadDataset(), only 
   for (const c of dataset.cases) {
     if (only && !only.includes(c.id)) continue
     const history = sanitizeHistory(c.history ?? [])
-    const { query } = await rewriteQuestion(client, c.question, history)
-    if (history.length) calls++ // the rewrite is a model call too
-    const { results } = await queryRAG(db, query, k)
+    // the same preparation the Ask page does: a standalone question plus search terms
+    const { query, keywords } = await rewriteQuestion(client, c.question, history)
+    calls++ // the preparation is a model call too
+    const { results } = await queryDocuments(db, query, { maxDocs: k, expansion: keywords })
+    const retrieval = c.type === 'answerable' ? { ...retrievalOutcome(c, results), keywords } : { keywords }
 
     if (!hasUsableSources(results)) {
       // Blocked before the model: correct for unanswerable, a miss otherwise.
-      out.push({ id: c.id, type: c.type, category: c.category, question: c.question, blocked: true,
+      out.push({ id: c.id, type: c.type, category: c.category, question: c.question, blocked: true, retrieval,
         pass: c.type === 'unanswerable', problems: c.type === 'unanswerable' ? [] : ['blocked before the model'] })
       continue
     }
@@ -193,7 +222,7 @@ export async function runGeneration({ db, client, dataset = loadDataset(), only 
 
     if (c.type === 'unanswerable') {
       if (parsed.grounded) {
-        const hits = (c.forbidden ?? []).filter(p => new RegExp(p, 'i').test(parsed.answer))
+        const hits = assertedForbidden(parsed.answer, c.forbidden ?? [])
         if (!c.forbidden?.length) problems.push('answered a question the documents do not cover')
         else if (hits.length) problems.push(`stated something the documents do not contain (matched ${hits.join(', ')})`)
       }
@@ -207,11 +236,13 @@ export async function runGeneration({ db, client, dataset = loadDataset(), only 
         for (const m of c.answerMentions ?? []) {
           if (!mentions(parsed.answer, m)) problems.push(`answer does not mention "${m}"`)
         }
+        const repeated = assertedForbidden(parsed.answer, c.forbidden ?? [])
+        if (repeated.length) problems.push(`stated something the documents contradict or do not contain (matched ${repeated.join(', ')})`)
       }
     }
 
     out.push({
-      id: c.id, type: c.type, category: c.category, question: c.question,
+      id: c.id, type: c.type, category: c.category, question: c.question, retrieval,
       blocked: false, grounded: parsed.grounded, cited: parsed.cited,
       answer: parsed.answer, pass: problems.length === 0, problems,
     })
@@ -219,11 +250,26 @@ export async function runGeneration({ db, client, dataset = loadDataset(), only 
 
   const answerable = out.filter(r => r.type === 'answerable')
   const unanswerable = out.filter(r => r.type === 'unanswerable')
+
+  // retrieval as the live system does it (with the model's search terms), by category
+  const rated = answerable.filter(r => r.retrieval && 'rank' in r.retrieval)
+  const retrievalByCategory = {}
+  for (const name of new Set(rated.map(r => r.category))) {
+    const group = rated.filter(r => r.category === name)
+    retrievalByCategory[name] = {
+      n: group.length,
+      hitAtK: round(mean(group.map(r => (r.retrieval.rank !== null ? 1 : 0)))),
+      evidenceAtK: round(mean(group.map(r => (r.retrieval.evidenceFound ? 1 : 0)))),
+    }
+  }
   return {
     cases: out,
     summary: {
       answerable: answerable.length,
       unanswerable: unanswerable.length,
+      retrievalHitAtK: round(mean(rated.map(r => (r.retrieval.rank !== null ? 1 : 0)))),
+      retrievalEvidenceAtK: round(mean(rated.map(r => (r.retrieval.evidenceFound ? 1 : 0)))),
+      retrievalByCategory,
       answerablePass: round(mean(answerable.map(r => (r.pass ? 1 : 0)))),
       unanswerablePass: round(mean(unanswerable.map(r => (r.pass ? 1 : 0)))),
       citedRate: round(mean(answerable.filter(r => !r.blocked && r.grounded).map(r => (r.cited ? 1 : 0)))),

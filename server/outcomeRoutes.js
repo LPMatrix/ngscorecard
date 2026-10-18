@@ -7,6 +7,9 @@
 import express from 'express'
 import { verifyPromiseOutcome, updatePromiseStatus } from './outcomeVerifier.js'
 import { classifyPromise, findSimilarHistoricalPromises } from './promiseClassifier.js'
+import { getPatternReport, getSectorPatterns, getAdminComparison } from './patternDetector.js'
+import { scanFeeds, getQueue, dismissQueueItem, DEFAULT_FEEDS } from './realTimeTracker.js'
+import { factCheckStatement } from './lieDetector.js'
 
 const router = express.Router()
 
@@ -115,6 +118,113 @@ router.post('/classify/historical', async (req, res) => {
     console.error('Historical classify error:', err)
     res.status(500).json({ error: err.message })
   }
+})
+
+/**
+ * GET /patterns
+ * Full pattern report with AI insights
+ * Query: ?administration=tinubu (optional — omit for all admins)
+ */
+router.get('/patterns', async (req, res) => {
+  try {
+    const { administration } = req.query
+    const report = await getPatternReport(administration || null)
+    res.json(report)
+  } catch (err) {
+    console.error('Patterns error:', err)
+    res.status(500).json({ error: err.message })
+  }
+})
+
+/**
+ * GET /patterns/sectors
+ * Sector breakdown only (fast, no Claude)
+ * Query: ?administration=tinubu (optional)
+ */
+router.get('/patterns/sectors', async (req, res) => {
+  try {
+    const { administration } = req.query
+    const sectors = await getSectorPatterns(administration || null)
+    res.json(sectors)
+  } catch (err) {
+    console.error('Sectors error:', err)
+    res.status(500).json({ error: err.message })
+  }
+})
+
+/**
+ * GET /patterns/admins
+ * Administration comparison (fast, no Claude)
+ */
+router.get('/patterns/admins', async (req, res) => {
+  try {
+    const admins = await getAdminComparison()
+    res.json(admins)
+  } catch (err) {
+    console.error('Admins error:', err)
+    res.status(500).json({ error: err.message })
+  }
+})
+
+/**
+ * POST /factcheck
+ * Fact-check a government statement against the promise database
+ * Body: { statementText, administration? }
+ * Returns: { claims_checked, summary, results: [{ claim, verdict, reason, matched_promises }] }
+ */
+router.post('/factcheck', async (req, res) => {
+  try {
+    const { statementText, administration } = req.body
+    if (!statementText) return res.status(400).json({ error: 'statementText is required' })
+    const result = await factCheckStatement(statementText, administration || null)
+    res.json(result)
+  } catch (err) {
+    console.error('Fact-check error:', err)
+    res.status(500).json({ error: err.message })
+  }
+})
+
+/**
+ * GET /tracker/queue — return pending promise queue
+ */
+router.get('/tracker/queue', (req, res) => {
+  try {
+    res.json(getQueue())
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+/**
+ * POST /tracker/scan — scan feeds for new promises
+ * Body (optional): { feeds: ["url1", "url2"] }
+ */
+router.post('/tracker/scan', async (req, res) => {
+  try {
+    const result = await scanFeeds(req.body.feeds || null)
+    res.json(result)
+  } catch (err) {
+    console.error('Scan error:', err)
+    res.status(500).json({ error: err.message })
+  }
+})
+
+/**
+ * DELETE /tracker/queue/:id — dismiss a queue item
+ */
+router.delete('/tracker/queue/:id', (req, res) => {
+  try {
+    res.json(dismissQueueItem(req.params.id))
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+/**
+ * GET /tracker/feeds — list default feeds being monitored
+ */
+router.get('/tracker/feeds', (req, res) => {
+  res.json(DEFAULT_FEEDS)
 })
 
 export default router

@@ -190,6 +190,62 @@ export const PUBLICATIONS = [
       'Corrections are welcome: use "Report an issue" on any scorecard, or write to the address on the press page.',
     ],
   },
+  {
+    slug: 'the-road-that-keeps-moving',
+    title: 'The road that keeps moving',
+    subtitle: 'The Lagos–Calabar coastal highway has changed its route, its length and its deadline in two years. The yardstick has moved with it.',
+    date: '2026-10-19',
+    author: 'NGScorecard',
+    summary:
+      'On 26 May 2024 the President flagged off the Lagos–Calabar coastal highway, promised in eight years. Two years on, the first section has been given three completion dates, the length is quoted as 700 km and as 750 km, and in October 2026 the government said part of the route would move onto an existing road. The government says the project is intact. Its critics say the targets have been reset each time they were missed.',
+    sections: [
+      {
+        paragraphs: [
+          'The Lagos–Calabar coastal highway was launched as one of the flagship projects of the Tinubu administration. The government announced it at a Victoria Island ceremony on 26 May 2024. The Channels Television report of the same day gave the cost as ₦15 trillion and the completion time as eight years (Channels Television, 26 May 2024). The works minister, David Umahi, had given the same eight-year figure for the whole project in April 2024 (Nairametrics, 12 April 2024).',
+          'That was the yardstick. The question this piece asks is whether it still holds.',
+        ],
+      },
+      {
+        heading: 'Three dates for one section',
+        paragraphs: [
+          'The first section, a 47.47km stretch from Victoria Island to Ibeju-Lekki, has had three completion dates in public. In May 2025 the ministry said the first phase would be done by 29 May 2025 (Leadership). Umahi later gave January 2026 (Premium Times). The Federal Ministry of Information then gave the second quarter of 2026. A temporary opening of part of the section came on 12 December 2025, before any of those later dates passed (Federal Ministry of Information, December 2025).',
+          'In October 2026 the government said the section was complete and ready for commissioning (Vanguard, October 2026). Earlier reporting that month gave a smaller figure for the completed length. The government has not published a survey or completion certificate that would settle which is right, and we found no independent inspection report.',
+        ],
+      },
+      {
+        heading: 'Three lengths',
+        paragraphs: [
+          'Reports quote the route as 700 km (Channels, 2024) and as 750 km (Vanguard, October 2026). Vanguard and Parrot quoted Umahi as saying the first section is 147.47 km, where other reports give 47.47 km. None of these numbers is wrong by itself. Together they show that the project has not been given one fixed scope that the public can check against.',
+        ],
+      },
+      {
+        heading: 'A route that moved',
+        paragraphs: [
+          'In October 2026 Umahi said the President had directed that the Ondo and Edo section, Sections 4A and 4B, run along the existing East-West Road, with about 400km of that road folded into the project (Vanguard, October 2026; Tribune Online, October 2026). The government gave flooding and difficult terrain as the reasons. It described the original alignment as crossing pits more than 100 metres deep, and as lacking suitable sand within 300 metres (Tribune Online, October 2026).',
+          'Community groups in Ondo say the new route leaves coastal communities out. The Ilaje Omuro Community Connect has petitioned the President and the National Assembly for an investigation (Vanguard, October 2026). The Urhobo Development Congress backed the project but asked for a review of the route through Ondo. The Ugbo Development Congress accepted that the original coastal route had real engineering problems, and asked for an assessment before it was permanently dropped.',
+          'The government says the project is intact. Umahi told a briefing on 12 October 2026 that the highway had not been abandoned, and that the East-West addition would complement it rather than replace it (Channels Television, 12 October 2026). That addition still needed Federal Executive Council approval when these reports were published.',
+        ],
+      },
+      {
+        heading: 'What a moving yardstick does',
+        paragraphs: [
+          'None of these changes is unusual in a large road project, and several have real reasons behind them. Ground conditions can be worse than surveys showed, and a corridor can be rerouted for good engineering reasons. The problem is what happens to the promise. An eight-year highway that becomes a 750km project with a changed route and a new name is harder to judge than the one that was announced.',
+          'The name itself changed in July 2026, when the highway was renamed after the President (Nairametrics, 17 July 2026). The government has said the work will be delivered in phases over the President\'s two terms (Nairametrics, July 2026). A phased delivery may be sensible. It also means that no single date needs to be met for the project to be called on track.',
+        ],
+      },
+      {
+        heading: 'What would settle it',
+        paragraphs: [
+          'Three things would make the claims checkable. The first is one published length for the whole route, with the sections listed. The second is a dated schedule for each section that the government commits to and then reports against. The third is a published route study for the Ondo and Edo change, with the engineering evidence the government cites, so that the community groups and the public can test it.',
+          'Until then, the honest description is that the highway is under construction on at least one section, that its completion date and length have both changed, and that its route is being changed in at least one state. Each claim here comes from the government, its critics or the press, and we have not verified the engineering claims on either side.',
+        ],
+      },
+    ],
+    notes: [
+      'This piece draws on the government\'s statements and on reporting from Channels Television, Premium Times, Vanguard, Tribune Online, Leadership, Nairametrics and the Federal Ministry of Information. Figures for completion and length come from official statements and press reports; we did not inspect the road. The cost figure of ₦15 trillion is the one reported at the flag-off; we found no source for a different figure. Anyone named here, including the works minister, may write to the address on the press page, and we will publish a response or correction.',
+      'Corrections are welcome: use "Report an issue" on any scorecard, or write to the address on the press page.',
+    ],
+  },
 ]
 
 export function findPublication(slug) {

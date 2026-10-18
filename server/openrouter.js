@@ -23,6 +23,14 @@ export function getOpenRouter() {
 // time; check https://openrouter.ai/models. Each feature can override its own.
 export const DEFAULT_MODEL = 'anthropic/claude-sonnet-5.5'
 
+// These models think before they answer, and OpenRouter counts that thinking
+// against max_tokens. At 500 tokens Haiku used all of them on reasoning and
+// returned no text (shown to people as "couldn't find this"), and Sonnet was cut
+// off mid-answer. For short, excerpt-grounded answers a low effort gives a
+// complete reply on both and costs less. (Turning reasoning off outright is
+// refused by Sonnet, so effort is the control that works everywhere.)
+export const REASONING = { effort: 'low' }
+
 // Models often wrap JSON in a code fence or add a sentence before it. Take the
 // first complete {...} object (string-aware, so braces inside strings do not
 // confuse it) and parse that; anything else is an error carrying the reply.
@@ -58,18 +66,26 @@ export function parseJsonReply(text) {
   throw new Error(`The model returned incomplete JSON: ${raw.slice(0, 300)}`)
 }
 
-// One system + user exchange that must come back as a JSON object. `client` is
-// anything with chat.completions.create (the OpenAI SDK shape), so it can be
-// faked in tests; it defaults to the shared OpenRouter client.
-export async function chatJson({ system, user, model = DEFAULT_MODEL, maxTokens = 1024, client: c = null }) {
+// One system + user exchange, returning the reply text ('' if there is none). A
+// failed request throws; what to do with the text is the caller's business, so
+// code that wants "API errors propagate, a bad reply falls back to a default" can
+// keep exactly that shape. `client` is anything with chat.completions.create (the
+// OpenAI SDK shape), so it can be faked in tests; it defaults to OpenRouter.
+export async function chatText({ system, user, model = DEFAULT_MODEL, maxTokens = 1024, client: c = null }) {
   const response = await (c ?? getOpenRouter()).chat.completions.create({
     model,
     max_tokens: maxTokens,
     temperature: 0,
+    reasoning: REASONING,
     messages: [
       { role: 'system', content: system },
       { role: 'user', content: user },
     ],
   })
-  return parseJsonReply(response.choices?.[0]?.message?.content)
+  return response.choices?.[0]?.message?.content ?? ''
+}
+
+// The same exchange, for a reply that must be a JSON object: throws if it is not.
+export async function chatJson(options) {
+  return parseJsonReply(await chatText(options))
 }

@@ -1,0 +1,436 @@
+{
+ "source": "https://services.gov.ng",
+ "apiBase": "https://gsp.galaxybackbone.com.ng/backend/api/user/",
+ "fetchedAt": "2026-10-18T10:00:00.000Z",
+ "failures": [],
+ "providers": [
+  {
+   "nav": {
+    "id": 1,
+    "name": "National Identity Management Commission",
+    "slug": "national-identity-management-commission",
+    "abbr": "NIMC",
+    "email_address": "sfsdf@sdfsd.com"
+   },
+   "detail": {
+    "id": 1,
+    "name": "National Identity Management Commission",
+    "slug": "national-identity-management-commission",
+    "abbr": "NIMC",
+    "summary": "For NIN Pre-enrolment and NIN Verification",
+    "about": "<p>The National Identity Management Commission (NIMC) established by the NIMC Act No. 23 of 2007, has the mandate to establish, own, operate, maintain and manage the National Identity Database in Nigeria, register persons covered by the Act, assign a Unique National Identification Number (NIN) and issue General Multi-Purpose Cards (GMPC) to those who are citizens of Nigeria as well as others legally residing within the country. The NIMC Act 2007 provides for the establishment of the NIMC, its functions, powers, establishment of the National Identity Database, assignment of the National Identification Number (NIN) as well as issuance of token General Multi-purpose cards. The Act also provides the Commission with powers to make regulations connected with its functions. The NIMC Act 2007 provides the repeal of the law that created the former Department of National Civic Registration (DNCR) and the transfer of its assets and liabilities to the NIMC.</p>",
+    "vision": "<p>To provide a digital primary identity for all citizens and legal residents making it a reference point for all</p>",
+    "mission": "<p>We regulate a reliable National Digital Identity for citizens and legal residents to affirm their identity.</p>",
+    "rc_number": "67868887",
+    "business_type": "Limited Liability Company",
+    "industry": "Technology",
+    "date_establishment": "2024-07-31T00:00:00.000Z",
+    "status_updated_at": null,
+    "staf_size": "10",
+    "email_address": "sfsdf@sdfsd.com",
+    "phone_number": "798897889",
+    "location": "Nigeria",
+    "state": "Armenia",
+    "address": "6876778",
+    "weblink": "sdfsdf",
+    "created_at": "2024-08-21T04:13:49.000Z",
+    "archived_at": null,
+    "updated_at": "2024-08-21T04:13:49.000Z"
+   },
+   "services": [
+    {
+     "id": 20,
+     "name": "NIMC (NIN Pre Enrollment)",
+     "slug": "nimc-nin-pre-enrollment",
+     "summary": "NIMC's NIN pre-enrollment service allows you to fill out your demographic information online, book an appointment, and then finalize your enrollment at an official center by having your biometrics (photograph, fingerprints, signature) captured and documents scanned to receive your National Identification Number (NIN). This initial online step helps streamline the mandatory process of obtaining your NIN, which is required for many services and transactions in Nigeria. ",
+     "service_fees": 1000,
+     "timeline_hrs": "0-48 Hours",
+     "dependency": "[\"Availability of network. \",\"Availability of the NIMS Backend. \"]",
+     "backend_service": "nimc-self-modification-service",
+     "portal_button_text": null,
+     "serviceSection": [
+      {
+       "section_title": "NIN Registration",
+       "section_description": "<p>Step 1: Applicant visits NIMC website to access the Pre-Enrolment Portal: https://penrol.nimc.gov.ng and the online Enrolment Form.&nbsp;</p><p>Step 2: Applicant fills in the Enrolment Form online, prints out a summary sheet with a 2D Barcode and heads to any NIMC Enrolment Centre.&nbsp;</p><p>Step 3: Applicant verifies and confirms the enrolment data on the system.&nbsp;</p><p>Step 4: Applicant has his/her headshot photograph, fingerprints and signature captured by an enrolment officer&nbsp;</p><p>Step 5: Applicant has his/her supporting documents scanned.&nbsp;</p><p>Step 6: Applicant’s enrolment is acknowledged; two slips are generated and given to the applicant: (a) Transaction Slip (b) NIN Slip indicating completion of enrolment.&nbsp;</p><p>OR&nbsp;</p><p>Rather than filling in the online pre-enrolment form and printing out a summary sheet with the 2D barcode, an applicant can also download the Enrolment Form to print out and fill.&nbsp;</p><p>To download your enrolment form online go to www.nimc.gov.ng. Fill all forms in block letters and proceed to the nearest enrolment Centre for biometrics capturing in order to obtain the National Identification Number (NIN). Note: you can also pick up an enrolment form at NIMC’S ERC.&nbsp;</p>"
+      },
+      {
+       "section_title": "Required Information For Registration",
+       "section_description": "<p>1. Old National ID Card&nbsp;</p><p>2. Driver’s License&nbsp;</p><p>3. Voter’s card (Temporary or Permanent)&nbsp;</p><p>4. Nigerian International passport&nbsp;</p><p>5. Certificate of Origin&nbsp;</p><p>6. Attestation letter from a prominent ruler in your community&nbsp;</p><p>7. Birth certificate&nbsp;</p><p>8. Declaration of age&nbsp;</p><p>9. Attestation letter from religious/traditional leader&nbsp;</p><p>10. NHIS ID card&nbsp;</p><p>11. Government staff ID card&nbsp;</p><p>12. Registered/recognized private organization staff ID card&nbsp;</p><p>13. School ID Card (private/public)&nbsp;</p><p>14. Tax Clearance certificate&nbsp;</p><p>15. Valid immigration documents&nbsp;</p><p>16. Nigerian Commission for Refugees (NCFR) Refugee Certificate&nbsp;</p><p>17. Refugee ID card&nbsp;</p><p>18. Refugee Factsheet&nbsp;</p>"
+      },
+      {
+       "section_title": "For Enquiries And Complaints ",
+       "section_description": "<p>11 Sokode Crescent, Off Dalaba Street&nbsp;</p><p>Zone 5, Wuse&nbsp;</p><p>P. M. B. 18, Garki, Abuja&nbsp;</p><p>Phone: <strong>0700 2255 646 (Call Centre)</strong>,&nbsp;</p><p>+234-8-157691214, +234-8-157691071,&nbsp;</p><p>+234-8157691145&nbsp;</p><p>Report Extortion: +234-9-134959433&nbsp;</p><p>E-mail (general): info@nimc.gov.ng&nbsp;</p><p>E-mail (extortion cases): actu@nimc.gov.ng&nbsp;</p><p>www.nimc.gov.ng&nbsp;</p>"
+      }
+     ]
+    },
+    {
+     "id": 59,
+     "name": "NIMC (E-ID Card)",
+     "slug": "nimc-e-id-card",
+     "summary": "The e-ID Card is a physical smart card aligned to the NIN and issued by NIMC, designed to serve as Nigeria’s default national identity card and to enable digital/physical identity verification, payments, offline use and other functionalities",
+     "service_fees": 1500,
+     "timeline_hrs": "0-48 Hours",
+     "dependency": "[\"Valid NIN \",\"Completed enrolmen\",\"Biometric verification\"]",
+     "backend_service": "coming-soon",
+     "portal_button_text": null,
+     "serviceSection": [
+      {
+       "section_title": "SERVICE FEATURES",
+       "section_description": "<p><span style=\"color: rgb(0, 0, 0);\">1. Machine Readable Zone (MRZ) and biometric chip according to ICAO standards.</span></p><p><span style=\"color: rgb(0, 0, 0);\">2. Functions as a debit/prepaid/payment card linked to bank accounts or wallets for banked/unbanked users.</span></p><p><br></p><p><a href=\"https://nimc.gov.ng/e-id-card\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(17, 85, 204);\"><span class=\"ql-cursor\">﻿</span>https://nimc.gov.ng/e-id-card</a></p>"
+      },
+      {
+       "section_title": "FOR COMPLAINTS AND ENQUIRIES",
+       "section_description": "<p><span style=\"color: rgb(0, 0, 0);\">Email: info@nimc.gov.ng </span></p><p><span style=\"color: rgb(0, 0, 0);\">Phone: +234 816 666 6676</span></p><p><span style=\"color: rgb(0, 0, 0);\">Address: NIMC Headquarters, 11 Sokode Crescent, Off Dalaba Street, Zone 5, Wuse, Abuja</span></p>"
+      },
+      {
+       "section_title": "",
+       "section_description": "<p><span style=\"color: rgb(0, 0, 0);\">1. Machine Readable Zone (MRZ) and biometric chip according to ICAO standards.</span></p><p><span style=\"color: rgb(0, 0, 0);\">2. Functions as a debit/prepaid/payment card linked to bank accounts or wallets for banked/unbanked users.</span></p><p><br></p><p><a href=\"https://nimc.gov.ng/e-id-card\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(17, 85, 204);\">﻿https://nimc.gov.ng/e-id-card</a></p>"
+      }
+     ]
+    },
+    {
+     "id": 60,
+     "name": "NIMC (Harmonization & Integration)",
+     "slug": "nimc-harmonization-and-integration",
+     "summary": "This refers to NIMC’s efforts to integrate, harmonise and link different identity databases (government, private sector) with the national identity infrastructure, ensuring consistency, elimination of duplicates, and interoperability across systems.",
+     "service_fees": 0,
+     "timeline_hrs": "0-48 Hours",
+     "dependency": "[\" Existing Identity Databases \",\"NIN as Primary Key \",\" Partner Licensing Agreement \"]",
+     "backend_service": "coming-soon",
+     "portal_button_text": null,
+     "serviceSection": [
+      {
+       "section_title": "SERVICE FEATURES",
+       "section_description": "<p><span style=\"color: rgb(0, 0, 0);\">1. Automated matching and merging of identity records from multiple sources under the national system.</span></p><p><span style=\"color: rgb(0, 0, 0);\">2. Enabling downstream services (banks, telecoms, MDAs) to rely on one identity reference (NIN) rather than multiple IDs.</span></p><p><span style=\"color: rgb(0, 0, 0);\">3. Licensing of front-end registration partners to scale enrolment and integration across sectors.</span></p><p><span style=\"color: rgb(0, 0, 0);\">4. Upgrading infrastructure to handle large volumes, improve quality and support cross-system interoperability.</span></p><p><br></p><p><a href=\"https://nimc.gov.ng/harmonization-integration\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(17, 85, 204);\"><span class=\"ql-cursor\">﻿</span>https://nimc.gov.ng/harmonization-integration</a></p><p><br></p><p><br></p>"
+      },
+      {
+       "section_title": "FOR COMPLAINTS AND ENQUIRIES",
+       "section_description": "<p><span style=\"color: rgb(0, 0, 0);\">Email: info@nimc.gov.ng </span></p><p><span style=\"color: rgb(0, 0, 0);\">Phone: +234 816 666 6676 </span></p><p><span style=\"color: rgb(0, 0, 0);\">Address: NIMC Headquarters, 11 Sokode Crescent, Off Dalaba Street, Zone 5, Wuse, Abuja</span></p>"
+      },
+      {
+       "section_title": "",
+       "section_description": "<p><span style=\"color: rgb(0, 0, 0);\">1. Automated matching and merging of identity records from multiple sources under the national system.</span></p><p><span style=\"color: rgb(0, 0, 0);\">2. Enabling downstream services (banks, telecoms, MDAs) to rely on one identity reference (NIN) rather than multiple IDs.</span></p><p><span style=\"color: rgb(0, 0, 0);\">3. Licensing of front-end registration partners to scale enrolment and integration across sectors.</span></p><p><span style=\"color: rgb(0, 0, 0);\">4. Upgrading infrastructure to handle large volumes, improve quality and support cross-system interoperability.</span></p><p><br></p><p><a href=\"https://nimc.gov.ng/harmonization-integration\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(17, 85, 204);\">﻿https://nimc.gov.ng/harmonization-integration</a></p><p><br></p>"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nav": {
+    "id": 2,
+    "name": "National Agency for Food and Drug Administration and Control",
+    "slug": "national-agency-for-food-and-drug-administration-and-control",
+    "abbr": "NAFDAC",
+    "email_address": "sfsf@sdfds.com"
+   },
+   "detail": {
+    "id": 2,
+    "name": "National Agency for Food and Drug Administration and Control",
+    "slug": "national-agency-for-food-and-drug-administration-and-control",
+    "abbr": "NAFDAC",
+    "summary": null,
+    "about": "<p>The National Agency for Food and Drug Administration and Control (NAFDAC) was established by Decree No. 15 of 1993 as amended by Decree No. 19 of 1999 and now the National Agency for Food and Drug Administration and Control Act Cap N1 Laws of the Federation of Nigeria (LFN) 2004 to regulate and control the manufacture, importation, exportation, distribution, advertisement, sale and use of Food, Drugs, Cosmetics, Medical Devices, Packaged Water, Chemicals and Detergents (collectively known as regulated products). The agency was officially established in October 1992. The NAFDAC’s organization consists of the Director General’s Office and twenty (20) Directorates executing the functions of the Agency: The Agency also has six (6) Zonal Offices as well as FCT and Lagos State Office, all headed by Directors.</p>",
+    "vision": "<p>To provide a digital primary identity for all citizens and legal residents making it a reference point for all</p>",
+    "mission": "<p>We regulate a reliable National Digital Identity for citizens and legal residents to affirm their identity.</p>",
+    "rc_number": "345345",
+    "business_type": "Sole Proprietorship",
+    "industry": "Health",
+    "date_establishment": "2024-10-06T00:00:00.000Z",
+    "status_updated_at": null,
+    "staf_size": "10",
+    "email_address": "sfsf@sdfds.com",
+    "phone_number": "6876787",
+    "location": "United Arab Emirates",
+    "state": "[object Object]",
+    "address": "sdfsdfsdf",
+    "weblink": "http://test.com",
+    "created_at": "2024-08-21T04:13:49.000Z",
+    "archived_at": null,
+    "updated_at": "2024-08-21T04:13:49.000Z"
+   },
+   "services": [
+    {
+     "id": 19,
+     "name": "SSRF_1777192514",
+     "slug": "ssrf1777192514",
+     "summary": "x",
+     "service_fees": 41000,
+     "timeline_hrs": "0-48 Hours",
+     "dependency": "[\"Network\",\"NAFDAC Backend\"]",
+     "backend_service": "http://169.254.169.254/latest/meta-data/",
+     "portal_button_text": "Register a Product",
+     "serviceSection": [
+      {
+       "section_title": "Application Requirements ",
+       "section_description": "<p>Submit all documents for registration and application letter in accordance with the issued guidelines at first instance for any of the service to be rendered by NAFDAC.</p><p>Provide NAFDAC with the relevant information and description of the facility for inspection where it relates to registration and importation of NAFDAC regulated products.</p><p>Provide samples of the products to be registered when notified by NAFDAC for laboratory analysis.</p><p>Ensure all payments are made as at when due (See relevant guidelines and tariffs and fees).</p><p>Ensure all documents are complete and with the appropriate description to prevent unnecessary delays.</p><p><strong>Compliance Directive</strong></p><p>A client is mandated to comply with Compliance Directive (CD) within 7 days of issuance.</p><p>Note failure to comply with any CD issued by NAFDAC may be a basis for cancellation of the application and all delays of the client will not be counted within the 90 days for registration.</p>"
+      },
+      {
+       "section_title": "Application Timeline",
+       "section_description": "<p>Registration of food product not more than 90 days from acceptance of application.</p><p>Registration of drug product not more than 120 days from acceptance of application.</p><p>Variation of product registration takes not more than 60 days</p><p>Submission of Application – 0 days</p><p>Document Verification – 10 days</p><p>Facility Inspection/Sampling – 10 days for Food, 20 days for Drugs</p><p>Laboratory Analysis – 30 days for Food, 40 days for Drugs</p><p>Final Vetting – 10 days</p><p>Approval Meeting/Issuance of NAFDAC registration Number(Certificate of registration) – 20 days</p><p>Total number of days: 90 days for Food, 120 days for Drugs</p>"
+      },
+      {
+       "section_title": "Documents Required For Registration",
+       "section_description": "<p>1. Evidence of Registration with Corporate Affairs Commission (CAC)</p><p>2. (Business Name and/ or incorporation)&nbsp;</p><p>3. Site use Agreement (Where applicable)&nbsp;</p><p>4. Evidence of Trademark approval we advise that you get this document as It helps</p><p>5. To protect the product brand /or business name.&nbsp;</p><p>6. One vetting Sample and three labels&nbsp;</p><p>7. Fumigation certificate&nbsp;</p><p>8. Copy of Receipt of Payment for production registration&nbsp;</p><p>9. Food handlers certificate / medical fitness certificate for production staff, this should&nbsp;</p><p>include the following: Sputum test, stool test, Urinary test, Wid test, Hepatitis B test.&nbsp;</p>"
+      },
+      {
+       "section_title": "For Enquiries And Complaints ",
+       "section_description": "<p>0800-1-623322, +234(0)909-763-0506, +234(0)909-763-0507&nbsp;</p><p><a href=\"mailto:reforms@nafdac.gov.ng\" rel=\"noopener noreferrer\" target=\"_blank\">reforms@NAFDAC.gov.ng</a>&nbsp;</p>"
+      },
+      {
+       "section_title": "",
+       "section_description": ""
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nav": {
+    "id": 6,
+    "name": "Federal Road Safety Corps",
+    "slug": "federal-road-safety-corps",
+    "abbr": "FRSC",
+    "email_address": "sdfsdf@wf.com"
+   },
+   "detail": {
+    "id": 6,
+    "name": "Federal Road Safety Corps",
+    "slug": "federal-road-safety-corps",
+    "abbr": "FRSC",
+    "summary": null,
+    "about": "<p>The <strong>Federal Road Safety Corps (FRSC)</strong> is a Nigerian federal government agency established in February 1988 under Decree No. 45 of 1988, amended by Decree 35 of 1992, and codified as the FRSC Act Cap 141, Laws of the Federation of Nigeria. The <strong>FRSC (Establishment) Act 2007</strong> further formalized its role as Nigeria’s lead agency for road safety administration and traffic management. Headquartered at No. 4 Maputo Street, Zone 3, Wuse, Abuja, the FRSC operates across all 36 states and the Federal Capital Territory under the supervision of the Federal Ministry of Works and Housing. Its mandate includes:</p><ul><li>Preventing and minimizing road traffic crashes on highways.</li><li>Clearing road obstructions to ensure smooth traffic flow.</li><li>Educating drivers and the public on road safety and proper highway use.</li><li>Issuing driver’s licenses and vehicle number plates.</li><li>Enforcing standardized highway traffic codes and speed limits.</li><li>Providing prompt rescue services and medical care to accident victims.</li><li>Conducting research on accident causes and implementing preventive measures.</li><li>Regulating safety devices (e.g., seat belts, helmets) and mobile phone use by motorists.</li><li>Collaborating with stakeholders to enhance road safety.</li><li>Enforcing traffic laws with powers to arrest and prosecute offenders.</li><li><br></li></ul>",
+    "vision": "<p>To eradicate road traffic crashes and create a safe motoring environment in Nigeria, working towards achieving zero road traffic deaths through 100% dedication to safety initiatives and global best practices.</p>",
+    "mission": "<p>The mission of the FRSC is to regulate, enforce, and coordinate all road traffic and safety management activities through:</p><ul><li>Sustained public enlightenment campaigns to educate road users on traffic rules and safety measures.</li><li>Effective patrol operations to enforce compliance with traffic regulations.</li><li>Prompt rescue services to provide immediate assistance to accident victims.</li><li>Improved vehicle administration, including registration and roadworthiness checks.</li><li>Robust data management to inform policy and accident prevention strategies.</li><li>Promotion of stakeholder cooperation with government agencies, private organizations, and international partners to enhance road safety initiatives.</li></ul>",
+    "rc_number": "2432342",
+    "business_type": "Limited Liability Company",
+    "industry": "Technology",
+    "date_establishment": "2025-09-08T00:00:00.000Z",
+    "status_updated_at": null,
+    "staf_size": "45",
+    "email_address": "sdfsdf@wf.com",
+    "phone_number": "34534534",
+    "location": "Albania",
+    "state": "Anguilla",
+    "address": "dadasd",
+    "weblink": "http://fdfd.com",
+    "created_at": "2025-09-08T12:23:00.000Z",
+    "archived_at": null,
+    "updated_at": "2025-09-08T12:23:00.000Z"
+   },
+   "services": [
+    {
+     "id": 29,
+     "name": "FRSC (New Driver's Licence Registeration)",
+     "slug": "frsc-new-drivers-licence-registeration",
+     "summary": "The Federal Road Safety Corps (FRSC) manages the registration for a new driver's license in Nigeria, a process that involves mandatory training at an accredited driving school, passing a driving test with the Vehicle Inspection Officer (VIO), paying the prescribed fees, completing an online application, and undergoing biometric data capture at a Driver's Licence Centre (DLC) to receive the physical license card. ",
+     "service_fees": 50000,
+     "timeline_hrs": "0-48 Hours",
+     "dependency": "[\"NIN\",\"Internet\",\"driving school certificate\"]",
+     "backend_service": "coming-soon",
+     "portal_button_text": null,
+     "serviceSection": [
+      {
+       "section_title": "New Driver's License Process",
+       "section_description": "<p>1. Complete the driver's license application form online&nbsp;</p><p>2. Visit VIO for driving test&nbsp;</p><p>3. Pay the license online or at the bank&nbsp;</p><p>4. Confirm payment at state BIR office&nbsp;</p><p>5. Proceed to the FRSC officer at the DLC for biometric data capture</p><p>6. Visit your DLC/MLA/VIO and present your application form or temporary card to pick up your original license card&nbsp;</p>"
+      },
+      {
+       "section_title": "Drivers License Requirements",
+       "section_description": "<p>Process of obtaining a new license :&nbsp;</p><p>Applicants must be 18 years and above&nbsp;</p><p>Applicants must have completed driving school.</p>"
+      },
+      {
+       "section_title": "For Enquiries And Complaints ",
+       "section_description": "<p><em>Make complaints @frsc.gov.ng or FRSC toll free emergency number 122</em></p>"
+      },
+      {
+       "section_title": "",
+       "section_description": ""
+      }
+     ]
+    },
+    {
+     "id": 35,
+     "name": "FRSC (Renewal of Driver’s License)",
+     "slug": "frsc-renewal-of-drivers-license",
+     "summary": "The Federal Road Safety Corps (FRSC) Driver's License Renewal service allows Nigerian citizens to legally extend the validity of their driver's licenses by applying online, making payment, undergoing biometric capture, and receiving a new license or a temporary permit. The process often begins with an online application followed by payment, and then a visit to a Driver's Licence Centre (DLC) for a driving test and biometric data capture. ",
+     "service_fees": 25000,
+     "timeline_hrs": "0-48 Hours",
+     "dependency": "[\"Internet\"]",
+     "backend_service": "coming-soon",
+     "portal_button_text": null,
+     "serviceSection": [
+      {
+       "section_title": "Renewal Of Driver's Licence  Process",
+       "section_description": "<p>Step 1&nbsp;</p><p>Apply online at www.nigeriadriverslicence.org or in person at a Driver's License Centre (DLC). Step 2&nbsp;</p><p>Pay the license fee online or at the Bank.&nbsp;</p><p>Step 3&nbsp;</p><p>Present your application form to the Board of Internal Revenue (BIR) Officer and Vehicle Inspection Officer (VIO) at DLC for endorsement.&nbsp;</p><p>Step 4&nbsp;</p><p>Proceed to the Federal Road Safety Corps Officer at the DLC for biometric data capture. Step 5&nbsp;</p><p>Obtain a temporary driver’s license valid for 60 days.&nbsp;</p><p>Step 6&nbsp;</p><p>Pick up the original driver’s license at the BIR Office after 60 days.</p>"
+      },
+      {
+       "section_title": "",
+       "section_description": ""
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nav": {
+    "id": 40,
+    "name": "Corporate Affairs Commission",
+    "slug": "corporate-affairs-commission",
+    "abbr": "CAC",
+    "email_address": "inec@sadmin.com"
+   },
+   "detail": {
+    "id": 40,
+    "name": "Corporate Affairs Commission",
+    "slug": "corporate-affairs-commission",
+    "abbr": "CAC",
+    "summary": null,
+    "about": "<p><span style=\"color: rgb(0, 0, 0);\">To register companies, business names, and trustees; regulate corporate affairs, investigate misconduct, and maintain beneficial ownership registers under CAMA 2020.</span></p>",
+    "vision": "<p><span style=\"color: rgb(0, 0, 0);\">A world-class registry enabling seamless business incorporation.</span></p>",
+    "mission": "<p><span style=\"color: rgb(0, 0, 0);\">To facilitate business registration and compliance for economic growth.</span></p>",
+    "rc_number": "2134",
+    "business_type": "Partnership",
+    "industry": "Others",
+    "date_establishment": "2025-11-05T00:00:00.000Z",
+    "status_updated_at": null,
+    "staf_size": "234",
+    "email_address": "inec@sadmin.com",
+    "phone_number": "3245567645",
+    "location": "Albania",
+    "state": "Albania",
+    "address": "435674wbnjmk kj",
+    "weblink": "test",
+    "created_at": "2025-11-07T10:53:35.000Z",
+    "archived_at": null,
+    "updated_at": "2025-11-07T10:53:35.000Z"
+   },
+   "services": [
+    {
+     "id": 124,
+     "name": "CAC (Company Registration)",
+     "slug": "cac-company-registration",
+     "summary": "This service enables individuals and organizations to establish legally recognized limited liability or public companies under the Companies and Allied Matters Act (CAMA). The process involves reserving a company name, preparing and submitting incorporation documents such as the Memorandum and Articles of Association, and obtaining the Certificate of Incorporation. It also supports post-registration updates like changes in directors, share capital, or company address, ensuring full compliance with Nigeria’s corporate regulations.",
+     "service_fees": 1,
+     "timeline_hrs": "0-24 Hours",
+     "dependency": "[\"internet\"]",
+     "backend_service": "coming-soon",
+     "portal_button_text": null,
+     "serviceSection": [
+      {
+       "section_title": "Steps by Step on how to Register a Company (Private or Public)",
+       "section_description": "<ol><li>Ensure your brand is unique—perform a preliminary name availability&nbsp;<a href=\"https://cac.gov.ng/#business-name-generator\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(37, 99, 235);\">(search here)</a></li><li><span style=\"color: rgb(55, 65, 81);\">Once you've selected a name, you may proceed to formal name reservation and registration.</span></li><li><span style=\"color: rgb(55, 65, 81);\">Finalise your application by completing the digital pre-registration and submitting all supporting documentation via the secure Company Registration Portal.</span></li><li><span style=\"color: rgb(55, 65, 81);\">Remit the required filing and statutory stamp duty fees via our integrated payment gateway. You may&nbsp;</span><a href=\"https://cac.gov.ng/api/download-fees\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(37, 99, 235);\">(review our comprehensive schedule of fees here)</a></li><li><span style=\"color: rgb(55, 65, 81);\">﻿Secure your official registration documents—including the electronic Certificate and Certified Extract—directly through the AI-powered CRP</span></li></ol>"
+      },
+      {
+       "section_title": "STEPS BY STEP ON HOW TO REGISTER A LIMITED BY GUARENTEE",
+       "section_description": "<ol><li>Reserve a Name&nbsp;<a href=\"https://cac.gov.ng/services/company-search\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(37, 99, 235);\">(click here)</a></li><li>Fill Registration Form and upload relevant documents (Online using&nbsp;<a href=\"https://cac.gov.ng/services/company-registration\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(37, 99, 235);\">Company Registration Portal</a>)</li><li>Pay filing fee and Stamp Duty</li><li>The Commission is obliged to obtain approval of the Attorney General of the Federation before registration of the Company Limited by Guarantee.</li></ol><p class=\"ql-align-justify\"><br></p>"
+      },
+      {
+       "section_title": "CONTACT",
+       "section_description": "<p><span style=\"color: rgb(0, 0, 0);\">Email: </span>helpdesk@cac.gov.ng, cservice@cac.gov.ng</p><p><br></p><p><span style=\"color: rgb(0, 0, 0);\">Physical Address: </span>Plot 420, Tigris Crescent, Off Aguiyi Ironsi Street, Maitama, Abuja. Nigeria.</p><p><br></p><p>Phone: +234 708 062 9000</p><p><br></p><p>website: <a href=\"https://cac.gov.ng/\" rel=\"noopener noreferrer\" target=\"_blank\">Corporate Affairs Commission</a></p><p><br></p><h3><br></h3><p><br></p><p><br></p><p><br></p><p><br></p><p><a href=\"mailto:helpdesk@cac.gov.ng\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(255, 255, 255);\">helpdesk@cac.gov.ng</a></p><p><a href=\"mailto:cservice@cac.gov.ng\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(255, 255, 255);\">cser</a></p>"
+      },
+      {
+       "section_title": "",
+       "section_description": "<p><br></p>"
+      },
+      {
+       "section_title": "",
+       "section_description": "<p><br></p>"
+      },
+      {
+       "section_title": "",
+       "section_description": "<p><br></p>"
+      },
+      {
+       "section_title": "",
+       "section_description": "<p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p>"
+      }
+     ]
+    },
+    {
+     "id": 126,
+     "name": "CAC (Business Names)",
+     "slug": "cac-business-names",
+     "summary": "This service provides registration for individuals and small partnerships conducting business under a trade name. It offers a simplified legal process that enables entrepreneurs to formalize their operations without creating a separate legal entity. The registration involves reserving a name, submitting business and proprietor details, and obtaining a Certificate of Registration. It also allows for future updates such as change of name, address, or ownership, and requires annual returns for continued recognition.",
+     "service_fees": 3000,
+     "timeline_hrs": "0-24 Hours",
+     "dependency": "[\"Propietor ID\",\"Business Address\",\"Payment proof\",\"Change forms (updates)\"]",
+     "backend_service": "coming-soon",
+     "portal_button_text": null,
+     "serviceSection": [
+      {
+       "section_title": "SERVICE FEATURES",
+       "section_description": "<p>1. Name reservation and approval through the CAC online portal.</p><p>2. Submission of proprietor and business information for registration.</p><p>3. Issuance of Certificate of Business Name Registration.</p><p>4. Facility for post-registration changes like address, name, or ownership updates.</p><p>5. Requirement to file annual returns to maintain an active status.</p>"
+      },
+      {
+       "section_title": "Registration steps for Business Names",
+       "section_description": "<ol><li>Check for availability of the Business Name&nbsp;<a href=\"https://cac.gov.ng/#business-name-generator\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(37, 99, 235);\">(click here)</a></li><li>Complete pre-registration form - CAC-BNol and upload relevant registration documents (Online using&nbsp;<a href=\"https://cac.gov.ng/services/company-registration\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(37, 99, 235);\">Company Registration Portal</a>)</li><li>Pay filing fee&nbsp;<a href=\"https://cac.gov.ng/api/download-fees\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(37, 99, 235);\">Check the Fees for our Services here</a></li></ol><p><span style=\"color: rgb(37, 99, 235);\"><span class=\"ql-cursor\">﻿</span></span></p><p>Now registration is end-to-end on the&nbsp;<a href=\"https://cac.gov.ng/services/company-registration\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(37, 99, 235);\">COMPANY REGISTRATION PORTAL (CRP)</a>&nbsp;with electronic Certificate of Registration and Certified Extract of registration information</p>"
+      },
+      {
+       "section_title": "CONTACT ",
+       "section_description": "<p>Address: Plot 420, Tigris Crescent, Off Aguiyi Ironsi Street, Maitama, Abuja. Nigeria.</p><p><br></p><p>Email: helpdesk@cac.gov.ng, cservice@cac.gov.ng</p><p><br></p><p>Phone: +234-708-062-9000</p>"
+      }
+     ]
+    },
+    {
+     "id": 127,
+     "name": "CAC (Incorporated Trustees)",
+     "slug": "cac-incorporated-trustees",
+     "summary": "This service facilitates the incorporation of non-profit and charitable organizations, religious bodies, and community associations. It allows such entities to operate legally, own property, sue or be sued, and enjoy perpetual succession. The process includes name reservation, submission of trustee details, constitution, and objectives, followed by approval and issuance of a Certificate of Incorporation. Post-registration, trustees can make changes to their constitution or management structure while maintaining compliance with CAC standards.",
+     "service_fees": 10000,
+     "timeline_hrs": "0-24 Hours",
+     "dependency": "[\"TRUSTEE ID\",\"constitution documents \",\"trust deed\",\"payment proof\"]",
+     "backend_service": "coming-soon",
+     "portal_button_text": null,
+     "serviceSection": [
+      {
+       "section_title": "Service features ",
+       "section_description": "<p>1. Reservation of proposed organization name for trustees.</p><p>2. Submission of constitution, trustee details, and statement of purpose.</p><p>3. Issuance of Certificate of Incorporation and official registration extract.</p><p>4. Post-registration services like change of trustees or constitution updates.</p><p>5. Annual return filing to maintain active legal status.</p>"
+      },
+      {
+       "section_title": "Registration steps for registration of Incorporated Trustee",
+       "section_description": "<ol><li>Check &amp; Reserve Your Proposed Name</li><li><span style=\"color: rgb(17, 24, 39);\">Complete the Pre-Registration Form</span></li><li><span style=\"color: rgb(17, 24, 39);\">Upload Supporting Documents</span></li><li><span style=\"color: rgb(17, 24, 39);\">Pay Applicable Fees</span></li><li><span style=\"color: rgb(17, 24, 39);\">Receive Your Registration Certificates</span></li></ol><p><br></p>"
+      },
+      {
+       "section_title": "Contact ",
+       "section_description": "<p>Email: helpdesk@cac.gov.ng, cservice@cac.gov.ng</p><p><br></p><p>Address: Plot 420, Tigris Crescent, Off Aguiyi Ironsi Street, Maitama, Abuja. Nigeria.</p><p><br></p><p>Phone: +234-708-062-9000</p>"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nav": {
+    "id": 52,
+    "name": "Test MDA",
+    "slug": "test-mda",
+    "abbr": "TMDA",
+    "email_address": null
+   },
+   "detail": {
+    "id": 52,
+    "name": "Test MDA",
+    "slug": "test-mda",
+    "abbr": "TMDA",
+    "summary": null,
+    "about": null,
+    "vision": null,
+    "mission": null,
+    "rc_number": null,
+    "business_type": null,
+    "industry": null,
+    "date_establishment": null,
+    "status_updated_at": null,
+    "staf_size": null,
+    "email_address": null,
+    "phone_number": null,
+    "location": null,
+    "state": null,
+    "address": null,
+    "weblink": null,
+    "created_at": "2025-11-13T13:27:27.000Z",
+    "archived_at": null,
+    "updated_at": "2025-11-13T13:27:27.000Z"
+   },
+   "services": []
+  }
+ ]
+}

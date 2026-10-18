@@ -7,6 +7,7 @@ import Database from 'better-sqlite3'
 import { createRagRouter } from '../server/ragRoutes.js'
 import { addDocument } from '../server/rag.js'
 import { NO_ANSWER_MESSAGE } from '../server/ragPrompt.js'
+import { REWRITE_MODEL } from '../server/ragFollowUp.js'
 
 const sqlite = new Database(':memory:')
 sqlite.prepare(`CREATE TABLE rag_documents (id INTEGER PRIMARY KEY AUTOINCREMENT, source TEXT NOT NULL,
@@ -16,10 +17,17 @@ sqlite.prepare(`CREATE TABLE rag_chunks (id INTEGER PRIMARY KEY AUTOINCREMENT, d
 
 const fakeDb = { _rawClient: sqlite, _ragReady: Promise.resolve() }
 
+// `calls` holds the ANSWER requests only. Every question is first prepared for
+// searching by a separate cheap call (REWRITE_MODEL), recorded in `prepCalls`.
 let calls = []
+let prepCalls = []
 let reply = 'VAT is charged at 7.5 percent [1].'
 const fakeOpenAI = {
-  chat: { completions: { create: async (args) => { calls.push(args); return { choices: [{ message: { content: reply } }] } } } },
+  chat: { completions: { create: async (args) => {
+    if (args.model === REWRITE_MODEL) { prepCalls.push(args); return { choices: [{ message: { content: '{"question":"","keywords":[]}' } }] } }
+    calls.push(args)
+    return { choices: [{ message: { content: reply } }] }
+  } } },
 }
 
 let server, base, ip = 0
@@ -73,7 +81,7 @@ describe('POST /api/rag/ask', () => {
     assert.deepEqual(body.sources, [])
   })
 
-  test('does not call the model at all when retrieval finds nothing', async () => {
+  test('does not ask the model for an answer when retrieval finds nothing', async () => {
     calls = []
     const { status, body } = await ask('Who won the football world cup?')
     assert.equal(status, 200)
@@ -113,6 +121,15 @@ describe('POST /api/rag/ask', () => {
       assert.equal(res.status, 503)
       assert.equal(calls.length, 0)
     } finally { s.close() }
+  })
+
+  test('an empty model reply is reported as unavailable, with the sources, not as "no answer"', async () => {
+    calls = []; reply = ''
+    const { status, body } = await ask('What is the VAT rate for taxable goods?')
+    assert.equal(status, 503)
+    assert.equal(body.error, 'Answer synthesis temporarily unavailable')
+    assert.ok(body.sources.length > 0, 'the retrieved sources are still returned')
+    assert.notEqual(body.answer, NO_ANSWER_MESSAGE)
   })
 
   test('still rejects empty and oversized questions', async () => {

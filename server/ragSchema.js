@@ -8,6 +8,8 @@ const TABLES = [
     title TEXT NOT NULL,
     url TEXT,
     content TEXT NOT NULL,
+    origin TEXT,
+    external_id TEXT,
     fetched_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
   )`,
@@ -28,6 +30,13 @@ const TABLES = [
 const LATE_COLUMNS = [['section', 'TEXT'], ['chunk_index', 'INTEGER']]
 const SECTION_INDEX = 'CREATE INDEX IF NOT EXISTS rag_chunks_section_idx ON rag_chunks(section)'
 
+// Where a document came from. origin is NULL for the hand-written NGScorecard
+// summaries and 'portal' for the Government Service Portal; external_id is that
+// source's own stable id, so a renamed service updates in place. fetched_at is
+// the last time the source was read (the "checked on" date shown to users).
+const DOC_COLUMNS = [['origin', 'TEXT'], ['external_id', 'TEXT']]
+const EXTERNAL_INDEX = 'CREATE INDEX IF NOT EXISTS rag_documents_external_idx ON rag_documents(origin, external_id)'
+
 // Works with both better-sqlite3 (sync) and @libsql/client (async).
 export async function ensureRagSchema(client) {
   if (client.prepare) {
@@ -37,6 +46,11 @@ export async function ensureRagSchema(client) {
       if (!have.has(column)) client.prepare(`ALTER TABLE rag_chunks ADD COLUMN ${column} ${type}`).run()
     }
     client.prepare(SECTION_INDEX).run()
+    const haveDoc = new Set(client.prepare('PRAGMA table_info(rag_documents)').all().map(c => c.name))
+    for (const [column, type] of DOC_COLUMNS) {
+      if (!haveDoc.has(column)) client.prepare(`ALTER TABLE rag_documents ADD COLUMN ${column} ${type}`).run()
+    }
+    client.prepare(EXTERNAL_INDEX).run()
     return
   }
 
@@ -47,4 +61,10 @@ export async function ensureRagSchema(client) {
     if (!have.has(column)) await client.execute(`ALTER TABLE rag_chunks ADD COLUMN ${column} ${type}`)
   }
   await client.execute(SECTION_INDEX)
+  const docInfo = await client.execute('PRAGMA table_info(rag_documents)')
+  const haveDoc = new Set(docInfo.rows.map(r => r.name))
+  for (const [column, type] of DOC_COLUMNS) {
+    if (!haveDoc.has(column)) await client.execute(`ALTER TABLE rag_documents ADD COLUMN ${column} ${type}`)
+  }
+  await client.execute(EXTERNAL_INDEX)
 }
