@@ -20,6 +20,21 @@ function isoFromReviewed(s) {
   return `${m[2]}-${String(mi + 1).padStart(2, '0')}-01`
 }
 
+function absoluteImageUrl(src) {
+  if (typeof src !== 'string' || !src) return null
+  if (/^\/(?!\/)/.test(src)) return `${SITE_ORIGIN}${src}`
+  return /^https:\/\/[^\s"<>]+$/.test(src) ? src : null
+}
+
+// og:image:width/height in the template describe the default 1200x630 card. A
+// page with its own image states that image's size, or, if the size is not
+// known, drops the two tags rather than tell crawlers the wrong dimensions.
+function imageSizeTag(dim, ogImageUrl, size) {
+  if (!ogImageUrl) return '$&'
+  const n = Number(size?.[dim])
+  return Number.isInteger(n) && n > 0 ? `$1${n}$2` : ''
+}
+
 // Renders one HTML response for a request URL. `template` is a complete HTML
 // document (Vite's dev transform or its build output); `loadEntryServer` is a
 // loader for the isomorphic entry-server module. Shared by server/dev.js,
@@ -70,7 +85,7 @@ export async function renderHtml(url, template, loadEntryServer) {
 
   const id = parseInt(parsed.searchParams.get('id'))
   const { render } = await loadEntryServer()
-  const { html, initialData, meta, notFound, canonical, reviewed, ogImage, ogImageAlt, robots } = await render({ route, id })
+  const { html, initialData, meta, notFound, canonical, reviewed, ogImage, ogImageAlt, ogImageSize, article, robots } = await render({ route, id })
 
   const langTag = HTML_LANG[initialData.locale] || 'en'
   const title = escapeHtml(meta.title)
@@ -88,16 +103,23 @@ export async function renderHtml(url, template, loadEntryServer) {
       ].join('\n    ')
     : ''
 
+  // The share image: a site-relative path ("/og-image.png") or an https URL.
+  // Anything else (http:, data:, javascript:, protocol-relative) is ignored so
+  // a bad content entry can never put a strange URL in the page head.
+  const ogImageUrl = absoluteImageUrl(ogImage)
+
   // Per-page schema.org WebPage — carries a real dateModified (from the
   // administration's review date) so freshness isn't guessed from the crawl.
   const dateModified = isoFromReviewed(reviewed)
   const jsonLd = notFound ? '' : `<script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: meta.title,
+    '@type': article ? 'Article' : 'WebPage',
+    [article ? 'headline' : 'name']: article ? article.title : meta.title,
     description: meta.description,
     url: canonicalUrl,
     inLanguage: langTag,
+    ...(article ? { datePublished: article.date, author: { '@type': 'Organization', name: article.author } } : {}),
+    ...(article && ogImageUrl ? { image: ogImageUrl } : {}),
     ...(dateModified ? { dateModified } : {}),
     isPartOf: { '@type': 'WebSite', name: 'NGScorecard', url: SITE_ORIGIN },
     publisher: { '@type': 'Organization', name: 'NGScorecard', url: SITE_ORIGIN },
@@ -108,7 +130,6 @@ export async function renderHtml(url, template, loadEntryServer) {
   // Per-page overrides a route can ask for: a bespoke share image (term
   // report card) and a robots directive (noindex for a page with nothing on
   // it yet). Routes that return neither keep the template's site-wide values.
-  const ogImageUrl = ogImage ? `${SITE_ORIGIN}${ogImage}` : null
   const ogAlt = escapeHtml(ogImageAlt || meta.title)
 
   const finalHtml = template
@@ -126,6 +147,8 @@ export async function renderHtml(url, template, loadEntryServer) {
     .replace(/(<meta property="og:image" content=")[^"]*(")/, ogImageUrl ? `$1${ogImageUrl}$2` : '$&')
     .replace(/(<meta name="twitter:image" content=")[^"]*(")/, ogImageUrl ? `$1${ogImageUrl}$2` : '$&')
     .replace(/(<meta property="og:image:alt" content=")[^"]*(")/, ogImageUrl ? `$1${ogAlt}$2` : '$&')
+    .replace(/(<meta property="og:image:width" content=")[^"]*("\s*\/?>)/, imageSizeTag('width', ogImageUrl, ogImageSize))
+    .replace(/(<meta property="og:image:height" content=")[^"]*("\s*\/?>)/, imageSizeTag('height', ogImageUrl, ogImageSize))
     .replace(/(<meta name="robots" content=")[^"]*(")/, robots ? `$1${escapeHtml(robots)}$2` : '$&')
     .replace('<!--ssr-outlet-->', html)
     .replace('<!--ssr-state-->', stateScript)

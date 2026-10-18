@@ -218,6 +218,52 @@ export function createAdminRouter() {
     res.status(204).end()
   })
 
+  // Newsletter list (owner only: it is readers' email addresses). The secret
+  // token in each row is never selected, so it cannot leak through the admin
+  // or an export. Unsubscribed rows stay listed: they are the suppression list.
+  const SUBSCRIBER_FIELDS = {
+    id: t.subscribers.id, email: t.subscribers.email, status: t.subscribers.status, source: t.subscribers.source,
+    createdAt: t.subscribers.createdAt, confirmedAt: t.subscribers.confirmedAt, unsubscribedAt: t.subscribers.unsubscribedAt,
+  }
+  const SUBSCRIBER_STATUSES = new Set(['pending', 'confirmed', 'unsubscribed'])
+
+  router.get('/subscribers', requireOwner, async (req, res) => {
+    await db._newsletterReady
+    const { page, pageSize, offset } = parsePagination(req)
+    const status = SUBSCRIBER_STATUSES.has(req.query.status) ? req.query.status : null
+    const where = status ? eq(t.subscribers.status, status) : undefined
+    const [rows, [{ value: total }], byStatus] = await Promise.all([
+      db.select(SUBSCRIBER_FIELDS).from(t.subscribers).where(where).orderBy(desc(t.subscribers.createdAt)).limit(pageSize).offset(offset),
+      db.select({ value: count() }).from(t.subscribers).where(where),
+      db.select({ status: t.subscribers.status, value: count() }).from(t.subscribers).groupBy(t.subscribers.status),
+    ])
+    const counts = { pending: 0, confirmed: 0, unsubscribed: 0 }
+    for (const r of byStatus) counts[r.status] = r.value
+    res.json({ rows, total, page, pageSize, pageCount: Math.max(1, Math.ceil(total / pageSize)), counts })
+  })
+
+  // CSV of confirmed subscribers (or ?status=pending|unsubscribed|all).
+  router.get('/subscribers.csv', requireOwner, async (req, res) => {
+    await db._newsletterReady
+    const status = req.query.status === 'all' ? null : (SUBSCRIBER_STATUSES.has(req.query.status) ? req.query.status : 'confirmed')
+    const rows = await db.select(SUBSCRIBER_FIELDS).from(t.subscribers)
+      .where(status ? eq(t.subscribers.status, status) : undefined).orderBy(t.subscribers.id)
+    // a cell that starts with = + - @ would run as a formula in a spreadsheet
+    const cell = (v) => {
+      const s = v == null ? '' : String(v)
+      const safe = /^[=+\-@\t\r]/.test(s) ? `'${s}` : s
+      return /[",\n\r]/.test(safe) ? `"${safe.replace(/"/g, '""')}"` : safe
+    }
+    const cols = ['email', 'status', 'source', 'createdAt', 'confirmedAt', 'unsubscribedAt']
+    const csv = [cols.join(','), ...rows.map(r => cols.map(c => cell(r[c])).join(','))].join('\n') + '\n'
+    await audit(req, 'subscribers_export', { table: 'subscribers', after: { status: status ?? 'all', rows: rows.length } })
+    res.set({
+      'Content-Type': 'text/csv; charset=utf-8',
+      'Content-Disposition': `attachment; filename="ngscorecard-subscribers-${status ?? 'all'}.csv"`,
+      'Cache-Control': 'no-store',
+    }).send(csv)
+  })
+
   router.get('/administrations', async (_req, res) => {
     res.json(await q.getPresidents())
   })

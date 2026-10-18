@@ -1,5 +1,6 @@
 import * as schema from './schema.js'
 import { ensureRagSchema } from './ragSchema.js'
+import { ensureNewsletterSchema } from './newsletterSchema.js'
 
 function ensureColumn(client, table, column, definition) {
   try {
@@ -215,6 +216,10 @@ async function createDb() {
       console.error('RAG schema setup failed:', e.message)
     })
 
+    db._newsletterReady = ensureNewsletterSchema(client).catch(e => {
+      console.error('Newsletter schema setup failed:', e.message)
+    })
+
     // Attach raw client for RAG queries
     db._rawClient = client
     return db
@@ -257,6 +262,7 @@ async function createDb() {
   db._rawClient = client
   // adds any RAG columns an older local database is missing (a no-op once current)
   db._ragReady = ensureRagSchema(client).catch(e => console.error('RAG schema setup failed:', e.message))
+  db._newsletterReady = ensureNewsletterSchema(client).catch(e => console.error('Newsletter schema setup failed:', e.message))
   return db
 }
 

@@ -1,6 +1,15 @@
 // Editorial publications. Plain data, English only, rendered by
 // PublicationsView.vue. Inline *italics* are the only markup supported.
 // To add one: append an object; the slug is its URL (/publications/<slug>).
+//
+// Images (all optional). A publication may carry a cover `image`, and any
+// section may carry its own `image`:
+//   image: { src: '/publications/<file>.jpg', alt: 'what it shows', width: 1200, height: 630, credit: 'who made it' }
+// `src` is a file under public/ (or an https URL); `alt` is required and
+// `width`/`height` are the real pixel size (they stop the page jumping as it
+// loads and are sent to link previews). The image shown when the link is
+// shared is the cover if there is one, otherwise the first section image,
+// otherwise the site's default card. See shareImageOf().
 
 export const PUBLICATIONS = [
   {
@@ -262,6 +271,26 @@ export function listPublications() {
     date: p.date,
     author: p.author,
     summary: p.summary,
+    image: hasImage(p.image) ? p.image : null,
     headings: p.sections.map((s) => s.heading).filter(Boolean),
   }))
+}
+
+const hasImage = (img) => !!(img && typeof img.src === 'string' && img.src)
+
+// The image a link preview (Facebook, X, WhatsApp, LinkedIn, Slack...) should
+// show for this publication: its cover, else the first image inside the body,
+// else null (the caller then keeps the site's default card). Returns a copy.
+export function shareImageOf(publication) {
+  if (!publication) return null
+  const img = hasImage(publication.image)
+    ? publication.image
+    : (publication.sections ?? []).map((s) => s.image).find(hasImage)
+  return img ? { ...img } : null
+}
+
+// Every image a publication uses, cover first. Used by the tests to check
+// that each one exists and has alt text.
+export function imagesOf(publication) {
+  return [publication?.image, ...(publication?.sections ?? []).map((s) => s.image)].filter(hasImage)
 }

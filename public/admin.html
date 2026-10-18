@@ -805,6 +805,7 @@
 
     var reference = []
     if (isOwner) reference.push({ label: 'API Keys', table: '__keys', onClick: function () { selectKeys() } })
+    if (isOwner) reference.push({ label: 'Newsletter', table: '__newsletter', onClick: function () { selectNewsletter() } })
     reference.push(
       { label: 'Indicator Registry', table: '__registry', onClick: function () { selectRegistry() } },
       { label: 'Change History', table: '__history', onClick: function () { selectHistory() } },
@@ -1938,6 +1939,41 @@
       })
     })
     wirePagination()
+  }
+
+  // ---------- Newsletter (owner) ----------
+  async function selectNewsletter(keepPage) {
+    state.table = '__newsletter'
+    state.reload = function () { selectNewsletter(true) }
+    if (!keepPage) { state.page = 1; state.newsletterStatus = state.newsletterStatus || '' }
+    setActiveNav('__newsletter')
+    $('#section-title').textContent = 'Newsletter'
+    $('#section-controls').innerHTML = ''
+    $('#content').innerHTML = '<div class="loading">Loading…</div>'
+    var q = '/subscribers?page=' + state.page + '&pageSize=' + state.pageSize + (state.newsletterStatus ? '&status=' + state.newsletterStatus : '')
+    var result = await api(q)
+    applyPageResult(result)
+    var c = result.counts
+    var tabs = [['', 'All'], ['confirmed', 'Confirmed ' + c.confirmed], ['pending', 'Pending ' + c.pending], ['unsubscribed', 'Unsubscribed ' + c.unsubscribed]]
+    var html = '<div class="notice">Signups confirm by email (double opt-in). Only <strong>confirmed</strong> addresses should be mailed. Unsubscribed addresses are kept so they are not added again. ' +
+      '<a href="/api/admin/subscribers.csv">Download confirmed (CSV)</a> · <a href="/api/admin/subscribers.csv?status=all">all</a></div>' +
+      '<div class="actions" style="margin:10px 0">' + tabs.map(function (tb) {
+        return '<button class="btn small' + ((state.newsletterStatus || '') === tb[0] ? ' primary' : '') + '" data-nlstatus="' + tb[0] + '">' + esc(tb[1]) + '</button>'
+      }).join(' ') + '</div>'
+    if (!state.total) {
+      $('#content').innerHTML = html + '<div class="table-scroll"><div class="empty-state">No subscribers here yet.</div></div>'
+    } else {
+      html += '<div class="table-scroll"><table><thead><tr><th>Email</th><th>Status</th><th>Source</th><th>Signed up</th><th>Confirmed</th><th>Unsubscribed</th></tr></thead><tbody>'
+      state.rows.forEach(function (r) {
+        html += '<tr><td>' + esc(r.email) + '</td><td><span class="badge ' + (r.status === 'confirmed' ? '' : 'revoked') + '">' + esc(r.status) + '</span></td><td>' + esc(r.source || '—') +
+          '</td><td>' + esc(r.createdAt) + '</td><td>' + esc(r.confirmedAt || '—') + '</td><td>' + esc(r.unsubscribedAt || '—') + '</td></tr>'
+      })
+      $('#content').innerHTML = html + '</tbody></table></div>' + renderPagination()
+      wirePagination()
+    }
+    $$('[data-nlstatus]').forEach(function (b) {
+      b.addEventListener('click', function () { state.newsletterStatus = b.dataset.nlstatus; selectNewsletter() })
+    })
   }
 
   // ---------- Team (owner) ----------

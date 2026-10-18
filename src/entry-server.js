@@ -4,7 +4,7 @@ import App from './App.vue'
 import { getPresidents, getAllDataForAdmin, getThemesWithCounts, getThemeLineage, getPromises, getFraud, getBudget, getManifesto } from '../server/queries.js'
 import { createT, isLocale, DEFAULT_LOCALE } from './i18n/index.js'
 import { routePath } from './routes.js'
-import { findPublication, listPublications } from './content/publications.js'
+import { findPublication, listPublications, shareImageOf } from './content/publications.js'
 import { buildTermReport } from './lib/termReport.js'
 
 const VALID_TABS = new Set([
@@ -128,9 +128,14 @@ export async function render({ route, id } = {}) {
     const meta = article
       ? { title: `${article.title} | NGScorecard`, description: article.summary }
       : { title: t('meta.publications.title'), description: t('meta.publications.desc') }
+    // A publication with an image shares with that image; one without keeps the
+    // site-wide card (render.js leaves the template's og:image alone for null).
+    const shareImage = shareImageOf(article)
     return {
       html, initialData, meta, notFound: missing,
       canonical: article ? routePath('publication', { slug: article.slug }) : routePath('publications'),
+      ...(shareImage ? { ogImage: shareImage.src, ogImageAlt: shareImage.alt, ogImageSize: shareImage } : {}),
+      article: article ? { title: article.title, date: article.date, author: article.author } : null,
       robots: missing || loc !== 'en' ? 'noindex, follow' : null,
     }
   }
@@ -191,6 +196,7 @@ export async function render({ route, id } = {}) {
       reviewed: adminRecord.reviewed,
       ogImage: `/api/og/report/${key}.png`,
       ogImageAlt: report.total ? t('report.ogAlt', { ...p, kept: report.kept, total: report.total }) : meta.title,
+      ogImageSize: { width: 1200, height: 630 },
       robots: report.total ? null : 'noindex, follow',
     }
   }

@@ -3,6 +3,7 @@
 // /publications/<slug>. Content lives in src/content/publications.js.
 import { computed, inject } from 'vue'
 import ShareActions from './ShareActions.vue'
+import NewsletterForm from './NewsletterForm.vue'
 
 const t = inject('t', (k) => k)
 const lp = inject('lp', (p) => p)
@@ -65,8 +66,16 @@ const tocOf = (p) => (p.headings ?? []).map((h) => h.replace(/^\d+\.\s*/, ''))
         </div>
       </header>
       <main class="wrap pub-article">
+        <figure v-if="publication.image" class="pub-figure">
+          <img :src="publication.image.src" :alt="publication.image.alt" :width="publication.image.width" :height="publication.image.height" fetchpriority="high">
+          <figcaption v-if="publication.image.credit">{{ publication.image.credit }}</figcaption>
+        </figure>
         <section v-for="(s, i) in publication.sections" :key="i" class="pub-section">
           <h2 v-if="s.heading">{{ s.heading }}</h2>
+          <figure v-if="s.image" class="pub-figure">
+            <img :src="s.image.src" :alt="s.image.alt" :width="s.image.width" :height="s.image.height" loading="lazy">
+            <figcaption v-if="s.image.credit">{{ s.image.credit }}</figcaption>
+          </figure>
           <p v-for="(para, j) in s.paragraphs" :key="j">
             <template v-for="(part, k) in parts(para)" :key="k"><em v-if="part.em">{{ part.text }}</em><template v-else>{{ part.text }}</template></template>
           </p>
@@ -78,6 +87,7 @@ const tocOf = (p) => (p.headings ?? []).map((h) => h.replace(/^\d+\.\s*/, ''))
           <div class="pub-share-label">{{ t('publications.shareThis') }}</div>
           <ShareActions :url="shareUrl" :title="publication.title" :text="publication.subtitle" />
         </div>
+        <NewsletterForm class="pub-newsletter" :source="`publication:${publication.slug}`" />
         <p class="pub-back"><a :href="lp('/publications')">← {{ t('publications.all') }}</a></p>
       </main>
     </template>
@@ -124,6 +134,7 @@ const tocOf = (p) => (p.headings ?? []).map((h) => h.replace(/^\d+\.\s*/, ''))
             </li>
           </ul>
         </section>
+        <NewsletterForm class="pub-newsletter" source="publications" />
       </main>
     </template>
   </div>
@@ -147,7 +158,12 @@ h1 { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-siz
 .pub-meta { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; color: var(--faint); margin: 14px 0 0; }
 
 main { padding: 36px 24px 72px; }
+.pub-newsletter { margin: 32px 0; padding: 20px; border: 1px solid var(--line-strong); background: var(--surface); }
+.pub-figure { margin: 0 0 28px; }
+.pub-figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+.pub-figure figcaption { font-size: 13px; color: var(--faint); margin-top: 6px; }
 .pub-section { margin-bottom: 30px; }
+.pub-section .pub-figure { margin: 4px 0 16px; }
 .pub-section h2 { font-size: 21px; font-weight: 800; color: var(--g800); margin: 0 0 8px; }
 .pub-section p { font-size: 17px; line-height: 1.7; margin: 0 0 14px; overflow-wrap: anywhere; }
 .pub-notes { border-top: 1px solid var(--line-strong); margin-top: 40px; padding-top: 16px; }

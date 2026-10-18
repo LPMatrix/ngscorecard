@@ -6,6 +6,7 @@ import { createCorrectionsRouter } from './correctionsRoutes.js'
 import { createOgRouter } from './ogRoutes.js'
 import { createPaystackRouter } from './paystackRoutes.js'
 import { createRagRouter } from './ragRoutes.js'
+import { createNewsletterRouter } from './newsletterRoutes.js'
 import outcomeRoutes from './outcomeRoutes.js'
 
 // Single source of truth for how the API routers are mounted, used by both
@@ -32,6 +33,7 @@ export function createApiApp() {
   app.use('/api/corrections', createCorrectionsRouter())
   app.use('/api/donate', createPaystackRouter())
   app.use('/api/rag', createRagRouter())
+  app.use('/api/newsletter', createNewsletterRouter())
   app.use('/api/outcome', outcomeRoutes)
   app.use('/api', createApiRouter())
 

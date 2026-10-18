@@ -21,6 +21,7 @@ import ServicesView    from './components/ServicesView.vue'
 import TrackersComparedView from './components/TrackersComparedView.vue'
 import ReportView      from './components/ReportView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
+import NewsletterForm  from './components/NewsletterForm.vue'
 import LangSwitcher    from './components/LangSwitcher.vue'
 
 // Populated server-side (entry-server.js) or client-side from
@@ -1924,6 +1925,8 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
          publications, and the content pages, which no longer carry their own
          local one) ── -->
     <footer class="pt-footer">
+      <!-- publications pages carry their own, in context -->
+      <NewsletterForm v-if="pageView !== 'publications'" compact source="footer" />
       <div class="pt-footer-links">
         <a :href="lp('/guide')">{{ t('header.guide') }}</a>
         <a :href="lp('/publications')">{{ t('header.publications') }}</a>

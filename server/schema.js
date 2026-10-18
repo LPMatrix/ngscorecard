@@ -414,3 +414,20 @@ export const adminAudit = sqliteTable('admin_audit', {
   beforeJson:     text('before_json'),
   afterJson:      text('after_json'),
 })
+
+// Newsletter signups (server/newsletterRoutes.js). A row is 'pending' until the
+// person clicks the link we email them, then 'confirmed'; 'unsubscribed' rows
+// are kept so an address that opted out is never added again by accident. The
+// token is the secret in that person's confirm and unsubscribe links, so it is
+// never listed in the admin or exported.
+export const subscribers = sqliteTable('subscribers', {
+  id:                 integer('id').primaryKey({ autoIncrement: true }),
+  email:              text('email').notNull().unique(), // stored lowercase
+  status:             text('status').notNull().default('pending'), // pending|confirmed|unsubscribed
+  token:              text('token').notNull().unique(),
+  source:             text('source'),                   // where they signed up: footer, publication:<slug>
+  createdAt:          text('created_at').notNull(),
+  confirmationSentAt: text('confirmation_sent_at'),
+  confirmedAt:        text('confirmed_at'),
+  unsubscribedAt:     text('unsubscribed_at'),
+})
