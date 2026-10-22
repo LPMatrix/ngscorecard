@@ -8,6 +8,7 @@ import BudgetView      from './components/BudgetView.vue'
 import IndicatorsView  from './components/IndicatorsView.vue'
 import ManifestoView   from './components/ManifestoView.vue'
 import PublicationsView from './components/PublicationsView.vue'
+import LocalGovernmentsView from './components/LocalGovernmentsView.vue'
 import { findPublication, listPublications } from './content/publications.js'
 import GovernorsView   from './components/GovernorsView.vue'
 import CompareView     from './components/CompareView.vue'
@@ -22,6 +23,7 @@ import TrackersComparedView from './components/TrackersComparedView.vue'
 import ReportView      from './components/ReportView.vue'
 import CorrectionForm  from './components/CorrectionForm.vue'
 import NewsletterForm  from './components/NewsletterForm.vue'
+import { NG_ZONES, NG_ZONE_ORDER } from './lib/zones.js'
 import LangSwitcher    from './components/LangSwitcher.vue'
 
 // Populated server-side (entry-server.js) or client-side from
@@ -210,21 +212,6 @@ function goToAdminFromLanding(key) {
 const pickerOpen = ref(false)
 const pickerCursor = ref(-1) // index into visiblePickerOptions for ↑/↓ nav
 
-const NG_ZONES = {
-  Benue: 'North Central', Kogi: 'North Central', Kwara: 'North Central',
-  Nasarawa: 'North Central', Niger: 'North Central', Plateau: 'North Central',
-  Adamawa: 'North East', Bauchi: 'North East', Borno: 'North East',
-  Gombe: 'North East', Taraba: 'North East', Yobe: 'North East',
-  Jigawa: 'North West', Kaduna: 'North West', Kano: 'North West',
-  Katsina: 'North West', Kebbi: 'North West', Sokoto: 'North West', Zamfara: 'North West',
-  Abia: 'South East', Anambra: 'South East', Ebonyi: 'South East',
-  Enugu: 'South East', Imo: 'South East',
-  'Akwa Ibom': 'South South', Bayelsa: 'South South', 'Cross River': 'South South',
-  Delta: 'South South', Edo: 'South South', Rivers: 'South South',
-  Ekiti: 'South West', Lagos: 'South West', Ogun: 'South West',
-  Ondo: 'South West', Osun: 'South West', Oyo: 'South West',
-}
-const NG_ZONE_ORDER = ['North Central', 'North East', 'North West', 'South East', 'South South', 'South West']
 
 const RECENTS_KEY = 'ngsc:recent-admins'
 const RECENTS_MAX = 4
@@ -421,7 +408,7 @@ onMounted(async () => {
       activeAdmin.value = null
       const list = await fetch('/api/themes').then(r => r.ok ? r.json() : []).catch(() => [])
       landingThemes.value = list.map(th => ({ slug: th.slug, title: th.title, adminCount: th.adminCount }))
-    } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers' || route.name === 'support' || route.name === 'trackersCompared') {
+    } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers' || route.name === 'support' || route.name === 'trackersCompared' || route.name === 'localGovernments') {
       pageView.value = route.name
       activeAdmin.value = null
     } else if (route.name === 'services') {
@@ -1221,6 +1208,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
     <DevelopersView v-else-if="pageView === 'developers'" />
     <SupportView v-else-if="pageView === 'support'" />
     <TrackersComparedView v-else-if="pageView === 'trackersCompared'" />
+    <LocalGovernmentsView v-else-if="pageView === 'localGovernments'" :admins="ADMINISTRATIONS" />
 
     <!-- ── Government services ("/services") ── -->
     <ServicesView v-else-if="isServices" />
@@ -1930,6 +1918,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
       <div class="pt-footer-links">
         <a :href="lp('/guide')">{{ t('header.guide') }}</a>
         <a :href="lp('/publications')">{{ t('header.publications') }}</a>
+        <a :href="lp('/local-governments')">{{ t('header.localGovernments') }}</a>
         <a :href="lp('/support')">{{ t('header.support') }}</a>
         <a :href="lp('/developers')">{{ t('header.developers') }}</a>
         <a :href="lp('/press')">{{ t('header.press') }}</a>

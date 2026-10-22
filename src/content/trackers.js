@@ -21,7 +21,7 @@ export const US = {
     rating: 'Kept, partial or mixed, broken, in progress, or not yet assessed, under a published methodology with a version number and change log.',
     evidence: 'Every promise links to its source. Capital projects, and a growing share of other entries, are also labelled by source type: official record, independent reporting, expert analysis or weak source.',
     corrections: 'Every change to a rated entry is logged publicly on the entry itself (more than 300 so far), and every card has a "Report an issue" button.',
-    data: 'Free API with an instant key, an embeddable widget, and a full dataset download, all under CC BY 4.0.',
+    data: 'Free API with an instant key, an embeddable widget, and a full dataset download — all freely available.',
   },
 }
 
@@ -134,7 +134,7 @@ export const DIFFERENCES = [
   },
   {
     title: 'Built to be reused',
-    body: 'A free API, an embeddable widget and a downloadable dataset, all under CC BY 4.0, so newsrooms, researchers and other tools can build on the data.',
+    body: 'A free API, an embeddable widget and a downloadable dataset, so newsrooms, researchers and other tools can build on the data.',
     link: { href: '/developers', label: 'See the API and widget' },
   },
   {

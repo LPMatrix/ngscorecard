@@ -411,7 +411,7 @@ export default {
   'budget.implementationRate': 'Ọnụọgụ mmezu',
 
   // ── shared page chrome (guide / press / developers) ──────────────
-  'common.footerTag': 'NGScorecard bụ ọrụ ọha efu, emeghe emeghe, nwere onwe ya — ọ metụtaghị ọchịchị Naịjịrịa. Data CC BY 4.0.',
+  'common.footerTag': 'NGScorecard bụ ọrụ ọha efu, emeghe emeghe, nwere onwe ya — ọ metụtaghị ọchịchị Naịjịrịa.',
 
   'meta.guide.title': 'NGScorecard — Nkọwa Okwu na Usoro',
   'meta.guide.desc': 'Ihe NGScorecard na-eso, ihe akara ọnọdụ ọ bụla na okwu mmefu ego pụtara, na otú anyị si atụle, na-achọ isi mmalite, nyocha, ma na-emezi njehie.',
@@ -547,7 +547,7 @@ export default {
   'guide.independence.funding.term': 'Ego',
   'guide.independence.funding.body': "A naghị eji ọrụ a chọ uru. Ọ naghị anara ego n'aka ọchịchị ọ bụla, ndị otu ndọrọ ndọrọ ọchịchị, onye na-aso mpi, ma ọ bụ mkpọsa mpi, ebe ọ bụla. Ọ bụrụ na ọ na-achọ ịnara ego maka ihe ọ bụla (dịka ohere API buru ibu), ọ bụ naanị iji na-akwado ụdị efu ka ọ na-arụ ọrụ — ọ na-adị iche kpamkpam n'aka usoro ikpebi ọkwa, a na-ekwupụtakwa nkwado ego ọ bụla ebe a.",
   'guide.independence.openByDefault.term': "Emeghe Emeghe Site N'Ọbụbụ",
-  'guide.independence.openByDefault.body': 'E biputara data ahụ n\'okpuru Creative Commons Attribution 4.0 (CC BY 4.0); koodu ọrụ ahụ bụ nke nzuzo, ọ bụghị nke emeghere ọha. Anyị na-anabata mmezi, akaebe, na ntụgharị asụsụ site n\'aka ọha — lee akụkụ nke 6, ma ọ bụ "Kọọ nsogbu" na kaadị ọ bụla.',
+  'guide.independence.openByDefault.body': 'E biputara data ahụ n\'efu maka onye ọ bụla ka ọ gụọ, budata ma ọ bụ jiri ya; koodu ọrụ ahụ bụ nke nzuzo, ọ bụghị nke emeghere ọha. Anyị na-anabata mmezi, akaebe, na ntụgharị asụsụ site n\'aka ọha — lee akụkụ nke 6, ma ọ bụ "Kọọ nsogbu" na kaadị ọ bụla.',
   'guide.independence.ownership.term': 'Onye nwe ya',
   'guide.independence.ownership.body': "Ọrụ nwere onwe ya — ọ metụtaghị, e nakweghị ya, ma a naghị arụ ya n'aha ụlọ ọrụ ọchịchị ọ bụla ma ọ bụ otu ndọrọ ndọrọ ọchịchị.",
   'guide.independence.correctionsOverReputation.term': 'Mmezi Karịa Aha Ọma',
@@ -556,13 +556,13 @@ export default {
   'guide.changes.title': 'Ndekọ mgbanwe',
   'guide.changes.lede': "Mgbanwe ndị dị mkpa n'otú anyị si ahọrọ ma ọ bụ tụlee nkwa ka anyị na-edekọ ebe a, nke ọhụrụ kacha na mbụ. Mmezi okwu obere nke na-agbanweghị ntule ọ bụla, anyị anaghị edekọ ya.",
   'guide.changes.v15.date': '19 Sep 2026',
-  'guide.changes.v15.body': "Edeghachiri akụkụ nke 8: data ahụ ka meghere n'okpuru CC BY 4.0, mana koodu ọrụ ahụ bụ nke nzuzo, anyị anaghịzi akpọ ya nke emeghere ọha. Ọ dịghị ụkpụrụ ọkwa gbanwere.",
+  'guide.changes.v15.body': "Edeghachiri akụkụ nke 8: data ahụ ka na-emeghere ọha n'efu, mana koodu ọrụ ahụ bụ nke nzuzo, anyị anaghịzi akpọ ya nke emeghere ọha. Ọ dịghị ụkpụrụ ọkwa gbanwere.",
   'guide.changes.v14.date': '7 Sep 2026',
   'guide.changes.v14.body': "Mkpuchi steeti gbatịrị n'okpuru 1999 ruo ọchịchị ndị a họpụtara tupu 1999: ndị gọvanọ 19 nke Republic nke Abụọ (1979–1983) na ndị gọvanọ 30 niile nke Republic nke Atọ (1992–1993). Ndị na-elekọta steeti nke ndị agha họpụtara ka nọ n'èzí mkpuchi. E melitere akụkụ nke 7 ka o kwekọọ. Ọ dịghị usoro ọkwa gbanwere.",
   'guide.changes.v13.date': '7 Sep 2026',
   'guide.changes.v13.body': "Agbakwunyere akụkụ nke 7, \"Mkpuchi na Oghere\": ihe a na-eso na ihe a na-esoghị, ihe mere ụfọdụ ndekọ ochie ji dị mkpụmkpụ, na ndetu banyere nyocha isi mmalite Septemba 2026. E gbatịrị mkpuchi steeti azụ ruo n'afọ Obasanjo (1999–2007); e gbatịrị mkpuchi ọchịchị etiti azụ ruo n'oge nnwere onwe (1960), n'omimi dị nta, maka ndị agha, ndị oge nwa, na ọchịchị Republic nke Mbụ/Abụọ. Anyị na-agụ \"nkwa\" oge ndị agha dị ka mmemme na akwụkwọ atụmatụ ekwuputara (akụkụ 1). Ọ dịghị usoro ọkwa gbanwere.",
   'guide.changes.v12.date': '31 Aug 2026',
-  'guide.changes.v12.body': "Edeghachiri akụkụ nke 7 dị ka \"Nnwere Onwe na Imepe Emepe\": NGScorecard bụ ọrụ ọha efu, emeghe emeghe; data ya dị n'okpuru CC BY 4.0, koodu ya dịkwa n'okpuru AGPL-3.0; mpaghara ọ bụla a na-akwụ ụgwọ na-akwadoro naanị ụdị efu. Ọ dịghị usoro ọkwa gbanwere.",
+  'guide.changes.v12.body': "Edeghachiri akụkụ nke 7 dị ka \"Nnwere Onwe na Imepe Emepe\": NGScorecard bụ ọrụ ọha efu, emeghe emeghe; mpaghara ọ bụla a na-akwụ ụgwọ na-akwadoro naanị ụdị efu. Ọ dịghị usoro ọkwa gbanwere.",
   'guide.changes.v11.date': '31 Aug 2026',
   'guide.changes.v11.body': "Agbakwunyere akụkụ nke 7, Nnwere Onwe — nkwupụta e dere n'akwụkwọ banyere onye na-ekpebi ọkwa, iwu ego, na onye nwe ya. Ọ dịghị usoro ọkwa gbanwere.",
   'guide.changes.v10.date': '31 Aug 2026',

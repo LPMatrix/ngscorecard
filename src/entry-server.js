@@ -96,6 +96,16 @@ export async function render({ route, id } = {}) {
     return { html, initialData, meta, notFound: false, canonical: routePath(name, params) }
   }
 
+  // ── "/local-governments" — every local government area, by state. The list
+  // is bundled content (src/content/localGovernments.json) and English only, so
+  // other locales are served but kept out of search results.
+  if (name === 'localGovernments') {
+    const initialData = { ...baseState(), page: 'localGovernments' }
+    const html = await mount(initialData)
+    const meta = { title: t('meta.localGovernments.title'), description: t('meta.localGovernments.desc') }
+    return { html, initialData, meta, notFound: false, canonical: routePath('localGovernments'), robots: loc !== 'en' ? 'noindex, follow' : null }
+  }
+
   // ── "/services" — "Ask": document Q&A about government services ────────────────────────────
   if (name === 'services') {
     const initialData = { ...baseState(), services: true }

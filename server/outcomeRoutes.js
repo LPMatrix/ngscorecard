@@ -10,8 +10,15 @@ import { classifyPromise, findSimilarHistoricalPromises } from './promiseClassif
 import { getPatternReport, getSectorPatterns, getAdminComparison } from './patternDetector.js'
 import { scanFeeds, getQueue, dismissQueueItem, DEFAULT_FEEDS } from './realTimeTracker.js'
 import { factCheckStatement } from './lieDetector.js'
+import { requireAdmin } from './adminAuth.js'
 
 const router = express.Router()
+
+// Everything here is an admin tool: it changes promise statuses (/approve) or
+// spends model credit (verify, classify, factcheck, patterns, tracker scan). It
+// must never be reachable without an admin session, and state-changing calls
+// need the CSRF token the dashboard sends.
+router.use(requireAdmin)
 
 /**
  * POST /outcome/verify

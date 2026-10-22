@@ -1,7 +1,7 @@
 import { Router, json } from 'express'
 import { readFileSync } from 'fs'
 import path from 'path'
-import { eq, desc, count, and } from 'drizzle-orm'
+import { eq, desc, count, and, or, sql, gte, getTableColumns } from 'drizzle-orm'
 import { rateLimit, ipKeyGenerator } from 'express-rate-limit'
 import { db } from './db.js'
 import * as t from './schema.js'
@@ -55,6 +55,39 @@ const TABLES = {
 // edits it by hand, owner included.
 const OWNER_ONLY_TABLES = new Set(['donations'])
 const READ_ONLY_TABLES = new Set(['donations'])
+
+// Free-text search for the admin tables: a row matches when any of its text
+// columns contains every word typed (so "fuel subsidy" finds both words, in any
+// column). LIKE wildcards in what was typed are escaped, so "50%" means 50%.
+const SEARCH_MAX_CHARS = 100
+const SEARCH_MAX_WORDS = 6
+function searchFilter(table, raw) {
+  if (typeof raw !== 'string') return null
+  const words = raw.trim().slice(0, SEARCH_MAX_CHARS).split(/\s+/).filter(Boolean).slice(0, SEARCH_MAX_WORDS)
+  if (!words.length) return null
+  const textColumns = Object.values(getTableColumns(table)).filter(c => c.dataType === 'string')
+  if (!textColumns.length) return null
+  const perWord = words.map(w => {
+    const pattern = `%${w.toLowerCase().replace(/[\\%_]/g, '\\$&')}%`
+    return or(...textColumns.map(c => sql`lower(${c}) LIKE ${pattern} ESCAPE '\\'`))
+  })
+  return and(...perWord)
+}
+
+// Whole months since a review date written as "2026-09-01", "September 2026" or "2026".
+const MONTH_NAMES = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+export function monthsSince(label, now = new Date()) {
+  const m = String(label ?? '').trim().match(/^(?:(\d{4})-(\d{2})(?:-\d{2})?|(?:([A-Za-z]+)\s+)?(\d{4}))$/)
+  if (!m) return null
+  let year, month
+  if (m[1]) { year = Number(m[1]); month = Number(m[2]) - 1 }
+  else {
+    year = Number(m[4])
+    month = m[3] ? MONTH_NAMES.indexOf(m[3].slice(0, 3).toLowerCase()) : 0
+    if (month < 0) return null
+  }
+  return Math.max(0, (now.getFullYear() - year) * 12 + (now.getMonth() - month))
+}
 
 function resolveTable(req, res, next) {
   const entry = TABLES[req.params.table]
@@ -493,12 +526,65 @@ export function createAdminRouter() {
     res.json({ ok: true, correctionId: id, entryTable: correction.entryTable, entryId: correction.entryId })
   })
 
+  // The landing page: what needs attention, and what changed lately. Editors get
+  // the content half; the owner also gets the newsletter count and the activity log.
+  router.get('/overview', async (req, res) => {
+    const isOwner = req.admin.role === 'owner'
+    const group = (table, col) => db.select({ key: col, value: count() }).from(table).groupBy(col)
+    const toMap = (rows) => Object.fromEntries(rows.map(r => [r.key ?? 'unknown', r.value]))
+
+    const [corrections, promiseStatus, presidents, recentChanges, weekAgo] = await Promise.all([
+      group(t.corrections, t.corrections.status),
+      group(t.promises, t.promises.status),
+      db.select({ key: t.presidents.key, name: t.presidents.name, reviewed: t.presidents.reviewed, level: t.presidents.level, state: t.presidents.state, isCurrent: t.presidents.isCurrent }).from(t.presidents),
+      db.select().from(t.entryHistory).orderBy(desc(t.entryHistory.changedAt), desc(t.entryHistory.id)).limit(8),
+      db.select({ value: count() }).from(t.entryHistory).where(gte(t.entryHistory.changedAt, new Date(Date.now() - 7 * 86400000).toISOString())),
+    ])
+
+    const contentTables = ['promises', 'inherited', 'fraud', 'orders', 'ministers', 'bills', 'judgments', 'projects', 'governors']
+    const totals = await Promise.all(contentTables.map(name => db.select({ value: count() }).from(TABLES[name].table)))
+
+    // Same rule as the public site's "review due" flag: current profiles whose
+    // last review is nine months old or more.
+    const REVIEW_DUE_MONTHS = 9
+    const overdue = presidents
+      .filter(p => p.isCurrent !== false)
+      .map(p => ({ ...p, months: monthsSince(p.reviewed) }))
+      .filter(p => p.months != null && p.months >= REVIEW_DUE_MONTHS)
+      .sort((a, b) => b.months - a.months)
+
+    const out = {
+      corrections: toMap(corrections),
+      promisesByStatus: toMap(promiseStatus),
+      totals: Object.fromEntries(contentTables.map((name, i) => [name, totals[i][0].value])),
+      changesLast7Days: weekAgo[0].value,
+      recentChanges,
+      reviewDue: { count: overdue.length, oldest: overdue.slice(0, 5).map(({ key, name, reviewed, level, state, months }) => ({ key, name, reviewed, level, state, months })) },
+    }
+    if (isOwner) {
+      await db._newsletterReady
+      const [subs, activity] = await Promise.all([
+        group(t.subscribers, t.subscribers.status),
+        db.select().from(t.adminAudit).orderBy(desc(t.adminAudit.id)).limit(8),
+      ])
+      out.subscribers = { pending: 0, confirmed: 0, unsubscribed: 0, ...toMap(subs) }
+      // the saved before/after rows can be large and are not needed here
+      out.recentActivity = activity.map(({ beforeJson, afterJson, ...rest }) => rest)
+    }
+    res.json(out)
+  })
+
   router.get('/:table', resolveTable, async (req, res) => {
     const { table, adminCol } = req.tableEntry
     const { page, pageSize, offset } = parsePagination(req)
-    const where = adminCol && req.query.administration
-      ? eq(table[adminCol], req.query.administration)
-      : undefined
+    const filters = []
+    if (adminCol && req.query.administration) filters.push(eq(table[adminCol], req.query.administration))
+    // ?status=  exact match on the table's status column, if it has one
+    if (typeof req.query.status === 'string' && req.query.status && table.status) filters.push(eq(table.status, req.query.status))
+    // ?q=  case-insensitive substring match across the table's text columns
+    const search = searchFilter(table, req.query.q)
+    if (search) filters.push(search)
+    const where = filters.length ? and(...filters) : undefined
 
     let rowsQuery = db.select().from(table)
     let countQuery = db.select({ value: count() }).from(table)

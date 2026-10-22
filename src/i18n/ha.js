@@ -409,7 +409,7 @@ export default {
   'budget.implementationRate': 'Kason aiwatarwa',
 
   // ── shared page chrome (guide / press / developers) ──────────────
-  'common.footerTag': 'NGScorecard aiki ne na kyauta, buɗe wa kowa, mai cin gashin kansa — ba shi da alaƙa da gwamnatin Najeriya. Bayanai CC BY 4.0.',
+  'common.footerTag': 'NGScorecard aiki ne na kyauta, buɗe wa kowa, mai cin gashin kansa — ba shi da alaƙa da gwamnatin Najeriya.',
 
   'meta.guide.title': "NGScorecard — Ma'anar Kalmomi da Hanyar Aiki",
   'meta.guide.desc': "Abin da NGScorecard ke bibiya, ma'anar kowace alamar matsayi da kalmar kasafin kuɗi, da yadda muke ƙima, nemo majiya, bita, da gyara kurakurai.",
@@ -545,7 +545,7 @@ export default {
   'guide.independence.funding.term': 'Kuɗi',
   'guide.independence.funding.body': "Ba a gudanar da aikin don riba ba. Ba ya karɓan kuɗi daga wata gwamnati, jam'iyyar siyasa, ɗan takara, ko yaƙin neman zaɓe, ko'ina. Idan har ya taɓa cajin komai (misali, damar API mai yawa), hakan don kiyaye sigar kyauta tana gudana ne kawai — ya rabu gaba ɗaya daga aikin ƙima, kuma duk wani tallafi ana bayyana shi anan.",
   'guide.independence.openByDefault.term': 'Buɗe ta asali',
-  'guide.independence.openByDefault.body': 'An buga bayanan a ƙarƙashin Creative Commons Attribution 4.0 (CC BY 4.0); lambar aikin kuma ta sirri ce, ba buɗaɗɗiya ba. Gyare-gyare, shaida, da fassarori daga jama\'a ana marabta su — duba sashe na 6, ko "Bayar da rahoton matsala" a kan kowane kati.',
+  'guide.independence.openByDefault.body': 'An buga bayanan kyauta ga kowa don karantawa, zazzagewa da amfani da su; lambar aikin kuma ta sirri ce, ba buɗaɗɗiya ba. Gyare-gyare, shaida, da fassarori daga jama\'a ana marabta su — duba sashe na 6, ko "Bayar da rahoton matsala" a kan kowane kati.',
   'guide.independence.ownership.term': 'Mallaka',
   'guide.independence.ownership.body': "Aiki mai cin gashin kansa — ba shi da alaƙa da, ba a amince da shi ba, kuma ba a gudanar da shi a madadin wata hukumar gwamnati ko ƙungiyar siyasa ba.",
   'guide.independence.correctionsOverReputation.term': 'Gyara ya fi suna',
@@ -554,13 +554,13 @@ export default {
   'guide.changes.title': 'Tarihin canje-canje',
   'guide.changes.lede': "Manyan canje-canje ga yadda muke zaɓa ko ƙima alkawari muke rubuta su a nan, mafi sabo da farko. Ƙananan gyaran kalmomi da ba sa canza wata ƙima, ba mu rubuta su.",
   'guide.changes.v15.date': '19 Sep 2026',
-  'guide.changes.v15.body': "An sake rubuta sashe na 8: bayanan suna nan buɗe ƙarƙashin CC BY 4.0, amma lambar aikin ta sirri ce kuma ba a ƙara kiranta buɗaɗɗiya ba. Babu wata ƙa'idar ƙima da ta canza.",
+  'guide.changes.v15.body': "An sake rubuta sashe na 8: bayanan suna nan buɗe wa jama'a, amma lambar aikin ta sirri ce kuma ba a ƙara kiranta buɗaɗɗiya ba. Babu wata ƙa'idar ƙima da ta canza.",
   'guide.changes.v14.date': '7 Sep 2026',
   'guide.changes.v14.body': "An miƙa bibiyar jihohi ƙasa da 1999 zuwa gwamnatocin da aka zaɓa kafin 1999: gwamnoni 19 na Jamhuriya ta Biyu (1979–1983) da dukkan gwamnoni 30 na Jamhuriya ta Uku (1992–1993). Ma'aikatan gwamnatin jiha da soja ta naɗa suna nan a wajen bibiya. An sabunta sashe na 7 daidai da haka. Babu wata ƙa'idar ƙima da ta canza.",
   'guide.changes.v13.date': '7 Sep 2026',
   'guide.changes.v13.body': 'An ƙara sashe na 7, "Ɗaukar hoto da gibi": abin da ake bibiya da abin da ba a bibiya ba, me ya sa wasu tsofaffin rahotanni gajeru ne, da bayani kan nazarin majiya na Satumba 2026. An miƙa bibiyar jihohi baya har zuwa shekarun Obasanjo (1999–2007); an miƙa bibiyar tarayya baya zuwa samun \'yanci (1960), cikin ɗan ƙarancin zurfi, ga sojoji, na wucin gadi, da gwamnatocin Jamhuriya ta Farko/Biyu. Ana karanta "alkawuran" zamanin soja a matsayin tsare-tsare da takardun manufa da aka bayyana (sashe na 1). Babu wata ƙa\'idar ƙima da ta canza.',
   'guide.changes.v12.date': '31 Aug 2026',
-  'guide.changes.v12.body': 'An sake rubuta sashe na 7 a matsayin "Yancin kai da buɗewa": NGScorecard aiki ne na kyauta, buɗe wa kowa; bayanan ƙarƙashin CC BY 4.0 ne, lambar aikin kuma ƙarƙashin AGPL-3.0; duk wani ɓangare mai biya yana ɗaukar nauyin sigar kyauta ne kawai. Babu wata ƙa\'idar ƙima da ta canza.',
+  'guide.changes.v12.body': 'An sake rubuta sashe na 7 a matsayin "Yancin kai da buɗewa": NGScorecard aiki ne na kyauta, buɗe wa kowa; duk wani ɓangare mai biya yana ɗaukar nauyin sigar kyauta ne kawai. Babu wata ƙa\'idar ƙima da ta canza.',
   'guide.changes.v11.date': '31 Aug 2026',
   'guide.changes.v11.body': "An ƙara sashe na 7, Yanci — sanarwa a rubuce game da wanda ke yanke ƙima, manufar kuɗi, da mallaka. Babu wata ƙa'idar ƙima da ta canza.",
   'guide.changes.v10.date': '31 Aug 2026',

@@ -21,6 +21,7 @@
     "sitemap": "node --env-file=.env scripts/generate-sitemap.mjs",
     "paystack:setup-plan": "node --env-file=.env scripts/setup-paystack-plan.mjs",
     "rag:sync-portal": "node --env-file=.env scripts/sync-portal.mjs",
+    "lgas:import": "node scripts/import-lgas.mjs",
     "rag:remove": "node --env-file=.env scripts/remove-rag-documents.mjs",
     "rag:rechunk": "node --env-file=.env scripts/rechunk-rag.mjs",
     "eval:rag": "node --env-file-if-exists=.env scripts/eval-rag.mjs",
