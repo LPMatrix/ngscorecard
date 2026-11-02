@@ -11,8 +11,112 @@ Usage:
 """
 
 import sys, json, re, zipfile, unicodedata
+import urllib.request
 import xml.etree.ElementTree as ET
 from pathlib import Path
+
+WARDS_URL = 'https://raw.githubusercontent.com/temikeezy/nigeria-geojson-data/main/data/lgas-with-wards.json'
+
+# Wards JSON state name differs from our JSON state name
+WARD_STATE_ALIASES = {
+    'nasarawa': 'Nassarawa',
+}
+
+# Wards JSON LGA name differs from our JSON LGA name
+# Maps norm(our_lga) → exact_wards_json_lga_name
+WARD_LGA_ALIASES = {
+    # FCT
+    'abuja':                    'Municipal',
+    # Niger
+    'munya':                    'Muya',
+    'kontagora':                'Kontogur',
+    # Benue
+    'otukpo':                   'Oturkpo',
+    # Gombe
+    'shongom':                  'Shomgom',
+    'yamaltu/deba':             'Yalmatu / Deba',
+    # Jigawa
+    'kiri kasama':              'Kirika Samma',
+    'malam madori':             'Malam Mado',
+    # Kogi
+    'ogori/magongo':            'Ogori Magongo',
+    # Yobe
+    'bursari':                  'Borsari',
+    # Katsina
+    'dutsin-ma':                'Dutsin-M',
+    'kankia':                   'Kankiya',
+    'katsina':                  'Katsina (K)',
+    # Kano
+    'garun malam':              'Garum Mallam',
+    'tudun wada':               'Tundun Wada',
+    # Sokoto
+    'tambuwal':                 'Tambawal',
+    'tangaza':                  'Tangazar',
+    'gwadabawa':                'Gwadabaw',
+    'wamako':                   'Wamakko',
+    # Kebbi
+    'aliero':                   'Aleiro',
+    'koko/besse':               'Koko/Bes',
+    # Zamfara
+    'birnin magaji/kiyaw':      'Birnin Magaji',
+    # Adamawa
+    'girei':                    'Girie',
+    'toungo':                   'Teungo',
+    # Bauchi
+    'ganjuwa':                  'Gamjuwa',
+    # Plateau
+    "qua'an pan":               "Qua'anpa",
+    # Nasarawa (LGA spellings differ even after state alias)
+    'nasarawa egon':            'Nassarawa Egon',
+    # Abia
+    'obi ngwa':                 'Oboma Ngwa',
+    # Ebonyi
+    'abakaliki':                'Abakalik',
+    # Enugu
+    'enugu south':              'EnuguSou',
+    'igbo etiti':               'Igbo-Eti',
+    # Imo
+    'ihitte/uboma':             'Ihitte-Uboma Isinweke',
+    'onuimo':                   'Unuimo',
+    # Delta (heavily abbreviated in wards JSON)
+    'aniocha north':            'AniochaN',
+    'aniocha south':            'AniochaS',
+    'ethiope east':             'EthiopeE',
+    'ika north east':           'IkaNorth',
+    'isoko north':              'IsokoNor',
+    'isoko south':              'IsokoSou',
+    # Edo (truncated / typo in wards JSON)
+    'esan central':             'Esan Centtral',
+    'orhionmwon':               'Orhionmw',
+    # Akwa Ibom
+    'urue offong/oruko':        'Urue Offong|Oruko',
+    # Cross River
+    'calabar municipal':        'Calabar Municipality',
+    # Rivers
+    'abua-odual':               'Abua/Odu',
+    'akuku-toru':               'Akukutor',
+    'andoni':                   'Andoni/Odual',
+    'emohua':                   'Emuoha',
+    'ogba/egbema/ndoni':        'Ogba/Egbema/Andoni',
+    'omuma':                    'Omumma',
+    # Ekiti
+    'gbonyin':                  'Gboyin',
+    # Lagos
+    'badagry':                  'Badagary',
+    'somolu':                   'Shomolu',
+    'ifako-ijaiye':             'Ifako/Ijaye',
+    # Ogun (renamed from Egbado)
+    'yewa north':               'Egbado North',
+    'yewa south':               'Egbado South',
+    # Oyo
+    'oorelope':                 'Orelope',
+    # Osun
+    'aiyedire':                 'Ayedire',
+    'atakunmosa east':          'Atakumosa East',
+    'atakunmosa west':          'Atakumosa West',
+    'ilesa east':               'Ilesha East',
+    'ilesa west':               'Ilesha West',
+}
 
 # Spelling differences between our JSON LGA names and the XLSX names.
 # Maps norm(json_name) → xlsx_name (as it appears verbatim in XLSX).
@@ -104,6 +208,44 @@ def match_lga(state_name, lga_name, lookup):
     for (s, l), v in lookup.items():
         if s == sn and strip_all(l) == k3:
             return v
+    return None
+
+# ── Fetch wards JSON → ward count map ────────────────────────────────────────
+
+def parse_wards():
+    """Download lgas-with-wards.json; return {(norm_state, norm_lga): ward_count}."""
+    print('Fetching ward data from GitHub…')
+    with urllib.request.urlopen(WARDS_URL, timeout=30) as r:
+        raw = json.loads(r.read().decode('utf-8'))
+
+    ward_map = {}
+    for state_name, lgas in raw.items():
+        sn = norm(state_name)
+        for lga_name, wards in lgas.items():
+            ward_map[(sn, norm(lga_name))] = len(wards)
+
+    total_wards = sum(ward_map.values())
+    print(f'Wards: {len(ward_map)} LGAs, {total_wards} total wards')
+    return ward_map
+
+def match_wards(state_name, lga_name, ward_map):
+    """Look up ward count with state alias + LGA alias fallback."""
+    sn = norm(state_name)
+    k  = norm(lga_name)
+    # Resolve state alias (e.g. 'nasarawa' → 'nassarawa')
+    sn_resolved = norm(WARD_STATE_ALIASES.get(sn, state_name))
+    # Resolve LGA alias (e.g. 'abuja' → 'Municipal')
+    k_resolved = norm(WARD_LGA_ALIASES.get(k, lga_name))
+
+    for skey in {sn, sn_resolved}:
+        for lkey in {k, k_resolved}:
+            if (skey, lkey) in ward_map:
+                return ward_map[(skey, lkey)]
+        # strip_all fallback on unresolved lga key
+        k2 = strip_all(lga_name)
+        for (s, l), v in ward_map.items():
+            if s == skey and strip_all(l) == k2:
+                return v
     return None
 
 # ── Parse SQL → constituency map ──────────────────────────────────────────────
@@ -254,8 +396,11 @@ def main():
     print('Parsing census XLSX…')
     census_map, census_map2 = parse_census(xlsx_path)
 
+    ward_map = parse_wards()
+
     pop_found = pop_missed = 0
     cons_found = cons_missed = 0
+    ward_found = ward_missed = 0
 
     enriched_states = []
     for state in data['states']:
@@ -294,10 +439,19 @@ def main():
                 cons_missed += 1
                 print(f'  CON MISS: {state_name} / {lga_name}')
 
+            # Ward count lookup
+            ward_count = match_wards(state_name, lga_name, ward_map)
+            if ward_count is not None:
+                ward_found += 1
+            else:
+                ward_missed += 1
+                print(f'  WARD MISS: {state_name} / {lga_name}')
+
             enriched_lgas.append({
                 'name': lga_name,
                 'population2006': pop,
                 'constituency': constituency,
+                'wardCount': ward_count,
             })
 
         s = {
@@ -338,6 +492,13 @@ def main():
                 'field': 'councilStatus',
                 'retrieved': '2026-11-01',
             },
+            {
+                'name': 'temikeezy/nigeria-geojson-data (INEC ward boundaries)',
+                'url': 'https://github.com/temikeezy/nigeria-geojson-data',
+                'license': 'MIT',
+                'field': 'wardCount',
+                'retrieved': '2026-11-02',
+            },
         ],
         'total': data['total'],
         'states': enriched_states,
@@ -351,6 +512,7 @@ def main():
     print(f'\nDone.')
     print(f'  Population:   {pop_found} matched, {pop_missed} unmatched')
     print(f'  Constituency: {cons_found} matched, {cons_missed} unmatched')
+    print(f'  Ward count:   {ward_found} matched, {ward_missed} unmatched')
     print(f'  Written to {json_path}')
 
 if __name__ == '__main__':

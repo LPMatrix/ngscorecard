@@ -119,7 +119,10 @@ const fmt = (n) => n == null ? '' : n.toLocaleString()
             <ul>
               <li v-for="lga in s.shown" :key="lga.name" class="lga-item">
                 <span class="lga-name">{{ lga.name }}</span>
-                <span v-if="lga.population2006" class="lga-pop">{{ fmt(lga.population2006) }}</span>
+                <span v-if="lga.population2006 || lga.wardCount" class="lga-meta">
+                  <span v-if="lga.population2006" class="lga-pop">{{ fmt(lga.population2006) }}</span>
+                  <span v-if="lga.wardCount" class="lga-wards">{{ lga.wardCount }} {{ t('lga.wards') }}</span>
+                </span>
               </li>
             </ul>
           </article>
@@ -197,7 +200,9 @@ main.wrap { max-width: 1168px; }
 .lga-item { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; padding: 3px 0; border-bottom: 1px solid transparent; }
 .lga-item:not(:last-child) { border-bottom-color: var(--line); }
 .lga-name { font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; flex: 1; }
+.lga-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; flex-shrink: 0; }
 .lga-pop { font-size: 12px; color: var(--faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lga-wards { font-size: 11px; color: var(--faint); opacity: 0.75; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 
 @media (max-width: 560px) {

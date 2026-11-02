@@ -27,6 +27,13 @@
    "license": "editorial",
    "field": "councilStatus",
    "retrieved": "2026-11-01"
+  },
+  {
+   "name": "temikeezy/nigeria-geojson-data (INEC ward boundaries)",
+   "url": "https://github.com/temikeezy/nigeria-geojson-data",
+   "license": "MIT",
+   "field": "wardCount",
+   "retrieved": "2026-11-02"
   }
  ],
  "total": 774,
@@ -39,117 +46,140 @@
     {
      "name": "Ado",
      "population2006": 184389,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Agatu",
      "population2006": 115597,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Apa",
      "population2006": 96780,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Buruku",
      "population2006": 206215,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Gboko",
      "population2006": 361325,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 17
     },
     {
      "name": "Guma",
      "population2006": 194164,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Gwer East",
      "population2006": 168660,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 14
     },
     {
      "name": "Gwer West",
      "population2006": 122313,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 15
     },
     {
      "name": "Katsina Ala",
      "population2006": 225471,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Konshisha",
      "population2006": 226492,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Kwande",
      "population2006": 248642,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 15
     },
     {
      "name": "Logo",
      "population2006": 169570,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Makurdi",
      "population2006": 300377,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Obi",
      "population2006": 98707,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Ogbadibo",
      "population2006": 130988,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Ohimini",
      "population2006": 70688,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Oju",
      "population2006": 168491,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Okpokwu",
      "population2006": 175596,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Otukpo",
      "population2006": 266411,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Tarka",
      "population2006": 79280,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ukum",
      "population2006": 216983,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Ushongo",
      "population2006": 191935,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Vandeikya",
      "population2006": 234567,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     }
    ],
    "electionDate": "2024-11-16"
@@ -162,32 +192,38 @@
     {
      "name": "Abaji",
      "population2006": 58642,
-     "constituency": "Abuja"
+     "constituency": "Abuja",
+     "wardCount": 10
     },
     {
      "name": "Abuja",
      "population2006": 776298,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Bwari",
      "population2006": 229274,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Gwagwalada",
      "population2006": 158618,
-     "constituency": "Abuja"
+     "constituency": "Abuja",
+     "wardCount": 10
     },
     {
      "name": "Kuje",
      "population2006": 97233,
-     "constituency": "Abuja"
+     "constituency": "Abuja",
+     "wardCount": 10
     },
     {
      "name": "Kwali",
      "population2006": 86174,
-     "constituency": "Abuja"
+     "constituency": "Abuja",
+     "wardCount": 10
     }
    ],
    "electionDate": "2026-02-21"
@@ -200,107 +236,128 @@
     {
      "name": "Adavi",
      "population2006": 217219,
-     "constituency": "Adavi/Okehi"
+     "constituency": "Adavi/Okehi",
+     "wardCount": 11
     },
     {
      "name": "Ajaokuta",
      "population2006": 122432,
-     "constituency": "Ajaokuta"
+     "constituency": "Ajaokuta",
+     "wardCount": 14
     },
     {
      "name": "Ankpa",
      "population2006": 266176,
-     "constituency": "Ankpa/Omala/Olamaboro"
+     "constituency": "Ankpa/Omala/Olamaboro",
+     "wardCount": 13
     },
     {
      "name": "Bassa",
      "population2006": 139687,
-     "constituency": "Dekina/Bassa"
+     "constituency": "Dekina/Bassa",
+     "wardCount": 10
     },
     {
      "name": "Dekina",
      "population2006": 260968,
-     "constituency": "Dekina/Bassa"
+     "constituency": "Dekina/Bassa",
+     "wardCount": 12
     },
     {
      "name": "Ibaji",
      "population2006": 127572,
-     "constituency": "Idah/Ibaji/Igalamela/Ofu"
+     "constituency": "Idah/Ibaji/Igalamela/Ofu",
+     "wardCount": 10
     },
     {
      "name": "Idah",
      "population2006": 79755,
-     "constituency": "Idah/Ibaji/Igalamela/Ofu"
+     "constituency": "Idah/Ibaji/Igalamela/Ofu",
+     "wardCount": 10
     },
     {
      "name": "Igalamela Odolu",
      "population2006": 147048,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ijumu",
      "population2006": 118593,
-     "constituency": "Kabba/Bunu/Ijumu"
+     "constituency": "Kabba/Bunu/Ijumu",
+     "wardCount": 15
     },
     {
      "name": "Kabba/Bunu",
      "population2006": 144579,
-     "constituency": "Kabba/Bunu/Ijumu"
+     "constituency": "Kabba/Bunu/Ijumu",
+     "wardCount": 15
     },
     {
      "name": "Kogi",
      "population2006": 115100,
-     "constituency": "Lokoja/Koton Karfe/Kogi"
+     "constituency": "Lokoja/Koton Karfe/Kogi",
+     "wardCount": null
     },
     {
      "name": "Lokoja",
      "population2006": 196643,
-     "constituency": "Lokoja/Koton Karfe/Kogi"
+     "constituency": "Lokoja/Koton Karfe/Kogi",
+     "wardCount": 10
     },
     {
      "name": "Mopa-Muro",
      "population2006": 43760,
-     "constituency": "Yagba East/Yagba West/Mopa-muro"
+     "constituency": "Yagba East/Yagba West/Mopa-muro",
+     "wardCount": 10
     },
     {
      "name": "Ofu",
      "population2006": 191480,
-     "constituency": "Idah/Ibaji/Igalamela/Ofu"
+     "constituency": "Idah/Ibaji/Igalamela/Ofu",
+     "wardCount": 11
     },
     {
      "name": "Ogori/Magongo",
      "population2006": 39807,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Okehi",
      "population2006": 223574,
-     "constituency": "Adavi/Okehi"
+     "constituency": "Adavi/Okehi",
+     "wardCount": 11
     },
     {
      "name": "Okene",
      "population2006": 325623,
-     "constituency": "Okene/Ogori-Magogo"
+     "constituency": "Okene/Ogori-Magogo",
+     "wardCount": 11
     },
     {
      "name": "Olamaboro",
      "population2006": 158490,
-     "constituency": "Ankpa/Omala/Olamaboro"
+     "constituency": "Ankpa/Omala/Olamaboro",
+     "wardCount": 10
     },
     {
      "name": "Omala",
      "population2006": 107968,
-     "constituency": "Ankpa/Omala/Olamaboro"
+     "constituency": "Ankpa/Omala/Olamaboro",
+     "wardCount": 11
     },
     {
      "name": "Yagba East",
      "population2006": 147641,
-     "constituency": "Yagba East/Yagba West/Mopa-muro"
+     "constituency": "Yagba East/Yagba West/Mopa-muro",
+     "wardCount": 10
     },
     {
      "name": "Yagba West",
      "population2006": 139928,
-     "constituency": "Yagba East/Yagba West/Mopa-muro"
+     "constituency": "Yagba East/Yagba West/Mopa-muro",
+     "wardCount": 14
     }
    ],
    "electionDate": "2024-10-09"
@@ -313,82 +370,98 @@
     {
      "name": "Asa",
      "population2006": 124668,
-     "constituency": "Asa/Ilorin West"
+     "constituency": "Asa/Ilorin West",
+     "wardCount": 17
     },
     {
      "name": "Baruten",
      "population2006": 206679,
-     "constituency": "Baruten/Kaiama"
+     "constituency": "Baruten/Kaiama",
+     "wardCount": 11
     },
     {
      "name": "Edu",
      "population2006": 201642,
-     "constituency": "Edu/Moro/Patigi"
+     "constituency": "Edu/Moro/Patigi",
+     "wardCount": 10
     },
     {
      "name": "Ekiti",
      "population2006": 54399,
-     "constituency": "Ekiti/Isin/Irepodun/Oke-ero"
+     "constituency": "Ekiti/Isin/Irepodun/Oke-ero",
+     "wardCount": 10
     },
     {
      "name": "Ifelodun",
      "population2006": 204975,
-     "constituency": "Offa/Oyun/Ifelodun"
+     "constituency": "Offa/Oyun/Ifelodun",
+     "wardCount": 18
     },
     {
      "name": "Ilorin East",
      "population2006": 207462,
-     "constituency": "Ilorin East/Ilorin South"
+     "constituency": "Ilorin East/Ilorin South",
+     "wardCount": 12
     },
     {
      "name": "Ilorin South",
      "population2006": 209251,
-     "constituency": "Ilorin East/Ilorin South"
+     "constituency": "Ilorin East/Ilorin South",
+     "wardCount": 11
     },
     {
      "name": "Ilorin West",
      "population2006": 365221,
-     "constituency": "Asa/Ilorin West"
+     "constituency": "Asa/Ilorin West",
+     "wardCount": 12
     },
     {
      "name": "Irepodun",
      "population2006": 147594,
-     "constituency": "Ekiti/Isin/Irepodun/Oke-ero"
+     "constituency": "Ekiti/Isin/Irepodun/Oke-ero",
+     "wardCount": 11
     },
     {
      "name": "Isin",
      "population2006": 59481,
-     "constituency": "Ekiti/Isin/Irepodun/Oke-ero"
+     "constituency": "Ekiti/Isin/Irepodun/Oke-ero",
+     "wardCount": 11
     },
     {
      "name": "Kaiama",
      "population2006": 124015,
-     "constituency": "Baruten/Kaiama"
+     "constituency": "Baruten/Kaiama",
+     "wardCount": 10
     },
     {
      "name": "Moro",
      "population2006": 108715,
-     "constituency": "Edu/Moro/Patigi"
+     "constituency": "Edu/Moro/Patigi",
+     "wardCount": 17
     },
     {
      "name": "Offa",
      "population2006": 88975,
-     "constituency": "Offa/Oyun/Ifelodun"
+     "constituency": "Offa/Oyun/Ifelodun",
+     "wardCount": 12
     },
     {
      "name": "Oke-Ero",
      "population2006": 56970,
-     "constituency": "Ekiti/Isin/Irepodun/Oke-ero"
+     "constituency": "Ekiti/Isin/Irepodun/Oke-ero",
+     "wardCount": 10
     },
     {
      "name": "Oyun",
      "population2006": 94454,
-     "constituency": "Offa/Oyun/Ifelodun"
+     "constituency": "Offa/Oyun/Ifelodun",
+     "wardCount": 11
     },
     {
      "name": "Pategi",
      "population2006": 110852,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     }
    ],
    "electionDate": "2024-09-21"
@@ -401,67 +474,80 @@
     {
      "name": "Akwanga",
      "population2006": 111902,
-     "constituency": "Akwanga/Nasarawa Eggon/Wamba"
+     "constituency": "Akwanga/Nasarawa Eggon/Wamba",
+     "wardCount": 11
     },
     {
      "name": "Awe",
      "population2006": 113083,
-     "constituency": "Awe/Doma/Keana"
+     "constituency": "Awe/Doma/Keana",
+     "wardCount": 10
     },
     {
      "name": "Doma",
      "population2006": 138991,
-     "constituency": "Awe/Doma/Keana"
+     "constituency": "Awe/Doma/Keana",
+     "wardCount": 10
     },
     {
      "name": "Karu",
      "population2006": 216230,
-     "constituency": "Karu/Keffi/Kokona"
+     "constituency": "Karu/Keffi/Kokona",
+     "wardCount": 11
     },
     {
      "name": "Keana",
      "population2006": 81801,
-     "constituency": "Awe/Doma/Keana"
+     "constituency": "Awe/Doma/Keana",
+     "wardCount": 10
     },
     {
      "name": "Keffi",
      "population2006": 92550,
-     "constituency": "Karu/Keffi/Kokona"
+     "constituency": "Karu/Keffi/Kokona",
+     "wardCount": 10
     },
     {
      "name": "Kokona",
      "population2006": 108558,
-     "constituency": "Karu/Keffi/Kokona"
+     "constituency": "Karu/Keffi/Kokona",
+     "wardCount": 11
     },
     {
      "name": "Lafia",
      "population2006": 329922,
-     "constituency": "Lafia/Obi"
+     "constituency": "Lafia/Obi",
+     "wardCount": 13
     },
     {
      "name": "Nasarawa",
      "population2006": 187220,
-     "constituency": "Nasarawa/Toto"
+     "constituency": "Nasarawa/Toto",
+     "wardCount": 15
     },
     {
      "name": "Nasarawa Egon",
      "population2006": 148405,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 14
     },
     {
      "name": "Obi",
      "population2006": 148977,
-     "constituency": "Lafia/Obi"
+     "constituency": "Lafia/Obi",
+     "wardCount": 10
     },
     {
      "name": "Toto",
      "population2006": 119051,
-     "constituency": "Nasarawa/Toto"
+     "constituency": "Nasarawa/Toto",
+     "wardCount": 12
     },
     {
      "name": "Wamba",
      "population2006": 72687,
-     "constituency": "Akwanga/Nasarawa Eggon/Wamba"
+     "constituency": "Akwanga/Nasarawa Eggon/Wamba",
+     "wardCount": 10
     }
    ],
    "electionDate": "2024-11"
@@ -474,127 +560,152 @@
     {
      "name": "Agaie",
      "population2006": 132098,
-     "constituency": "Agaie/Lapai"
+     "constituency": "Agaie/Lapai",
+     "wardCount": 11
     },
     {
      "name": "Agwara",
      "population2006": 57347,
-     "constituency": "Agwara/Borgu"
+     "constituency": "Agwara/Borgu",
+     "wardCount": 10
     },
     {
      "name": "Bida",
      "population2006": 185553,
-     "constituency": "Bida/Gbako/Katcha"
+     "constituency": "Bida/Gbako/Katcha",
+     "wardCount": 14
     },
     {
      "name": "Borgu",
      "population2006": 172835,
-     "constituency": "Agwara/Borgu"
+     "constituency": "Agwara/Borgu",
+     "wardCount": 10
     },
     {
      "name": "Bosso",
      "population2006": 148136,
-     "constituency": "Bosso/Paikoro"
+     "constituency": "Bosso/Paikoro",
+     "wardCount": 10
     },
     {
      "name": "Chanchaga",
      "population2006": 202151,
-     "constituency": "Chanchaga"
+     "constituency": "Chanchaga",
+     "wardCount": 11
     },
     {
      "name": "Edati",
      "population2006": 159818,
-     "constituency": "Lavun/Mokwa/Edati"
+     "constituency": "Lavun/Mokwa/Edati",
+     "wardCount": 10
     },
     {
      "name": "Gbako",
      "population2006": 126845,
-     "constituency": "Bida/Gbako/Katcha"
+     "constituency": "Bida/Gbako/Katcha",
+     "wardCount": 10
     },
     {
      "name": "Gurara",
      "population2006": 90879,
-     "constituency": "Gurara/Suleja/Tafa"
+     "constituency": "Gurara/Suleja/Tafa",
+     "wardCount": 10
     },
     {
      "name": "Katcha",
      "population2006": 120893,
-     "constituency": "Bida/Gbako/Katcha"
+     "constituency": "Bida/Gbako/Katcha",
+     "wardCount": 10
     },
     {
      "name": "Kontagora",
      "population2006": 151968,
-     "constituency": "Kontagora/Wushishi/Mariga/Mashe/Gukgora"
+     "constituency": "Kontagora/Wushishi/Mariga/Mashe/Gukgora",
+     "wardCount": 13
     },
     {
      "name": "Lapai",
      "population2006": 117021,
-     "constituency": "Agaie/Lapai"
+     "constituency": "Agaie/Lapai",
+     "wardCount": 10
     },
     {
      "name": "Lavun",
      "population2006": 209777,
-     "constituency": "Lavun/Mokwa/Edati"
+     "constituency": "Lavun/Mokwa/Edati",
+     "wardCount": 12
     },
     {
      "name": "Magama",
      "population2006": 181470,
-     "constituency": "Magama/Rijau"
+     "constituency": "Magama/Rijau",
+     "wardCount": 11
     },
     {
      "name": "Mariga",
      "population2006": 199600,
-     "constituency": "Kontagora/Wushishi/Mariga/Mashe/Gukgora"
+     "constituency": "Kontagora/Wushishi/Mariga/Mashe/Gukgora",
+     "wardCount": 11
     },
     {
      "name": "Mashegu",
      "population2006": 215197,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Mokwa",
      "population2006": 242858,
-     "constituency": "Lavun/Mokwa/Edati"
+     "constituency": "Lavun/Mokwa/Edati",
+     "wardCount": 11
     },
     {
      "name": "Munya",
      "population2006": 103461,
-     "constituency": "Shiroro/Rafi/Munya"
+     "constituency": "Shiroro/Rafi/Munya",
+     "wardCount": 11
     },
     {
      "name": "Paikoro",
      "population2006": 158178,
-     "constituency": "Bosso/Paikoro"
+     "constituency": "Bosso/Paikoro",
+     "wardCount": 11
     },
     {
      "name": "Rafi",
      "population2006": 186118,
-     "constituency": "Shiroro/Rafi/Munya"
+     "constituency": "Shiroro/Rafi/Munya",
+     "wardCount": 11
     },
     {
      "name": "Rijau",
      "population2006": 176199,
-     "constituency": "Magama/Rijau"
+     "constituency": "Magama/Rijau",
+     "wardCount": 11
     },
     {
      "name": "Shiroro",
      "population2006": 235665,
-     "constituency": "Shiroro/Rafi/Munya"
+     "constituency": "Shiroro/Rafi/Munya",
+     "wardCount": 15
     },
     {
      "name": "Suleja",
      "population2006": 215075,
-     "constituency": "Gurara/Suleja/Tafa"
+     "constituency": "Gurara/Suleja/Tafa",
+     "wardCount": 10
     },
     {
      "name": "Tafa",
      "population2006": 83874,
-     "constituency": "Gurara/Suleja/Tafa"
+     "constituency": "Gurara/Suleja/Tafa",
+     "wardCount": 10
     },
     {
      "name": "Wushishi",
      "population2006": 81756,
-     "constituency": "Kontagora/Wushishi/Mariga/Mashe/Gukgora"
+     "constituency": "Kontagora/Wushishi/Mariga/Mashe/Gukgora",
+     "wardCount": 11
     }
    ],
    "electionDate": "2025-11-01"
@@ -607,87 +718,104 @@
     {
      "name": "Barkin Ladi",
      "population2006": 179805,
-     "constituency": "Barkin Ladi/Riyom"
+     "constituency": "Barkin Ladi/Riyom",
+     "wardCount": 11
     },
     {
      "name": "Bassa",
      "population2006": 189834,
-     "constituency": "Bassa/Jos North"
+     "constituency": "Bassa/Jos North",
+     "wardCount": 16
     },
     {
      "name": "Bokkos",
      "population2006": 179550,
-     "constituency": "Mangu/Bokkos"
+     "constituency": "Mangu/Bokkos",
+     "wardCount": 14
     },
     {
      "name": "Jos East",
      "population2006": 88301,
-     "constituency": "Jos South/Jos East"
+     "constituency": "Jos South/Jos East",
+     "wardCount": 10
     },
     {
      "name": "Jos North",
      "population2006": 437217,
-     "constituency": "Bassa/Jos North"
+     "constituency": "Bassa/Jos North",
+     "wardCount": 14
     },
     {
      "name": "Jos South",
      "population2006": 311392,
-     "constituency": "Jos South/Jos East"
+     "constituency": "Jos South/Jos East",
+     "wardCount": 12
     },
     {
      "name": "Kanam",
      "population2006": 167619,
-     "constituency": "Pankshin/Kanke/Kanam"
+     "constituency": "Pankshin/Kanke/Kanam",
+     "wardCount": 14
     },
     {
      "name": "Kanke",
      "population2006": 124268,
-     "constituency": "Pankshin/Kanke/Kanam"
+     "constituency": "Pankshin/Kanke/Kanam",
+     "wardCount": 10
     },
     {
      "name": "Langtang North",
      "population2006": 142316,
-     "constituency": "Langtang North/Langtang South"
+     "constituency": "Langtang North/Langtang South",
+     "wardCount": 14
     },
     {
      "name": "Langtang South",
      "population2006": 105173,
-     "constituency": "Langtang North/Langtang South"
+     "constituency": "Langtang North/Langtang South",
+     "wardCount": 10
     },
     {
      "name": "Mangu",
      "population2006": 300520,
-     "constituency": "Mangu/Bokkos"
+     "constituency": "Mangu/Bokkos",
+     "wardCount": 16
     },
     {
      "name": "Mikang",
      "population2006": 96388,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Pankshin",
      "population2006": 190114,
-     "constituency": "Pankshin/Kanke/Kanam"
+     "constituency": "Pankshin/Kanke/Kanam",
+     "wardCount": 12
     },
     {
      "name": "Qua'an Pan",
      "population2006": 197276,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Riyom",
      "population2006": 131778,
-     "constituency": "Barkin Ladi/Riyom"
+     "constituency": "Barkin Ladi/Riyom",
+     "wardCount": 10
     },
     {
      "name": "Shendam",
      "population2006": 205119,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Wase",
      "population2006": 159861,
-     "constituency": "Wase"
+     "constituency": "Wase",
+     "wardCount": 12
     }
    ],
    "electionDate": "2024-10-09"
@@ -700,107 +828,128 @@
     {
      "name": "Demsa",
      "population2006": 178407,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Fufore",
      "population2006": 209460,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ganye",
      "population2006": 169948,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Girei",
      "population2006": 129855,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Gombi",
      "population2006": 147787,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Guyuk",
      "population2006": 176505,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Hong",
      "population2006": 169183,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Jada",
      "population2006": 168445,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Lamurde",
      "population2006": 111254,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Madagali",
      "population2006": 135142,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Maiha",
      "population2006": 110175,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Mayo Belwa",
      "population2006": 152803,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Michika",
      "population2006": 155238,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 16
     },
     {
      "name": "Mubi North",
      "population2006": 151515,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Mubi South",
      "population2006": 129956,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Numan",
      "population2006": 91549,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Shelleng",
      "population2006": 148490,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Song",
      "population2006": 195188,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Toungo",
      "population2006": 52179,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Yola North",
      "population2006": 199674,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Yola South",
      "population2006": 196197,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     }
    ],
    "electionDate": "2024"
@@ -813,102 +962,122 @@
     {
      "name": "Alkaleri",
      "population2006": 328284,
-     "constituency": "Alkaleri/Kirfi"
+     "constituency": "Alkaleri/Kirfi",
+     "wardCount": 11
     },
     {
      "name": "Bauchi",
      "population2006": 493730,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Bogoro",
      "population2006": 83809,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Damban",
      "population2006": 150212,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Darazo",
      "population2006": 249946,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Dass",
      "population2006": 90114,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Gamawa",
      "population2006": 284411,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ganjuwa",
      "population2006": 278471,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Giade",
      "population2006": 156022,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Itas/Gadau",
      "population2006": 228527,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Jama'are",
      "population2006": 117482,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Katagum",
      "population2006": 293020,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Kirfi",
      "population2006": 145636,
-     "constituency": "Alkaleri/Kirfi"
+     "constituency": "Alkaleri/Kirfi",
+     "wardCount": 10
     },
     {
      "name": "Misau",
      "population2006": 261410,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ningi",
      "population2006": 385997,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Shira",
      "population2006": 233999,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Tafawa Balewa",
      "population2006": 221310,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Toro",
      "population2006": 346000,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Warji",
      "population2006": 114983,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Zaki",
      "population2006": 189703,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     }
    ],
    "electionDate": "2024-08-19"
@@ -921,137 +1090,164 @@
     {
      "name": "Abadam",
      "population2006": 100065,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Askira/Uba",
      "population2006": 143313,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Bama",
      "population2006": 270119,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 14
     },
     {
      "name": "Bayo",
      "population2006": 79078,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Biu",
      "population2006": 175760,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Chibok",
      "population2006": 66333,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Damboa",
      "population2006": 233200,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Dikwa",
      "population2006": 105042,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Gubio",
      "population2006": 151286,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Guzamala",
      "population2006": 95991,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Gwoza",
      "population2006": 276568,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Hawul",
      "population2006": 120733,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Jere",
      "population2006": 209107,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Kaga",
      "population2006": 89996,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 15
     },
     {
      "name": "Kala/Balge",
      "population2006": 60834,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Konduga",
      "population2006": 157322,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Kukawa",
      "population2006": 203343,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Kwaya Kusar",
      "population2006": 56704,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Mafa",
      "population2006": 103600,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Magumeri",
      "population2006": 140257,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Maiduguri",
      "population2006": 540016,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 15
     },
     {
      "name": "Marte",
      "population2006": 129409,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Mobbar",
      "population2006": 116633,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Monguno",
      "population2006": 109834,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Ngala",
      "population2006": 236498,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Nganzai",
      "population2006": 99074,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Shani",
      "population2006": 100989,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     }
    ],
    "electionDate": "2024-01-20"
@@ -1064,57 +1260,68 @@
     {
      "name": "Akko",
      "population2006": 337435,
-     "constituency": "Akko"
+     "constituency": "Akko",
+     "wardCount": 11
     },
     {
      "name": "Balanga",
      "population2006": 211490,
-     "constituency": "Balanga/Billiri"
+     "constituency": "Balanga/Billiri",
+     "wardCount": 10
     },
     {
      "name": "Billiri",
      "population2006": 202680,
-     "constituency": "Balanga/Billiri"
+     "constituency": "Balanga/Billiri",
+     "wardCount": 10
     },
     {
      "name": "Dukku",
      "population2006": 207658,
-     "constituency": "Dukku/Nafada"
+     "constituency": "Dukku/Nafada",
+     "wardCount": 11
     },
     {
      "name": "Funakaye",
      "population2006": 237687,
-     "constituency": "Gombe/Kwami/Funakaye"
+     "constituency": "Gombe/Kwami/Funakaye",
+     "wardCount": 10
     },
     {
      "name": "Gombe",
      "population2006": 266844,
-     "constituency": "Gombe/Kwami/Funakaye"
+     "constituency": "Gombe/Kwami/Funakaye",
+     "wardCount": 11
     },
     {
      "name": "Kaltungo",
      "population2006": 160392,
-     "constituency": "Kaltungo/Shongom"
+     "constituency": "Kaltungo/Shongom",
+     "wardCount": 10
     },
     {
      "name": "Kwami",
      "population2006": 193995,
-     "constituency": "Gombe/Kwami/Funakaye"
+     "constituency": "Gombe/Kwami/Funakaye",
+     "wardCount": 10
     },
     {
      "name": "Nafada",
      "population2006": 140185,
-     "constituency": "Dukku/Nafada"
+     "constituency": "Dukku/Nafada",
+     "wardCount": 10
     },
     {
      "name": "Shongom",
      "population2006": 150948,
-     "constituency": "Kaltungo/Shongom"
+     "constituency": "Kaltungo/Shongom",
+     "wardCount": 10
     },
     {
      "name": "Yamaltu/Deba",
      "population2006": 255726,
-     "constituency": "Yamaltu-Deba"
+     "constituency": "Yamaltu-Deba",
+     "wardCount": 11
     }
    ],
    "electionDate": "2024"
@@ -1127,82 +1334,98 @@
     {
      "name": "Ardo Kola",
      "population2006": 87784,
-     "constituency": "Lau/Karim-Lamido/Ardo-Kola"
+     "constituency": "Lau/Karim-Lamido/Ardo-Kola",
+     "wardCount": 10
     },
     {
      "name": "Bali",
      "population2006": 211024,
-     "constituency": "Bali/Gassol"
+     "constituency": "Bali/Gassol",
+     "wardCount": 11
     },
     {
      "name": "Donga",
      "population2006": 133105,
-     "constituency": "Donga/Ussa/Takum/Special Area"
+     "constituency": "Donga/Ussa/Takum/Special Area",
+     "wardCount": 10
     },
     {
      "name": "Gashaka",
      "population2006": 87166,
-     "constituency": "Gashaka/Kurmi/Sardauna"
+     "constituency": "Gashaka/Kurmi/Sardauna",
+     "wardCount": 10
     },
     {
      "name": "Gassol",
      "population2006": 245086,
-     "constituency": "Bali/Gassol"
+     "constituency": "Bali/Gassol",
+     "wardCount": 12
     },
     {
      "name": "Ibi",
      "population2006": 84302,
-     "constituency": "Ibi/Wukari"
+     "constituency": "Ibi/Wukari",
+     "wardCount": 10
     },
     {
      "name": "Jalingo",
      "population2006": 140318,
-     "constituency": "Jalingo/Yorro/Zing"
+     "constituency": "Jalingo/Yorro/Zing",
+     "wardCount": 10
     },
     {
      "name": "Karim Lamido",
      "population2006": 193924,
-     "constituency": "Lau/Karim-Lamido/Ardo-Kola"
+     "constituency": "Lau/Karim-Lamido/Ardo-Kola",
+     "wardCount": 11
     },
     {
      "name": "Kurmi",
      "population2006": 91282,
-     "constituency": "Gashaka/Kurmi/Sardauna"
+     "constituency": "Gashaka/Kurmi/Sardauna",
+     "wardCount": 10
     },
     {
      "name": "Lau",
      "population2006": 95190,
-     "constituency": "Lau/Karim-Lamido/Ardo-Kola"
+     "constituency": "Lau/Karim-Lamido/Ardo-Kola",
+     "wardCount": 10
     },
     {
      "name": "Sardauna",
      "population2006": 224357,
-     "constituency": "Gashaka/Kurmi/Sardauna"
+     "constituency": "Gashaka/Kurmi/Sardauna",
+     "wardCount": 11
     },
     {
      "name": "Takum",
      "population2006": 134576,
-     "constituency": "Donga/Ussa/Takum/Special Area"
+     "constituency": "Donga/Ussa/Takum/Special Area",
+     "wardCount": 11
     },
     {
      "name": "Ussa",
      "population2006": 90889,
-     "constituency": "Donga/Ussa/Takum/Special Area"
+     "constituency": "Donga/Ussa/Takum/Special Area",
+     "wardCount": 11
     },
     {
      "name": "Wukari",
      "population2006": 238283,
-     "constituency": "Ibi/Wukari"
+     "constituency": "Ibi/Wukari",
+     "wardCount": 10
     },
     {
      "name": "Yorro",
      "population2006": 89865,
-     "constituency": "Jalingo/Yorro/Zing"
+     "constituency": "Jalingo/Yorro/Zing",
+     "wardCount": 11
     },
     {
      "name": "Zing",
      "population2006": 127685,
-     "constituency": "Jalingo/Yorro/Zing"
+     "constituency": "Jalingo/Yorro/Zing",
+     "wardCount": 10
     }
    ],
    "electionDate": "2024-11-18"
@@ -1215,87 +1438,104 @@
     {
      "name": "Bade",
      "population2006": 139804,
-     "constituency": "Bade/Jakusko"
+     "constituency": "Bade/Jakusko",
+     "wardCount": 10
     },
     {
      "name": "Bursari",
      "population2006": 109692,
-     "constituency": "Bursari/Geidam/Yunusari"
+     "constituency": "Bursari/Geidam/Yunusari",
+     "wardCount": 10
     },
     {
      "name": "Damaturu",
      "population2006": 87706,
-     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa"
+     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa",
+     "wardCount": 11
     },
     {
      "name": "Fika",
      "population2006": 136736,
-     "constituency": "Fika/Fune"
+     "constituency": "Fika/Fune",
+     "wardCount": 10
     },
     {
      "name": "Fune",
      "population2006": 301954,
-     "constituency": "Fika/Fune"
+     "constituency": "Fika/Fune",
+     "wardCount": 13
     },
     {
      "name": "Geidam",
      "population2006": 155740,
-     "constituency": "Bursari/Geidam/Yunusari"
+     "constituency": "Bursari/Geidam/Yunusari",
+     "wardCount": 11
     },
     {
      "name": "Gujba",
      "population2006": 129797,
-     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa"
+     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa",
+     "wardCount": 10
     },
     {
      "name": "Gulani",
      "population2006": 103516,
-     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa"
+     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa",
+     "wardCount": 12
     },
     {
      "name": "Jakusko",
      "population2006": 232458,
-     "constituency": "Bade/Jakusko"
+     "constituency": "Bade/Jakusko",
+     "wardCount": 10
     },
     {
      "name": "Karasuwa",
      "population2006": 105514,
-     "constituency": "Machina/Nguru/Karasuwa/Yusufari"
+     "constituency": "Machina/Nguru/Karasuwa/Yusufari",
+     "wardCount": 10
     },
     {
      "name": "Machina",
      "population2006": 60994,
-     "constituency": "Machina/Nguru/Karasuwa/Yusufari"
+     "constituency": "Machina/Nguru/Karasuwa/Yusufari",
+     "wardCount": 10
     },
     {
      "name": "Nangere",
      "population2006": 87517,
-     "constituency": "Nangere/Potiskum"
+     "constituency": "Nangere/Potiskum",
+     "wardCount": 11
     },
     {
      "name": "Nguru",
      "population2006": 150699,
-     "constituency": "Machina/Nguru/Karasuwa/Yusufari"
+     "constituency": "Machina/Nguru/Karasuwa/Yusufari",
+     "wardCount": 10
     },
     {
      "name": "Potiskum",
      "population2006": 204866,
-     "constituency": "Nangere/Potiskum"
+     "constituency": "Nangere/Potiskum",
+     "wardCount": 10
     },
     {
      "name": "Tarmuwa",
      "population2006": 77667,
-     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa"
+     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa",
+     "wardCount": 10
     },
     {
      "name": "Yunusari",
      "population2006": 125940,
-     "constituency": "Bursari/Geidam/Yunusari"
+     "constituency": "Bursari/Geidam/Yunusari",
+     "wardCount": 10
     },
     {
      "name": "Yusufari",
      "population2006": 110739,
-     "constituency": "Machina/Nguru/Karasuwa/Yusufari"
+     "constituency": "Machina/Nguru/Karasuwa/Yusufari",
+     "wardCount": 10
     }
    ]
   },
@@ -1307,137 +1547,164 @@
     {
      "name": "Auyo",
      "population2006": 132268,
-     "constituency": "Hadejia/Kafin Hausa/Auyo"
+     "constituency": "Hadejia/Kafin Hausa/Auyo",
+     "wardCount": 10
     },
     {
      "name": "Babura",
      "population2006": 212955,
-     "constituency": "Babura/Garki"
+     "constituency": "Babura/Garki",
+     "wardCount": 11
     },
     {
      "name": "Biriniwa",
      "population2006": 142015,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Birnin Kudu",
      "population2006": 314108,
-     "constituency": "Birnin-Kudu/Buji"
+     "constituency": "Birnin-Kudu/Buji",
+     "wardCount": 11
     },
     {
      "name": "Buji",
      "population2006": 97284,
-     "constituency": "Birnin-Kudu/Buji"
+     "constituency": "Birnin-Kudu/Buji",
+     "wardCount": 10
     },
     {
      "name": "Dutse",
      "population2006": 251135,
-     "constituency": "Dutse/Kiyawa"
+     "constituency": "Dutse/Kiyawa",
+     "wardCount": 11
     },
     {
      "name": "Gagarawa",
      "population2006": 82153,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Garki",
      "population2006": 150261,
-     "constituency": "Babura/Garki"
+     "constituency": "Babura/Garki",
+     "wardCount": 11
     },
     {
      "name": "Gumel",
      "population2006": 106371,
-     "constituency": "Gumel/Maigatari/Sule Tankarkar/Gagarawa"
+     "constituency": "Gumel/Maigatari/Sule Tankarkar/Gagarawa",
+     "wardCount": 11
     },
     {
      "name": "Guri",
      "population2006": 113363,
-     "constituency": "Birniwa/Guri/Kiri-Kasamma"
+     "constituency": "Birniwa/Guri/Kiri-Kasamma",
+     "wardCount": 10
     },
     {
      "name": "Gwaram",
      "population2006": 271368,
-     "constituency": "Gwaram"
+     "constituency": "Gwaram",
+     "wardCount": 11
     },
     {
      "name": "Gwiwa",
      "population2006": 128730,
-     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi"
+     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi",
+     "wardCount": 11
     },
     {
      "name": "Hadejia",
      "population2006": 104286,
-     "constituency": "Hadejia/Kafin Hausa/Auyo"
+     "constituency": "Hadejia/Kafin Hausa/Auyo",
+     "wardCount": 11
     },
     {
      "name": "Jahun",
      "population2006": 229882,
-     "constituency": "Miga/Jahun"
+     "constituency": "Miga/Jahun",
+     "wardCount": 11
     },
     {
      "name": "Kafin Hausa",
      "population2006": 267284,
-     "constituency": "Hadejia/Kafin Hausa/Auyo"
+     "constituency": "Hadejia/Kafin Hausa/Auyo",
+     "wardCount": 11
     },
     {
      "name": "Kaugama",
      "population2006": 128981,
-     "constituency": "Mallam Madori/Kaugama"
+     "constituency": "Mallam Madori/Kaugama",
+     "wardCount": 11
     },
     {
      "name": "Kazaure",
      "population2006": 161161,
-     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi"
+     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi",
+     "wardCount": 11
     },
     {
      "name": "Kiri Kasama",
      "population2006": 192583,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Kiyawa",
      "population2006": 172952,
-     "constituency": "Dutse/Kiyawa"
+     "constituency": "Dutse/Kiyawa",
+     "wardCount": 11
     },
     {
      "name": "Maigatari",
      "population2006": 177057,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Malam Madori",
      "population2006": 164791,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Miga",
      "population2006": 127876,
-     "constituency": "Miga/Jahun"
+     "constituency": "Miga/Jahun",
+     "wardCount": 10
     },
     {
      "name": "Ringim",
      "population2006": 192407,
-     "constituency": "Ringim/Taura"
+     "constituency": "Ringim/Taura",
+     "wardCount": 10
     },
     {
      "name": "Roni",
      "population2006": 77414,
-     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi"
+     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi",
+     "wardCount": 11
     },
     {
      "name": "Sule Tankarkar",
      "population2006": 134813,
-     "constituency": "Gumel/Maigatari/Sule Tankarkar/Gagarawa"
+     "constituency": "Gumel/Maigatari/Sule Tankarkar/Gagarawa",
+     "wardCount": 10
     },
     {
      "name": "Taura",
      "population2006": 131861,
-     "constituency": "Ringim/Taura"
+     "constituency": "Ringim/Taura",
+     "wardCount": 10
     },
     {
      "name": "Yankwashi",
      "population2006": 95643,
-     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi"
+     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi",
+     "wardCount": 10
     }
    ],
    "electionDate": "2024-10"
@@ -1450,117 +1717,140 @@
     {
      "name": "Birnin Gwari",
      "population2006": 258581,
-     "constituency": "Birnin-Gwari/Giwa"
+     "constituency": "Birnin-Gwari/Giwa",
+     "wardCount": 11
     },
     {
      "name": "Chikun",
      "population2006": 372272,
-     "constituency": "Chikun/Kajuru"
+     "constituency": "Chikun/Kajuru",
+     "wardCount": 12
     },
     {
      "name": "Giwa",
      "population2006": 292384,
-     "constituency": "Birnin-Gwari/Giwa"
+     "constituency": "Birnin-Gwari/Giwa",
+     "wardCount": 11
     },
     {
      "name": "Igabi",
      "population2006": 430753,
-     "constituency": "Igabi"
+     "constituency": "Igabi",
+     "wardCount": 11
     },
     {
      "name": "Ikara",
      "population2006": 194723,
-     "constituency": "Ikara/Kubau"
+     "constituency": "Ikara/Kubau",
+     "wardCount": 10
     },
     {
      "name": "Jaba",
      "population2006": 155973,
-     "constituency": "Zangon Kataf/Jaba"
+     "constituency": "Zangon Kataf/Jaba",
+     "wardCount": 10
     },
     {
      "name": "Jema'a",
      "population2006": 278202,
-     "constituency": "Jemaa/Sanga"
+     "constituency": "Jemaa/Sanga",
+     "wardCount": 11
     },
     {
      "name": "Kachia",
      "population2006": 252568,
-     "constituency": "Kachia/Kagarko"
+     "constituency": "Kachia/Kagarko",
+     "wardCount": 12
     },
     {
      "name": "Kaduna North",
      "population2006": 364575,
-     "constituency": "Kaduna North"
+     "constituency": "Kaduna North",
+     "wardCount": 13
     },
     {
      "name": "Kaduna South",
      "population2006": 402731,
-     "constituency": "Kaduna South"
+     "constituency": "Kaduna South",
+     "wardCount": 13
     },
     {
      "name": "Kagarko",
      "population2006": 239058,
-     "constituency": "Kachia/Kagarko"
+     "constituency": "Kachia/Kagarko",
+     "wardCount": 10
     },
     {
      "name": "Kajuru",
      "population2006": 109810,
-     "constituency": "Chikun/Kajuru"
+     "constituency": "Chikun/Kajuru",
+     "wardCount": 10
     },
     {
      "name": "Kaura",
      "population2006": 174626,
-     "constituency": "Kaura"
+     "constituency": "Kaura",
+     "wardCount": 10
     },
     {
      "name": "Kauru",
      "population2006": 221276,
-     "constituency": "Kauru"
+     "constituency": "Kauru",
+     "wardCount": 11
     },
     {
      "name": "Kubau",
      "population2006": 280704,
-     "constituency": "Ikara/Kubau"
+     "constituency": "Ikara/Kubau",
+     "wardCount": 11
     },
     {
      "name": "Kudan",
      "population2006": 138956,
-     "constituency": "Makarfi/Kudan"
+     "constituency": "Makarfi/Kudan",
+     "wardCount": 10
     },
     {
      "name": "Lere",
      "population2006": 339740,
-     "constituency": "Lere"
+     "constituency": "Lere",
+     "wardCount": 11
     },
     {
      "name": "Makarfi",
      "population2006": 146574,
-     "constituency": "Makarfi/Kudan"
+     "constituency": "Makarfi/Kudan",
+     "wardCount": 10
     },
     {
      "name": "Sabon Gari",
      "population2006": 291358,
-     "constituency": "Sabon Gari"
+     "constituency": "Sabon Gari",
+     "wardCount": 11
     },
     {
      "name": "Sanga",
      "population2006": 151485,
-     "constituency": "Jemaa/Sanga"
+     "constituency": "Jemaa/Sanga",
+     "wardCount": 12
     },
     {
      "name": "Soba",
      "population2006": 291173,
-     "constituency": "Soba"
+     "constituency": "Soba",
+     "wardCount": 11
     },
     {
      "name": "Zangon Kataf",
      "population2006": 318991,
-     "constituency": "Zangon Kataf/Jaba"
+     "constituency": "Zangon Kataf/Jaba",
+     "wardCount": 11
     },
     {
      "name": "Zaria",
      "population2006": 406990,
-     "constituency": "Zaria"
+     "constituency": "Zaria",
+     "wardCount": 13
     }
    ],
    "electionDate": "2024-10-19"
@@ -1573,222 +1863,266 @@
     {
      "name": "Ajingi",
      "population2006": 172610,
-     "constituency": "Alabasu/Gaya/Ajingi"
+     "constituency": "Alabasu/Gaya/Ajingi",
+     "wardCount": 10
     },
     {
      "name": "Albasu",
      "population2006": 187639,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Bagwai",
      "population2006": 161533,
-     "constituency": "Bagwai/Shanono"
+     "constituency": "Bagwai/Shanono",
+     "wardCount": 10
     },
     {
      "name": "Bebeji",
      "population2006": 191916,
-     "constituency": "Bebeji/Kiru"
+     "constituency": "Bebeji/Kiru",
+     "wardCount": 14
     },
     {
      "name": "Bichi",
      "population2006": 278309,
-     "constituency": "Bichi"
+     "constituency": "Bichi",
+     "wardCount": 11
     },
     {
      "name": "Bunkure",
      "population2006": 174467,
-     "constituency": "Rano/Bunkure/Kibiya"
+     "constituency": "Rano/Bunkure/Kibiya",
+     "wardCount": 10
     },
     {
      "name": "Dala",
      "population2006": 418759,
-     "constituency": "Dala"
+     "constituency": "Dala",
+     "wardCount": 12
     },
     {
      "name": "Dambatta",
      "population2006": 210474,
-     "constituency": "Dambatta/Makoda"
+     "constituency": "Dambatta/Makoda",
+     "wardCount": 10
     },
     {
      "name": "Dawakin Kudu",
      "population2006": 225497,
-     "constituency": "Dawakin Kudu/Warawa"
+     "constituency": "Dawakin Kudu/Warawa",
+     "wardCount": 15
     },
     {
      "name": "Dawakin Tofa",
      "population2006": 246197,
-     "constituency": "Dawakin-Tofa/Tofa/Rimin Gado"
+     "constituency": "Dawakin-Tofa/Tofa/Rimin Gado",
+     "wardCount": 11
     },
     {
      "name": "Doguwa",
      "population2006": 150645,
-     "constituency": "Tudun-Wada/Doguwa"
+     "constituency": "Tudun-Wada/Doguwa",
+     "wardCount": 10
     },
     {
      "name": "Fagge",
      "population2006": 200095,
-     "constituency": "Fagge"
+     "constituency": "Fagge",
+     "wardCount": 10
     },
     {
      "name": "Gabasawa",
      "population2006": 211204,
-     "constituency": "Gezawa/Gabasawa"
+     "constituency": "Gezawa/Gabasawa",
+     "wardCount": 11
     },
     {
      "name": "Garko",
      "population2006": 161966,
-     "constituency": "Wudil/Garko"
+     "constituency": "Wudil/Garko",
+     "wardCount": 10
     },
     {
      "name": "Garun Malam",
      "population2006": 118622,
-     "constituency": "Kura/Madobi/Garun Malam"
+     "constituency": "Kura/Madobi/Garun Malam",
+     "wardCount": 10
     },
     {
      "name": "Gaya",
      "population2006": 207419,
-     "constituency": "Alabasu/Gaya/Ajingi"
+     "constituency": "Alabasu/Gaya/Ajingi",
+     "wardCount": 10
     },
     {
      "name": "Gezawa",
      "population2006": 282328,
-     "constituency": "Gezawa/Gabasawa"
+     "constituency": "Gezawa/Gabasawa",
+     "wardCount": 11
     },
     {
      "name": "Gwale",
      "population2006": 357827,
-     "constituency": "Gwale"
+     "constituency": "Gwale",
+     "wardCount": 10
     },
     {
      "name": "Gwarzo",
      "population2006": 183624,
-     "constituency": "Gwarzo/Ikabo"
+     "constituency": "Gwarzo/Ikabo",
+     "wardCount": 10
     },
     {
      "name": "Kabo",
      "population2006": 153158,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Kano Municipal",
      "population2006": 371243,
-     "constituency": "Kano Municipal"
+     "constituency": "Kano Municipal",
+     "wardCount": 13
     },
     {
      "name": "Karaye",
      "population2006": 144045,
-     "constituency": "Karaye/Rogo"
+     "constituency": "Karaye/Rogo",
+     "wardCount": 10
     },
     {
      "name": "Kibiya",
      "population2006": 138618,
-     "constituency": "Rano/Bunkure/Kibiya"
+     "constituency": "Rano/Bunkure/Kibiya",
+     "wardCount": 10
     },
     {
      "name": "Kiru",
      "population2006": 267168,
-     "constituency": "Bebeji/Kiru"
+     "constituency": "Bebeji/Kiru",
+     "wardCount": 15
     },
     {
      "name": "Kumbotso",
      "population2006": 294391,
-     "constituency": "Kumbotso"
+     "constituency": "Kumbotso",
+     "wardCount": 11
     },
     {
      "name": "Kunchi",
      "population2006": 110170,
-     "constituency": "Tsanyawa/Kunchi"
+     "constituency": "Tsanyawa/Kunchi",
+     "wardCount": 10
     },
     {
      "name": "Kura",
      "population2006": 143094,
-     "constituency": "Kura/Madobi/Garun Malam"
+     "constituency": "Kura/Madobi/Garun Malam",
+     "wardCount": 10
     },
     {
      "name": "Madobi",
      "population2006": 137685,
-     "constituency": "Kura/Madobi/Garun Malam"
+     "constituency": "Kura/Madobi/Garun Malam",
+     "wardCount": 12
     },
     {
      "name": "Makoda",
      "population2006": 220094,
-     "constituency": "Dambatta/Makoda"
+     "constituency": "Dambatta/Makoda",
+     "wardCount": 11
     },
     {
      "name": "Minjibir",
      "population2006": 219611,
-     "constituency": "Minjibir/Ungogo"
+     "constituency": "Minjibir/Ungogo",
+     "wardCount": 11
     },
     {
      "name": "Nasarawa",
      "population2006": 596411,
-     "constituency": "Nassarawa"
+     "constituency": "Nassarawa",
+     "wardCount": 11
     },
     {
      "name": "Rano",
      "population2006": 148276,
-     "constituency": "Rano/Bunkure/Kibiya"
+     "constituency": "Rano/Bunkure/Kibiya",
+     "wardCount": 10
     },
     {
      "name": "Rimin Gado",
      "population2006": 103371,
-     "constituency": "Dawakin-Tofa/Tofa/Rimin Gado"
+     "constituency": "Dawakin-Tofa/Tofa/Rimin Gado",
+     "wardCount": 12
     },
     {
      "name": "Rogo",
      "population2006": 227607,
-     "constituency": "Karaye/Rogo"
+     "constituency": "Karaye/Rogo",
+     "wardCount": 10
     },
     {
      "name": "Shanono",
      "population2006": 139128,
-     "constituency": "Bagwai/Shanono"
+     "constituency": "Bagwai/Shanono",
+     "wardCount": 10
     },
     {
      "name": "Sumaila",
      "population2006": 250379,
-     "constituency": "Sumaila/Takai"
+     "constituency": "Sumaila/Takai",
+     "wardCount": 11
     },
     {
      "name": "Takai",
      "population2006": 202639,
-     "constituency": "Sumaila/Takai"
+     "constituency": "Sumaila/Takai",
+     "wardCount": 10
     },
     {
      "name": "Tarauni",
      "population2006": 221844,
-     "constituency": "Tarauni"
+     "constituency": "Tarauni",
+     "wardCount": 10
     },
     {
      "name": "Tofa",
      "population2006": 98603,
-     "constituency": "Dawakin-Tofa/Tofa/Rimin Gado"
+     "constituency": "Dawakin-Tofa/Tofa/Rimin Gado",
+     "wardCount": 15
     },
     {
      "name": "Tsanyawa",
      "population2006": 157730,
-     "constituency": "Tsanyawa/Kunchi"
+     "constituency": "Tsanyawa/Kunchi",
+     "wardCount": 10
     },
     {
      "name": "Tudun Wada",
      "population2006": 228658,
-     "constituency": "Tudun-Wada/Doguwa"
+     "constituency": "Tudun-Wada/Doguwa",
+     "wardCount": 11
     },
     {
      "name": "Ungogo",
      "population2006": 365737,
-     "constituency": "Minjibir/Ungogo"
+     "constituency": "Minjibir/Ungogo",
+     "wardCount": 11
     },
     {
      "name": "Warawa",
      "population2006": 131858,
-     "constituency": "Dawakin Kudu/Warawa"
+     "constituency": "Dawakin Kudu/Warawa",
+     "wardCount": 15
     },
     {
      "name": "Wudil",
      "population2006": 188639,
-     "constituency": "Wudil/Garko"
+     "constituency": "Wudil/Garko",
+     "wardCount": 10
     }
    ],
    "electionDate": "2024-10-24"
@@ -1801,172 +2135,206 @@
     {
      "name": "Bakori",
      "population2006": 149516,
-     "constituency": "Bakori/Danja"
+     "constituency": "Bakori/Danja",
+     "wardCount": 11
     },
     {
      "name": "Batagarawa",
      "population2006": 189059,
-     "constituency": "Rimi/Charanchi/Batagarawa"
+     "constituency": "Rimi/Charanchi/Batagarawa",
+     "wardCount": 10
     },
     {
      "name": "Batsari",
      "population2006": 207874,
-     "constituency": "Safana/Dan musa/Batsari"
+     "constituency": "Safana/Dan musa/Batsari",
+     "wardCount": 11
     },
     {
      "name": "Baure",
      "population2006": 202941,
-     "constituency": "Baure/Zango"
+     "constituency": "Baure/Zango",
+     "wardCount": 12
     },
     {
      "name": "Bindawa",
      "population2006": 151002,
-     "constituency": "Mani/Bindawa"
+     "constituency": "Mani/Bindawa",
+     "wardCount": 11
     },
     {
      "name": "Charanchi",
      "population2006": 136989,
-     "constituency": "Rimi/Charanchi/Batagarawa"
+     "constituency": "Rimi/Charanchi/Batagarawa",
+     "wardCount": 10
     },
     {
      "name": "Dan Musa",
      "population2006": 113190,
-     "constituency": "Safana/Dan musa/Batsari"
+     "constituency": "Safana/Dan musa/Batsari",
+     "wardCount": 11
     },
     {
      "name": "DanDume",
      "population2006": 145323,
-     "constituency": "Funtua/Dandume"
+     "constituency": "Funtua/Dandume",
+     "wardCount": 11
     },
     {
      "name": "Danja",
      "population2006": 125481,
-     "constituency": "Bakori/Danja"
+     "constituency": "Bakori/Danja",
+     "wardCount": 10
     },
     {
      "name": "Daura",
      "population2006": 224884,
-     "constituency": "Daura/Sandamu/MaiAdua"
+     "constituency": "Daura/Sandamu/MaiAdua",
+     "wardCount": 11
     },
     {
      "name": "Dutsi",
      "population2006": 120902,
-     "constituency": "Mashi/Dutsi"
+     "constituency": "Mashi/Dutsi",
+     "wardCount": 10
     },
     {
      "name": "Dutsin-Ma",
      "population2006": 169829,
-     "constituency": "Dutsin-ma/Kurfi"
+     "constituency": "Dutsin-ma/Kurfi",
+     "wardCount": 11
     },
     {
      "name": "Faskari",
      "population2006": 194400,
-     "constituency": "Kankara/Sabuwa/Faskari"
+     "constituency": "Kankara/Sabuwa/Faskari",
+     "wardCount": 10
     },
     {
      "name": "Funtua",
      "population2006": 225156,
-     "constituency": "Funtua/Dandume"
+     "constituency": "Funtua/Dandume",
+     "wardCount": 11
     },
     {
      "name": "Ingawa",
      "population2006": 169148,
-     "constituency": "Kankia/Ingawa/Kusada"
+     "constituency": "Kankia/Ingawa/Kusada",
+     "wardCount": 11
     },
     {
      "name": "Jibia",
      "population2006": 167435,
-     "constituency": "Kaita/Jibia"
+     "constituency": "Kaita/Jibia",
+     "wardCount": 11
     },
     {
      "name": "Kafur",
      "population2006": 209360,
-     "constituency": "MalumFashi/Kafur"
+     "constituency": "MalumFashi/Kafur",
+     "wardCount": 10
     },
     {
      "name": "Kaita",
      "population2006": 182405,
-     "constituency": "Kaita/Jibia"
+     "constituency": "Kaita/Jibia",
+     "wardCount": 10
     },
     {
      "name": "Kankara",
      "population2006": 243259,
-     "constituency": "Kankara/Sabuwa/Faskari"
+     "constituency": "Kankara/Sabuwa/Faskari",
+     "wardCount": 11
     },
     {
      "name": "Kankia",
      "population2006": 151395,
-     "constituency": "Kankia/Ingawa/Kusada"
+     "constituency": "Kankia/Ingawa/Kusada",
+     "wardCount": 10
     },
     {
      "name": "Katsina",
      "population2006": 318132,
-     "constituency": "Katsina Central"
+     "constituency": "Katsina Central",
+     "wardCount": 12
     },
     {
      "name": "Kurfi",
      "population2006": 116700,
-     "constituency": "Dutsin-ma/Kurfi"
+     "constituency": "Dutsin-ma/Kurfi",
+     "wardCount": 10
     },
     {
      "name": "Kusada",
      "population2006": 98348,
-     "constituency": "Kankia/Ingawa/Kusada"
+     "constituency": "Kankia/Ingawa/Kusada",
+     "wardCount": 10
     },
     {
      "name": "Mai'Adua",
      "population2006": 201800,
-     "constituency": "Daura/Sandamu/MaiAdua"
+     "constituency": "Daura/Sandamu/MaiAdua",
+     "wardCount": 10
     },
     {
      "name": "Malumfashi",
      "population2006": 182891,
-     "constituency": "MalumFashi/Kafur"
+     "constituency": "MalumFashi/Kafur",
+     "wardCount": 12
     },
     {
      "name": "Mani",
      "population2006": 176301,
-     "constituency": "Mani/Bindawa"
+     "constituency": "Mani/Bindawa",
+     "wardCount": 11
     },
     {
      "name": "Mashi",
      "population2006": 171070,
-     "constituency": "Mashi/Dutsi"
+     "constituency": "Mashi/Dutsi",
+     "wardCount": 11
     },
     {
      "name": "Matazu",
      "population2006": 113814,
-     "constituency": "Musawa/Matazu"
+     "constituency": "Musawa/Matazu",
+     "wardCount": 10
     },
     {
      "name": "Musawa",
      "population2006": 170006,
-     "constituency": "Musawa/Matazu"
+     "constituency": "Musawa/Matazu",
+     "wardCount": 11
     },
     {
      "name": "Rimi",
      "population2006": 154092,
-     "constituency": "Rimi/Charanchi/Batagarawa"
+     "constituency": "Rimi/Charanchi/Batagarawa",
+     "wardCount": 10
     },
     {
      "name": "Sabuwa",
      "population2006": 140679,
-     "constituency": "Kankara/Sabuwa/Faskari"
+     "constituency": "Kankara/Sabuwa/Faskari",
+     "wardCount": 10
     },
     {
      "name": "Safana",
      "population2006": 185207,
-     "constituency": "Safana/Dan musa/Batsari"
+     "constituency": "Safana/Dan musa/Batsari",
+     "wardCount": 10
     },
     {
      "name": "Sandamu",
      "population2006": 136944,
-     "constituency": "Daura/Sandamu/MaiAdua"
+     "constituency": "Daura/Sandamu/MaiAdua",
+     "wardCount": 11
     },
     {
      "name": "Zango",
      "population2006": 156052,
-     "constituency": "Baure/Zango"
+     "constituency": "Baure/Zango",
+     "wardCount": 10
     }
    ],
    "electionDate": "2025-02-15"
@@ -1979,107 +2347,128 @@
     {
      "name": "Aliero",
      "population2006": 67078,
-     "constituency": "Gwandu/Aliero/Jega"
+     "constituency": "Gwandu/Aliero/Jega",
+     "wardCount": 10
     },
     {
      "name": "Arewa Dandi",
      "population2006": 189728,
-     "constituency": "Arewa/Dandi"
+     "constituency": "Arewa/Dandi",
+     "wardCount": null
     },
     {
      "name": "Argungu",
      "population2006": 200248,
-     "constituency": "Argungu/Augie"
+     "constituency": "Argungu/Augie",
+     "wardCount": 11
     },
     {
      "name": "Augie",
      "population2006": 116368,
-     "constituency": "Argungu/Augie"
+     "constituency": "Argungu/Augie",
+     "wardCount": 10
     },
     {
      "name": "Bagudo",
      "population2006": 238014,
-     "constituency": "Bagudo/Suru"
+     "constituency": "Bagudo/Suru",
+     "wardCount": 11
     },
     {
      "name": "Birnin Kebbi",
      "population2006": 268620,
-     "constituency": "Birnin Kebbi/Kalgo/Bunza"
+     "constituency": "Birnin Kebbi/Kalgo/Bunza",
+     "wardCount": 15
     },
     {
      "name": "Bunza",
      "population2006": 123547,
-     "constituency": "Birnin Kebbi/Kalgo/Bunza"
+     "constituency": "Birnin Kebbi/Kalgo/Bunza",
+     "wardCount": 10
     },
     {
      "name": "Dandi",
      "population2006": 146211,
-     "constituency": "Arewa/Dandi"
+     "constituency": "Arewa/Dandi",
+     "wardCount": 11
     },
     {
      "name": "Danko-Wasagu",
      "population2006": 265271,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Fakai",
      "population2006": 119772,
-     "constituency": "Zuru/Fakai/Sakaba/D/Wasagu"
+     "constituency": "Zuru/Fakai/Sakaba/D/Wasagu",
+     "wardCount": 10
     },
     {
      "name": "Gwandu",
      "population2006": 151077,
-     "constituency": "Gwandu/Aliero/Jega"
+     "constituency": "Gwandu/Aliero/Jega",
+     "wardCount": 10
     },
     {
      "name": "Jega",
      "population2006": 197757,
-     "constituency": "Gwandu/Aliero/Jega"
+     "constituency": "Gwandu/Aliero/Jega",
+     "wardCount": 11
     },
     {
      "name": "Kalgo",
      "population2006": 84928,
-     "constituency": "Birnin Kebbi/Kalgo/Bunza"
+     "constituency": "Birnin Kebbi/Kalgo/Bunza",
+     "wardCount": 10
     },
     {
      "name": "Koko/Besse",
      "population2006": 154818,
-     "constituency": "Maiyama/Koko/Besse"
+     "constituency": "Maiyama/Koko/Besse",
+     "wardCount": 12
     },
     {
      "name": "Maiyama",
      "population2006": 173759,
-     "constituency": "Maiyama/Koko/Besse"
+     "constituency": "Maiyama/Koko/Besse",
+     "wardCount": 11
     },
     {
      "name": "Ngaski",
      "population2006": 126102,
-     "constituency": "Yauri/Shanga/Ngaski"
+     "constituency": "Yauri/Shanga/Ngaski",
+     "wardCount": 10
     },
     {
      "name": "Sakaba",
      "population2006": 91728,
-     "constituency": "Zuru/Fakai/Sakaba/D/Wasagu"
+     "constituency": "Zuru/Fakai/Sakaba/D/Wasagu",
+     "wardCount": 10
     },
     {
      "name": "Shanga",
      "population2006": 127142,
-     "constituency": "Yauri/Shanga/Ngaski"
+     "constituency": "Yauri/Shanga/Ngaski",
+     "wardCount": 10
     },
     {
      "name": "Suru",
      "population2006": 148474,
-     "constituency": "Bagudo/Suru"
+     "constituency": "Bagudo/Suru",
+     "wardCount": 11
     },
     {
      "name": "Yauri",
      "population2006": 100564,
-     "constituency": "Yauri/Shanga/Ngaski"
+     "constituency": "Yauri/Shanga/Ngaski",
+     "wardCount": 10
     },
     {
      "name": "Zuru",
      "population2006": 165335,
-     "constituency": "Zuru/Fakai/Sakaba/D/Wasagu"
+     "constituency": "Zuru/Fakai/Sakaba/D/Wasagu",
+     "wardCount": 10
     }
    ],
    "electionDate": "2024-08-31"
@@ -2092,117 +2481,140 @@
     {
      "name": "Binji",
      "population2006": 104274,
-     "constituency": "Binji/Silame"
+     "constituency": "Binji/Silame",
+     "wardCount": 10
     },
     {
      "name": "Bodinga",
      "population2006": 174302,
-     "constituency": "Bodinga/Dange-Shuni/Tureta"
+     "constituency": "Bodinga/Dange-Shuni/Tureta",
+     "wardCount": 11
     },
     {
      "name": "Dange/Shuni",
      "population2006": 193443,
-     "constituency": "Bodinga/Dange-Shuni/Tureta"
+     "constituency": "Bodinga/Dange-Shuni/Tureta",
+     "wardCount": 11
     },
     {
      "name": "Gada",
      "population2006": 249051,
-     "constituency": "Goronyo/Gada"
+     "constituency": "Goronyo/Gada",
+     "wardCount": 11
     },
     {
      "name": "Goronyo",
      "population2006": 182118,
-     "constituency": "Goronyo/Gada"
+     "constituency": "Goronyo/Gada",
+     "wardCount": 11
     },
     {
      "name": "Gudu",
      "population2006": 95400,
-     "constituency": "Gudu/Tangaza"
+     "constituency": "Gudu/Tangaza",
+     "wardCount": 10
     },
     {
      "name": "Gwadabawa",
      "population2006": 231569,
-     "constituency": "Gwadabawa/Ilella"
+     "constituency": "Gwadabawa/Ilella",
+     "wardCount": 11
     },
     {
      "name": "Illela",
      "population2006": 150133,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Isa",
      "population2006": 150268,
-     "constituency": "Sabon-Birni/Isa"
+     "constituency": "Sabon-Birni/Isa",
+     "wardCount": 10
     },
     {
      "name": "Kebbe",
      "population2006": 123154,
-     "constituency": "Kebbe/Tambuwal"
+     "constituency": "Kebbe/Tambuwal",
+     "wardCount": 10
     },
     {
      "name": "Kware",
      "population2006": 134084,
-     "constituency": "Kware/Wamakko"
+     "constituency": "Kware/Wamakko",
+     "wardCount": 11
     },
     {
      "name": "Rabah",
      "population2006": 149152,
-     "constituency": "Wurno/Rabah"
+     "constituency": "Wurno/Rabah",
+     "wardCount": 11
     },
     {
      "name": "Sabon Birni",
      "population2006": 207470,
-     "constituency": "Sabon-Birni/Isa"
+     "constituency": "Sabon-Birni/Isa",
+     "wardCount": 11
     },
     {
      "name": "Shagari",
      "population2006": 156907,
-     "constituency": "Shagari/Yabo"
+     "constituency": "Shagari/Yabo",
+     "wardCount": 10
     },
     {
      "name": "Silame",
      "population2006": 104601,
-     "constituency": "Binji/Silame"
+     "constituency": "Binji/Silame",
+     "wardCount": 10
     },
     {
      "name": "Sokoto North",
      "population2006": 233012,
-     "constituency": "Sokoto North/Sokoto South"
+     "constituency": "Sokoto North/Sokoto South",
+     "wardCount": 11
     },
     {
      "name": "Sokoto South",
      "population2006": 197686,
-     "constituency": "Sokoto North/Sokoto South"
+     "constituency": "Sokoto North/Sokoto South",
+     "wardCount": 11
     },
     {
      "name": "Tambuwal",
      "population2006": 225917,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Tangaza",
      "population2006": 114770,
-     "constituency": "Gudu/Tangaza"
+     "constituency": "Gudu/Tangaza",
+     "wardCount": 10
     },
     {
      "name": "Tureta",
      "population2006": 68414,
-     "constituency": "Bodinga/Dange-Shuni/Tureta"
+     "constituency": "Bodinga/Dange-Shuni/Tureta",
+     "wardCount": 10
     },
     {
      "name": "Wamako",
      "population2006": 179246,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Wurno",
      "population2006": 162403,
-     "constituency": "Wurno/Rabah"
+     "constituency": "Wurno/Rabah",
+     "wardCount": 11
     },
     {
      "name": "Yabo",
      "population2006": 115302,
-     "constituency": "Shagari/Yabo"
+     "constituency": "Shagari/Yabo",
+     "wardCount": 10
     }
    ],
    "electionDate": "2024"
@@ -2215,72 +2627,86 @@
     {
      "name": "Anka",
      "population2006": 143637,
-     "constituency": "Anka/Talata Marafa"
+     "constituency": "Anka/Talata Marafa",
+     "wardCount": 10
     },
     {
      "name": "Bakura",
      "population2006": 187141,
-     "constituency": "Bakura/Maradun"
+     "constituency": "Bakura/Maradun",
+     "wardCount": 10
     },
     {
      "name": "Birnin Magaji/Kiyaw",
      "population2006": 184083,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Bukkuyum",
      "population2006": 216348,
-     "constituency": "Gummi/Bukkuyum"
+     "constituency": "Gummi/Bukkuyum",
+     "wardCount": 10
     },
     {
      "name": "Bungudu",
      "population2006": 258644,
-     "constituency": "Bungudu/Maru"
+     "constituency": "Bungudu/Maru",
+     "wardCount": 11
     },
     {
      "name": "Gummi",
      "population2006": 206721,
-     "constituency": "Gummi/Bukkuyum"
+     "constituency": "Gummi/Bukkuyum",
+     "wardCount": 11
     },
     {
      "name": "Gusau",
      "population2006": 383712,
-     "constituency": "Gusau/Tsafe"
+     "constituency": "Gusau/Tsafe",
+     "wardCount": 11
     },
     {
      "name": "Kaura Namoda",
      "population2006": 285363,
-     "constituency": "Kaura-Namoda/Birnin-Magaji"
+     "constituency": "Kaura-Namoda/Birnin-Magaji",
+     "wardCount": 11
     },
     {
      "name": "Maradun",
      "population2006": 207563,
-     "constituency": "Bakura/Maradun"
+     "constituency": "Bakura/Maradun",
+     "wardCount": 10
     },
     {
      "name": "Maru",
      "population2006": 293141,
-     "constituency": "Bungudu/Maru"
+     "constituency": "Bungudu/Maru",
+     "wardCount": 10
     },
     {
      "name": "Shinkafi",
      "population2006": 135964,
-     "constituency": "Shinkafi/Zurmi"
+     "constituency": "Shinkafi/Zurmi",
+     "wardCount": 10
     },
     {
      "name": "Talata Mafara",
      "population2006": 215650,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Tsafe",
      "population2006": 266929,
-     "constituency": "Gusau/Tsafe"
+     "constituency": "Gusau/Tsafe",
+     "wardCount": 11
     },
     {
      "name": "Zurmi",
      "population2006": 293977,
-     "constituency": "Shinkafi/Zurmi"
+     "constituency": "Shinkafi/Zurmi",
+     "wardCount": 11
     }
    ]
   },
@@ -2292,87 +2718,104 @@
     {
      "name": "Aba North",
      "population2006": 106844,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Aba South",
      "population2006": 427421,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Arochukwu",
      "population2006": 169339,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Bende",
      "population2006": 192621,
-     "constituency": "Abia North"
+     "constituency": "Abia North",
+     "wardCount": 13
     },
     {
      "name": "Ikwuano",
      "population2006": 137897,
-     "constituency": "Abia South"
+     "constituency": "Abia South",
+     "wardCount": 10
     },
     {
      "name": "Isiala Ngwa North",
      "population2006": 154083,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Isiala Ngwa South",
      "population2006": 136650,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Isuikwuato",
      "population2006": 115794,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Obi Ngwa",
      "population2006": 181894,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ohafia",
      "population2006": 245987,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Osisioma",
      "population2006": 220662,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ugwunagbo",
      "population2006": 85371,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ukwa East",
      "population2006": 58139,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ukwa West",
      "population2006": 87367,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Umu-Nneochi",
      "population2006": 163119,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Umuahia North",
      "population2006": 223134,
-     "constituency": "Abia South"
+     "constituency": "Abia South",
+     "wardCount": 12
     },
     {
      "name": "Umuahia South",
      "population2006": 139058,
-     "constituency": "Abia South"
+     "constituency": "Abia South",
+     "wardCount": 10
     }
    ],
    "electionDate": "2024-11"
@@ -2385,107 +2828,128 @@
     {
      "name": "Aguata",
      "population2006": 369972,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 20
     },
     {
      "name": "Anambra East",
      "population2006": 152149,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 15
     },
     {
      "name": "Anambra West",
      "population2006": 167303,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Anaocha",
      "population2006": 284215,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 19
     },
     {
      "name": "Awka North",
      "population2006": 112192,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 14
     },
     {
      "name": "Awka South",
      "population2006": 189654,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 20
     },
     {
      "name": "Ayamelum",
      "population2006": 158152,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Dunukofia",
      "population2006": 96517,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 14
     },
     {
      "name": "Ekwusigo",
      "population2006": 158429,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Idemili North",
      "population2006": 431005,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Idemili South",
      "population2006": 206816,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Ihiala",
      "population2006": 302277,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 20
     },
     {
      "name": "Njikoka",
      "population2006": 148394,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 18
     },
     {
      "name": "Nnewi North",
      "population2006": 155443,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Nnewi South",
      "population2006": 233362,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 20
     },
     {
      "name": "Ogbaru",
      "population2006": 223317,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 16
     },
     {
      "name": "Onitsha North",
      "population2006": 125918,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 15
     },
     {
      "name": "Onitsha South",
      "population2006": 137191,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 17
     },
     {
      "name": "Orumba North",
      "population2006": 172773,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 18
     },
     {
      "name": "Orumba South",
      "population2006": 184548,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 18
     },
     {
      "name": "Oyi",
      "population2006": 168201,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 15
     }
    ],
    "electionDate": "2024"
@@ -2498,67 +2962,80 @@
     {
      "name": "Abakaliki",
      "population2006": 149683,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 14
     },
     {
      "name": "Afikpo North",
      "population2006": 156649,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Afikpo South",
      "population2006": 157542,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ebonyi",
      "population2006": 127226,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Ezza North",
      "population2006": 146149,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ezza South",
      "population2006": 133625,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ikwo",
      "population2006": 214969,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 20
     },
     {
      "name": "Ishielu",
      "population2006": 152581,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 16
     },
     {
      "name": "Ivo",
      "population2006": 121363,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Izzi",
      "population2006": 236679,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 14
     },
     {
      "name": "Ohaozara",
      "population2006": 148317,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ohaukwu",
      "population2006": 195555,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 15
     },
     {
      "name": "Onicha",
      "population2006": 236609,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     }
    ],
    "electionDate": "2024"
@@ -2571,87 +3048,104 @@
     {
      "name": "Aninri",
      "population2006": 136221,
-     "constituency": "Aninri/Agwu/Oji-uzo"
+     "constituency": "Aninri/Agwu/Oji-uzo",
+     "wardCount": 10
     },
     {
      "name": "Awgu",
      "population2006": 197292,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Enugu East",
      "population2006": 277119,
-     "constituency": "Enugu East/Isi-Uzo"
+     "constituency": "Enugu East/Isi-Uzo",
+     "wardCount": 12
     },
     {
      "name": "Enugu North",
      "population2006": 242140,
-     "constituency": "Enugu North/Enugu South"
+     "constituency": "Enugu North/Enugu South",
+     "wardCount": 13
     },
     {
      "name": "Enugu South",
      "population2006": 198032,
-     "constituency": "Enugu North/Enugu South"
+     "constituency": "Enugu North/Enugu South",
+     "wardCount": 13
     },
     {
      "name": "Ezeagu",
      "population2006": 170603,
-     "constituency": "Ezeagu/Udi"
+     "constituency": "Ezeagu/Udi",
+     "wardCount": 20
     },
     {
      "name": "Igbo Etiti",
      "population2006": 208333,
-     "constituency": "Igbo-Etiti/Uzo-Uwani"
+     "constituency": "Igbo-Etiti/Uzo-Uwani",
+     "wardCount": 20
     },
     {
      "name": "Igbo Eze North",
      "population2006": 258829,
-     "constituency": "Udenu/Igboeze North"
+     "constituency": "Udenu/Igboeze North",
+     "wardCount": 20
     },
     {
      "name": "Igbo Eze South",
      "population2006": 147364,
-     "constituency": "Nsukka/Igbo-Eze South"
+     "constituency": "Nsukka/Igbo-Eze South",
+     "wardCount": 16
     },
     {
      "name": "Isi-Uzo",
      "population2006": 148597,
-     "constituency": "Enugu East/Isi-Uzo"
+     "constituency": "Enugu East/Isi-Uzo",
+     "wardCount": 11
     },
     {
      "name": "Nkanu East",
      "population2006": 153591,
-     "constituency": "Nkanu East/Nkanu West"
+     "constituency": "Nkanu East/Nkanu West",
+     "wardCount": 14
     },
     {
      "name": "Nkanu West",
      "population2006": 147385,
-     "constituency": "Nkanu East/Nkanu West"
+     "constituency": "Nkanu East/Nkanu West",
+     "wardCount": 14
     },
     {
      "name": "Nsukka",
      "population2006": 309448,
-     "constituency": "Nsukka/Igbo-Eze South"
+     "constituency": "Nsukka/Igbo-Eze South",
+     "wardCount": 20
     },
     {
      "name": "Oji-River",
      "population2006": 128741,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 20
     },
     {
      "name": "Udenu",
      "population2006": 178687,
-     "constituency": "Udenu/Igboeze North"
+     "constituency": "Udenu/Igboeze North",
+     "wardCount": 10
     },
     {
      "name": "Udi",
      "population2006": 238305,
-     "constituency": "Ezeagu/Udi"
+     "constituency": "Ezeagu/Udi",
+     "wardCount": 20
     },
     {
      "name": "Uzo-Uwani",
      "population2006": 127150,
-     "constituency": "Igbo-Etiti/Uzo-Uwani"
+     "constituency": "Igbo-Etiti/Uzo-Uwani",
+     "wardCount": 16
     }
    ],
    "electionDate": "2024"
@@ -2664,137 +3158,164 @@
     {
      "name": "Aboh Mbaise",
      "population2006": 194779,
-     "constituency": "Aboh Mbaise/Ngor Okpala"
+     "constituency": "Aboh Mbaise/Ngor Okpala",
+     "wardCount": 12
     },
     {
      "name": "Ahiazu Mbaise",
      "population2006": 170824,
-     "constituency": "Ahiazu Mbaise/Ezinihitte"
+     "constituency": "Ahiazu Mbaise/Ezinihitte",
+     "wardCount": 12
     },
     {
      "name": "Ehime Mbano",
      "population2006": 130575,
-     "constituency": "Ehimembano/Ihitte Uboma/Obowo"
+     "constituency": "Ehimembano/Ihitte Uboma/Obowo",
+     "wardCount": 11
     },
     {
      "name": "Ezinihitte Mbaise",
      "population2006": 168767,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Ideato North",
      "population2006": 156161,
-     "constituency": "Ideato North/Ideato South"
+     "constituency": "Ideato North/Ideato South",
+     "wardCount": 14
     },
     {
      "name": "Ideato South",
      "population2006": 159654,
-     "constituency": "Ideato North/Ideato South"
+     "constituency": "Ideato North/Ideato South",
+     "wardCount": 13
     },
     {
      "name": "Ihitte/Uboma",
      "population2006": 119419,
-     "constituency": "Ehimembano/Ihitte Uboma/Obowo"
+     "constituency": "Ehimembano/Ihitte Uboma/Obowo",
+     "wardCount": 10
     },
     {
      "name": "Ikeduru",
      "population2006": 149737,
-     "constituency": "Mbaitolu/ikeduru"
+     "constituency": "Mbaitolu/ikeduru",
+     "wardCount": 12
     },
     {
      "name": "Isiala Mbano",
      "population2006": 197921,
-     "constituency": "Isiala Mbano/Okigwe/Onuimo"
+     "constituency": "Isiala Mbano/Okigwe/Onuimo",
+     "wardCount": 12
     },
     {
      "name": "Isu",
      "population2006": 164328,
-     "constituency": "Isu/Njaba/Nkwerre/Nwangele"
+     "constituency": "Isu/Njaba/Nkwerre/Nwangele",
+     "wardCount": 11
     },
     {
      "name": "Mbaitoli",
      "population2006": 237474,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Ngor Okpala",
      "population2006": 157858,
-     "constituency": "Aboh Mbaise/Ngor Okpala"
+     "constituency": "Aboh Mbaise/Ngor Okpala",
+     "wardCount": 11
     },
     {
      "name": "Njaba",
      "population2006": 143485,
-     "constituency": "Isu/Njaba/Nkwerre/Nwangele"
+     "constituency": "Isu/Njaba/Nkwerre/Nwangele",
+     "wardCount": 11
     },
     {
      "name": "Nkwerre",
      "population2006": 80270,
-     "constituency": "Isu/Njaba/Nkwerre/Nwangele"
+     "constituency": "Isu/Njaba/Nkwerre/Nwangele",
+     "wardCount": 10
     },
     {
      "name": "Nwangele",
      "population2006": 127691,
-     "constituency": "Isu/Njaba/Nkwerre/Nwangele"
+     "constituency": "Isu/Njaba/Nkwerre/Nwangele",
+     "wardCount": 11
     },
     {
      "name": "Obowo",
      "population2006": 117432,
-     "constituency": "Ehimembano/Ihitte Uboma/Obowo"
+     "constituency": "Ehimembano/Ihitte Uboma/Obowo",
+     "wardCount": 10
     },
     {
      "name": "Oguta",
      "population2006": 142340,
-     "constituency": "Oguta/Ohaji-Egbema/Oru West"
+     "constituency": "Oguta/Ohaji-Egbema/Oru West",
+     "wardCount": 11
     },
     {
      "name": "Ohaji/Egbema",
      "population2006": 182891,
-     "constituency": "Oguta/Ohaji-Egbema/Oru West"
+     "constituency": "Oguta/Ohaji-Egbema/Oru West",
+     "wardCount": 12
     },
     {
      "name": "Okigwe",
      "population2006": 132701,
-     "constituency": "Isiala Mbano/Okigwe/Onuimo"
+     "constituency": "Isiala Mbano/Okigwe/Onuimo",
+     "wardCount": 11
     },
     {
      "name": "Onuimo",
      "population2006": 99368,
-     "constituency": "Isiala Mbano/Okigwe/Onuimo"
+     "constituency": "Isiala Mbano/Okigwe/Onuimo",
+     "wardCount": 10
     },
     {
      "name": "Orlu",
      "population2006": 142792,
-     "constituency": "Orlu/Oru East/Orsu"
+     "constituency": "Orlu/Oru East/Orsu",
+     "wardCount": 13
     },
     {
      "name": "Orsu",
      "population2006": 120224,
-     "constituency": "Orlu/Oru East/Orsu"
+     "constituency": "Orlu/Oru East/Orsu",
+     "wardCount": 11
     },
     {
      "name": "Oru East",
      "population2006": 111743,
-     "constituency": "Orlu/Oru East/Orsu"
+     "constituency": "Orlu/Oru East/Orsu",
+     "wardCount": 10
     },
     {
      "name": "Oru West",
      "population2006": 115704,
-     "constituency": "Oguta/Ohaji-Egbema/Oru West"
+     "constituency": "Oguta/Ohaji-Egbema/Oru West",
+     "wardCount": 10
     },
     {
      "name": "Owerri Municipal",
      "population2006": 125337,
-     "constituency": "Owerri Municipal/Owerri North/Owerri West"
+     "constituency": "Owerri Municipal/Owerri North/Owerri West",
+     "wardCount": 11
     },
     {
      "name": "Owerri North",
      "population2006": 176334,
-     "constituency": "Owerri Municipal/Owerri North/Owerri West"
+     "constituency": "Owerri Municipal/Owerri North/Owerri West",
+     "wardCount": 12
     },
     {
      "name": "Owerri West",
      "population2006": 101754,
-     "constituency": "Owerri Municipal/Owerri North/Owerri West"
+     "constituency": "Owerri Municipal/Owerri North/Owerri West",
+     "wardCount": 10
     }
    ],
    "electionDate": "2024-09-21"
@@ -2807,157 +3328,188 @@
     {
      "name": "Abak",
      "population2006": 139069,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Eastern Obolo",
      "population2006": 59970,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Eket",
      "population2006": 172856,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Esit Eket",
      "population2006": 63358,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Essien Udim",
      "population2006": 193257,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Etim Ekpo",
      "population2006": 105922,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Etinan",
      "population2006": 168924,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ibeno",
      "population2006": 74840,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ibesikpo Asutan",
      "population2006": 137127,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ibiono Ibom",
      "population2006": 188605,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ika",
      "population2006": 72772,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ikono",
      "population2006": 131673,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ikot Abasi",
      "population2006": 132608,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ikot Ekpene",
      "population2006": 141408,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ini",
      "population2006": 99084,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Itu",
      "population2006": 127856,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Mbo",
      "population2006": 102173,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Mkpat Enin",
      "population2006": 177293,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 14
     },
     {
      "name": "Nsit Atai",
      "population2006": 73395,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Nsit Ibom",
      "population2006": 108095,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Nsit Ubium",
      "population2006": 127083,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Obot Akara",
      "population2006": 147286,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Okobo",
      "population2006": 102753,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Onna",
      "population2006": 123193,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Oron",
      "population2006": 87209,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Oruk Anam",
      "population2006": 171839,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Udung Uko",
      "population2006": 53060,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ukanafun",
      "population2006": 125473,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Uruan",
      "population2006": 117169,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Urue Offong/Oruko",
      "population2006": 70740,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Uyo",
      "population2006": 305961,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     }
    ],
    "electionDate": "2024-10-26"
@@ -2970,42 +3522,50 @@
     {
      "name": "Brass",
      "population2006": 184127,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ekeremor",
      "population2006": 269588,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Kolokuma/Opokuma",
      "population2006": 79266,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Nembe",
      "population2006": 130966,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Ogbia",
      "population2006": 179606,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Sagbama",
      "population2006": 186869,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 14
     },
     {
      "name": "Southern Ijaw",
      "population2006": 321808,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 17
     },
     {
      "name": "Yenagoa",
      "population2006": 352285,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 15
     }
    ]
   },
@@ -3017,92 +3577,110 @@
     {
      "name": "Abi",
      "population2006": 144317,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Akamkpa",
      "population2006": 149705,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Akpabuyo",
      "population2006": 272262,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Bakassi",
      "population2006": 31641,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Bekwarra",
      "population2006": 105497,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Biase",
      "population2006": 168113,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Boki",
      "population2006": 186611,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Calabar Municipal",
      "population2006": 183681,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Calabar South",
      "population2006": 191515,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Etung",
      "population2006": 80036,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ikom",
      "population2006": 163691,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Obanliku",
      "population2006": 109633,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Obubra",
      "population2006": 172543,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Obudu",
      "population2006": 161457,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Odukpani",
      "population2006": 192884,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Ogoja",
      "population2006": 171574,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Yakurr",
      "population2006": 196271,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Yala",
      "population2006": 211557,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     }
    ],
    "electionDate": "2024"
@@ -3115,127 +3693,152 @@
     {
      "name": "Aniocha North",
      "population2006": 104062,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Aniocha South",
      "population2006": 142045,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Bomadi",
      "population2006": 86016,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Burutu",
      "population2006": 207977,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ethiope East",
      "population2006": 200942,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ethiope West",
      "population2006": 202712,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ika North East",
      "population2006": 182819,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 14
     },
     {
      "name": "Ika South",
      "population2006": 167060,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Isoko North",
      "population2006": 143559,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Isoko South",
      "population2006": 235147,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ndokwa East",
      "population2006": 103224,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ndokwa West",
      "population2006": 150024,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Okpe",
      "population2006": 128398,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Oshimili North",
      "population2006": 118540,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Oshimili South",
      "population2006": 150032,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Patani",
      "population2006": 67391,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Sapele",
      "population2006": 174273,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Udu",
      "population2006": 142480,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ughelli North",
      "population2006": 320687,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ughelli South",
      "population2006": 212638,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ukwuani",
      "population2006": 119034,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Uvwie",
      "population2006": 188728,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Warri North",
      "population2006": 136149,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Warri South",
      "population2006": 311970,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Warri South West",
      "population2006": 116538,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     }
    ],
    "electionDate": "2024-07-13"
@@ -3248,92 +3851,110 @@
     {
      "name": "Akoko Edo",
      "population2006": 261567,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Egor",
      "population2006": 340287,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Esan Central",
      "population2006": 105242,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Esan North East",
      "population2006": 121989,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Esan South East",
      "population2006": 166309,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Esan West",
      "population2006": 127718,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Etsako Central",
      "population2006": 94228,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Etsako East",
      "population2006": 147335,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Etsako West",
      "population2006": 198975,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Igueben",
      "population2006": 70276,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ikpoba Okha",
      "population2006": 372080,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Oredo",
      "population2006": 374515,
-     "constituency": "Oredo"
+     "constituency": "Oredo",
+     "wardCount": 12
     },
     {
      "name": "Orhionmwon",
      "population2006": 183994,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 12
     },
     {
      "name": "Ovia North East",
      "population2006": 155344,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 13
     },
     {
      "name": "Ovia South West",
      "population2006": 138072,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Owan East",
      "population2006": 154630,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Owan West",
      "population2006": 99056,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Uhunmwonde",
      "population2006": 121749,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     }
    ]
   },
@@ -3345,117 +3966,140 @@
     {
      "name": "Abua-Odual",
      "population2006": 282410,
-     "constituency": "Abua/Odual/Ahoada East"
+     "constituency": "Abua/Odual/Ahoada East",
+     "wardCount": 13
     },
     {
      "name": "Ahoada East",
      "population2006": 166324,
-     "constituency": "Abua/Odual/Ahoada East"
+     "constituency": "Abua/Odual/Ahoada East",
+     "wardCount": 13
     },
     {
      "name": "Ahoada West",
      "population2006": 249232,
-     "constituency": "Ahoada-West/Ogba-Egbema-Ndoni"
+     "constituency": "Ahoada-West/Ogba-Egbema-Ndoni",
+     "wardCount": 12
     },
     {
      "name": "Akuku-Toru",
      "population2006": 161103,
-     "constituency": "Akuku-Toru/Asari-Toru"
+     "constituency": "Akuku-Toru/Asari-Toru",
+     "wardCount": 17
     },
     {
      "name": "Andoni",
      "population2006": 217924,
-     "constituency": "Andoni/Opobo/Nkoro"
+     "constituency": "Andoni/Opobo/Nkoro",
+     "wardCount": 11
     },
     {
      "name": "Asari-Toru",
      "population2006": 219787,
-     "constituency": "Akuku-Toru/Asari-Toru"
+     "constituency": "Akuku-Toru/Asari-Toru",
+     "wardCount": 13
     },
     {
      "name": "Bonny",
      "population2006": 214983,
-     "constituency": "Degema/Bonny"
+     "constituency": "Degema/Bonny",
+     "wardCount": 12
     },
     {
      "name": "Degema",
      "population2006": 249467,
-     "constituency": "Degema/Bonny"
+     "constituency": "Degema/Bonny",
+     "wardCount": 17
     },
     {
      "name": "Eleme",
      "population2006": 190194,
-     "constituency": "Tai/Eleme/Oyigbo"
+     "constituency": "Tai/Eleme/Oyigbo",
+     "wardCount": 10
     },
     {
      "name": "Emohua",
      "population2006": 201057,
-     "constituency": "Ikwerre/Emohua"
+     "constituency": "Ikwerre/Emohua",
+     "wardCount": 14
     },
     {
      "name": "Etche",
      "population2006": 249939,
-     "constituency": "Etche/Omuma"
+     "constituency": "Etche/Omuma",
+     "wardCount": 19
     },
     {
      "name": "Gokana",
      "population2006": 233813,
-     "constituency": "Khana/Gokana"
+     "constituency": "Khana/Gokana",
+     "wardCount": 17
     },
     {
      "name": "Ikwerre",
      "population2006": 188930,
-     "constituency": "Ikwerre/Emohua"
+     "constituency": "Ikwerre/Emohua",
+     "wardCount": 13
     },
     {
      "name": "Khana",
      "population2006": 292924,
-     "constituency": "Khana/Gokana"
+     "constituency": "Khana/Gokana",
+     "wardCount": 19
     },
     {
      "name": "Obio/Akpor",
      "population2006": 462350,
-     "constituency": "Obio/Akpor"
+     "constituency": "Obio/Akpor",
+     "wardCount": 17
     },
     {
      "name": "Ogba/Egbema/Ndoni",
      "population2006": 283294,
-     "constituency": "Ahoada-West/Ogba-Egbema-Ndoni"
+     "constituency": "Ahoada-West/Ogba-Egbema-Ndoni",
+     "wardCount": 17
     },
     {
      "name": "Ogu/Bolo",
      "population2006": 75282,
-     "constituency": "Okrika/Ogu-Bolo"
+     "constituency": "Okrika/Ogu-Bolo",
+     "wardCount": 12
     },
     {
      "name": "Okrika",
      "population2006": 222285,
-     "constituency": "Okrika/Ogu-Bolo"
+     "constituency": "Okrika/Ogu-Bolo",
+     "wardCount": 12
     },
     {
      "name": "Omuma",
      "population2006": 100388,
-     "constituency": "Etche/Omuma"
+     "constituency": "Etche/Omuma",
+     "wardCount": 10
     },
     {
      "name": "Opobo/Nkoro",
      "population2006": 152833,
-     "constituency": "Andoni/Opobo/Nkoro"
+     "constituency": "Andoni/Opobo/Nkoro",
+     "wardCount": 11
     },
     {
      "name": "Oyigbo",
      "population2006": 125331,
-     "constituency": "Tai/Eleme/Oyigbo"
+     "constituency": "Tai/Eleme/Oyigbo",
+     "wardCount": 10
     },
     {
      "name": "Port Harcourt",
      "population2006": 538558,
-     "constituency": "Port Harcourt I"
+     "constituency": "Port Harcourt I",
+     "wardCount": 20
     },
     {
      "name": "Tai",
      "population2006": 120308,
-     "constituency": "Tai/Eleme/Oyigbo"
+     "constituency": "Tai/Eleme/Oyigbo",
+     "wardCount": 10
     }
    ],
    "electionDate": "2025-08-30"
@@ -3468,82 +4112,98 @@
     {
      "name": "Ado-Ekiti",
      "population2006": 313690,
-     "constituency": "Ado Ekiti/Irepodun-Ifelodun"
+     "constituency": "Ado Ekiti/Irepodun-Ifelodun",
+     "wardCount": 13
     },
     {
      "name": "Efon",
      "population2006": 87187,
-     "constituency": "Ijero/Ekiti West/Efon"
+     "constituency": "Ijero/Ekiti West/Efon",
+     "wardCount": 10
     },
     {
      "name": "Ekiti East",
      "population2006": 138340,
-     "constituency": "Emure/Gbonyin/Ekiti East"
+     "constituency": "Emure/Gbonyin/Ekiti East",
+     "wardCount": 12
     },
     {
      "name": "Ekiti South West",
      "population2006": 165087,
-     "constituency": "Ekiti South West/Ikere/Ise/Orun"
+     "constituency": "Ekiti South West/Ikere/Ise/Orun",
+     "wardCount": 11
     },
     {
      "name": "Ekiti West",
      "population2006": 179600,
-     "constituency": "Ijero/Ekiti West/Efon"
+     "constituency": "Ijero/Ekiti West/Efon",
+     "wardCount": 11
     },
     {
      "name": "Emure",
      "population2006": 94264,
-     "constituency": "Emure/Gbonyin/Ekiti East"
+     "constituency": "Emure/Gbonyin/Ekiti East",
+     "wardCount": 10
     },
     {
      "name": "Gbonyin",
      "population2006": 147999,
-     "constituency": "Emure/Gbonyin/Ekiti East"
+     "constituency": "Emure/Gbonyin/Ekiti East",
+     "wardCount": 10
     },
     {
      "name": "Ido-Osi",
      "population2006": 160001,
-     "constituency": "Ido/Osi/Moba/Ilejeme "
+     "constituency": "Ido/Osi/Moba/Ilejeme ",
+     "wardCount": 11
     },
     {
      "name": "Ijero",
      "population2006": 221873,
-     "constituency": "Ijero/Ekiti West/Efon"
+     "constituency": "Ijero/Ekiti West/Efon",
+     "wardCount": 12
     },
     {
      "name": "Ikere",
      "population2006": 148558,
-     "constituency": "Ekiti South West/Ikere/Ise/Orun"
+     "constituency": "Ekiti South West/Ikere/Ise/Orun",
+     "wardCount": 11
     },
     {
      "name": "Ikole",
      "population2006": 170414,
-     "constituency": "Ikole/Oye"
+     "constituency": "Ikole/Oye",
+     "wardCount": 12
     },
     {
      "name": "Ilejemeje",
      "population2006": 43459,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Irepodun/Ifelodun",
      "population2006": 131330,
-     "constituency": "Ado Ekiti/Irepodun-Ifelodun"
+     "constituency": "Ado Ekiti/Irepodun-Ifelodun",
+     "wardCount": 11
     },
     {
      "name": "Ise/Orun",
      "population2006": 113951,
-     "constituency": "Ekiti South West/Ikere/Ise/Orun"
+     "constituency": "Ekiti South West/Ikere/Ise/Orun",
+     "wardCount": 10
     },
     {
      "name": "Moba",
      "population2006": 145408,
-     "constituency": "Ido/Osi/Moba/Ilejeme "
+     "constituency": "Ido/Osi/Moba/Ilejeme ",
+     "wardCount": 11
     },
     {
      "name": "Oye",
      "population2006": 137796,
-     "constituency": "Ikole/Oye"
+     "constituency": "Ikole/Oye",
+     "wardCount": 12
     }
    ]
   },
@@ -3555,102 +4215,122 @@
     {
      "name": "Agege",
      "population2006": 461743,
-     "constituency": "Agege"
+     "constituency": "Agege",
+     "wardCount": 11
     },
     {
      "name": "Ajeromi-Ifelodun",
      "population2006": 687316,
-     "constituency": "Ajeromi-Ifelodun"
+     "constituency": "Ajeromi-Ifelodun",
+     "wardCount": 11
     },
     {
      "name": "Alimosho",
      "population2006": 1319571,
-     "constituency": "Alimosho"
+     "constituency": "Alimosho",
+     "wardCount": 11
     },
     {
      "name": "Amuwo-Odofin",
      "population2006": 328975,
-     "constituency": "Amuwo Odofin"
+     "constituency": "Amuwo Odofin",
+     "wardCount": 11
     },
     {
      "name": "Apapa",
      "population2006": 222986,
-     "constituency": "Apapa"
+     "constituency": "Apapa",
+     "wardCount": 10
     },
     {
      "name": "Badagry",
      "population2006": 237731,
-     "constituency": "Badagry"
+     "constituency": "Badagry",
+     "wardCount": 11
     },
     {
      "name": "Epe",
      "population2006": 181734,
-     "constituency": "Epe"
+     "constituency": "Epe",
+     "wardCount": 19
     },
     {
      "name": "Eti-Osa",
      "population2006": 283791,
-     "constituency": "Eti-Osa"
+     "constituency": "Eti-Osa",
+     "wardCount": 10
     },
     {
      "name": "Ibeju-Lekki",
      "population2006": 117793,
-     "constituency": "Ibeju-Lekki"
+     "constituency": "Ibeju-Lekki",
+     "wardCount": 11
     },
     {
      "name": "Ifako-Ijaiye",
      "population2006": 427737,
-     "constituency": "Ifako-Ijaiye"
+     "constituency": "Ifako-Ijaiye",
+     "wardCount": 11
     },
     {
      "name": "Ikeja",
      "population2006": 317614,
-     "constituency": "Ikeja"
+     "constituency": "Ikeja",
+     "wardCount": 10
     },
     {
      "name": "Ikorodu",
      "population2006": 527917,
-     "constituency": "Ikorodu"
+     "constituency": "Ikorodu",
+     "wardCount": 19
     },
     {
      "name": "Kosofe",
      "population2006": 682772,
-     "constituency": "Kosofe"
+     "constituency": "Kosofe",
+     "wardCount": 10
     },
     {
      "name": "Lagos Island",
      "population2006": 212700,
-     "constituency": "Lagos Island I"
+     "constituency": "Lagos Island I",
+     "wardCount": 19
     },
     {
      "name": "Lagos Mainland",
      "population2006": 326700,
-     "constituency": "Lagos Mainland"
+     "constituency": "Lagos Mainland",
+     "wardCount": 11
     },
     {
      "name": "Mushin",
      "population2006": 631857,
-     "constituency": "Mushin I"
+     "constituency": "Mushin I",
+     "wardCount": 14
     },
     {
      "name": "Ojo",
      "population2006": 609173,
-     "constituency": "Ojo"
+     "constituency": "Ojo",
+     "wardCount": 11
     },
     {
      "name": "Oshodi-Isolo",
      "population2006": 629061,
-     "constituency": "Oshodi-Isolo II"
+     "constituency": "Oshodi-Isolo II",
+     "wardCount": 11
     },
     {
      "name": "Somolu",
      "population2006": 403569,
-     "constituency": "Somolu"
+     "constituency": "Somolu",
+     "wardCount": 12
     },
     {
      "name": "Surulere",
      "population2006": 502865,
-     "constituency": "Surulere I"
+     "constituency": "Surulere I",
+     "wardCount": 12
     }
    ],
    "electionDate": "2025-07-12"
@@ -3663,102 +4343,122 @@
     {
      "name": "Abeokuta North",
      "population2006": 198793,
-     "constituency": "Abeokuta North/Obafemi-Owode/Odeda"
+     "constituency": "Abeokuta North/Obafemi-Owode/Odeda",
+     "wardCount": 16
     },
     {
      "name": "Abeokuta South",
      "population2006": 250295,
-     "constituency": "Abeokuta South"
+     "constituency": "Abeokuta South",
+     "wardCount": 15
     },
     {
      "name": "Ado-Odo/Ota",
      "population2006": 527242,
-     "constituency": "Ado-Odo/Ota"
+     "constituency": "Ado-Odo/Ota",
+     "wardCount": 16
     },
     {
      "name": "Ewekoro",
      "population2006": 55093,
-     "constituency": "Ifo/Ewekoro"
+     "constituency": "Ifo/Ewekoro",
+     "wardCount": 10
     },
     {
      "name": "Ifo",
      "population2006": 539170,
-     "constituency": "Ifo/Ewekoro"
+     "constituency": "Ifo/Ewekoro",
+     "wardCount": 11
     },
     {
      "name": "Ijebu East",
      "population2006": 109321,
-     "constituency": "Ijebu North/Ijebu East/Ogun Waterside"
+     "constituency": "Ijebu North/Ijebu East/Ogun Waterside",
+     "wardCount": 11
     },
     {
      "name": "Ijebu North",
      "population2006": 280520,
-     "constituency": "Ijebu North/Ijebu East/Ogun Waterside"
+     "constituency": "Ijebu North/Ijebu East/Ogun Waterside",
+     "wardCount": 11
     },
     {
      "name": "Ijebu North East",
      "population2006": 68800,
-     "constituency": "Ijebu Ode/Odogbolu/Ijebu North East"
+     "constituency": "Ijebu Ode/Odogbolu/Ijebu North East",
+     "wardCount": 10
     },
     {
      "name": "Ijebu Ode",
      "population2006": 157161,
-     "constituency": "Ijebu Ode/Odogbolu/Ijebu North East"
+     "constituency": "Ijebu Ode/Odogbolu/Ijebu North East",
+     "wardCount": 11
     },
     {
      "name": "Ikenne",
      "population2006": 119117,
-     "constituency": "Ikenne/Shagamu/Remo North"
+     "constituency": "Ikenne/Shagamu/Remo North",
+     "wardCount": 10
     },
     {
      "name": "Imeko Afon",
      "population2006": 82952,
-     "constituency": "Imeko Afon/Egbado North"
+     "constituency": "Imeko Afon/Egbado North",
+     "wardCount": 10
     },
     {
      "name": "Ipokia",
      "population2006": 150387,
-     "constituency": "Egbado South/Ipokia"
+     "constituency": "Egbado South/Ipokia",
+     "wardCount": 12
     },
     {
      "name": "Obafemi Owode",
      "population2006": 235071,
-     "constituency": "Abeokuta North/Obafemi-Owode/Odeda"
+     "constituency": "Abeokuta North/Obafemi-Owode/Odeda",
+     "wardCount": 12
     },
     {
      "name": "Odeda",
      "population2006": 109522,
-     "constituency": "Abeokuta North/Obafemi-Owode/Odeda"
+     "constituency": "Abeokuta North/Obafemi-Owode/Odeda",
+     "wardCount": 10
     },
     {
      "name": "Odogbolu",
      "population2006": 125657,
-     "constituency": "Ijebu Ode/Odogbolu/Ijebu North East"
+     "constituency": "Ijebu Ode/Odogbolu/Ijebu North East",
+     "wardCount": 15
     },
     {
      "name": "Ogun Waterside",
      "population2006": 74222,
-     "constituency": "Ijebu North/Ijebu East/Ogun Waterside"
+     "constituency": "Ijebu North/Ijebu East/Ogun Waterside",
+     "wardCount": 10
     },
     {
      "name": "Remo North",
      "population2006": 59752,
-     "constituency": "Ikenne/Shagamu/Remo North"
+     "constituency": "Ikenne/Shagamu/Remo North",
+     "wardCount": 10
     },
     {
      "name": "Shagamu",
      "population2006": 255885,
-     "constituency": "Ikenne/Shagamu/Remo North"
+     "constituency": "Ikenne/Shagamu/Remo North",
+     "wardCount": 15
     },
     {
      "name": "Yewa North",
      "population2006": 183844,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Yewa South",
      "population2006": 168336,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     }
    ],
    "electionDate": "2024-11"
@@ -3771,92 +4471,110 @@
     {
      "name": "Akoko North East",
      "population2006": 179092,
-     "constituency": "Akoko North East/Akoko North West"
+     "constituency": "Akoko North East/Akoko North West",
+     "wardCount": 13
     },
     {
      "name": "Akoko North West",
      "population2006": 211867,
-     "constituency": "Akoko North East/Akoko North West"
+     "constituency": "Akoko North East/Akoko North West",
+     "wardCount": 10
     },
     {
      "name": "Akoko South East",
      "population2006": 82443,
-     "constituency": "Akoko South East/Akoko South West"
+     "constituency": "Akoko South East/Akoko South West",
+     "wardCount": 11
     },
     {
      "name": "Akoko South West",
      "population2006": 228383,
-     "constituency": "Akoko South East/Akoko South West"
+     "constituency": "Akoko South East/Akoko South West",
+     "wardCount": 15
     },
     {
      "name": "Akure North",
      "population2006": 130765,
-     "constituency": "Akure North/Akure South"
+     "constituency": "Akure North/Akure South",
+     "wardCount": 12
     },
     {
      "name": "Akure South",
      "population2006": 360268,
-     "constituency": "Akure North/Akure South"
+     "constituency": "Akure North/Akure South",
+     "wardCount": 11
     },
     {
      "name": "Ese Odo",
      "population2006": 158256,
-     "constituency": "Eseodo/Ilaje"
+     "constituency": "Eseodo/Ilaje",
+     "wardCount": 10
     },
     {
      "name": "Idanre",
      "population2006": 129795,
-     "constituency": "Idanre/Ifedore"
+     "constituency": "Idanre/Ifedore",
+     "wardCount": 10
     },
     {
      "name": "Ifedore",
      "population2006": 176372,
-     "constituency": "Idanre/Ifedore"
+     "constituency": "Idanre/Ifedore",
+     "wardCount": 10
     },
     {
      "name": "Ilaje",
      "population2006": 289838,
-     "constituency": "Eseodo/Ilaje"
+     "constituency": "Eseodo/Ilaje",
+     "wardCount": 12
     },
     {
      "name": "Ile Oluji/Okeigbo",
      "population2006": 171876,
-     "constituency": "Ileoluji-Okeigbo/Odigbo"
+     "constituency": "Ileoluji-Okeigbo/Odigbo",
+     "wardCount": 10
     },
     {
      "name": "Irele",
      "population2006": 144136,
-     "constituency": "Okitipupa/Irele"
+     "constituency": "Okitipupa/Irele",
+     "wardCount": 10
     },
     {
      "name": "Odigbo",
      "population2006": 232287,
-     "constituency": "Ileoluji-Okeigbo/Odigbo"
+     "constituency": "Ileoluji-Okeigbo/Odigbo",
+     "wardCount": 11
     },
     {
      "name": "Okitipupa",
      "population2006": 234138,
-     "constituency": "Okitipupa/Irele"
+     "constituency": "Okitipupa/Irele",
+     "wardCount": 13
     },
     {
      "name": "Ondo East",
      "population2006": 76092,
-     "constituency": "Ondo East/Ondo West"
+     "constituency": "Ondo East/Ondo West",
+     "wardCount": 10
     },
     {
      "name": "Ondo West",
      "population2006": 288868,
-     "constituency": "Ondo East/Ondo West"
+     "constituency": "Ondo East/Ondo West",
+     "wardCount": 12
     },
     {
      "name": "Ose",
      "population2006": 144139,
-     "constituency": "Owo/Ose"
+     "constituency": "Owo/Ose",
+     "wardCount": 12
     },
     {
      "name": "Owo",
      "population2006": 222262,
-     "constituency": "Owo/Ose"
+     "constituency": "Owo/Ose",
+     "wardCount": 11
     }
    ],
    "electionDate": "2025-01-18"
@@ -3869,152 +4587,182 @@
     {
      "name": "Aiyedire",
      "population2006": 76309,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Atakunmosa East",
      "population2006": 76105,
-     "constituency": "Atakunmosa East/Atakunmosa West/Ilesha East/Ilesha West"
+     "constituency": "Atakunmosa East/Atakunmosa West/Ilesha East/Ilesha West",
+     "wardCount": 10
     },
     {
      "name": "Atakunmosa West",
      "population2006": 68350,
-     "constituency": "Atakunmosa East/Atakunmosa West/Ilesha East/Ilesha West"
+     "constituency": "Atakunmosa East/Atakunmosa West/Ilesha East/Ilesha West",
+     "wardCount": 11
     },
     {
      "name": "Ayedaade",
      "population2006": 149569,
-     "constituency": "Ayedaade/Irewole/Isokan"
+     "constituency": "Ayedaade/Irewole/Isokan",
+     "wardCount": 11
     },
     {
      "name": "Boluwaduro",
      "population2006": 70954,
-     "constituency": "Boluwaduro/Ifedayo/Illa"
+     "constituency": "Boluwaduro/Ifedayo/Illa",
+     "wardCount": 10
     },
     {
      "name": "Boripe",
      "population2006": 138742,
-     "constituency": "Odo-Otin/Ifelodun/Boripe"
+     "constituency": "Odo-Otin/Ifelodun/Boripe",
+     "wardCount": 11
     },
     {
      "name": "Ede North",
      "population2006": 83818,
-     "constituency": "Ede North/Ede South/Egbedore/Ejigbo"
+     "constituency": "Ede North/Ede South/Egbedore/Ejigbo",
+     "wardCount": 11
     },
     {
      "name": "Ede South",
      "population2006": 75489,
-     "constituency": "Ede North/Ede South/Egbedore/Ejigbo"
+     "constituency": "Ede North/Ede South/Egbedore/Ejigbo",
+     "wardCount": 10
     },
     {
      "name": "Egbedore",
      "population2006": 73969,
-     "constituency": "Ede North/Ede South/Egbedore/Ejigbo"
+     "constituency": "Ede North/Ede South/Egbedore/Ejigbo",
+     "wardCount": 10
     },
     {
      "name": "Ejigbo",
      "population2006": 132515,
-     "constituency": "Ede North/Ede South/Egbedore/Ejigbo"
+     "constituency": "Ede North/Ede South/Egbedore/Ejigbo",
+     "wardCount": 11
     },
     {
      "name": "Ife Central",
      "population2006": 167204,
-     "constituency": "Ife Central/Ife East/Ife North/Ife South"
+     "constituency": "Ife Central/Ife East/Ife North/Ife South",
+     "wardCount": 11
     },
     {
      "name": "Ife East",
      "population2006": 188614,
-     "constituency": "Ife Central/Ife East/Ife North/Ife South"
+     "constituency": "Ife Central/Ife East/Ife North/Ife South",
+     "wardCount": 10
     },
     {
      "name": "Ife North",
      "population2006": 153274,
-     "constituency": "Ife Central/Ife East/Ife North/Ife South"
+     "constituency": "Ife Central/Ife East/Ife North/Ife South",
+     "wardCount": 10
     },
     {
      "name": "Ife South",
      "population2006": 134490,
-     "constituency": "Ife Central/Ife East/Ife North/Ife South"
+     "constituency": "Ife Central/Ife East/Ife North/Ife South",
+     "wardCount": 11
     },
     {
      "name": "Ifedayo",
      "population2006": 37508,
-     "constituency": "Boluwaduro/Ifedayo/Illa"
+     "constituency": "Boluwaduro/Ifedayo/Illa",
+     "wardCount": 10
     },
     {
      "name": "Ifelodun",
      "population2006": 96444,
-     "constituency": "Odo-Otin/Ifelodun/Boripe"
+     "constituency": "Odo-Otin/Ifelodun/Boripe",
+     "wardCount": 12
     },
     {
      "name": "Ila",
      "population2006": 62054,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ilesa East",
      "population2006": 105416,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 11
     },
     {
      "name": "Ilesa West",
      "population2006": 106809,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Irepodun",
      "population2006": 119590,
-     "constituency": "Irepodun/Olorunda/Osogbo/Orolu"
+     "constituency": "Irepodun/Olorunda/Osogbo/Orolu",
+     "wardCount": 11
     },
     {
      "name": "Irewole",
      "population2006": 142806,
-     "constituency": "Ayedaade/Irewole/Isokan"
+     "constituency": "Ayedaade/Irewole/Isokan",
+     "wardCount": 11
     },
     {
      "name": "Isokan",
      "population2006": 102060,
-     "constituency": "Ayedaade/Irewole/Isokan"
+     "constituency": "Ayedaade/Irewole/Isokan",
+     "wardCount": 11
     },
     {
      "name": "Iwo",
      "population2006": 191348,
-     "constituency": "Ayedire/Iwo/Ola-Oluwa"
+     "constituency": "Ayedire/Iwo/Ola-Oluwa",
+     "wardCount": 15
     },
     {
      "name": "Obokun",
      "population2006": 116850,
-     "constituency": "Obokun/Oriade"
+     "constituency": "Obokun/Oriade",
+     "wardCount": 10
     },
     {
      "name": "Odo-Otin",
      "population2006": 132078,
-     "constituency": "Odo-Otin/Ifelodun/Boripe"
+     "constituency": "Odo-Otin/Ifelodun/Boripe",
+     "wardCount": 15
     },
     {
      "name": "Ola-Oluwa",
      "population2006": 76227,
-     "constituency": "Ayedire/Iwo/Ola-Oluwa"
+     "constituency": "Ayedire/Iwo/Ola-Oluwa",
+     "wardCount": 10
     },
     {
      "name": "Olorunda",
      "population2006": 131649,
-     "constituency": "Irepodun/Olorunda/Osogbo/Orolu"
+     "constituency": "Irepodun/Olorunda/Osogbo/Orolu",
+     "wardCount": 11
     },
     {
      "name": "Oriade",
      "population2006": 148379,
-     "constituency": "Obokun/Oriade"
+     "constituency": "Obokun/Oriade",
+     "wardCount": 12
     },
     {
      "name": "Orolu",
      "population2006": 102832,
-     "constituency": "Irepodun/Olorunda/Osogbo/Orolu"
+     "constituency": "Irepodun/Olorunda/Osogbo/Orolu",
+     "wardCount": 10
     },
     {
      "name": "Osogbo",
      "population2006": 155507,
-     "constituency": "Irepodun/Olorunda/Osogbo/Orolu"
+     "constituency": "Irepodun/Olorunda/Osogbo/Orolu",
+     "wardCount": 15
     }
    ],
    "electionDate": "2025-02-22"
@@ -4027,167 +4775,200 @@
     {
      "name": "Afijio",
      "population2006": 132184,
-     "constituency": "Afijio/Atiba/Oyo East/Oyo West"
+     "constituency": "Afijio/Atiba/Oyo East/Oyo West",
+     "wardCount": 10
     },
     {
      "name": "Akinyele",
      "population2006": 211811,
-     "constituency": "Lagelu/Akinyele"
+     "constituency": "Lagelu/Akinyele",
+     "wardCount": 12
     },
     {
      "name": "Atiba",
      "population2006": 168246,
-     "constituency": "Afijio/Atiba/Oyo East/Oyo West"
+     "constituency": "Afijio/Atiba/Oyo East/Oyo West",
+     "wardCount": 10
     },
     {
      "name": "Atisbo",
      "population2006": 109965,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Egbeda",
      "population2006": 283643,
-     "constituency": "Ona-Ara/Egbeda"
+     "constituency": "Ona-Ara/Egbeda",
+     "wardCount": 11
     },
     {
      "name": "Ibadan North",
      "population2006": 308119,
-     "constituency": "Ibadan North"
+     "constituency": "Ibadan North",
+     "wardCount": 12
     },
     {
      "name": "Ibadan North East",
      "population2006": 331444,
-     "constituency": "Ibadan North-East/Ibadan South-East"
+     "constituency": "Ibadan North-East/Ibadan South-East",
+     "wardCount": 11
     },
     {
      "name": "Ibadan North West",
      "population2006": 154029,
-     "constituency": "Ibadan North West/Ibadan South West"
+     "constituency": "Ibadan North West/Ibadan South West",
+     "wardCount": 11
     },
     {
      "name": "Ibadan South East",
      "population2006": 266457,
-     "constituency": "Ibadan North-East/Ibadan South-East"
+     "constituency": "Ibadan North-East/Ibadan South-East",
+     "wardCount": 13
     },
     {
      "name": "Ibadan South West",
      "population2006": 283098,
-     "constituency": "Ibadan North West/Ibadan South West"
+     "constituency": "Ibadan North West/Ibadan South West",
+     "wardCount": 12
     },
     {
      "name": "Ibarapa Central",
      "population2006": 103243,
-     "constituency": "Ibarapa Central/Ibarapa North"
+     "constituency": "Ibarapa Central/Ibarapa North",
+     "wardCount": 10
     },
     {
      "name": "Ibarapa East",
      "population2006": 117182,
-     "constituency": "Ibarapa East/Ido"
+     "constituency": "Ibarapa East/Ido",
+     "wardCount": 10
     },
     {
      "name": "Ibarapa North",
      "population2006": 100293,
-     "constituency": "Ibarapa Central/Ibarapa North"
+     "constituency": "Ibarapa Central/Ibarapa North",
+     "wardCount": 10
     },
     {
      "name": "Ido",
      "population2006": 104087,
-     "constituency": "Ibarapa East/Ido"
+     "constituency": "Ibarapa East/Ido",
+     "wardCount": 10
     },
     {
      "name": "Irepo",
      "population2006": 121240,
-     "constituency": "Irepo/Olorunsogo/Orelope"
+     "constituency": "Irepo/Olorunsogo/Orelope",
+     "wardCount": 10
     },
     {
      "name": "Iseyin",
      "population2006": 255619,
-     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju"
+     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju",
+     "wardCount": 11
     },
     {
      "name": "Itesiwaju",
      "population2006": 127391,
-     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju"
+     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju",
+     "wardCount": 10
     },
     {
      "name": "Iwajowa",
      "population2006": 102847,
-     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju"
+     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju",
+     "wardCount": 10
     },
     {
      "name": "Kajola",
      "population2006": 200528,
-     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju"
+     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju",
+     "wardCount": 11
     },
     {
      "name": "Lagelu",
      "population2006": 148133,
-     "constituency": "Lagelu/Akinyele"
+     "constituency": "Lagelu/Akinyele",
+     "wardCount": 14
     },
     {
      "name": "Ogbomosho North",
      "population2006": 198859,
-     "constituency": "Ogbomosho North/Ogbomosho South/Orire"
+     "constituency": "Ogbomosho North/Ogbomosho South/Orire",
+     "wardCount": 10
     },
     {
      "name": "Ogbomosho South",
      "population2006": 100379,
-     "constituency": "Ogbomosho North/Ogbomosho South/Orire"
+     "constituency": "Ogbomosho North/Ogbomosho South/Orire",
+     "wardCount": 10
     },
     {
      "name": "Ogo Oluwa",
      "population2006": 65198,
-     "constituency": "Ogo-Oluwa/Surulere/Oluyole"
+     "constituency": "Ogo-Oluwa/Surulere/Oluyole",
+     "wardCount": 10
     },
     {
      "name": "Olorunsogo",
      "population2006": 81339,
-     "constituency": "Irepo/Olorunsogo/Orelope"
+     "constituency": "Irepo/Olorunsogo/Orelope",
+     "wardCount": 10
     },
     {
      "name": "Oluyole",
      "population2006": 203461,
-     "constituency": "Oluyole"
+     "constituency": "Oluyole",
+     "wardCount": 10
     },
     {
      "name": "Ona Ara",
      "population2006": 265571,
-     "constituency": "Ona-Ara/Egbeda"
+     "constituency": "Ona-Ara/Egbeda",
+     "wardCount": 11
     },
     {
      "name": "Oorelope",
      "population2006": 104004,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Ori Ire",
      "population2006": 149408,
-     "constituency": null
+     "constituency": null,
+     "wardCount": 10
     },
     {
      "name": "Oyo East",
      "population2006": 124095,
-     "constituency": "Afijio/Atiba/Oyo East/Oyo West"
+     "constituency": "Afijio/Atiba/Oyo East/Oyo West",
+     "wardCount": 10
     },
     {
      "name": "Oyo West",
      "population2006": 136457,
-     "constituency": "Afijio/Atiba/Oyo East/Oyo West"
+     "constituency": "Afijio/Atiba/Oyo East/Oyo West",
+     "wardCount": 10
     },
     {
      "name": "Saki East",
      "population2006": 108957,
-     "constituency": "Atigbo/Saki East/Saki West"
+     "constituency": "Atigbo/Saki East/Saki West",
+     "wardCount": 11
     },
     {
      "name": "Saki West",
      "population2006": 273268,
-     "constituency": "Atigbo/Saki East/Saki West"
+     "constituency": "Atigbo/Saki East/Saki West",
+     "wardCount": 11
     },
     {
      "name": "Surulere",
      "population2006": 140339,
-     "constituency": "Ogo-Oluwa/Surulere/Oluyole"
+     "constituency": "Ogo-Oluwa/Surulere/Oluyole",
+     "wardCount": 10
     }
    ],
    "electionDate": "2024"

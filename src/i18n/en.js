@@ -126,6 +126,7 @@ export default {
   'lga.councilContested': 'Council status disputed',
   'lga.councilUnknown': 'Council status unknown',
   'lga.pop2006Label': '2006 census',
+  'lga.wards': 'wards',
   'publications.eyebrow': 'Publications',
   'publications.title': 'Publications',
   'publications.lede': 'What we find while tracking what Nigerian leaders promised and what they delivered.',
