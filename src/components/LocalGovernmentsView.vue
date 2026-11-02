@@ -39,7 +39,7 @@ const groups = computed(() => {
     const states = []
     for (const s of data.states.filter((x) => x.zone === z)) {
       const stateHit = q && norm(s.state).includes(q)
-      const lgas = !q || stateHit ? s.lgas : s.lgas.filter((n) => norm(n).includes(q))
+      const lgas = !q || stateHit ? s.lgas : s.lgas.filter((n) => norm(n.name).includes(q))
       if (lgas.length) states.push({ ...s, shown: lgas })
     }
     if (states.length) out.push({ zone: z, states })
@@ -54,6 +54,15 @@ const filtered = computed(() => !!(query.value.trim() || zone.value))
 function clear() { query.value = ''; zone.value = '' }
 
 const slug = (s) => s.toLowerCase().replace(/[^a-z]+/g, '-')
+
+const councilKey = (status) => ({
+  elected:   'lga.councilElected',
+  caretaker: 'lga.councilCaretaker',
+  contested: 'lga.councilContested',
+  unknown:   'lga.councilUnknown',
+}[status] || 'lga.councilUnknown')
+
+const fmt = (n) => n == null ? '' : n.toLocaleString()
 </script>
 
 <template>
@@ -103,11 +112,15 @@ const slug = (s) => s.toLowerCase().replace(/[^a-z]+/g, '-')
               <h3>{{ s.state === 'Federal Capital Territory' ? t('lga.fct') : s.state }}</h3>
               <span class="lga-n">{{ filtered && s.shown.length !== s.lgas.length ? s.shown.length + ' / ' + s.lgas.length : s.lgas.length }}</span>
             </header>
+            <span v-if="s.councilStatus" class="lga-council" :class="'cs-' + s.councilStatus">{{ t(councilKey(s.councilStatus)) }}</span>
             <a v-if="governorOf[s.state]" class="lga-gov" :href="lp('/' + governorOf[s.state].key)">
               {{ t('lga.governor') }}: {{ governorOf[s.state].name }} →
             </a>
             <ul>
-              <li v-for="n in s.shown" :key="n">{{ n }}</li>
+              <li v-for="lga in s.shown" :key="lga.name" class="lga-item">
+                <span class="lga-name">{{ lga.name }}</span>
+                <span v-if="lga.population2006" class="lga-pop">{{ fmt(lga.population2006) }}</span>
+              </li>
             </ul>
           </article>
         </div>
@@ -171,8 +184,20 @@ main.wrap { max-width: 1168px; }
 .lga-n { font-size: 12px; font-weight: 700; color: var(--muted); background: var(--g100); border-radius: 999px; padding: 1px 9px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .lga-gov { display: inline-block; margin: 6px 0 2px; font-size: 13px; font-weight: 700; color: var(--g700); text-decoration: none; }
 .lga-gov:hover { text-decoration: underline; }
-.lga-state ul { list-style: none; margin: 10px 0 0; padding: 0; column-width: 112px; column-gap: 14px; }
-.lga-state li { font-size: 14px; line-height: 1.35; padding: 3px 0; break-inside: avoid; overflow-wrap: anywhere; }
+.lga-council {
+  display: inline-block; margin: 5px 0 2px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase; border-radius: 4px; padding: 2px 7px;
+}
+.cs-elected   { background: #dff5e8; color: #006b45; }
+.cs-caretaker { background: #fff3cd; color: #856404; }
+.cs-contested { background: #fde8e8; color: #9b1c1c; }
+.cs-unknown   { background: var(--g100); color: var(--muted); }
+
+.lga-state ul { list-style: none; margin: 8px 0 0; padding: 0; }
+.lga-item { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; padding: 3px 0; border-bottom: 1px solid transparent; }
+.lga-item:not(:last-child) { border-bottom-color: var(--line); }
+.lga-name { font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; flex: 1; }
+.lga-pop { font-size: 12px; color: var(--faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 
 @media (max-width: 560px) {

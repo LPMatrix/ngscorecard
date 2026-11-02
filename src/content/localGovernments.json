@@ -1,1007 +1,4196 @@
 {
- "source": {
-  "name": "xosasx/nigerian-local-government-areas",
-  "url": "https://github.com/xosasx/nigerian-local-government-areas",
-  "license": "MIT",
-  "retrieved": "2026-10-21"
- },
+ "sources": [
+  {
+   "name": "xosasx/nigerian-local-government-areas",
+   "url": "https://github.com/xosasx/nigerian-local-government-areas",
+   "license": "MIT",
+   "retrieved": "2026-10-21",
+   "field": "lga names"
+  },
+  {
+   "name": "U.S. Census Bureau / HDX",
+   "url": "https://data.humdata.org/dataset/nigeria-subnational-boundaries-and-tabular-data",
+   "license": "CC BY",
+   "field": "population2006",
+   "retrieved": "2026-11-01"
+  },
+  {
+   "name": "nuhu-ibrahim/lga-districs (INEC delimitation 1999)",
+   "url": "https://github.com/nuhu-ibrahim/lga-districs",
+   "license": "unspecified",
+   "field": "constituency",
+   "retrieved": "2026-11-01"
+  },
+  {
+   "name": "ICIR / ShineYourEye / Premium Times",
+   "url": "https://www.shineyoureye.org/info/local-government-elections",
+   "license": "editorial",
+   "field": "councilStatus",
+   "retrieved": "2026-11-01"
+  }
+ ],
  "total": 774,
  "states": [
   {
    "state": "Benue",
    "zone": "North Central",
+   "councilStatus": "elected",
    "lgas": [
-    "Ado",
-    "Agatu",
-    "Apa",
-    "Buruku",
-    "Gboko",
-    "Guma",
-    "Gwer East",
-    "Gwer West",
-    "Katsina Ala",
-    "Konshisha",
-    "Kwande",
-    "Logo",
-    "Makurdi",
-    "Obi",
-    "Ogbadibo",
-    "Ohimini",
-    "Oju",
-    "Okpokwu",
-    "Otukpo",
-    "Tarka",
-    "Ukum",
-    "Ushongo",
-    "Vandeikya"
-   ]
+    {
+     "name": "Ado",
+     "population2006": 184389,
+     "constituency": null
+    },
+    {
+     "name": "Agatu",
+     "population2006": 115597,
+     "constituency": null
+    },
+    {
+     "name": "Apa",
+     "population2006": 96780,
+     "constituency": null
+    },
+    {
+     "name": "Buruku",
+     "population2006": 206215,
+     "constituency": null
+    },
+    {
+     "name": "Gboko",
+     "population2006": 361325,
+     "constituency": null
+    },
+    {
+     "name": "Guma",
+     "population2006": 194164,
+     "constituency": null
+    },
+    {
+     "name": "Gwer East",
+     "population2006": 168660,
+     "constituency": null
+    },
+    {
+     "name": "Gwer West",
+     "population2006": 122313,
+     "constituency": null
+    },
+    {
+     "name": "Katsina Ala",
+     "population2006": 225471,
+     "constituency": null
+    },
+    {
+     "name": "Konshisha",
+     "population2006": 226492,
+     "constituency": null
+    },
+    {
+     "name": "Kwande",
+     "population2006": 248642,
+     "constituency": null
+    },
+    {
+     "name": "Logo",
+     "population2006": 169570,
+     "constituency": null
+    },
+    {
+     "name": "Makurdi",
+     "population2006": 300377,
+     "constituency": null
+    },
+    {
+     "name": "Obi",
+     "population2006": 98707,
+     "constituency": null
+    },
+    {
+     "name": "Ogbadibo",
+     "population2006": 130988,
+     "constituency": null
+    },
+    {
+     "name": "Ohimini",
+     "population2006": 70688,
+     "constituency": null
+    },
+    {
+     "name": "Oju",
+     "population2006": 168491,
+     "constituency": null
+    },
+    {
+     "name": "Okpokwu",
+     "population2006": 175596,
+     "constituency": null
+    },
+    {
+     "name": "Otukpo",
+     "population2006": 266411,
+     "constituency": null
+    },
+    {
+     "name": "Tarka",
+     "population2006": 79280,
+     "constituency": null
+    },
+    {
+     "name": "Ukum",
+     "population2006": 216983,
+     "constituency": null
+    },
+    {
+     "name": "Ushongo",
+     "population2006": 191935,
+     "constituency": null
+    },
+    {
+     "name": "Vandeikya",
+     "population2006": 234567,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024-11-16"
   },
   {
    "state": "Federal Capital Territory",
    "zone": "North Central",
+   "councilStatus": "elected",
    "lgas": [
-    "Abaji",
-    "Abuja",
-    "Bwari",
-    "Gwagwalada",
-    "Kuje",
-    "Kwali"
-   ]
+    {
+     "name": "Abaji",
+     "population2006": 58642,
+     "constituency": "Abuja"
+    },
+    {
+     "name": "Abuja",
+     "population2006": 776298,
+     "constituency": null
+    },
+    {
+     "name": "Bwari",
+     "population2006": 229274,
+     "constituency": null
+    },
+    {
+     "name": "Gwagwalada",
+     "population2006": 158618,
+     "constituency": "Abuja"
+    },
+    {
+     "name": "Kuje",
+     "population2006": 97233,
+     "constituency": "Abuja"
+    },
+    {
+     "name": "Kwali",
+     "population2006": 86174,
+     "constituency": "Abuja"
+    }
+   ],
+   "electionDate": "2026-02-21"
   },
   {
    "state": "Kogi",
    "zone": "North Central",
+   "councilStatus": "elected",
    "lgas": [
-    "Adavi",
-    "Ajaokuta",
-    "Ankpa",
-    "Bassa",
-    "Dekina",
-    "Ibaji",
-    "Idah",
-    "Igalamela Odolu",
-    "Ijumu",
-    "Kabba/Bunu",
-    "Kogi",
-    "Lokoja",
-    "Mopa-Muro",
-    "Ofu",
-    "Ogori/Magongo",
-    "Okehi",
-    "Okene",
-    "Olamaboro",
-    "Omala",
-    "Yagba East",
-    "Yagba West"
-   ]
+    {
+     "name": "Adavi",
+     "population2006": 217219,
+     "constituency": "Adavi/Okehi"
+    },
+    {
+     "name": "Ajaokuta",
+     "population2006": 122432,
+     "constituency": "Ajaokuta"
+    },
+    {
+     "name": "Ankpa",
+     "population2006": 266176,
+     "constituency": "Ankpa/Omala/Olamaboro"
+    },
+    {
+     "name": "Bassa",
+     "population2006": 139687,
+     "constituency": "Dekina/Bassa"
+    },
+    {
+     "name": "Dekina",
+     "population2006": 260968,
+     "constituency": "Dekina/Bassa"
+    },
+    {
+     "name": "Ibaji",
+     "population2006": 127572,
+     "constituency": "Idah/Ibaji/Igalamela/Ofu"
+    },
+    {
+     "name": "Idah",
+     "population2006": 79755,
+     "constituency": "Idah/Ibaji/Igalamela/Ofu"
+    },
+    {
+     "name": "Igalamela Odolu",
+     "population2006": 147048,
+     "constituency": null
+    },
+    {
+     "name": "Ijumu",
+     "population2006": 118593,
+     "constituency": "Kabba/Bunu/Ijumu"
+    },
+    {
+     "name": "Kabba/Bunu",
+     "population2006": 144579,
+     "constituency": "Kabba/Bunu/Ijumu"
+    },
+    {
+     "name": "Kogi",
+     "population2006": 115100,
+     "constituency": "Lokoja/Koton Karfe/Kogi"
+    },
+    {
+     "name": "Lokoja",
+     "population2006": 196643,
+     "constituency": "Lokoja/Koton Karfe/Kogi"
+    },
+    {
+     "name": "Mopa-Muro",
+     "population2006": 43760,
+     "constituency": "Yagba East/Yagba West/Mopa-muro"
+    },
+    {
+     "name": "Ofu",
+     "population2006": 191480,
+     "constituency": "Idah/Ibaji/Igalamela/Ofu"
+    },
+    {
+     "name": "Ogori/Magongo",
+     "population2006": 39807,
+     "constituency": null
+    },
+    {
+     "name": "Okehi",
+     "population2006": 223574,
+     "constituency": "Adavi/Okehi"
+    },
+    {
+     "name": "Okene",
+     "population2006": 325623,
+     "constituency": "Okene/Ogori-Magogo"
+    },
+    {
+     "name": "Olamaboro",
+     "population2006": 158490,
+     "constituency": "Ankpa/Omala/Olamaboro"
+    },
+    {
+     "name": "Omala",
+     "population2006": 107968,
+     "constituency": "Ankpa/Omala/Olamaboro"
+    },
+    {
+     "name": "Yagba East",
+     "population2006": 147641,
+     "constituency": "Yagba East/Yagba West/Mopa-muro"
+    },
+    {
+     "name": "Yagba West",
+     "population2006": 139928,
+     "constituency": "Yagba East/Yagba West/Mopa-muro"
+    }
+   ],
+   "electionDate": "2024-10-09"
   },
   {
    "state": "Kwara",
    "zone": "North Central",
+   "councilStatus": "elected",
    "lgas": [
-    "Asa",
-    "Baruten",
-    "Edu",
-    "Ekiti",
-    "Ifelodun",
-    "Ilorin East",
-    "Ilorin South",
-    "Ilorin West",
-    "Irepodun",
-    "Isin",
-    "Kaiama",
-    "Moro",
-    "Offa",
-    "Oke-Ero",
-    "Oyun",
-    "Pategi"
-   ]
+    {
+     "name": "Asa",
+     "population2006": 124668,
+     "constituency": "Asa/Ilorin West"
+    },
+    {
+     "name": "Baruten",
+     "population2006": 206679,
+     "constituency": "Baruten/Kaiama"
+    },
+    {
+     "name": "Edu",
+     "population2006": 201642,
+     "constituency": "Edu/Moro/Patigi"
+    },
+    {
+     "name": "Ekiti",
+     "population2006": 54399,
+     "constituency": "Ekiti/Isin/Irepodun/Oke-ero"
+    },
+    {
+     "name": "Ifelodun",
+     "population2006": 204975,
+     "constituency": "Offa/Oyun/Ifelodun"
+    },
+    {
+     "name": "Ilorin East",
+     "population2006": 207462,
+     "constituency": "Ilorin East/Ilorin South"
+    },
+    {
+     "name": "Ilorin South",
+     "population2006": 209251,
+     "constituency": "Ilorin East/Ilorin South"
+    },
+    {
+     "name": "Ilorin West",
+     "population2006": 365221,
+     "constituency": "Asa/Ilorin West"
+    },
+    {
+     "name": "Irepodun",
+     "population2006": 147594,
+     "constituency": "Ekiti/Isin/Irepodun/Oke-ero"
+    },
+    {
+     "name": "Isin",
+     "population2006": 59481,
+     "constituency": "Ekiti/Isin/Irepodun/Oke-ero"
+    },
+    {
+     "name": "Kaiama",
+     "population2006": 124015,
+     "constituency": "Baruten/Kaiama"
+    },
+    {
+     "name": "Moro",
+     "population2006": 108715,
+     "constituency": "Edu/Moro/Patigi"
+    },
+    {
+     "name": "Offa",
+     "population2006": 88975,
+     "constituency": "Offa/Oyun/Ifelodun"
+    },
+    {
+     "name": "Oke-Ero",
+     "population2006": 56970,
+     "constituency": "Ekiti/Isin/Irepodun/Oke-ero"
+    },
+    {
+     "name": "Oyun",
+     "population2006": 94454,
+     "constituency": "Offa/Oyun/Ifelodun"
+    },
+    {
+     "name": "Pategi",
+     "population2006": 110852,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024-09-21"
   },
   {
    "state": "Nasarawa",
    "zone": "North Central",
+   "councilStatus": "elected",
    "lgas": [
-    "Akwanga",
-    "Awe",
-    "Doma",
-    "Karu",
-    "Keana",
-    "Keffi",
-    "Kokona",
-    "Lafia",
-    "Nasarawa",
-    "Nasarawa Egon",
-    "Obi",
-    "Toto",
-    "Wamba"
-   ]
+    {
+     "name": "Akwanga",
+     "population2006": 111902,
+     "constituency": "Akwanga/Nasarawa Eggon/Wamba"
+    },
+    {
+     "name": "Awe",
+     "population2006": 113083,
+     "constituency": "Awe/Doma/Keana"
+    },
+    {
+     "name": "Doma",
+     "population2006": 138991,
+     "constituency": "Awe/Doma/Keana"
+    },
+    {
+     "name": "Karu",
+     "population2006": 216230,
+     "constituency": "Karu/Keffi/Kokona"
+    },
+    {
+     "name": "Keana",
+     "population2006": 81801,
+     "constituency": "Awe/Doma/Keana"
+    },
+    {
+     "name": "Keffi",
+     "population2006": 92550,
+     "constituency": "Karu/Keffi/Kokona"
+    },
+    {
+     "name": "Kokona",
+     "population2006": 108558,
+     "constituency": "Karu/Keffi/Kokona"
+    },
+    {
+     "name": "Lafia",
+     "population2006": 329922,
+     "constituency": "Lafia/Obi"
+    },
+    {
+     "name": "Nasarawa",
+     "population2006": 187220,
+     "constituency": "Nasarawa/Toto"
+    },
+    {
+     "name": "Nasarawa Egon",
+     "population2006": 148405,
+     "constituency": null
+    },
+    {
+     "name": "Obi",
+     "population2006": 148977,
+     "constituency": "Lafia/Obi"
+    },
+    {
+     "name": "Toto",
+     "population2006": 119051,
+     "constituency": "Nasarawa/Toto"
+    },
+    {
+     "name": "Wamba",
+     "population2006": 72687,
+     "constituency": "Akwanga/Nasarawa Eggon/Wamba"
+    }
+   ],
+   "electionDate": "2024-11"
   },
   {
    "state": "Niger",
    "zone": "North Central",
+   "councilStatus": "elected",
    "lgas": [
-    "Agaie",
-    "Agwara",
-    "Bida",
-    "Borgu",
-    "Bosso",
-    "Chanchaga",
-    "Edati",
-    "Gbako",
-    "Gurara",
-    "Katcha",
-    "Kontagora",
-    "Lapai",
-    "Lavun",
-    "Magama",
-    "Mariga",
-    "Mashegu",
-    "Mokwa",
-    "Munya",
-    "Paikoro",
-    "Rafi",
-    "Rijau",
-    "Shiroro",
-    "Suleja",
-    "Tafa",
-    "Wushishi"
-   ]
+    {
+     "name": "Agaie",
+     "population2006": 132098,
+     "constituency": "Agaie/Lapai"
+    },
+    {
+     "name": "Agwara",
+     "population2006": 57347,
+     "constituency": "Agwara/Borgu"
+    },
+    {
+     "name": "Bida",
+     "population2006": 185553,
+     "constituency": "Bida/Gbako/Katcha"
+    },
+    {
+     "name": "Borgu",
+     "population2006": 172835,
+     "constituency": "Agwara/Borgu"
+    },
+    {
+     "name": "Bosso",
+     "population2006": 148136,
+     "constituency": "Bosso/Paikoro"
+    },
+    {
+     "name": "Chanchaga",
+     "population2006": 202151,
+     "constituency": "Chanchaga"
+    },
+    {
+     "name": "Edati",
+     "population2006": 159818,
+     "constituency": "Lavun/Mokwa/Edati"
+    },
+    {
+     "name": "Gbako",
+     "population2006": 126845,
+     "constituency": "Bida/Gbako/Katcha"
+    },
+    {
+     "name": "Gurara",
+     "population2006": 90879,
+     "constituency": "Gurara/Suleja/Tafa"
+    },
+    {
+     "name": "Katcha",
+     "population2006": 120893,
+     "constituency": "Bida/Gbako/Katcha"
+    },
+    {
+     "name": "Kontagora",
+     "population2006": 151968,
+     "constituency": "Kontagora/Wushishi/Mariga/Mashe/Gukgora"
+    },
+    {
+     "name": "Lapai",
+     "population2006": 117021,
+     "constituency": "Agaie/Lapai"
+    },
+    {
+     "name": "Lavun",
+     "population2006": 209777,
+     "constituency": "Lavun/Mokwa/Edati"
+    },
+    {
+     "name": "Magama",
+     "population2006": 181470,
+     "constituency": "Magama/Rijau"
+    },
+    {
+     "name": "Mariga",
+     "population2006": 199600,
+     "constituency": "Kontagora/Wushishi/Mariga/Mashe/Gukgora"
+    },
+    {
+     "name": "Mashegu",
+     "population2006": 215197,
+     "constituency": null
+    },
+    {
+     "name": "Mokwa",
+     "population2006": 242858,
+     "constituency": "Lavun/Mokwa/Edati"
+    },
+    {
+     "name": "Munya",
+     "population2006": 103461,
+     "constituency": "Shiroro/Rafi/Munya"
+    },
+    {
+     "name": "Paikoro",
+     "population2006": 158178,
+     "constituency": "Bosso/Paikoro"
+    },
+    {
+     "name": "Rafi",
+     "population2006": 186118,
+     "constituency": "Shiroro/Rafi/Munya"
+    },
+    {
+     "name": "Rijau",
+     "population2006": 176199,
+     "constituency": "Magama/Rijau"
+    },
+    {
+     "name": "Shiroro",
+     "population2006": 235665,
+     "constituency": "Shiroro/Rafi/Munya"
+    },
+    {
+     "name": "Suleja",
+     "population2006": 215075,
+     "constituency": "Gurara/Suleja/Tafa"
+    },
+    {
+     "name": "Tafa",
+     "population2006": 83874,
+     "constituency": "Gurara/Suleja/Tafa"
+    },
+    {
+     "name": "Wushishi",
+     "population2006": 81756,
+     "constituency": "Kontagora/Wushishi/Mariga/Mashe/Gukgora"
+    }
+   ],
+   "electionDate": "2025-11-01"
   },
   {
    "state": "Plateau",
    "zone": "North Central",
+   "councilStatus": "elected",
    "lgas": [
-    "Barkin Ladi",
-    "Bassa",
-    "Bokkos",
-    "Jos East",
-    "Jos North",
-    "Jos South",
-    "Kanam",
-    "Kanke",
-    "Langtang North",
-    "Langtang South",
-    "Mangu",
-    "Mikang",
-    "Pankshin",
-    "Qua'an Pan",
-    "Riyom",
-    "Shendam",
-    "Wase"
-   ]
+    {
+     "name": "Barkin Ladi",
+     "population2006": 179805,
+     "constituency": "Barkin Ladi/Riyom"
+    },
+    {
+     "name": "Bassa",
+     "population2006": 189834,
+     "constituency": "Bassa/Jos North"
+    },
+    {
+     "name": "Bokkos",
+     "population2006": 179550,
+     "constituency": "Mangu/Bokkos"
+    },
+    {
+     "name": "Jos East",
+     "population2006": 88301,
+     "constituency": "Jos South/Jos East"
+    },
+    {
+     "name": "Jos North",
+     "population2006": 437217,
+     "constituency": "Bassa/Jos North"
+    },
+    {
+     "name": "Jos South",
+     "population2006": 311392,
+     "constituency": "Jos South/Jos East"
+    },
+    {
+     "name": "Kanam",
+     "population2006": 167619,
+     "constituency": "Pankshin/Kanke/Kanam"
+    },
+    {
+     "name": "Kanke",
+     "population2006": 124268,
+     "constituency": "Pankshin/Kanke/Kanam"
+    },
+    {
+     "name": "Langtang North",
+     "population2006": 142316,
+     "constituency": "Langtang North/Langtang South"
+    },
+    {
+     "name": "Langtang South",
+     "population2006": 105173,
+     "constituency": "Langtang North/Langtang South"
+    },
+    {
+     "name": "Mangu",
+     "population2006": 300520,
+     "constituency": "Mangu/Bokkos"
+    },
+    {
+     "name": "Mikang",
+     "population2006": 96388,
+     "constituency": null
+    },
+    {
+     "name": "Pankshin",
+     "population2006": 190114,
+     "constituency": "Pankshin/Kanke/Kanam"
+    },
+    {
+     "name": "Qua'an Pan",
+     "population2006": 197276,
+     "constituency": null
+    },
+    {
+     "name": "Riyom",
+     "population2006": 131778,
+     "constituency": "Barkin Ladi/Riyom"
+    },
+    {
+     "name": "Shendam",
+     "population2006": 205119,
+     "constituency": null
+    },
+    {
+     "name": "Wase",
+     "population2006": 159861,
+     "constituency": "Wase"
+    }
+   ],
+   "electionDate": "2024-10-09"
   },
   {
    "state": "Adamawa",
    "zone": "North East",
+   "councilStatus": "elected",
    "lgas": [
-    "Demsa",
-    "Fufore",
-    "Ganye",
-    "Girei",
-    "Gombi",
-    "Guyuk",
-    "Hong",
-    "Jada",
-    "Lamurde",
-    "Madagali",
-    "Maiha",
-    "Mayo Belwa",
-    "Michika",
-    "Mubi North",
-    "Mubi South",
-    "Numan",
-    "Shelleng",
-    "Song",
-    "Toungo",
-    "Yola North",
-    "Yola South"
-   ]
+    {
+     "name": "Demsa",
+     "population2006": 178407,
+     "constituency": null
+    },
+    {
+     "name": "Fufore",
+     "population2006": 209460,
+     "constituency": null
+    },
+    {
+     "name": "Ganye",
+     "population2006": 169948,
+     "constituency": null
+    },
+    {
+     "name": "Girei",
+     "population2006": 129855,
+     "constituency": null
+    },
+    {
+     "name": "Gombi",
+     "population2006": 147787,
+     "constituency": null
+    },
+    {
+     "name": "Guyuk",
+     "population2006": 176505,
+     "constituency": null
+    },
+    {
+     "name": "Hong",
+     "population2006": 169183,
+     "constituency": null
+    },
+    {
+     "name": "Jada",
+     "population2006": 168445,
+     "constituency": null
+    },
+    {
+     "name": "Lamurde",
+     "population2006": 111254,
+     "constituency": null
+    },
+    {
+     "name": "Madagali",
+     "population2006": 135142,
+     "constituency": null
+    },
+    {
+     "name": "Maiha",
+     "population2006": 110175,
+     "constituency": null
+    },
+    {
+     "name": "Mayo Belwa",
+     "population2006": 152803,
+     "constituency": null
+    },
+    {
+     "name": "Michika",
+     "population2006": 155238,
+     "constituency": null
+    },
+    {
+     "name": "Mubi North",
+     "population2006": 151515,
+     "constituency": null
+    },
+    {
+     "name": "Mubi South",
+     "population2006": 129956,
+     "constituency": null
+    },
+    {
+     "name": "Numan",
+     "population2006": 91549,
+     "constituency": null
+    },
+    {
+     "name": "Shelleng",
+     "population2006": 148490,
+     "constituency": null
+    },
+    {
+     "name": "Song",
+     "population2006": 195188,
+     "constituency": null
+    },
+    {
+     "name": "Toungo",
+     "population2006": 52179,
+     "constituency": null
+    },
+    {
+     "name": "Yola North",
+     "population2006": 199674,
+     "constituency": null
+    },
+    {
+     "name": "Yola South",
+     "population2006": 196197,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024"
   },
   {
    "state": "Bauchi",
    "zone": "North East",
+   "councilStatus": "elected",
    "lgas": [
-    "Alkaleri",
-    "Bauchi",
-    "Bogoro",
-    "Damban",
-    "Darazo",
-    "Dass",
-    "Gamawa",
-    "Ganjuwa",
-    "Giade",
-    "Itas/Gadau",
-    "Jama'are",
-    "Katagum",
-    "Kirfi",
-    "Misau",
-    "Ningi",
-    "Shira",
-    "Tafawa Balewa",
-    "Toro",
-    "Warji",
-    "Zaki"
-   ]
+    {
+     "name": "Alkaleri",
+     "population2006": 328284,
+     "constituency": "Alkaleri/Kirfi"
+    },
+    {
+     "name": "Bauchi",
+     "population2006": 493730,
+     "constituency": null
+    },
+    {
+     "name": "Bogoro",
+     "population2006": 83809,
+     "constituency": null
+    },
+    {
+     "name": "Damban",
+     "population2006": 150212,
+     "constituency": null
+    },
+    {
+     "name": "Darazo",
+     "population2006": 249946,
+     "constituency": null
+    },
+    {
+     "name": "Dass",
+     "population2006": 90114,
+     "constituency": null
+    },
+    {
+     "name": "Gamawa",
+     "population2006": 284411,
+     "constituency": null
+    },
+    {
+     "name": "Ganjuwa",
+     "population2006": 278471,
+     "constituency": null
+    },
+    {
+     "name": "Giade",
+     "population2006": 156022,
+     "constituency": null
+    },
+    {
+     "name": "Itas/Gadau",
+     "population2006": 228527,
+     "constituency": null
+    },
+    {
+     "name": "Jama'are",
+     "population2006": 117482,
+     "constituency": null
+    },
+    {
+     "name": "Katagum",
+     "population2006": 293020,
+     "constituency": null
+    },
+    {
+     "name": "Kirfi",
+     "population2006": 145636,
+     "constituency": "Alkaleri/Kirfi"
+    },
+    {
+     "name": "Misau",
+     "population2006": 261410,
+     "constituency": null
+    },
+    {
+     "name": "Ningi",
+     "population2006": 385997,
+     "constituency": null
+    },
+    {
+     "name": "Shira",
+     "population2006": 233999,
+     "constituency": null
+    },
+    {
+     "name": "Tafawa Balewa",
+     "population2006": 221310,
+     "constituency": null
+    },
+    {
+     "name": "Toro",
+     "population2006": 346000,
+     "constituency": null
+    },
+    {
+     "name": "Warji",
+     "population2006": 114983,
+     "constituency": null
+    },
+    {
+     "name": "Zaki",
+     "population2006": 189703,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024-08-19"
   },
   {
    "state": "Borno",
    "zone": "North East",
+   "councilStatus": "elected",
    "lgas": [
-    "Abadam",
-    "Askira/Uba",
-    "Bama",
-    "Bayo",
-    "Biu",
-    "Chibok",
-    "Damboa",
-    "Dikwa",
-    "Gubio",
-    "Guzamala",
-    "Gwoza",
-    "Hawul",
-    "Jere",
-    "Kaga",
-    "Kala/Balge",
-    "Konduga",
-    "Kukawa",
-    "Kwaya Kusar",
-    "Mafa",
-    "Magumeri",
-    "Maiduguri",
-    "Marte",
-    "Mobbar",
-    "Monguno",
-    "Ngala",
-    "Nganzai",
-    "Shani"
-   ]
+    {
+     "name": "Abadam",
+     "population2006": 100065,
+     "constituency": null
+    },
+    {
+     "name": "Askira/Uba",
+     "population2006": 143313,
+     "constituency": null
+    },
+    {
+     "name": "Bama",
+     "population2006": 270119,
+     "constituency": null
+    },
+    {
+     "name": "Bayo",
+     "population2006": 79078,
+     "constituency": null
+    },
+    {
+     "name": "Biu",
+     "population2006": 175760,
+     "constituency": null
+    },
+    {
+     "name": "Chibok",
+     "population2006": 66333,
+     "constituency": null
+    },
+    {
+     "name": "Damboa",
+     "population2006": 233200,
+     "constituency": null
+    },
+    {
+     "name": "Dikwa",
+     "population2006": 105042,
+     "constituency": null
+    },
+    {
+     "name": "Gubio",
+     "population2006": 151286,
+     "constituency": null
+    },
+    {
+     "name": "Guzamala",
+     "population2006": 95991,
+     "constituency": null
+    },
+    {
+     "name": "Gwoza",
+     "population2006": 276568,
+     "constituency": null
+    },
+    {
+     "name": "Hawul",
+     "population2006": 120733,
+     "constituency": null
+    },
+    {
+     "name": "Jere",
+     "population2006": 209107,
+     "constituency": null
+    },
+    {
+     "name": "Kaga",
+     "population2006": 89996,
+     "constituency": null
+    },
+    {
+     "name": "Kala/Balge",
+     "population2006": 60834,
+     "constituency": null
+    },
+    {
+     "name": "Konduga",
+     "population2006": 157322,
+     "constituency": null
+    },
+    {
+     "name": "Kukawa",
+     "population2006": 203343,
+     "constituency": null
+    },
+    {
+     "name": "Kwaya Kusar",
+     "population2006": 56704,
+     "constituency": null
+    },
+    {
+     "name": "Mafa",
+     "population2006": 103600,
+     "constituency": null
+    },
+    {
+     "name": "Magumeri",
+     "population2006": 140257,
+     "constituency": null
+    },
+    {
+     "name": "Maiduguri",
+     "population2006": 540016,
+     "constituency": null
+    },
+    {
+     "name": "Marte",
+     "population2006": 129409,
+     "constituency": null
+    },
+    {
+     "name": "Mobbar",
+     "population2006": 116633,
+     "constituency": null
+    },
+    {
+     "name": "Monguno",
+     "population2006": 109834,
+     "constituency": null
+    },
+    {
+     "name": "Ngala",
+     "population2006": 236498,
+     "constituency": null
+    },
+    {
+     "name": "Nganzai",
+     "population2006": 99074,
+     "constituency": null
+    },
+    {
+     "name": "Shani",
+     "population2006": 100989,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024-01-20"
   },
   {
    "state": "Gombe",
    "zone": "North East",
+   "councilStatus": "elected",
    "lgas": [
-    "Akko",
-    "Balanga",
-    "Billiri",
-    "Dukku",
-    "Funakaye",
-    "Gombe",
-    "Kaltungo",
-    "Kwami",
-    "Nafada",
-    "Shongom",
-    "Yamaltu/Deba"
-   ]
+    {
+     "name": "Akko",
+     "population2006": 337435,
+     "constituency": "Akko"
+    },
+    {
+     "name": "Balanga",
+     "population2006": 211490,
+     "constituency": "Balanga/Billiri"
+    },
+    {
+     "name": "Billiri",
+     "population2006": 202680,
+     "constituency": "Balanga/Billiri"
+    },
+    {
+     "name": "Dukku",
+     "population2006": 207658,
+     "constituency": "Dukku/Nafada"
+    },
+    {
+     "name": "Funakaye",
+     "population2006": 237687,
+     "constituency": "Gombe/Kwami/Funakaye"
+    },
+    {
+     "name": "Gombe",
+     "population2006": 266844,
+     "constituency": "Gombe/Kwami/Funakaye"
+    },
+    {
+     "name": "Kaltungo",
+     "population2006": 160392,
+     "constituency": "Kaltungo/Shongom"
+    },
+    {
+     "name": "Kwami",
+     "population2006": 193995,
+     "constituency": "Gombe/Kwami/Funakaye"
+    },
+    {
+     "name": "Nafada",
+     "population2006": 140185,
+     "constituency": "Dukku/Nafada"
+    },
+    {
+     "name": "Shongom",
+     "population2006": 150948,
+     "constituency": "Kaltungo/Shongom"
+    },
+    {
+     "name": "Yamaltu/Deba",
+     "population2006": 255726,
+     "constituency": "Yamaltu-Deba"
+    }
+   ],
+   "electionDate": "2024"
   },
   {
    "state": "Taraba",
    "zone": "North East",
+   "councilStatus": "elected",
    "lgas": [
-    "Ardo Kola",
-    "Bali",
-    "Donga",
-    "Gashaka",
-    "Gassol",
-    "Ibi",
-    "Jalingo",
-    "Karim Lamido",
-    "Kurmi",
-    "Lau",
-    "Sardauna",
-    "Takum",
-    "Ussa",
-    "Wukari",
-    "Yorro",
-    "Zing"
-   ]
+    {
+     "name": "Ardo Kola",
+     "population2006": 87784,
+     "constituency": "Lau/Karim-Lamido/Ardo-Kola"
+    },
+    {
+     "name": "Bali",
+     "population2006": 211024,
+     "constituency": "Bali/Gassol"
+    },
+    {
+     "name": "Donga",
+     "population2006": 133105,
+     "constituency": "Donga/Ussa/Takum/Special Area"
+    },
+    {
+     "name": "Gashaka",
+     "population2006": 87166,
+     "constituency": "Gashaka/Kurmi/Sardauna"
+    },
+    {
+     "name": "Gassol",
+     "population2006": 245086,
+     "constituency": "Bali/Gassol"
+    },
+    {
+     "name": "Ibi",
+     "population2006": 84302,
+     "constituency": "Ibi/Wukari"
+    },
+    {
+     "name": "Jalingo",
+     "population2006": 140318,
+     "constituency": "Jalingo/Yorro/Zing"
+    },
+    {
+     "name": "Karim Lamido",
+     "population2006": 193924,
+     "constituency": "Lau/Karim-Lamido/Ardo-Kola"
+    },
+    {
+     "name": "Kurmi",
+     "population2006": 91282,
+     "constituency": "Gashaka/Kurmi/Sardauna"
+    },
+    {
+     "name": "Lau",
+     "population2006": 95190,
+     "constituency": "Lau/Karim-Lamido/Ardo-Kola"
+    },
+    {
+     "name": "Sardauna",
+     "population2006": 224357,
+     "constituency": "Gashaka/Kurmi/Sardauna"
+    },
+    {
+     "name": "Takum",
+     "population2006": 134576,
+     "constituency": "Donga/Ussa/Takum/Special Area"
+    },
+    {
+     "name": "Ussa",
+     "population2006": 90889,
+     "constituency": "Donga/Ussa/Takum/Special Area"
+    },
+    {
+     "name": "Wukari",
+     "population2006": 238283,
+     "constituency": "Ibi/Wukari"
+    },
+    {
+     "name": "Yorro",
+     "population2006": 89865,
+     "constituency": "Jalingo/Yorro/Zing"
+    },
+    {
+     "name": "Zing",
+     "population2006": 127685,
+     "constituency": "Jalingo/Yorro/Zing"
+    }
+   ],
+   "electionDate": "2024-11-18"
   },
   {
    "state": "Yobe",
    "zone": "North East",
+   "councilStatus": "unknown",
    "lgas": [
-    "Bade",
-    "Bursari",
-    "Damaturu",
-    "Fika",
-    "Fune",
-    "Geidam",
-    "Gujba",
-    "Gulani",
-    "Jakusko",
-    "Karasuwa",
-    "Machina",
-    "Nangere",
-    "Nguru",
-    "Potiskum",
-    "Tarmuwa",
-    "Yunusari",
-    "Yusufari"
+    {
+     "name": "Bade",
+     "population2006": 139804,
+     "constituency": "Bade/Jakusko"
+    },
+    {
+     "name": "Bursari",
+     "population2006": 109692,
+     "constituency": "Bursari/Geidam/Yunusari"
+    },
+    {
+     "name": "Damaturu",
+     "population2006": 87706,
+     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa"
+    },
+    {
+     "name": "Fika",
+     "population2006": 136736,
+     "constituency": "Fika/Fune"
+    },
+    {
+     "name": "Fune",
+     "population2006": 301954,
+     "constituency": "Fika/Fune"
+    },
+    {
+     "name": "Geidam",
+     "population2006": 155740,
+     "constituency": "Bursari/Geidam/Yunusari"
+    },
+    {
+     "name": "Gujba",
+     "population2006": 129797,
+     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa"
+    },
+    {
+     "name": "Gulani",
+     "population2006": 103516,
+     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa"
+    },
+    {
+     "name": "Jakusko",
+     "population2006": 232458,
+     "constituency": "Bade/Jakusko"
+    },
+    {
+     "name": "Karasuwa",
+     "population2006": 105514,
+     "constituency": "Machina/Nguru/Karasuwa/Yusufari"
+    },
+    {
+     "name": "Machina",
+     "population2006": 60994,
+     "constituency": "Machina/Nguru/Karasuwa/Yusufari"
+    },
+    {
+     "name": "Nangere",
+     "population2006": 87517,
+     "constituency": "Nangere/Potiskum"
+    },
+    {
+     "name": "Nguru",
+     "population2006": 150699,
+     "constituency": "Machina/Nguru/Karasuwa/Yusufari"
+    },
+    {
+     "name": "Potiskum",
+     "population2006": 204866,
+     "constituency": "Nangere/Potiskum"
+    },
+    {
+     "name": "Tarmuwa",
+     "population2006": 77667,
+     "constituency": "Damaturu/Gujba/Gulani/Tarmuwa"
+    },
+    {
+     "name": "Yunusari",
+     "population2006": 125940,
+     "constituency": "Bursari/Geidam/Yunusari"
+    },
+    {
+     "name": "Yusufari",
+     "population2006": 110739,
+     "constituency": "Machina/Nguru/Karasuwa/Yusufari"
+    }
    ]
   },
   {
    "state": "Jigawa",
    "zone": "North West",
+   "councilStatus": "elected",
    "lgas": [
-    "Auyo",
-    "Babura",
-    "Biriniwa",
-    "Birnin Kudu",
-    "Buji",
-    "Dutse",
-    "Gagarawa",
-    "Garki",
-    "Gumel",
-    "Guri",
-    "Gwaram",
-    "Gwiwa",
-    "Hadejia",
-    "Jahun",
-    "Kafin Hausa",
-    "Kaugama",
-    "Kazaure",
-    "Kiri Kasama",
-    "Kiyawa",
-    "Maigatari",
-    "Malam Madori",
-    "Miga",
-    "Ringim",
-    "Roni",
-    "Sule Tankarkar",
-    "Taura",
-    "Yankwashi"
-   ]
+    {
+     "name": "Auyo",
+     "population2006": 132268,
+     "constituency": "Hadejia/Kafin Hausa/Auyo"
+    },
+    {
+     "name": "Babura",
+     "population2006": 212955,
+     "constituency": "Babura/Garki"
+    },
+    {
+     "name": "Biriniwa",
+     "population2006": 142015,
+     "constituency": null
+    },
+    {
+     "name": "Birnin Kudu",
+     "population2006": 314108,
+     "constituency": "Birnin-Kudu/Buji"
+    },
+    {
+     "name": "Buji",
+     "population2006": 97284,
+     "constituency": "Birnin-Kudu/Buji"
+    },
+    {
+     "name": "Dutse",
+     "population2006": 251135,
+     "constituency": "Dutse/Kiyawa"
+    },
+    {
+     "name": "Gagarawa",
+     "population2006": 82153,
+     "constituency": null
+    },
+    {
+     "name": "Garki",
+     "population2006": 150261,
+     "constituency": "Babura/Garki"
+    },
+    {
+     "name": "Gumel",
+     "population2006": 106371,
+     "constituency": "Gumel/Maigatari/Sule Tankarkar/Gagarawa"
+    },
+    {
+     "name": "Guri",
+     "population2006": 113363,
+     "constituency": "Birniwa/Guri/Kiri-Kasamma"
+    },
+    {
+     "name": "Gwaram",
+     "population2006": 271368,
+     "constituency": "Gwaram"
+    },
+    {
+     "name": "Gwiwa",
+     "population2006": 128730,
+     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi"
+    },
+    {
+     "name": "Hadejia",
+     "population2006": 104286,
+     "constituency": "Hadejia/Kafin Hausa/Auyo"
+    },
+    {
+     "name": "Jahun",
+     "population2006": 229882,
+     "constituency": "Miga/Jahun"
+    },
+    {
+     "name": "Kafin Hausa",
+     "population2006": 267284,
+     "constituency": "Hadejia/Kafin Hausa/Auyo"
+    },
+    {
+     "name": "Kaugama",
+     "population2006": 128981,
+     "constituency": "Mallam Madori/Kaugama"
+    },
+    {
+     "name": "Kazaure",
+     "population2006": 161161,
+     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi"
+    },
+    {
+     "name": "Kiri Kasama",
+     "population2006": 192583,
+     "constituency": null
+    },
+    {
+     "name": "Kiyawa",
+     "population2006": 172952,
+     "constituency": "Dutse/Kiyawa"
+    },
+    {
+     "name": "Maigatari",
+     "population2006": 177057,
+     "constituency": null
+    },
+    {
+     "name": "Malam Madori",
+     "population2006": 164791,
+     "constituency": null
+    },
+    {
+     "name": "Miga",
+     "population2006": 127876,
+     "constituency": "Miga/Jahun"
+    },
+    {
+     "name": "Ringim",
+     "population2006": 192407,
+     "constituency": "Ringim/Taura"
+    },
+    {
+     "name": "Roni",
+     "population2006": 77414,
+     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi"
+    },
+    {
+     "name": "Sule Tankarkar",
+     "population2006": 134813,
+     "constituency": "Gumel/Maigatari/Sule Tankarkar/Gagarawa"
+    },
+    {
+     "name": "Taura",
+     "population2006": 131861,
+     "constituency": "Ringim/Taura"
+    },
+    {
+     "name": "Yankwashi",
+     "population2006": 95643,
+     "constituency": "Kazaure/Roni/Gwiwa/Yankwashi"
+    }
+   ],
+   "electionDate": "2024-10"
   },
   {
    "state": "Kaduna",
    "zone": "North West",
+   "councilStatus": "elected",
    "lgas": [
-    "Birnin Gwari",
-    "Chikun",
-    "Giwa",
-    "Igabi",
-    "Ikara",
-    "Jaba",
-    "Jema'a",
-    "Kachia",
-    "Kaduna North",
-    "Kaduna South",
-    "Kagarko",
-    "Kajuru",
-    "Kaura",
-    "Kauru",
-    "Kubau",
-    "Kudan",
-    "Lere",
-    "Makarfi",
-    "Sabon Gari",
-    "Sanga",
-    "Soba",
-    "Zangon Kataf",
-    "Zaria"
-   ]
+    {
+     "name": "Birnin Gwari",
+     "population2006": 258581,
+     "constituency": "Birnin-Gwari/Giwa"
+    },
+    {
+     "name": "Chikun",
+     "population2006": 372272,
+     "constituency": "Chikun/Kajuru"
+    },
+    {
+     "name": "Giwa",
+     "population2006": 292384,
+     "constituency": "Birnin-Gwari/Giwa"
+    },
+    {
+     "name": "Igabi",
+     "population2006": 430753,
+     "constituency": "Igabi"
+    },
+    {
+     "name": "Ikara",
+     "population2006": 194723,
+     "constituency": "Ikara/Kubau"
+    },
+    {
+     "name": "Jaba",
+     "population2006": 155973,
+     "constituency": "Zangon Kataf/Jaba"
+    },
+    {
+     "name": "Jema'a",
+     "population2006": 278202,
+     "constituency": "Jemaa/Sanga"
+    },
+    {
+     "name": "Kachia",
+     "population2006": 252568,
+     "constituency": "Kachia/Kagarko"
+    },
+    {
+     "name": "Kaduna North",
+     "population2006": 364575,
+     "constituency": "Kaduna North"
+    },
+    {
+     "name": "Kaduna South",
+     "population2006": 402731,
+     "constituency": "Kaduna South"
+    },
+    {
+     "name": "Kagarko",
+     "population2006": 239058,
+     "constituency": "Kachia/Kagarko"
+    },
+    {
+     "name": "Kajuru",
+     "population2006": 109810,
+     "constituency": "Chikun/Kajuru"
+    },
+    {
+     "name": "Kaura",
+     "population2006": 174626,
+     "constituency": "Kaura"
+    },
+    {
+     "name": "Kauru",
+     "population2006": 221276,
+     "constituency": "Kauru"
+    },
+    {
+     "name": "Kubau",
+     "population2006": 280704,
+     "constituency": "Ikara/Kubau"
+    },
+    {
+     "name": "Kudan",
+     "population2006": 138956,
+     "constituency": "Makarfi/Kudan"
+    },
+    {
+     "name": "Lere",
+     "population2006": 339740,
+     "constituency": "Lere"
+    },
+    {
+     "name": "Makarfi",
+     "population2006": 146574,
+     "constituency": "Makarfi/Kudan"
+    },
+    {
+     "name": "Sabon Gari",
+     "population2006": 291358,
+     "constituency": "Sabon Gari"
+    },
+    {
+     "name": "Sanga",
+     "population2006": 151485,
+     "constituency": "Jemaa/Sanga"
+    },
+    {
+     "name": "Soba",
+     "population2006": 291173,
+     "constituency": "Soba"
+    },
+    {
+     "name": "Zangon Kataf",
+     "population2006": 318991,
+     "constituency": "Zangon Kataf/Jaba"
+    },
+    {
+     "name": "Zaria",
+     "population2006": 406990,
+     "constituency": "Zaria"
+    }
+   ],
+   "electionDate": "2024-10-19"
   },
   {
    "state": "Kano",
    "zone": "North West",
+   "councilStatus": "elected",
    "lgas": [
-    "Ajingi",
-    "Albasu",
-    "Bagwai",
-    "Bebeji",
-    "Bichi",
-    "Bunkure",
-    "Dala",
-    "Dambatta",
-    "Dawakin Kudu",
-    "Dawakin Tofa",
-    "Doguwa",
-    "Fagge",
-    "Gabasawa",
-    "Garko",
-    "Garun Malam",
-    "Gaya",
-    "Gezawa",
-    "Gwale",
-    "Gwarzo",
-    "Kabo",
-    "Kano Municipal",
-    "Karaye",
-    "Kibiya",
-    "Kiru",
-    "Kumbotso",
-    "Kunchi",
-    "Kura",
-    "Madobi",
-    "Makoda",
-    "Minjibir",
-    "Nasarawa",
-    "Rano",
-    "Rimin Gado",
-    "Rogo",
-    "Shanono",
-    "Sumaila",
-    "Takai",
-    "Tarauni",
-    "Tofa",
-    "Tsanyawa",
-    "Tudun Wada",
-    "Ungogo",
-    "Warawa",
-    "Wudil"
-   ]
+    {
+     "name": "Ajingi",
+     "population2006": 172610,
+     "constituency": "Alabasu/Gaya/Ajingi"
+    },
+    {
+     "name": "Albasu",
+     "population2006": 187639,
+     "constituency": null
+    },
+    {
+     "name": "Bagwai",
+     "population2006": 161533,
+     "constituency": "Bagwai/Shanono"
+    },
+    {
+     "name": "Bebeji",
+     "population2006": 191916,
+     "constituency": "Bebeji/Kiru"
+    },
+    {
+     "name": "Bichi",
+     "population2006": 278309,
+     "constituency": "Bichi"
+    },
+    {
+     "name": "Bunkure",
+     "population2006": 174467,
+     "constituency": "Rano/Bunkure/Kibiya"
+    },
+    {
+     "name": "Dala",
+     "population2006": 418759,
+     "constituency": "Dala"
+    },
+    {
+     "name": "Dambatta",
+     "population2006": 210474,
+     "constituency": "Dambatta/Makoda"
+    },
+    {
+     "name": "Dawakin Kudu",
+     "population2006": 225497,
+     "constituency": "Dawakin Kudu/Warawa"
+    },
+    {
+     "name": "Dawakin Tofa",
+     "population2006": 246197,
+     "constituency": "Dawakin-Tofa/Tofa/Rimin Gado"
+    },
+    {
+     "name": "Doguwa",
+     "population2006": 150645,
+     "constituency": "Tudun-Wada/Doguwa"
+    },
+    {
+     "name": "Fagge",
+     "population2006": 200095,
+     "constituency": "Fagge"
+    },
+    {
+     "name": "Gabasawa",
+     "population2006": 211204,
+     "constituency": "Gezawa/Gabasawa"
+    },
+    {
+     "name": "Garko",
+     "population2006": 161966,
+     "constituency": "Wudil/Garko"
+    },
+    {
+     "name": "Garun Malam",
+     "population2006": 118622,
+     "constituency": "Kura/Madobi/Garun Malam"
+    },
+    {
+     "name": "Gaya",
+     "population2006": 207419,
+     "constituency": "Alabasu/Gaya/Ajingi"
+    },
+    {
+     "name": "Gezawa",
+     "population2006": 282328,
+     "constituency": "Gezawa/Gabasawa"
+    },
+    {
+     "name": "Gwale",
+     "population2006": 357827,
+     "constituency": "Gwale"
+    },
+    {
+     "name": "Gwarzo",
+     "population2006": 183624,
+     "constituency": "Gwarzo/Ikabo"
+    },
+    {
+     "name": "Kabo",
+     "population2006": 153158,
+     "constituency": null
+    },
+    {
+     "name": "Kano Municipal",
+     "population2006": 371243,
+     "constituency": "Kano Municipal"
+    },
+    {
+     "name": "Karaye",
+     "population2006": 144045,
+     "constituency": "Karaye/Rogo"
+    },
+    {
+     "name": "Kibiya",
+     "population2006": 138618,
+     "constituency": "Rano/Bunkure/Kibiya"
+    },
+    {
+     "name": "Kiru",
+     "population2006": 267168,
+     "constituency": "Bebeji/Kiru"
+    },
+    {
+     "name": "Kumbotso",
+     "population2006": 294391,
+     "constituency": "Kumbotso"
+    },
+    {
+     "name": "Kunchi",
+     "population2006": 110170,
+     "constituency": "Tsanyawa/Kunchi"
+    },
+    {
+     "name": "Kura",
+     "population2006": 143094,
+     "constituency": "Kura/Madobi/Garun Malam"
+    },
+    {
+     "name": "Madobi",
+     "population2006": 137685,
+     "constituency": "Kura/Madobi/Garun Malam"
+    },
+    {
+     "name": "Makoda",
+     "population2006": 220094,
+     "constituency": "Dambatta/Makoda"
+    },
+    {
+     "name": "Minjibir",
+     "population2006": 219611,
+     "constituency": "Minjibir/Ungogo"
+    },
+    {
+     "name": "Nasarawa",
+     "population2006": 596411,
+     "constituency": "Nassarawa"
+    },
+    {
+     "name": "Rano",
+     "population2006": 148276,
+     "constituency": "Rano/Bunkure/Kibiya"
+    },
+    {
+     "name": "Rimin Gado",
+     "population2006": 103371,
+     "constituency": "Dawakin-Tofa/Tofa/Rimin Gado"
+    },
+    {
+     "name": "Rogo",
+     "population2006": 227607,
+     "constituency": "Karaye/Rogo"
+    },
+    {
+     "name": "Shanono",
+     "population2006": 139128,
+     "constituency": "Bagwai/Shanono"
+    },
+    {
+     "name": "Sumaila",
+     "population2006": 250379,
+     "constituency": "Sumaila/Takai"
+    },
+    {
+     "name": "Takai",
+     "population2006": 202639,
+     "constituency": "Sumaila/Takai"
+    },
+    {
+     "name": "Tarauni",
+     "population2006": 221844,
+     "constituency": "Tarauni"
+    },
+    {
+     "name": "Tofa",
+     "population2006": 98603,
+     "constituency": "Dawakin-Tofa/Tofa/Rimin Gado"
+    },
+    {
+     "name": "Tsanyawa",
+     "population2006": 157730,
+     "constituency": "Tsanyawa/Kunchi"
+    },
+    {
+     "name": "Tudun Wada",
+     "population2006": 228658,
+     "constituency": "Tudun-Wada/Doguwa"
+    },
+    {
+     "name": "Ungogo",
+     "population2006": 365737,
+     "constituency": "Minjibir/Ungogo"
+    },
+    {
+     "name": "Warawa",
+     "population2006": 131858,
+     "constituency": "Dawakin Kudu/Warawa"
+    },
+    {
+     "name": "Wudil",
+     "population2006": 188639,
+     "constituency": "Wudil/Garko"
+    }
+   ],
+   "electionDate": "2024-10-24"
   },
   {
    "state": "Katsina",
    "zone": "North West",
+   "councilStatus": "elected",
    "lgas": [
-    "Bakori",
-    "Batagarawa",
-    "Batsari",
-    "Baure",
-    "Bindawa",
-    "Charanchi",
-    "Dan Musa",
-    "DanDume",
-    "Danja",
-    "Daura",
-    "Dutsi",
-    "Dutsin-Ma",
-    "Faskari",
-    "Funtua",
-    "Ingawa",
-    "Jibia",
-    "Kafur",
-    "Kaita",
-    "Kankara",
-    "Kankia",
-    "Katsina",
-    "Kurfi",
-    "Kusada",
-    "Mai'Adua",
-    "Malumfashi",
-    "Mani",
-    "Mashi",
-    "Matazu",
-    "Musawa",
-    "Rimi",
-    "Sabuwa",
-    "Safana",
-    "Sandamu",
-    "Zango"
-   ]
+    {
+     "name": "Bakori",
+     "population2006": 149516,
+     "constituency": "Bakori/Danja"
+    },
+    {
+     "name": "Batagarawa",
+     "population2006": 189059,
+     "constituency": "Rimi/Charanchi/Batagarawa"
+    },
+    {
+     "name": "Batsari",
+     "population2006": 207874,
+     "constituency": "Safana/Dan musa/Batsari"
+    },
+    {
+     "name": "Baure",
+     "population2006": 202941,
+     "constituency": "Baure/Zango"
+    },
+    {
+     "name": "Bindawa",
+     "population2006": 151002,
+     "constituency": "Mani/Bindawa"
+    },
+    {
+     "name": "Charanchi",
+     "population2006": 136989,
+     "constituency": "Rimi/Charanchi/Batagarawa"
+    },
+    {
+     "name": "Dan Musa",
+     "population2006": 113190,
+     "constituency": "Safana/Dan musa/Batsari"
+    },
+    {
+     "name": "DanDume",
+     "population2006": 145323,
+     "constituency": "Funtua/Dandume"
+    },
+    {
+     "name": "Danja",
+     "population2006": 125481,
+     "constituency": "Bakori/Danja"
+    },
+    {
+     "name": "Daura",
+     "population2006": 224884,
+     "constituency": "Daura/Sandamu/MaiAdua"
+    },
+    {
+     "name": "Dutsi",
+     "population2006": 120902,
+     "constituency": "Mashi/Dutsi"
+    },
+    {
+     "name": "Dutsin-Ma",
+     "population2006": 169829,
+     "constituency": "Dutsin-ma/Kurfi"
+    },
+    {
+     "name": "Faskari",
+     "population2006": 194400,
+     "constituency": "Kankara/Sabuwa/Faskari"
+    },
+    {
+     "name": "Funtua",
+     "population2006": 225156,
+     "constituency": "Funtua/Dandume"
+    },
+    {
+     "name": "Ingawa",
+     "population2006": 169148,
+     "constituency": "Kankia/Ingawa/Kusada"
+    },
+    {
+     "name": "Jibia",
+     "population2006": 167435,
+     "constituency": "Kaita/Jibia"
+    },
+    {
+     "name": "Kafur",
+     "population2006": 209360,
+     "constituency": "MalumFashi/Kafur"
+    },
+    {
+     "name": "Kaita",
+     "population2006": 182405,
+     "constituency": "Kaita/Jibia"
+    },
+    {
+     "name": "Kankara",
+     "population2006": 243259,
+     "constituency": "Kankara/Sabuwa/Faskari"
+    },
+    {
+     "name": "Kankia",
+     "population2006": 151395,
+     "constituency": "Kankia/Ingawa/Kusada"
+    },
+    {
+     "name": "Katsina",
+     "population2006": 318132,
+     "constituency": "Katsina Central"
+    },
+    {
+     "name": "Kurfi",
+     "population2006": 116700,
+     "constituency": "Dutsin-ma/Kurfi"
+    },
+    {
+     "name": "Kusada",
+     "population2006": 98348,
+     "constituency": "Kankia/Ingawa/Kusada"
+    },
+    {
+     "name": "Mai'Adua",
+     "population2006": 201800,
+     "constituency": "Daura/Sandamu/MaiAdua"
+    },
+    {
+     "name": "Malumfashi",
+     "population2006": 182891,
+     "constituency": "MalumFashi/Kafur"
+    },
+    {
+     "name": "Mani",
+     "population2006": 176301,
+     "constituency": "Mani/Bindawa"
+    },
+    {
+     "name": "Mashi",
+     "population2006": 171070,
+     "constituency": "Mashi/Dutsi"
+    },
+    {
+     "name": "Matazu",
+     "population2006": 113814,
+     "constituency": "Musawa/Matazu"
+    },
+    {
+     "name": "Musawa",
+     "population2006": 170006,
+     "constituency": "Musawa/Matazu"
+    },
+    {
+     "name": "Rimi",
+     "population2006": 154092,
+     "constituency": "Rimi/Charanchi/Batagarawa"
+    },
+    {
+     "name": "Sabuwa",
+     "population2006": 140679,
+     "constituency": "Kankara/Sabuwa/Faskari"
+    },
+    {
+     "name": "Safana",
+     "population2006": 185207,
+     "constituency": "Safana/Dan musa/Batsari"
+    },
+    {
+     "name": "Sandamu",
+     "population2006": 136944,
+     "constituency": "Daura/Sandamu/MaiAdua"
+    },
+    {
+     "name": "Zango",
+     "population2006": 156052,
+     "constituency": "Baure/Zango"
+    }
+   ],
+   "electionDate": "2025-02-15"
   },
   {
    "state": "Kebbi",
    "zone": "North West",
+   "councilStatus": "elected",
    "lgas": [
-    "Aliero",
-    "Arewa Dandi",
-    "Argungu",
-    "Augie",
-    "Bagudo",
-    "Birnin Kebbi",
-    "Bunza",
-    "Dandi",
-    "Danko-Wasagu",
-    "Fakai",
-    "Gwandu",
-    "Jega",
-    "Kalgo",
-    "Koko/Besse",
-    "Maiyama",
-    "Ngaski",
-    "Sakaba",
-    "Shanga",
-    "Suru",
-    "Yauri",
-    "Zuru"
-   ]
+    {
+     "name": "Aliero",
+     "population2006": 67078,
+     "constituency": "Gwandu/Aliero/Jega"
+    },
+    {
+     "name": "Arewa Dandi",
+     "population2006": 189728,
+     "constituency": "Arewa/Dandi"
+    },
+    {
+     "name": "Argungu",
+     "population2006": 200248,
+     "constituency": "Argungu/Augie"
+    },
+    {
+     "name": "Augie",
+     "population2006": 116368,
+     "constituency": "Argungu/Augie"
+    },
+    {
+     "name": "Bagudo",
+     "population2006": 238014,
+     "constituency": "Bagudo/Suru"
+    },
+    {
+     "name": "Birnin Kebbi",
+     "population2006": 268620,
+     "constituency": "Birnin Kebbi/Kalgo/Bunza"
+    },
+    {
+     "name": "Bunza",
+     "population2006": 123547,
+     "constituency": "Birnin Kebbi/Kalgo/Bunza"
+    },
+    {
+     "name": "Dandi",
+     "population2006": 146211,
+     "constituency": "Arewa/Dandi"
+    },
+    {
+     "name": "Danko-Wasagu",
+     "population2006": 265271,
+     "constituency": null
+    },
+    {
+     "name": "Fakai",
+     "population2006": 119772,
+     "constituency": "Zuru/Fakai/Sakaba/D/Wasagu"
+    },
+    {
+     "name": "Gwandu",
+     "population2006": 151077,
+     "constituency": "Gwandu/Aliero/Jega"
+    },
+    {
+     "name": "Jega",
+     "population2006": 197757,
+     "constituency": "Gwandu/Aliero/Jega"
+    },
+    {
+     "name": "Kalgo",
+     "population2006": 84928,
+     "constituency": "Birnin Kebbi/Kalgo/Bunza"
+    },
+    {
+     "name": "Koko/Besse",
+     "population2006": 154818,
+     "constituency": "Maiyama/Koko/Besse"
+    },
+    {
+     "name": "Maiyama",
+     "population2006": 173759,
+     "constituency": "Maiyama/Koko/Besse"
+    },
+    {
+     "name": "Ngaski",
+     "population2006": 126102,
+     "constituency": "Yauri/Shanga/Ngaski"
+    },
+    {
+     "name": "Sakaba",
+     "population2006": 91728,
+     "constituency": "Zuru/Fakai/Sakaba/D/Wasagu"
+    },
+    {
+     "name": "Shanga",
+     "population2006": 127142,
+     "constituency": "Yauri/Shanga/Ngaski"
+    },
+    {
+     "name": "Suru",
+     "population2006": 148474,
+     "constituency": "Bagudo/Suru"
+    },
+    {
+     "name": "Yauri",
+     "population2006": 100564,
+     "constituency": "Yauri/Shanga/Ngaski"
+    },
+    {
+     "name": "Zuru",
+     "population2006": 165335,
+     "constituency": "Zuru/Fakai/Sakaba/D/Wasagu"
+    }
+   ],
+   "electionDate": "2024-08-31"
   },
   {
    "state": "Sokoto",
    "zone": "North West",
+   "councilStatus": "elected",
    "lgas": [
-    "Binji",
-    "Bodinga",
-    "Dange/Shuni",
-    "Gada",
-    "Goronyo",
-    "Gudu",
-    "Gwadabawa",
-    "Illela",
-    "Isa",
-    "Kebbe",
-    "Kware",
-    "Rabah",
-    "Sabon Birni",
-    "Shagari",
-    "Silame",
-    "Sokoto North",
-    "Sokoto South",
-    "Tambuwal",
-    "Tangaza",
-    "Tureta",
-    "Wamako",
-    "Wurno",
-    "Yabo"
-   ]
+    {
+     "name": "Binji",
+     "population2006": 104274,
+     "constituency": "Binji/Silame"
+    },
+    {
+     "name": "Bodinga",
+     "population2006": 174302,
+     "constituency": "Bodinga/Dange-Shuni/Tureta"
+    },
+    {
+     "name": "Dange/Shuni",
+     "population2006": 193443,
+     "constituency": "Bodinga/Dange-Shuni/Tureta"
+    },
+    {
+     "name": "Gada",
+     "population2006": 249051,
+     "constituency": "Goronyo/Gada"
+    },
+    {
+     "name": "Goronyo",
+     "population2006": 182118,
+     "constituency": "Goronyo/Gada"
+    },
+    {
+     "name": "Gudu",
+     "population2006": 95400,
+     "constituency": "Gudu/Tangaza"
+    },
+    {
+     "name": "Gwadabawa",
+     "population2006": 231569,
+     "constituency": "Gwadabawa/Ilella"
+    },
+    {
+     "name": "Illela",
+     "population2006": 150133,
+     "constituency": null
+    },
+    {
+     "name": "Isa",
+     "population2006": 150268,
+     "constituency": "Sabon-Birni/Isa"
+    },
+    {
+     "name": "Kebbe",
+     "population2006": 123154,
+     "constituency": "Kebbe/Tambuwal"
+    },
+    {
+     "name": "Kware",
+     "population2006": 134084,
+     "constituency": "Kware/Wamakko"
+    },
+    {
+     "name": "Rabah",
+     "population2006": 149152,
+     "constituency": "Wurno/Rabah"
+    },
+    {
+     "name": "Sabon Birni",
+     "population2006": 207470,
+     "constituency": "Sabon-Birni/Isa"
+    },
+    {
+     "name": "Shagari",
+     "population2006": 156907,
+     "constituency": "Shagari/Yabo"
+    },
+    {
+     "name": "Silame",
+     "population2006": 104601,
+     "constituency": "Binji/Silame"
+    },
+    {
+     "name": "Sokoto North",
+     "population2006": 233012,
+     "constituency": "Sokoto North/Sokoto South"
+    },
+    {
+     "name": "Sokoto South",
+     "population2006": 197686,
+     "constituency": "Sokoto North/Sokoto South"
+    },
+    {
+     "name": "Tambuwal",
+     "population2006": 225917,
+     "constituency": null
+    },
+    {
+     "name": "Tangaza",
+     "population2006": 114770,
+     "constituency": "Gudu/Tangaza"
+    },
+    {
+     "name": "Tureta",
+     "population2006": 68414,
+     "constituency": "Bodinga/Dange-Shuni/Tureta"
+    },
+    {
+     "name": "Wamako",
+     "population2006": 179246,
+     "constituency": null
+    },
+    {
+     "name": "Wurno",
+     "population2006": 162403,
+     "constituency": "Wurno/Rabah"
+    },
+    {
+     "name": "Yabo",
+     "population2006": 115302,
+     "constituency": "Shagari/Yabo"
+    }
+   ],
+   "electionDate": "2024"
   },
   {
    "state": "Zamfara",
    "zone": "North West",
+   "councilStatus": "caretaker",
    "lgas": [
-    "Anka",
-    "Bakura",
-    "Birnin Magaji/Kiyaw",
-    "Bukkuyum",
-    "Bungudu",
-    "Gummi",
-    "Gusau",
-    "Kaura Namoda",
-    "Maradun",
-    "Maru",
-    "Shinkafi",
-    "Talata Mafara",
-    "Tsafe",
-    "Zurmi"
+    {
+     "name": "Anka",
+     "population2006": 143637,
+     "constituency": "Anka/Talata Marafa"
+    },
+    {
+     "name": "Bakura",
+     "population2006": 187141,
+     "constituency": "Bakura/Maradun"
+    },
+    {
+     "name": "Birnin Magaji/Kiyaw",
+     "population2006": 184083,
+     "constituency": null
+    },
+    {
+     "name": "Bukkuyum",
+     "population2006": 216348,
+     "constituency": "Gummi/Bukkuyum"
+    },
+    {
+     "name": "Bungudu",
+     "population2006": 258644,
+     "constituency": "Bungudu/Maru"
+    },
+    {
+     "name": "Gummi",
+     "population2006": 206721,
+     "constituency": "Gummi/Bukkuyum"
+    },
+    {
+     "name": "Gusau",
+     "population2006": 383712,
+     "constituency": "Gusau/Tsafe"
+    },
+    {
+     "name": "Kaura Namoda",
+     "population2006": 285363,
+     "constituency": "Kaura-Namoda/Birnin-Magaji"
+    },
+    {
+     "name": "Maradun",
+     "population2006": 207563,
+     "constituency": "Bakura/Maradun"
+    },
+    {
+     "name": "Maru",
+     "population2006": 293141,
+     "constituency": "Bungudu/Maru"
+    },
+    {
+     "name": "Shinkafi",
+     "population2006": 135964,
+     "constituency": "Shinkafi/Zurmi"
+    },
+    {
+     "name": "Talata Mafara",
+     "population2006": 215650,
+     "constituency": null
+    },
+    {
+     "name": "Tsafe",
+     "population2006": 266929,
+     "constituency": "Gusau/Tsafe"
+    },
+    {
+     "name": "Zurmi",
+     "population2006": 293977,
+     "constituency": "Shinkafi/Zurmi"
+    }
    ]
   },
   {
    "state": "Abia",
    "zone": "South East",
+   "councilStatus": "elected",
    "lgas": [
-    "Aba North",
-    "Aba South",
-    "Arochukwu",
-    "Bende",
-    "Ikwuano",
-    "Isiala Ngwa North",
-    "Isiala Ngwa South",
-    "Isuikwuato",
-    "Obi Ngwa",
-    "Ohafia",
-    "Osisioma",
-    "Ugwunagbo",
-    "Ukwa East",
-    "Ukwa West",
-    "Umu-Nneochi",
-    "Umuahia North",
-    "Umuahia South"
-   ]
+    {
+     "name": "Aba North",
+     "population2006": 106844,
+     "constituency": null
+    },
+    {
+     "name": "Aba South",
+     "population2006": 427421,
+     "constituency": null
+    },
+    {
+     "name": "Arochukwu",
+     "population2006": 169339,
+     "constituency": null
+    },
+    {
+     "name": "Bende",
+     "population2006": 192621,
+     "constituency": "Abia North"
+    },
+    {
+     "name": "Ikwuano",
+     "population2006": 137897,
+     "constituency": "Abia South"
+    },
+    {
+     "name": "Isiala Ngwa North",
+     "population2006": 154083,
+     "constituency": null
+    },
+    {
+     "name": "Isiala Ngwa South",
+     "population2006": 136650,
+     "constituency": null
+    },
+    {
+     "name": "Isuikwuato",
+     "population2006": 115794,
+     "constituency": null
+    },
+    {
+     "name": "Obi Ngwa",
+     "population2006": 181894,
+     "constituency": null
+    },
+    {
+     "name": "Ohafia",
+     "population2006": 245987,
+     "constituency": null
+    },
+    {
+     "name": "Osisioma",
+     "population2006": 220662,
+     "constituency": null
+    },
+    {
+     "name": "Ugwunagbo",
+     "population2006": 85371,
+     "constituency": null
+    },
+    {
+     "name": "Ukwa East",
+     "population2006": 58139,
+     "constituency": null
+    },
+    {
+     "name": "Ukwa West",
+     "population2006": 87367,
+     "constituency": null
+    },
+    {
+     "name": "Umu-Nneochi",
+     "population2006": 163119,
+     "constituency": null
+    },
+    {
+     "name": "Umuahia North",
+     "population2006": 223134,
+     "constituency": "Abia South"
+    },
+    {
+     "name": "Umuahia South",
+     "population2006": 139058,
+     "constituency": "Abia South"
+    }
+   ],
+   "electionDate": "2024-11"
   },
   {
    "state": "Anambra",
    "zone": "South East",
+   "councilStatus": "elected",
    "lgas": [
-    "Aguata",
-    "Anambra East",
-    "Anambra West",
-    "Anaocha",
-    "Awka North",
-    "Awka South",
-    "Ayamelum",
-    "Dunukofia",
-    "Ekwusigo",
-    "Idemili North",
-    "Idemili South",
-    "Ihiala",
-    "Njikoka",
-    "Nnewi North",
-    "Nnewi South",
-    "Ogbaru",
-    "Onitsha North",
-    "Onitsha South",
-    "Orumba North",
-    "Orumba South",
-    "Oyi"
-   ]
+    {
+     "name": "Aguata",
+     "population2006": 369972,
+     "constituency": null
+    },
+    {
+     "name": "Anambra East",
+     "population2006": 152149,
+     "constituency": null
+    },
+    {
+     "name": "Anambra West",
+     "population2006": 167303,
+     "constituency": null
+    },
+    {
+     "name": "Anaocha",
+     "population2006": 284215,
+     "constituency": null
+    },
+    {
+     "name": "Awka North",
+     "population2006": 112192,
+     "constituency": null
+    },
+    {
+     "name": "Awka South",
+     "population2006": 189654,
+     "constituency": null
+    },
+    {
+     "name": "Ayamelum",
+     "population2006": 158152,
+     "constituency": null
+    },
+    {
+     "name": "Dunukofia",
+     "population2006": 96517,
+     "constituency": null
+    },
+    {
+     "name": "Ekwusigo",
+     "population2006": 158429,
+     "constituency": null
+    },
+    {
+     "name": "Idemili North",
+     "population2006": 431005,
+     "constituency": null
+    },
+    {
+     "name": "Idemili South",
+     "population2006": 206816,
+     "constituency": null
+    },
+    {
+     "name": "Ihiala",
+     "population2006": 302277,
+     "constituency": null
+    },
+    {
+     "name": "Njikoka",
+     "population2006": 148394,
+     "constituency": null
+    },
+    {
+     "name": "Nnewi North",
+     "population2006": 155443,
+     "constituency": null
+    },
+    {
+     "name": "Nnewi South",
+     "population2006": 233362,
+     "constituency": null
+    },
+    {
+     "name": "Ogbaru",
+     "population2006": 223317,
+     "constituency": null
+    },
+    {
+     "name": "Onitsha North",
+     "population2006": 125918,
+     "constituency": null
+    },
+    {
+     "name": "Onitsha South",
+     "population2006": 137191,
+     "constituency": null
+    },
+    {
+     "name": "Orumba North",
+     "population2006": 172773,
+     "constituency": null
+    },
+    {
+     "name": "Orumba South",
+     "population2006": 184548,
+     "constituency": null
+    },
+    {
+     "name": "Oyi",
+     "population2006": 168201,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024"
   },
   {
    "state": "Ebonyi",
    "zone": "South East",
+   "councilStatus": "elected",
    "lgas": [
-    "Abakaliki",
-    "Afikpo North",
-    "Afikpo South",
-    "Ebonyi",
-    "Ezza North",
-    "Ezza South",
-    "Ikwo",
-    "Ishielu",
-    "Ivo",
-    "Izzi",
-    "Ohaozara",
-    "Ohaukwu",
-    "Onicha"
-   ]
+    {
+     "name": "Abakaliki",
+     "population2006": 149683,
+     "constituency": null
+    },
+    {
+     "name": "Afikpo North",
+     "population2006": 156649,
+     "constituency": null
+    },
+    {
+     "name": "Afikpo South",
+     "population2006": 157542,
+     "constituency": null
+    },
+    {
+     "name": "Ebonyi",
+     "population2006": 127226,
+     "constituency": null
+    },
+    {
+     "name": "Ezza North",
+     "population2006": 146149,
+     "constituency": null
+    },
+    {
+     "name": "Ezza South",
+     "population2006": 133625,
+     "constituency": null
+    },
+    {
+     "name": "Ikwo",
+     "population2006": 214969,
+     "constituency": null
+    },
+    {
+     "name": "Ishielu",
+     "population2006": 152581,
+     "constituency": null
+    },
+    {
+     "name": "Ivo",
+     "population2006": 121363,
+     "constituency": null
+    },
+    {
+     "name": "Izzi",
+     "population2006": 236679,
+     "constituency": null
+    },
+    {
+     "name": "Ohaozara",
+     "population2006": 148317,
+     "constituency": null
+    },
+    {
+     "name": "Ohaukwu",
+     "population2006": 195555,
+     "constituency": null
+    },
+    {
+     "name": "Onicha",
+     "population2006": 236609,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024"
   },
   {
    "state": "Enugu",
    "zone": "South East",
+   "councilStatus": "elected",
    "lgas": [
-    "Aninri",
-    "Awgu",
-    "Enugu East",
-    "Enugu North",
-    "Enugu South",
-    "Ezeagu",
-    "Igbo Etiti",
-    "Igbo Eze North",
-    "Igbo Eze South",
-    "Isi-Uzo",
-    "Nkanu East",
-    "Nkanu West",
-    "Nsukka",
-    "Oji-River",
-    "Udenu",
-    "Udi",
-    "Uzo-Uwani"
-   ]
+    {
+     "name": "Aninri",
+     "population2006": 136221,
+     "constituency": "Aninri/Agwu/Oji-uzo"
+    },
+    {
+     "name": "Awgu",
+     "population2006": 197292,
+     "constituency": null
+    },
+    {
+     "name": "Enugu East",
+     "population2006": 277119,
+     "constituency": "Enugu East/Isi-Uzo"
+    },
+    {
+     "name": "Enugu North",
+     "population2006": 242140,
+     "constituency": "Enugu North/Enugu South"
+    },
+    {
+     "name": "Enugu South",
+     "population2006": 198032,
+     "constituency": "Enugu North/Enugu South"
+    },
+    {
+     "name": "Ezeagu",
+     "population2006": 170603,
+     "constituency": "Ezeagu/Udi"
+    },
+    {
+     "name": "Igbo Etiti",
+     "population2006": 208333,
+     "constituency": "Igbo-Etiti/Uzo-Uwani"
+    },
+    {
+     "name": "Igbo Eze North",
+     "population2006": 258829,
+     "constituency": "Udenu/Igboeze North"
+    },
+    {
+     "name": "Igbo Eze South",
+     "population2006": 147364,
+     "constituency": "Nsukka/Igbo-Eze South"
+    },
+    {
+     "name": "Isi-Uzo",
+     "population2006": 148597,
+     "constituency": "Enugu East/Isi-Uzo"
+    },
+    {
+     "name": "Nkanu East",
+     "population2006": 153591,
+     "constituency": "Nkanu East/Nkanu West"
+    },
+    {
+     "name": "Nkanu West",
+     "population2006": 147385,
+     "constituency": "Nkanu East/Nkanu West"
+    },
+    {
+     "name": "Nsukka",
+     "population2006": 309448,
+     "constituency": "Nsukka/Igbo-Eze South"
+    },
+    {
+     "name": "Oji-River",
+     "population2006": 128741,
+     "constituency": null
+    },
+    {
+     "name": "Udenu",
+     "population2006": 178687,
+     "constituency": "Udenu/Igboeze North"
+    },
+    {
+     "name": "Udi",
+     "population2006": 238305,
+     "constituency": "Ezeagu/Udi"
+    },
+    {
+     "name": "Uzo-Uwani",
+     "population2006": 127150,
+     "constituency": "Igbo-Etiti/Uzo-Uwani"
+    }
+   ],
+   "electionDate": "2024"
   },
   {
    "state": "Imo",
    "zone": "South East",
+   "councilStatus": "elected",
    "lgas": [
-    "Aboh Mbaise",
-    "Ahiazu Mbaise",
-    "Ehime Mbano",
-    "Ezinihitte Mbaise",
-    "Ideato North",
-    "Ideato South",
-    "Ihitte/Uboma",
-    "Ikeduru",
-    "Isiala Mbano",
-    "Isu",
-    "Mbaitoli",
-    "Ngor Okpala",
-    "Njaba",
-    "Nkwerre",
-    "Nwangele",
-    "Obowo",
-    "Oguta",
-    "Ohaji/Egbema",
-    "Okigwe",
-    "Onuimo",
-    "Orlu",
-    "Orsu",
-    "Oru East",
-    "Oru West",
-    "Owerri Municipal",
-    "Owerri North",
-    "Owerri West"
-   ]
+    {
+     "name": "Aboh Mbaise",
+     "population2006": 194779,
+     "constituency": "Aboh Mbaise/Ngor Okpala"
+    },
+    {
+     "name": "Ahiazu Mbaise",
+     "population2006": 170824,
+     "constituency": "Ahiazu Mbaise/Ezinihitte"
+    },
+    {
+     "name": "Ehime Mbano",
+     "population2006": 130575,
+     "constituency": "Ehimembano/Ihitte Uboma/Obowo"
+    },
+    {
+     "name": "Ezinihitte Mbaise",
+     "population2006": 168767,
+     "constituency": null
+    },
+    {
+     "name": "Ideato North",
+     "population2006": 156161,
+     "constituency": "Ideato North/Ideato South"
+    },
+    {
+     "name": "Ideato South",
+     "population2006": 159654,
+     "constituency": "Ideato North/Ideato South"
+    },
+    {
+     "name": "Ihitte/Uboma",
+     "population2006": 119419,
+     "constituency": "Ehimembano/Ihitte Uboma/Obowo"
+    },
+    {
+     "name": "Ikeduru",
+     "population2006": 149737,
+     "constituency": "Mbaitolu/ikeduru"
+    },
+    {
+     "name": "Isiala Mbano",
+     "population2006": 197921,
+     "constituency": "Isiala Mbano/Okigwe/Onuimo"
+    },
+    {
+     "name": "Isu",
+     "population2006": 164328,
+     "constituency": "Isu/Njaba/Nkwerre/Nwangele"
+    },
+    {
+     "name": "Mbaitoli",
+     "population2006": 237474,
+     "constituency": null
+    },
+    {
+     "name": "Ngor Okpala",
+     "population2006": 157858,
+     "constituency": "Aboh Mbaise/Ngor Okpala"
+    },
+    {
+     "name": "Njaba",
+     "population2006": 143485,
+     "constituency": "Isu/Njaba/Nkwerre/Nwangele"
+    },
+    {
+     "name": "Nkwerre",
+     "population2006": 80270,
+     "constituency": "Isu/Njaba/Nkwerre/Nwangele"
+    },
+    {
+     "name": "Nwangele",
+     "population2006": 127691,
+     "constituency": "Isu/Njaba/Nkwerre/Nwangele"
+    },
+    {
+     "name": "Obowo",
+     "population2006": 117432,
+     "constituency": "Ehimembano/Ihitte Uboma/Obowo"
+    },
+    {
+     "name": "Oguta",
+     "population2006": 142340,
+     "constituency": "Oguta/Ohaji-Egbema/Oru West"
+    },
+    {
+     "name": "Ohaji/Egbema",
+     "population2006": 182891,
+     "constituency": "Oguta/Ohaji-Egbema/Oru West"
+    },
+    {
+     "name": "Okigwe",
+     "population2006": 132701,
+     "constituency": "Isiala Mbano/Okigwe/Onuimo"
+    },
+    {
+     "name": "Onuimo",
+     "population2006": 99368,
+     "constituency": "Isiala Mbano/Okigwe/Onuimo"
+    },
+    {
+     "name": "Orlu",
+     "population2006": 142792,
+     "constituency": "Orlu/Oru East/Orsu"
+    },
+    {
+     "name": "Orsu",
+     "population2006": 120224,
+     "constituency": "Orlu/Oru East/Orsu"
+    },
+    {
+     "name": "Oru East",
+     "population2006": 111743,
+     "constituency": "Orlu/Oru East/Orsu"
+    },
+    {
+     "name": "Oru West",
+     "population2006": 115704,
+     "constituency": "Oguta/Ohaji-Egbema/Oru West"
+    },
+    {
+     "name": "Owerri Municipal",
+     "population2006": 125337,
+     "constituency": "Owerri Municipal/Owerri North/Owerri West"
+    },
+    {
+     "name": "Owerri North",
+     "population2006": 176334,
+     "constituency": "Owerri Municipal/Owerri North/Owerri West"
+    },
+    {
+     "name": "Owerri West",
+     "population2006": 101754,
+     "constituency": "Owerri Municipal/Owerri North/Owerri West"
+    }
+   ],
+   "electionDate": "2024-09-21"
   },
   {
    "state": "Akwa Ibom",
    "zone": "South South",
+   "councilStatus": "elected",
    "lgas": [
-    "Abak",
-    "Eastern Obolo",
-    "Eket",
-    "Esit Eket",
-    "Essien Udim",
-    "Etim Ekpo",
-    "Etinan",
-    "Ibeno",
-    "Ibesikpo Asutan",
-    "Ibiono Ibom",
-    "Ika",
-    "Ikono",
-    "Ikot Abasi",
-    "Ikot Ekpene",
-    "Ini",
-    "Itu",
-    "Mbo",
-    "Mkpat Enin",
-    "Nsit Atai",
-    "Nsit Ibom",
-    "Nsit Ubium",
-    "Obot Akara",
-    "Okobo",
-    "Onna",
-    "Oron",
-    "Oruk Anam",
-    "Udung Uko",
-    "Ukanafun",
-    "Uruan",
-    "Urue Offong/Oruko",
-    "Uyo"
-   ]
+    {
+     "name": "Abak",
+     "population2006": 139069,
+     "constituency": null
+    },
+    {
+     "name": "Eastern Obolo",
+     "population2006": 59970,
+     "constituency": null
+    },
+    {
+     "name": "Eket",
+     "population2006": 172856,
+     "constituency": null
+    },
+    {
+     "name": "Esit Eket",
+     "population2006": 63358,
+     "constituency": null
+    },
+    {
+     "name": "Essien Udim",
+     "population2006": 193257,
+     "constituency": null
+    },
+    {
+     "name": "Etim Ekpo",
+     "population2006": 105922,
+     "constituency": null
+    },
+    {
+     "name": "Etinan",
+     "population2006": 168924,
+     "constituency": null
+    },
+    {
+     "name": "Ibeno",
+     "population2006": 74840,
+     "constituency": null
+    },
+    {
+     "name": "Ibesikpo Asutan",
+     "population2006": 137127,
+     "constituency": null
+    },
+    {
+     "name": "Ibiono Ibom",
+     "population2006": 188605,
+     "constituency": null
+    },
+    {
+     "name": "Ika",
+     "population2006": 72772,
+     "constituency": null
+    },
+    {
+     "name": "Ikono",
+     "population2006": 131673,
+     "constituency": null
+    },
+    {
+     "name": "Ikot Abasi",
+     "population2006": 132608,
+     "constituency": null
+    },
+    {
+     "name": "Ikot Ekpene",
+     "population2006": 141408,
+     "constituency": null
+    },
+    {
+     "name": "Ini",
+     "population2006": 99084,
+     "constituency": null
+    },
+    {
+     "name": "Itu",
+     "population2006": 127856,
+     "constituency": null
+    },
+    {
+     "name": "Mbo",
+     "population2006": 102173,
+     "constituency": null
+    },
+    {
+     "name": "Mkpat Enin",
+     "population2006": 177293,
+     "constituency": null
+    },
+    {
+     "name": "Nsit Atai",
+     "population2006": 73395,
+     "constituency": null
+    },
+    {
+     "name": "Nsit Ibom",
+     "population2006": 108095,
+     "constituency": null
+    },
+    {
+     "name": "Nsit Ubium",
+     "population2006": 127083,
+     "constituency": null
+    },
+    {
+     "name": "Obot Akara",
+     "population2006": 147286,
+     "constituency": null
+    },
+    {
+     "name": "Okobo",
+     "population2006": 102753,
+     "constituency": null
+    },
+    {
+     "name": "Onna",
+     "population2006": 123193,
+     "constituency": null
+    },
+    {
+     "name": "Oron",
+     "population2006": 87209,
+     "constituency": null
+    },
+    {
+     "name": "Oruk Anam",
+     "population2006": 171839,
+     "constituency": null
+    },
+    {
+     "name": "Udung Uko",
+     "population2006": 53060,
+     "constituency": null
+    },
+    {
+     "name": "Ukanafun",
+     "population2006": 125473,
+     "constituency": null
+    },
+    {
+     "name": "Uruan",
+     "population2006": 117169,
+     "constituency": null
+    },
+    {
+     "name": "Urue Offong/Oruko",
+     "population2006": 70740,
+     "constituency": null
+    },
+    {
+     "name": "Uyo",
+     "population2006": 305961,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024-10-26"
   },
   {
    "state": "Bayelsa",
    "zone": "South South",
+   "councilStatus": "caretaker",
    "lgas": [
-    "Brass",
-    "Ekeremor",
-    "Kolokuma/Opokuma",
-    "Nembe",
-    "Ogbia",
-    "Sagbama",
-    "Southern Ijaw",
-    "Yenagoa"
+    {
+     "name": "Brass",
+     "population2006": 184127,
+     "constituency": null
+    },
+    {
+     "name": "Ekeremor",
+     "population2006": 269588,
+     "constituency": null
+    },
+    {
+     "name": "Kolokuma/Opokuma",
+     "population2006": 79266,
+     "constituency": null
+    },
+    {
+     "name": "Nembe",
+     "population2006": 130966,
+     "constituency": null
+    },
+    {
+     "name": "Ogbia",
+     "population2006": 179606,
+     "constituency": null
+    },
+    {
+     "name": "Sagbama",
+     "population2006": 186869,
+     "constituency": null
+    },
+    {
+     "name": "Southern Ijaw",
+     "population2006": 321808,
+     "constituency": null
+    },
+    {
+     "name": "Yenagoa",
+     "population2006": 352285,
+     "constituency": null
+    }
    ]
   },
   {
    "state": "Cross River",
    "zone": "South South",
+   "councilStatus": "elected",
    "lgas": [
-    "Abi",
-    "Akamkpa",
-    "Akpabuyo",
-    "Bakassi",
-    "Bekwarra",
-    "Biase",
-    "Boki",
-    "Calabar Municipal",
-    "Calabar South",
-    "Etung",
-    "Ikom",
-    "Obanliku",
-    "Obubra",
-    "Obudu",
-    "Odukpani",
-    "Ogoja",
-    "Yakurr",
-    "Yala"
-   ]
+    {
+     "name": "Abi",
+     "population2006": 144317,
+     "constituency": null
+    },
+    {
+     "name": "Akamkpa",
+     "population2006": 149705,
+     "constituency": null
+    },
+    {
+     "name": "Akpabuyo",
+     "population2006": 272262,
+     "constituency": null
+    },
+    {
+     "name": "Bakassi",
+     "population2006": 31641,
+     "constituency": null
+    },
+    {
+     "name": "Bekwarra",
+     "population2006": 105497,
+     "constituency": null
+    },
+    {
+     "name": "Biase",
+     "population2006": 168113,
+     "constituency": null
+    },
+    {
+     "name": "Boki",
+     "population2006": 186611,
+     "constituency": null
+    },
+    {
+     "name": "Calabar Municipal",
+     "population2006": 183681,
+     "constituency": null
+    },
+    {
+     "name": "Calabar South",
+     "population2006": 191515,
+     "constituency": null
+    },
+    {
+     "name": "Etung",
+     "population2006": 80036,
+     "constituency": null
+    },
+    {
+     "name": "Ikom",
+     "population2006": 163691,
+     "constituency": null
+    },
+    {
+     "name": "Obanliku",
+     "population2006": 109633,
+     "constituency": null
+    },
+    {
+     "name": "Obubra",
+     "population2006": 172543,
+     "constituency": null
+    },
+    {
+     "name": "Obudu",
+     "population2006": 161457,
+     "constituency": null
+    },
+    {
+     "name": "Odukpani",
+     "population2006": 192884,
+     "constituency": null
+    },
+    {
+     "name": "Ogoja",
+     "population2006": 171574,
+     "constituency": null
+    },
+    {
+     "name": "Yakurr",
+     "population2006": 196271,
+     "constituency": null
+    },
+    {
+     "name": "Yala",
+     "population2006": 211557,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024"
   },
   {
    "state": "Delta",
    "zone": "South South",
+   "councilStatus": "elected",
    "lgas": [
-    "Aniocha North",
-    "Aniocha South",
-    "Bomadi",
-    "Burutu",
-    "Ethiope East",
-    "Ethiope West",
-    "Ika North East",
-    "Ika South",
-    "Isoko North",
-    "Isoko South",
-    "Ndokwa East",
-    "Ndokwa West",
-    "Okpe",
-    "Oshimili North",
-    "Oshimili South",
-    "Patani",
-    "Sapele",
-    "Udu",
-    "Ughelli North",
-    "Ughelli South",
-    "Ukwuani",
-    "Uvwie",
-    "Warri North",
-    "Warri South",
-    "Warri South West"
-   ]
+    {
+     "name": "Aniocha North",
+     "population2006": 104062,
+     "constituency": null
+    },
+    {
+     "name": "Aniocha South",
+     "population2006": 142045,
+     "constituency": null
+    },
+    {
+     "name": "Bomadi",
+     "population2006": 86016,
+     "constituency": null
+    },
+    {
+     "name": "Burutu",
+     "population2006": 207977,
+     "constituency": null
+    },
+    {
+     "name": "Ethiope East",
+     "population2006": 200942,
+     "constituency": null
+    },
+    {
+     "name": "Ethiope West",
+     "population2006": 202712,
+     "constituency": null
+    },
+    {
+     "name": "Ika North East",
+     "population2006": 182819,
+     "constituency": null
+    },
+    {
+     "name": "Ika South",
+     "population2006": 167060,
+     "constituency": null
+    },
+    {
+     "name": "Isoko North",
+     "population2006": 143559,
+     "constituency": null
+    },
+    {
+     "name": "Isoko South",
+     "population2006": 235147,
+     "constituency": null
+    },
+    {
+     "name": "Ndokwa East",
+     "population2006": 103224,
+     "constituency": null
+    },
+    {
+     "name": "Ndokwa West",
+     "population2006": 150024,
+     "constituency": null
+    },
+    {
+     "name": "Okpe",
+     "population2006": 128398,
+     "constituency": null
+    },
+    {
+     "name": "Oshimili North",
+     "population2006": 118540,
+     "constituency": null
+    },
+    {
+     "name": "Oshimili South",
+     "population2006": 150032,
+     "constituency": null
+    },
+    {
+     "name": "Patani",
+     "population2006": 67391,
+     "constituency": null
+    },
+    {
+     "name": "Sapele",
+     "population2006": 174273,
+     "constituency": null
+    },
+    {
+     "name": "Udu",
+     "population2006": 142480,
+     "constituency": null
+    },
+    {
+     "name": "Ughelli North",
+     "population2006": 320687,
+     "constituency": null
+    },
+    {
+     "name": "Ughelli South",
+     "population2006": 212638,
+     "constituency": null
+    },
+    {
+     "name": "Ukwuani",
+     "population2006": 119034,
+     "constituency": null
+    },
+    {
+     "name": "Uvwie",
+     "population2006": 188728,
+     "constituency": null
+    },
+    {
+     "name": "Warri North",
+     "population2006": 136149,
+     "constituency": null
+    },
+    {
+     "name": "Warri South",
+     "population2006": 311970,
+     "constituency": null
+    },
+    {
+     "name": "Warri South West",
+     "population2006": 116538,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024-07-13"
   },
   {
    "state": "Edo",
    "zone": "South South",
+   "councilStatus": "contested",
    "lgas": [
-    "Akoko Edo",
-    "Egor",
-    "Esan Central",
-    "Esan North East",
-    "Esan South East",
-    "Esan West",
-    "Etsako Central",
-    "Etsako East",
-    "Etsako West",
-    "Igueben",
-    "Ikpoba Okha",
-    "Oredo",
-    "Orhionmwon",
-    "Ovia North East",
-    "Ovia South West",
-    "Owan East",
-    "Owan West",
-    "Uhunmwonde"
+    {
+     "name": "Akoko Edo",
+     "population2006": 261567,
+     "constituency": null
+    },
+    {
+     "name": "Egor",
+     "population2006": 340287,
+     "constituency": null
+    },
+    {
+     "name": "Esan Central",
+     "population2006": 105242,
+     "constituency": null
+    },
+    {
+     "name": "Esan North East",
+     "population2006": 121989,
+     "constituency": null
+    },
+    {
+     "name": "Esan South East",
+     "population2006": 166309,
+     "constituency": null
+    },
+    {
+     "name": "Esan West",
+     "population2006": 127718,
+     "constituency": null
+    },
+    {
+     "name": "Etsako Central",
+     "population2006": 94228,
+     "constituency": null
+    },
+    {
+     "name": "Etsako East",
+     "population2006": 147335,
+     "constituency": null
+    },
+    {
+     "name": "Etsako West",
+     "population2006": 198975,
+     "constituency": null
+    },
+    {
+     "name": "Igueben",
+     "population2006": 70276,
+     "constituency": null
+    },
+    {
+     "name": "Ikpoba Okha",
+     "population2006": 372080,
+     "constituency": null
+    },
+    {
+     "name": "Oredo",
+     "population2006": 374515,
+     "constituency": "Oredo"
+    },
+    {
+     "name": "Orhionmwon",
+     "population2006": 183994,
+     "constituency": null
+    },
+    {
+     "name": "Ovia North East",
+     "population2006": 155344,
+     "constituency": null
+    },
+    {
+     "name": "Ovia South West",
+     "population2006": 138072,
+     "constituency": null
+    },
+    {
+     "name": "Owan East",
+     "population2006": 154630,
+     "constituency": null
+    },
+    {
+     "name": "Owan West",
+     "population2006": 99056,
+     "constituency": null
+    },
+    {
+     "name": "Uhunmwonde",
+     "population2006": 121749,
+     "constituency": null
+    }
    ]
   },
   {
    "state": "Rivers",
    "zone": "South South",
+   "councilStatus": "elected",
    "lgas": [
-    "Abua-Odual",
-    "Ahoada East",
-    "Ahoada West",
-    "Akuku-Toru",
-    "Andoni",
-    "Asari-Toru",
-    "Bonny",
-    "Degema",
-    "Eleme",
-    "Emohua",
-    "Etche",
-    "Gokana",
-    "Ikwerre",
-    "Khana",
-    "Obio/Akpor",
-    "Ogba/Egbema/Ndoni",
-    "Ogu/Bolo",
-    "Okrika",
-    "Omuma",
-    "Opobo/Nkoro",
-    "Oyigbo",
-    "Port Harcourt",
-    "Tai"
-   ]
+    {
+     "name": "Abua-Odual",
+     "population2006": 282410,
+     "constituency": "Abua/Odual/Ahoada East"
+    },
+    {
+     "name": "Ahoada East",
+     "population2006": 166324,
+     "constituency": "Abua/Odual/Ahoada East"
+    },
+    {
+     "name": "Ahoada West",
+     "population2006": 249232,
+     "constituency": "Ahoada-West/Ogba-Egbema-Ndoni"
+    },
+    {
+     "name": "Akuku-Toru",
+     "population2006": 161103,
+     "constituency": "Akuku-Toru/Asari-Toru"
+    },
+    {
+     "name": "Andoni",
+     "population2006": 217924,
+     "constituency": "Andoni/Opobo/Nkoro"
+    },
+    {
+     "name": "Asari-Toru",
+     "population2006": 219787,
+     "constituency": "Akuku-Toru/Asari-Toru"
+    },
+    {
+     "name": "Bonny",
+     "population2006": 214983,
+     "constituency": "Degema/Bonny"
+    },
+    {
+     "name": "Degema",
+     "population2006": 249467,
+     "constituency": "Degema/Bonny"
+    },
+    {
+     "name": "Eleme",
+     "population2006": 190194,
+     "constituency": "Tai/Eleme/Oyigbo"
+    },
+    {
+     "name": "Emohua",
+     "population2006": 201057,
+     "constituency": "Ikwerre/Emohua"
+    },
+    {
+     "name": "Etche",
+     "population2006": 249939,
+     "constituency": "Etche/Omuma"
+    },
+    {
+     "name": "Gokana",
+     "population2006": 233813,
+     "constituency": "Khana/Gokana"
+    },
+    {
+     "name": "Ikwerre",
+     "population2006": 188930,
+     "constituency": "Ikwerre/Emohua"
+    },
+    {
+     "name": "Khana",
+     "population2006": 292924,
+     "constituency": "Khana/Gokana"
+    },
+    {
+     "name": "Obio/Akpor",
+     "population2006": 462350,
+     "constituency": "Obio/Akpor"
+    },
+    {
+     "name": "Ogba/Egbema/Ndoni",
+     "population2006": 283294,
+     "constituency": "Ahoada-West/Ogba-Egbema-Ndoni"
+    },
+    {
+     "name": "Ogu/Bolo",
+     "population2006": 75282,
+     "constituency": "Okrika/Ogu-Bolo"
+    },
+    {
+     "name": "Okrika",
+     "population2006": 222285,
+     "constituency": "Okrika/Ogu-Bolo"
+    },
+    {
+     "name": "Omuma",
+     "population2006": 100388,
+     "constituency": "Etche/Omuma"
+    },
+    {
+     "name": "Opobo/Nkoro",
+     "population2006": 152833,
+     "constituency": "Andoni/Opobo/Nkoro"
+    },
+    {
+     "name": "Oyigbo",
+     "population2006": 125331,
+     "constituency": "Tai/Eleme/Oyigbo"
+    },
+    {
+     "name": "Port Harcourt",
+     "population2006": 538558,
+     "constituency": "Port Harcourt I"
+    },
+    {
+     "name": "Tai",
+     "population2006": 120308,
+     "constituency": "Tai/Eleme/Oyigbo"
+    }
+   ],
+   "electionDate": "2025-08-30"
   },
   {
    "state": "Ekiti",
    "zone": "South West",
+   "councilStatus": "unknown",
    "lgas": [
-    "Ado-Ekiti",
-    "Efon",
-    "Ekiti East",
-    "Ekiti South West",
-    "Ekiti West",
-    "Emure",
-    "Gbonyin",
-    "Ido-Osi",
-    "Ijero",
-    "Ikere",
-    "Ikole",
-    "Ilejemeje",
-    "Irepodun/Ifelodun",
-    "Ise/Orun",
-    "Moba",
-    "Oye"
+    {
+     "name": "Ado-Ekiti",
+     "population2006": 313690,
+     "constituency": "Ado Ekiti/Irepodun-Ifelodun"
+    },
+    {
+     "name": "Efon",
+     "population2006": 87187,
+     "constituency": "Ijero/Ekiti West/Efon"
+    },
+    {
+     "name": "Ekiti East",
+     "population2006": 138340,
+     "constituency": "Emure/Gbonyin/Ekiti East"
+    },
+    {
+     "name": "Ekiti South West",
+     "population2006": 165087,
+     "constituency": "Ekiti South West/Ikere/Ise/Orun"
+    },
+    {
+     "name": "Ekiti West",
+     "population2006": 179600,
+     "constituency": "Ijero/Ekiti West/Efon"
+    },
+    {
+     "name": "Emure",
+     "population2006": 94264,
+     "constituency": "Emure/Gbonyin/Ekiti East"
+    },
+    {
+     "name": "Gbonyin",
+     "population2006": 147999,
+     "constituency": "Emure/Gbonyin/Ekiti East"
+    },
+    {
+     "name": "Ido-Osi",
+     "population2006": 160001,
+     "constituency": "Ido/Osi/Moba/Ilejeme "
+    },
+    {
+     "name": "Ijero",
+     "population2006": 221873,
+     "constituency": "Ijero/Ekiti West/Efon"
+    },
+    {
+     "name": "Ikere",
+     "population2006": 148558,
+     "constituency": "Ekiti South West/Ikere/Ise/Orun"
+    },
+    {
+     "name": "Ikole",
+     "population2006": 170414,
+     "constituency": "Ikole/Oye"
+    },
+    {
+     "name": "Ilejemeje",
+     "population2006": 43459,
+     "constituency": null
+    },
+    {
+     "name": "Irepodun/Ifelodun",
+     "population2006": 131330,
+     "constituency": "Ado Ekiti/Irepodun-Ifelodun"
+    },
+    {
+     "name": "Ise/Orun",
+     "population2006": 113951,
+     "constituency": "Ekiti South West/Ikere/Ise/Orun"
+    },
+    {
+     "name": "Moba",
+     "population2006": 145408,
+     "constituency": "Ido/Osi/Moba/Ilejeme "
+    },
+    {
+     "name": "Oye",
+     "population2006": 137796,
+     "constituency": "Ikole/Oye"
+    }
    ]
   },
   {
    "state": "Lagos",
    "zone": "South West",
+   "councilStatus": "elected",
    "lgas": [
-    "Agege",
-    "Ajeromi-Ifelodun",
-    "Alimosho",
-    "Amuwo-Odofin",
-    "Apapa",
-    "Badagry",
-    "Epe",
-    "Eti-Osa",
-    "Ibeju-Lekki",
-    "Ifako-Ijaiye",
-    "Ikeja",
-    "Ikorodu",
-    "Kosofe",
-    "Lagos Island",
-    "Lagos Mainland",
-    "Mushin",
-    "Ojo",
-    "Oshodi-Isolo",
-    "Somolu",
-    "Surulere"
-   ]
+    {
+     "name": "Agege",
+     "population2006": 461743,
+     "constituency": "Agege"
+    },
+    {
+     "name": "Ajeromi-Ifelodun",
+     "population2006": 687316,
+     "constituency": "Ajeromi-Ifelodun"
+    },
+    {
+     "name": "Alimosho",
+     "population2006": 1319571,
+     "constituency": "Alimosho"
+    },
+    {
+     "name": "Amuwo-Odofin",
+     "population2006": 328975,
+     "constituency": "Amuwo Odofin"
+    },
+    {
+     "name": "Apapa",
+     "population2006": 222986,
+     "constituency": "Apapa"
+    },
+    {
+     "name": "Badagry",
+     "population2006": 237731,
+     "constituency": "Badagry"
+    },
+    {
+     "name": "Epe",
+     "population2006": 181734,
+     "constituency": "Epe"
+    },
+    {
+     "name": "Eti-Osa",
+     "population2006": 283791,
+     "constituency": "Eti-Osa"
+    },
+    {
+     "name": "Ibeju-Lekki",
+     "population2006": 117793,
+     "constituency": "Ibeju-Lekki"
+    },
+    {
+     "name": "Ifako-Ijaiye",
+     "population2006": 427737,
+     "constituency": "Ifako-Ijaiye"
+    },
+    {
+     "name": "Ikeja",
+     "population2006": 317614,
+     "constituency": "Ikeja"
+    },
+    {
+     "name": "Ikorodu",
+     "population2006": 527917,
+     "constituency": "Ikorodu"
+    },
+    {
+     "name": "Kosofe",
+     "population2006": 682772,
+     "constituency": "Kosofe"
+    },
+    {
+     "name": "Lagos Island",
+     "population2006": 212700,
+     "constituency": "Lagos Island I"
+    },
+    {
+     "name": "Lagos Mainland",
+     "population2006": 326700,
+     "constituency": "Lagos Mainland"
+    },
+    {
+     "name": "Mushin",
+     "population2006": 631857,
+     "constituency": "Mushin I"
+    },
+    {
+     "name": "Ojo",
+     "population2006": 609173,
+     "constituency": "Ojo"
+    },
+    {
+     "name": "Oshodi-Isolo",
+     "population2006": 629061,
+     "constituency": "Oshodi-Isolo II"
+    },
+    {
+     "name": "Somolu",
+     "population2006": 403569,
+     "constituency": "Somolu"
+    },
+    {
+     "name": "Surulere",
+     "population2006": 502865,
+     "constituency": "Surulere I"
+    }
+   ],
+   "electionDate": "2025-07-12"
   },
   {
    "state": "Ogun",
    "zone": "South West",
+   "councilStatus": "elected",
    "lgas": [
-    "Abeokuta North",
-    "Abeokuta South",
-    "Ado-Odo/Ota",
-    "Ewekoro",
-    "Ifo",
-    "Ijebu East",
-    "Ijebu North",
-    "Ijebu North East",
-    "Ijebu Ode",
-    "Ikenne",
-    "Imeko Afon",
-    "Ipokia",
-    "Obafemi Owode",
-    "Odeda",
-    "Odogbolu",
-    "Ogun Waterside",
-    "Remo North",
-    "Shagamu",
-    "Yewa North",
-    "Yewa South"
-   ]
+    {
+     "name": "Abeokuta North",
+     "population2006": 198793,
+     "constituency": "Abeokuta North/Obafemi-Owode/Odeda"
+    },
+    {
+     "name": "Abeokuta South",
+     "population2006": 250295,
+     "constituency": "Abeokuta South"
+    },
+    {
+     "name": "Ado-Odo/Ota",
+     "population2006": 527242,
+     "constituency": "Ado-Odo/Ota"
+    },
+    {
+     "name": "Ewekoro",
+     "population2006": 55093,
+     "constituency": "Ifo/Ewekoro"
+    },
+    {
+     "name": "Ifo",
+     "population2006": 539170,
+     "constituency": "Ifo/Ewekoro"
+    },
+    {
+     "name": "Ijebu East",
+     "population2006": 109321,
+     "constituency": "Ijebu North/Ijebu East/Ogun Waterside"
+    },
+    {
+     "name": "Ijebu North",
+     "population2006": 280520,
+     "constituency": "Ijebu North/Ijebu East/Ogun Waterside"
+    },
+    {
+     "name": "Ijebu North East",
+     "population2006": 68800,
+     "constituency": "Ijebu Ode/Odogbolu/Ijebu North East"
+    },
+    {
+     "name": "Ijebu Ode",
+     "population2006": 157161,
+     "constituency": "Ijebu Ode/Odogbolu/Ijebu North East"
+    },
+    {
+     "name": "Ikenne",
+     "population2006": 119117,
+     "constituency": "Ikenne/Shagamu/Remo North"
+    },
+    {
+     "name": "Imeko Afon",
+     "population2006": 82952,
+     "constituency": "Imeko Afon/Egbado North"
+    },
+    {
+     "name": "Ipokia",
+     "population2006": 150387,
+     "constituency": "Egbado South/Ipokia"
+    },
+    {
+     "name": "Obafemi Owode",
+     "population2006": 235071,
+     "constituency": "Abeokuta North/Obafemi-Owode/Odeda"
+    },
+    {
+     "name": "Odeda",
+     "population2006": 109522,
+     "constituency": "Abeokuta North/Obafemi-Owode/Odeda"
+    },
+    {
+     "name": "Odogbolu",
+     "population2006": 125657,
+     "constituency": "Ijebu Ode/Odogbolu/Ijebu North East"
+    },
+    {
+     "name": "Ogun Waterside",
+     "population2006": 74222,
+     "constituency": "Ijebu North/Ijebu East/Ogun Waterside"
+    },
+    {
+     "name": "Remo North",
+     "population2006": 59752,
+     "constituency": "Ikenne/Shagamu/Remo North"
+    },
+    {
+     "name": "Shagamu",
+     "population2006": 255885,
+     "constituency": "Ikenne/Shagamu/Remo North"
+    },
+    {
+     "name": "Yewa North",
+     "population2006": 183844,
+     "constituency": null
+    },
+    {
+     "name": "Yewa South",
+     "population2006": 168336,
+     "constituency": null
+    }
+   ],
+   "electionDate": "2024-11"
   },
   {
    "state": "Ondo",
    "zone": "South West",
+   "councilStatus": "elected",
    "lgas": [
-    "Akoko North East",
-    "Akoko North West",
-    "Akoko South East",
-    "Akoko South West",
-    "Akure North",
-    "Akure South",
-    "Ese Odo",
-    "Idanre",
-    "Ifedore",
-    "Ilaje",
-    "Ile Oluji/Okeigbo",
-    "Irele",
-    "Odigbo",
-    "Okitipupa",
-    "Ondo East",
-    "Ondo West",
-    "Ose",
-    "Owo"
-   ]
+    {
+     "name": "Akoko North East",
+     "population2006": 179092,
+     "constituency": "Akoko North East/Akoko North West"
+    },
+    {
+     "name": "Akoko North West",
+     "population2006": 211867,
+     "constituency": "Akoko North East/Akoko North West"
+    },
+    {
+     "name": "Akoko South East",
+     "population2006": 82443,
+     "constituency": "Akoko South East/Akoko South West"
+    },
+    {
+     "name": "Akoko South West",
+     "population2006": 228383,
+     "constituency": "Akoko South East/Akoko South West"
+    },
+    {
+     "name": "Akure North",
+     "population2006": 130765,
+     "constituency": "Akure North/Akure South"
+    },
+    {
+     "name": "Akure South",
+     "population2006": 360268,
+     "constituency": "Akure North/Akure South"
+    },
+    {
+     "name": "Ese Odo",
+     "population2006": 158256,
+     "constituency": "Eseodo/Ilaje"
+    },
+    {
+     "name": "Idanre",
+     "population2006": 129795,
+     "constituency": "Idanre/Ifedore"
+    },
+    {
+     "name": "Ifedore",
+     "population2006": 176372,
+     "constituency": "Idanre/Ifedore"
+    },
+    {
+     "name": "Ilaje",
+     "population2006": 289838,
+     "constituency": "Eseodo/Ilaje"
+    },
+    {
+     "name": "Ile Oluji/Okeigbo",
+     "population2006": 171876,
+     "constituency": "Ileoluji-Okeigbo/Odigbo"
+    },
+    {
+     "name": "Irele",
+     "population2006": 144136,
+     "constituency": "Okitipupa/Irele"
+    },
+    {
+     "name": "Odigbo",
+     "population2006": 232287,
+     "constituency": "Ileoluji-Okeigbo/Odigbo"
+    },
+    {
+     "name": "Okitipupa",
+     "population2006": 234138,
+     "constituency": "Okitipupa/Irele"
+    },
+    {
+     "name": "Ondo East",
+     "population2006": 76092,
+     "constituency": "Ondo East/Ondo West"
+    },
+    {
+     "name": "Ondo West",
+     "population2006": 288868,
+     "constituency": "Ondo East/Ondo West"
+    },
+    {
+     "name": "Ose",
+     "population2006": 144139,
+     "constituency": "Owo/Ose"
+    },
+    {
+     "name": "Owo",
+     "population2006": 222262,
+     "constituency": "Owo/Ose"
+    }
+   ],
+   "electionDate": "2025-01-18"
   },
   {
    "state": "Osun",
    "zone": "South West",
+   "councilStatus": "elected",
    "lgas": [
-    "Aiyedire",
-    "Atakunmosa East",
-    "Atakunmosa West",
-    "Ayedaade",
-    "Boluwaduro",
-    "Boripe",
-    "Ede North",
-    "Ede South",
-    "Egbedore",
-    "Ejigbo",
-    "Ife Central",
-    "Ife East",
-    "Ife North",
-    "Ife South",
-    "Ifedayo",
-    "Ifelodun",
-    "Ila",
-    "Ilesa East",
-    "Ilesa West",
-    "Irepodun",
-    "Irewole",
-    "Isokan",
-    "Iwo",
-    "Obokun",
-    "Odo-Otin",
-    "Ola-Oluwa",
-    "Olorunda",
-    "Oriade",
-    "Orolu",
-    "Osogbo"
-   ]
+    {
+     "name": "Aiyedire",
+     "population2006": 76309,
+     "constituency": null
+    },
+    {
+     "name": "Atakunmosa East",
+     "population2006": 76105,
+     "constituency": "Atakunmosa East/Atakunmosa West/Ilesha East/Ilesha West"
+    },
+    {
+     "name": "Atakunmosa West",
+     "population2006": 68350,
+     "constituency": "Atakunmosa East/Atakunmosa West/Ilesha East/Ilesha West"
+    },
+    {
+     "name": "Ayedaade",
+     "population2006": 149569,
+     "constituency": "Ayedaade/Irewole/Isokan"
+    },
+    {
+     "name": "Boluwaduro",
+     "population2006": 70954,
+     "constituency": "Boluwaduro/Ifedayo/Illa"
+    },
+    {
+     "name": "Boripe",
+     "population2006": 138742,
+     "constituency": "Odo-Otin/Ifelodun/Boripe"
+    },
+    {
+     "name": "Ede North",
+     "population2006": 83818,
+     "constituency": "Ede North/Ede South/Egbedore/Ejigbo"
+    },
+    {
+     "name": "Ede South",
+     "population2006": 75489,
+     "constituency": "Ede North/Ede South/Egbedore/Ejigbo"
+    },
+    {
+     "name": "Egbedore",
+     "population2006": 73969,
+     "constituency": "Ede North/Ede South/Egbedore/Ejigbo"
+    },
+    {
+     "name": "Ejigbo",
+     "population2006": 132515,
+     "constituency": "Ede North/Ede South/Egbedore/Ejigbo"
+    },
+    {
+     "name": "Ife Central",
+     "population2006": 167204,
+     "constituency": "Ife Central/Ife East/Ife North/Ife South"
+    },
+    {
+     "name": "Ife East",
+     "population2006": 188614,
+     "constituency": "Ife Central/Ife East/Ife North/Ife South"
+    },
+    {
+     "name": "Ife North",
+     "population2006": 153274,
+     "constituency": "Ife Central/Ife East/Ife North/Ife South"
+    },
+    {
+     "name": "Ife South",
+     "population2006": 134490,
+     "constituency": "Ife Central/Ife East/Ife North/Ife South"
+    },
+    {
+     "name": "Ifedayo",
+     "population2006": 37508,
+     "constituency": "Boluwaduro/Ifedayo/Illa"
+    },
+    {
+     "name": "Ifelodun",
+     "population2006": 96444,
+     "constituency": "Odo-Otin/Ifelodun/Boripe"
+    },
+    {
+     "name": "Ila",
+     "population2006": 62054,
+     "constituency": null
+    },
+    {
+     "name": "Ilesa East",
+     "population2006": 105416,
+     "constituency": null
+    },
+    {
+     "name": "Ilesa West",
+     "population2006": 106809,
+     "constituency": null
+    },
+    {
+     "name": "Irepodun",
+     "population2006": 119590,
+     "constituency": "Irepodun/Olorunda/Osogbo/Orolu"
+    },
+    {
+     "name": "Irewole",
+     "population2006": 142806,
+     "constituency": "Ayedaade/Irewole/Isokan"
+    },
+    {
+     "name": "Isokan",
+     "population2006": 102060,
+     "constituency": "Ayedaade/Irewole/Isokan"
+    },
+    {
+     "name": "Iwo",
+     "population2006": 191348,
+     "constituency": "Ayedire/Iwo/Ola-Oluwa"
+    },
+    {
+     "name": "Obokun",
+     "population2006": 116850,
+     "constituency": "Obokun/Oriade"
+    },
+    {
+     "name": "Odo-Otin",
+     "population2006": 132078,
+     "constituency": "Odo-Otin/Ifelodun/Boripe"
+    },
+    {
+     "name": "Ola-Oluwa",
+     "population2006": 76227,
+     "constituency": "Ayedire/Iwo/Ola-Oluwa"
+    },
+    {
+     "name": "Olorunda",
+     "population2006": 131649,
+     "constituency": "Irepodun/Olorunda/Osogbo/Orolu"
+    },
+    {
+     "name": "Oriade",
+     "population2006": 148379,
+     "constituency": "Obokun/Oriade"
+    },
+    {
+     "name": "Orolu",
+     "population2006": 102832,
+     "constituency": "Irepodun/Olorunda/Osogbo/Orolu"
+    },
+    {
+     "name": "Osogbo",
+     "population2006": 155507,
+     "constituency": "Irepodun/Olorunda/Osogbo/Orolu"
+    }
+   ],
+   "electionDate": "2025-02-22"
   },
   {
    "state": "Oyo",
    "zone": "South West",
+   "councilStatus": "elected",
    "lgas": [
-    "Afijio",
-    "Akinyele",
-    "Atiba",
-    "Atisbo",
-    "Egbeda",
-    "Ibadan North",
-    "Ibadan North East",
-    "Ibadan North West",
-    "Ibadan South East",
-    "Ibadan South West",
-    "Ibarapa Central",
-    "Ibarapa East",
-    "Ibarapa North",
-    "Ido",
-    "Irepo",
-    "Iseyin",
-    "Itesiwaju",
-    "Iwajowa",
-    "Kajola",
-    "Lagelu",
-    "Ogbomosho North",
-    "Ogbomosho South",
-    "Ogo Oluwa",
-    "Olorunsogo",
-    "Oluyole",
-    "Ona Ara",
-    "Oorelope",
-    "Ori Ire",
-    "Oyo East",
-    "Oyo West",
-    "Saki East",
-    "Saki West",
-    "Surulere"
-   ]
+    {
+     "name": "Afijio",
+     "population2006": 132184,
+     "constituency": "Afijio/Atiba/Oyo East/Oyo West"
+    },
+    {
+     "name": "Akinyele",
+     "population2006": 211811,
+     "constituency": "Lagelu/Akinyele"
+    },
+    {
+     "name": "Atiba",
+     "population2006": 168246,
+     "constituency": "Afijio/Atiba/Oyo East/Oyo West"
+    },
+    {
+     "name": "Atisbo",
+     "population2006": 109965,
+     "constituency": null
+    },
+    {
+     "name": "Egbeda",
+     "population2006": 283643,
+     "constituency": "Ona-Ara/Egbeda"
+    },
+    {
+     "name": "Ibadan North",
+     "population2006": 308119,
+     "constituency": "Ibadan North"
+    },
+    {
+     "name": "Ibadan North East",
+     "population2006": 331444,
+     "constituency": "Ibadan North-East/Ibadan South-East"
+    },
+    {
+     "name": "Ibadan North West",
+     "population2006": 154029,
+     "constituency": "Ibadan North West/Ibadan South West"
+    },
+    {
+     "name": "Ibadan South East",
+     "population2006": 266457,
+     "constituency": "Ibadan North-East/Ibadan South-East"
+    },
+    {
+     "name": "Ibadan South West",
+     "population2006": 283098,
+     "constituency": "Ibadan North West/Ibadan South West"
+    },
+    {
+     "name": "Ibarapa Central",
+     "population2006": 103243,
+     "constituency": "Ibarapa Central/Ibarapa North"
+    },
+    {
+     "name": "Ibarapa East",
+     "population2006": 117182,
+     "constituency": "Ibarapa East/Ido"
+    },
+    {
+     "name": "Ibarapa North",
+     "population2006": 100293,
+     "constituency": "Ibarapa Central/Ibarapa North"
+    },
+    {
+     "name": "Ido",
+     "population2006": 104087,
+     "constituency": "Ibarapa East/Ido"
+    },
+    {
+     "name": "Irepo",
+     "population2006": 121240,
+     "constituency": "Irepo/Olorunsogo/Orelope"
+    },
+    {
+     "name": "Iseyin",
+     "population2006": 255619,
+     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju"
+    },
+    {
+     "name": "Itesiwaju",
+     "population2006": 127391,
+     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju"
+    },
+    {
+     "name": "Iwajowa",
+     "population2006": 102847,
+     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju"
+    },
+    {
+     "name": "Kajola",
+     "population2006": 200528,
+     "constituency": "Iseyin/Kajola/Iwajowa/Itesiwaju"
+    },
+    {
+     "name": "Lagelu",
+     "population2006": 148133,
+     "constituency": "Lagelu/Akinyele"
+    },
+    {
+     "name": "Ogbomosho North",
+     "population2006": 198859,
+     "constituency": "Ogbomosho North/Ogbomosho South/Orire"
+    },
+    {
+     "name": "Ogbomosho South",
+     "population2006": 100379,
+     "constituency": "Ogbomosho North/Ogbomosho South/Orire"
+    },
+    {
+     "name": "Ogo Oluwa",
+     "population2006": 65198,
+     "constituency": "Ogo-Oluwa/Surulere/Oluyole"
+    },
+    {
+     "name": "Olorunsogo",
+     "population2006": 81339,
+     "constituency": "Irepo/Olorunsogo/Orelope"
+    },
+    {
+     "name": "Oluyole",
+     "population2006": 203461,
+     "constituency": "Oluyole"
+    },
+    {
+     "name": "Ona Ara",
+     "population2006": 265571,
+     "constituency": "Ona-Ara/Egbeda"
+    },
+    {
+     "name": "Oorelope",
+     "population2006": 104004,
+     "constituency": null
+    },
+    {
+     "name": "Ori Ire",
+     "population2006": 149408,
+     "constituency": null
+    },
+    {
+     "name": "Oyo East",
+     "population2006": 124095,
+     "constituency": "Afijio/Atiba/Oyo East/Oyo West"
+    },
+    {
+     "name": "Oyo West",
+     "population2006": 136457,
+     "constituency": "Afijio/Atiba/Oyo East/Oyo West"
+    },
+    {
+     "name": "Saki East",
+     "population2006": 108957,
+     "constituency": "Atigbo/Saki East/Saki West"
+    },
+    {
+     "name": "Saki West",
+     "population2006": 273268,
+     "constituency": "Atigbo/Saki East/Saki West"
+    },
+    {
+     "name": "Surulere",
+     "population2006": 140339,
+     "constituency": "Ogo-Oluwa/Surulere/Oluyole"
+    }
+   ],
+   "electionDate": "2024"
   }
  ]
 }
