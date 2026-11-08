@@ -106,11 +106,11 @@ export async function render({ route, id } = {}) {
     return { html, initialData, meta, notFound: false, canonical: routePath('localGovernments'), robots: loc !== 'en' ? 'noindex, follow' : null }
   }
 
-  // ── "/services" — "Ask": document Q&A about government services ────────────────────────────
-  if (name === 'services') {
+  // ── "/ask" — document Q&A across the RAG corpus ────────────────────────────────────────────
+  if (name === 'ask') {
     const initialData = { ...baseState(), services: true }
     const html = await mount(initialData)
-    const meta = { title: 'Ask about government services | NGScorecard', description: 'Ask a question about a Nigerian government service and get an answer drawn from the Government Service Portal (services.gov.ng), with the sources shown.' }
+    const meta = { title: 'Ask | NGScorecard', description: 'Ask a question about Nigerian government services and health research ethics. Answers are drawn from the Government Service Portal and NHREC, with sources shown.' }
     return { html, initialData, meta, notFound: false, canonical: routePath(name, params) }
   }
 

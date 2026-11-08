@@ -76,7 +76,7 @@ const isThemes = ref(!!initial?.themes && initial?.themes.mode !== 'missing')
 // "/guide", "/press", "/developers" — unified content pages (see
 // GuideView.vue's header comment). `pageView` holds which one, or null.
 const pageView = ref(initial?.page ?? null)
-// "/services" — government services guide
+// "/ask" — Q&A over the RAG corpus
 const isServices = ref(initial?.services === true)
 // "/<admin>/report" — the term report card (ReportView.vue). Unlike the pages
 // above it belongs to one administration, so activeAdmin stays set.
@@ -94,7 +94,7 @@ const HEADER_NAV = [
   { key: 'guide', path: '/guide', label: 'header.guide' },
   { key: 'developers', path: '/developers', label: 'header.developers' },
   { key: 'press', path: '/press', label: 'header.press' },
-  { key: 'ask', path: '/services', label: 'header.ask' },
+  { key: 'ask', path: '/ask', label: 'header.ask' },
   { key: 'support', path: '/support', label: 'header.support' },
 ]
 const activeNavKey = computed(() => (isThemes.value ? 'themes' : isServices.value ? 'ask' : pageView.value))
@@ -411,7 +411,7 @@ onMounted(async () => {
     } else if (route.name === 'guide' || route.name === 'press' || route.name === 'developers' || route.name === 'support' || route.name === 'trackersCompared' || route.name === 'localGovernments') {
       pageView.value = route.name
       activeAdmin.value = null
-    } else if (route.name === 'services') {
+    } else if (route.name === 'ask') {
       isServices.value = true
       activeAdmin.value = null
     } else if (route.name === 'publications' || route.name === 'publication') {
@@ -1210,7 +1210,7 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
     <TrackersComparedView v-else-if="pageView === 'trackersCompared'" />
     <LocalGovernmentsView v-else-if="pageView === 'localGovernments'" :admins="ADMINISTRATIONS" />
 
-    <!-- ── Government services ("/services") ── -->
+    <!-- ── Ask / Q&A ("/ask") ── -->
     <ServicesView v-else-if="isServices" />
 
     <!-- ── Term report card ("/<admin>/report") ── -->

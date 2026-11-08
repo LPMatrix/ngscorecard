@@ -37,7 +37,7 @@ const ROUTES = [
   { name: 'developers',  test: (s) => (s === '/developers' || s === '/developers/' ? {} : null) },
   { name: 'support',     test: (s) => (s === '/support' || s === '/support/' ? {} : null) },
   { name: 'localGovernments', test: (s) => (s === '/local-governments' || s === '/local-governments/' ? {} : null) },
-  { name: 'services',    test: (s) => (s === '/services' || s === '/services/' ? {} : null) },
+  { name: 'ask',         test: (s) => (s === '/ask' || s === '/ask/' ? {} : null) },
   { name: 'trackersCompared', test: (s) => (s === '/nigeria-promise-trackers-compared' || s === '/nigeria-promise-trackers-compared/' ? {} : null) },
   { name: 'themesIndex', test: (s) => (s === '/themes' || s === '/themes/' ? {} : null) },
   { name: 'themeLineage', test: (s) => {
@@ -110,7 +110,7 @@ export function routePath(name, params = {}) {
     case 'developers':   return '/developers'
     case 'support':      return '/support'
     case 'localGovernments': return '/local-governments'
-    case 'services':     return '/services'
+    case 'ask':          return '/ask'
     case 'trackersCompared': return '/nigeria-promise-trackers-compared'
     case 'themesIndex':  return '/themes'
     case 'themeLineage': return `/themes/${params.slug}`
