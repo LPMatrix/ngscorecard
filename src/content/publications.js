@@ -255,6 +255,64 @@ export const PUBLICATIONS = [
       'Corrections are welcome: use "Report an issue" on any scorecard, or write to the address on the press page.',
     ],
   },
+  {
+    slug: 'the-same-cheque-a-different-ledger',
+    title: 'The same cheque, a different ledger',
+    subtitle: 'Nigeria and Brazil both pay the poor directly. The difference is not the cheque. It is the register underneath it, and whether the money can be traced.',
+    date: '2026-11-09',
+    author: 'NGScorecard',
+    summary:
+      'Nigeria and Brazil both run cash-transfer programmes that send money to poor households. Brazil keeps one standing register of who qualifies and can trace the payments; its transfers have measurably cut poverty. Nigeria has rebuilt its register twice, suspended the whole programme over a fraud memo in 2024, and in 2026 its own auditor-general reported that ₦33.75 billion sent to 3.3 million households in 2023 could not be shown to have reached genuine beneficiaries. The instrument is the same. The ledger underneath it is not.',
+    sections: [
+      {
+        paragraphs: [
+          'A cash transfer is a simple idea: the state sends money straight to a poor household, rather than through a subsidy or a project. Nigeria and Brazil both do it. The programmes look alike on paper, and they are built on the same instrument. What separates them is the part no one photographs: the register of who is owed the money, and whether the payments can be traced afterwards.',
+          'We picked Brazil as the comparison because both countries are large, federal and highly unequal, both run flagship cash-transfer schemes, and Brazil\'s is the most studied such programme in the world. It is a benchmark, not a cherry-picked success.',
+        ],
+      },
+      {
+        heading: 'What Nigeria promised, and paid',
+        paragraphs: [
+          'The National Social Investment Programme was launched under President Buhari as the federal government\'s main scheme for the poorest Nigerians (recorded on his scorecard as a partly kept promise). President Tinubu promised to expand it, and to pay 15 million poor households ₦75,000 each, in three tranches of ₦25,000, funded by an $800 million World Bank loan, from November 2023.',
+          'By 2026 the government reported that about 9 million of the 15 million targeted households had received at least a first tranche. The World Bank at one point put delivery at 37 per cent of the target. The programme is a real one, moving real money. It is the plumbing beneath it that has repeatedly failed.',
+        ],
+      },
+      {
+        heading: 'A suspension, and an audit',
+        paragraphs: [
+          'On 12 January 2024 the President suspended the entire programme, including the cash transfer, the N-Power scheme, the enterprise programme and school feeding. The trigger was a memo in which the minister for humanitarian affairs, Betta Edu, directed that ₦585 million be paid into a private account. She denied wrongdoing. A presidential panel reviewed the programme, which later resumed, and disbursements continued through 2024 and 2025.',
+          'Then, in 2026, the Office of the Auditor-General for the Federation reported on the 2023 payments. In its report for the year ended December 2024, transmitted to the National Assembly in July 2026, it found that ₦33.75 billion sent to 3,295,207 households across 35 states, through the National Cash Transfer Office, could not be shown to have reached genuine beneficiaries. The report said that "none of the paid vouchers were pre-audited or checked by the Internal Audit as required," and that the office did not answer any of the eight audit queries raised.',
+          'The auditors did not conclude that the money was stolen. They concluded that the documentation did not prove it had reached the people it was meant for. That distinction matters, and it is the whole point. The weakness was not generosity or intent. It was the ledger.',
+        ],
+      },
+      {
+        heading: 'How Brazil pays the same kind of cheque',
+        paragraphs: [
+          'Brazil\'s Bolsa Família pays poor families a monthly transfer. It selects them automatically from the Cadastro Único, a single national register of low-income households that municipalities keep updated, with self-declared income cross-checked against government administrative data. The selection is impersonal: a family that meets the rule is drawn from the register, not chosen by an official. As of 2026 the programme reached about 19 million families, according to figures from Brazil\'s social development ministry.',
+          'The effect is measured, not asserted. The World Bank, assessing the 2023 redesign of the programme, estimated that the larger transfers under the new Bolsa Família would reduce poverty by about 1.9 percentage points in 2023, and called it one of the most pro-poor policies in Brazil (World Bank technical note, August 2023).',
+        ],
+      },
+      {
+        heading: 'The difference is the ledger, not the cheque',
+        paragraphs: [
+          'Both countries write the same cheque. The gap is in the two things underneath it.',
+          'The register. Brazil keeps one standing database and builds the programme on top of it. Nigeria has done the opposite. The National Economic Council declined to use the previous government\'s social register over credibility concerns, and the current government has been rebuilding its own, now tied to the National Identification Number. The foundation that is supposed to stay still has been torn up and relaid.',
+          'The trail. In Brazil the selection is traceable by design. In Nigeria the 2023 payment vouchers were never pre-audited and did not identify who was paid, and the cash-transfer office did not answer the auditors\' queries. A transfer you cannot trace is not an accountable transfer, whatever reaches the household at the other end.',
+        ],
+      },
+      {
+        heading: 'What this says, and what it does not',
+        paragraphs: [
+          'This is not an argument to copy Brazil. The two programmes are not the same age: Bolsa Família is more than twenty years old, Nigeria\'s current scheme barely three. The countries draw their poverty lines differently, so their headline rates are not directly comparable, and Brazil\'s coverage figures here come from its ministry through the press rather than from a database we read ourselves.',
+          'What the comparison shows is narrower and harder to wave away. A cash transfer rises or falls on its register and its payment trail. Brazil invested in both. Nigeria\'s own auditor-general says it could not trace a third of a billion naira to the people it was for. The fix the Nigerian case points to is not a bigger cheque. It is a ledger that holds.',
+        ],
+      },
+    ],
+    notes: [
+      'The Nigerian figures come from our own records (the social-investment promises on the Buhari and Tinubu scorecards, and the Betta Edu fraud entry) and the Office of the Auditor-General for the Federation\'s report for the year ended December 2024, transmitted to the National Assembly in July 2026. The audit found the 2023 payments unverified, not stolen, and we have kept to that wording. Betta Edu has denied wrongdoing, and the EFCC\'s investigation was unconcluded at the time of writing. The Brazilian poverty figure is the World Bank\'s own estimate for the 2023 redesign ("New Bolsa Família: Challenges and Opportunities for 2023", technical note, August 2023); the coverage figure comes from Brazil\'s social development ministry via press reports. Poverty lines and definitions differ between the two countries, so the rates are not directly comparable.',
+      'Corrections are welcome: use "Report an issue" on any scorecard, or write to the address on the press page.',
+    ],
+  },
 ]
 
 export function findPublication(slug) {
