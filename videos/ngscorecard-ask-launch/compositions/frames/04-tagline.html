@@ -1,0 +1,82 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"/></head><body>
+<template>
+<style>
+  #root {
+    position: absolute; inset: 0;
+    container-type: size;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 68% at 50% 48%, #fff9f2 0%, #fffef9 45%, #f2ece0 100%);
+  }
+  .vignette {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 55%, rgba(130,110,70,0.1) 100%);
+  }
+  .scene-center {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #ask-solo {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 10cqw; font-weight: 500; letter-spacing: -0.03em;
+    color: #132a1d; opacity: 0; line-height: 1;
+    transform-origin: center center;
+  }
+  #phrase-col {
+    display: flex; flex-direction: column;
+    align-items: center; text-align: center;
+    gap: 0.8cqh;
+  }
+  .phrase {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 6.0cqw; font-weight: 500; letter-spacing: -0.025em;
+    color: #132a1d; opacity: 0; white-space: nowrap; line-height: 1.1;
+    transform-origin: center center;
+  }
+</style>
+
+<div id="root" data-composition-id="04-tagline" data-width="1920" data-height="1080" data-duration="4">
+  <div class="vignette"></div>
+
+  <!-- Scene 1: solo "Ask." slams in (0–0.8s) -->
+  <div class="scene-center clip" data-start="0" data-duration="0.9" data-track-index="1">
+    <p id="ask-solo">Ask.</p>
+  </div>
+
+  <!-- Scene 2: stacked column builds (0.7–4.0s) -->
+  <div class="scene-center clip" id="col-wrap" data-start="0.65" data-duration="3.35" data-track-index="2">
+    <div id="phrase-col">
+      <p id="ask-col" class="phrase">Ask.</p>
+      <p id="get-answers" class="phrase">Get answers.</p>
+      <p id="see-sources" class="phrase">See the sources.</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var tl = gsap.timeline({ paused: true });
+
+  gsap.set("#ask-solo", { opacity: 0, scale: 0.5, transformOrigin: "center center" });
+  tl.to("#ask-solo", { opacity: 1, scale: 1.08, duration: 0.2, ease: "power4.out" }, 0.0);
+  tl.to("#ask-solo", { scale: 1.0, duration: 0.15, ease: "power2.in" }, 0.2);
+  tl.to("#ask-solo", { opacity: 0, scale: 0.9, duration: 0.12, ease: "power2.in" }, 0.7);
+
+  gsap.set(["#ask-col","#get-answers","#see-sources"], { opacity: 0, scale: 0.55, transformOrigin: "center center" });
+
+  tl.to("#ask-col",     { opacity: 1, scale: 1.08, duration: 0.2, ease: "power4.out" }, 0.65);
+  tl.to("#ask-col",     { scale: 1.0, duration: 0.14, ease: "power2.in" }, 0.85);
+
+  tl.to("#get-answers", { opacity: 1, scale: 1.08, duration: 0.2, ease: "power4.out" }, 0.95);
+  tl.to("#get-answers", { scale: 1.0, duration: 0.14, ease: "power2.in" }, 1.15);
+
+  tl.to("#see-sources", { opacity: 1, scale: 1.08, duration: 0.2, ease: "power4.out" }, 1.65);
+  tl.to("#see-sources", { scale: 1.0, duration: 0.14, ease: "power2.in" }, 1.85);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["04-tagline"] = tl;
+})();
+</script>
+</template>
+</body></html>

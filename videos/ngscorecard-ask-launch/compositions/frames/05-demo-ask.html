@@ -1,0 +1,225 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"/></head><body>
+<template>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap"/>
+<style>
+  /* ── Canvas ── */
+  #root {
+    position: absolute; inset: 0;
+    container-type: size;
+    overflow: hidden;
+    background: radial-gradient(ellipse 85% 70% at 50% 46%, #1a3d28 0%, #0d1f14 50%, #060d09 100%);
+  }
+  .vignette {
+    position: absolute; inset: 0; pointer-events: none; z-index: 50;
+    background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 45%, rgba(4,10,6,0.55) 100%);
+  }
+
+  /* ── Floating browser window ── */
+  .browser-window {
+    position: absolute;
+    left: 12cqw; top: 9cqh;
+    width: 76cqw; height: 82cqh;
+    border-radius: 0.6cqw;
+    overflow: hidden;
+    box-shadow:
+      0 0.5cqw 2cqw rgba(0,0,0,0.5),
+      0 2cqw 6cqw rgba(0,0,0,0.5),
+      0 5cqw 14cqw rgba(0,0,0,0.6);
+    container-type: size; /* inner cqw = % of window width */
+  }
+
+  /* ── Browser chrome bar ── */
+  .bc {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4.6cqh; background: #1e1e1e;
+    display: flex; align-items: center; padding: 0 1.5cqw; gap: 0.55cqw;
+    z-index: 10;
+  }
+  .dot { width: 0.85cqw; height: 0.85cqw; border-radius: 50%; flex-shrink: 0; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #ffbd2e; }
+  .dot-g { background: #28c840; }
+  .url-bar {
+    margin-left: 1.2cqw; height: 2cqh;
+    background: #2d2d2d; border-radius: 0.4cqw;
+    flex: 1; max-width: 36cqw;
+    display: flex; align-items: center; padding: 0 0.9cqw; gap: 0.5cqw;
+    font-family: 'Inter', sans-serif; font-size: 0.75cqw; color: #9a9a9a;
+    overflow: hidden; white-space: nowrap;
+  }
+  .lock-icon { flex-shrink: 0; opacity: 0.6; font-size: 0.7cqw; }
+
+  /* ── Page area (below chrome) ── */
+  .page-area {
+    position: absolute; top: 4.6cqh; left: 0; right: 0; bottom: 0;
+    background: #f9f9f9;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Site header ── */
+  .pt-header {
+    background: #fffef9; border-bottom: 1px solid #b9cbc1;
+    flex-shrink: 0; display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 0 2cqw; height: 7cqh;
+  }
+  .pt-home { display: flex; align-items: center; gap: 0.9cqw; }
+  .pt-crest { width: 3.4cqw; height: 3.4cqw; border-radius: 0.5cqw; flex-shrink: 0; }
+  .pt-eyebrow { color: #006b45; font-size: 0.6cqw; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'Inter', sans-serif; line-height: 1; }
+  .pt-headline { margin-top: 0.1cqw; color: #073f2a; font-family: Georgia, serif; font-size: 2.0cqw; font-weight: 800; line-height: 1; }
+  .pt-nav { display: flex; align-items: center; gap: 0.9cqw; }
+  .pt-nav-link { color: #7f8c84; font-size: 0.75cqw; font-weight: 700; font-family: 'Inter', sans-serif; white-space: nowrap; }
+  .pt-nav-link.active { color: #006b45; border-bottom: 2px solid #006b45; padding-bottom: 1px; }
+
+  /* ── Page heading ── */
+  .srv-heading {
+    padding: 2.5cqh 2cqw 1.5cqh;
+    background: white; border-bottom: 1px solid #e0e0e0;
+    text-align: center; flex-shrink: 0;
+  }
+  .srv-heading h1 { font-family: Georgia, serif; font-size: 2.0cqw; font-weight: 700; color: #132a1d; margin-bottom: 0.5cqh; }
+  .srv-heading p { color: #666; font-size: 0.75cqw; font-family: 'Inter', sans-serif; }
+
+  /* ── Chat / messages area ── */
+  .srv-chat { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .srv-messages {
+    flex: 1; padding: 2cqh 2cqw;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .srv-empty { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .srv-empty-icon { font-size: 3cqw; margin-bottom: 0.8cqh; }
+  .srv-empty p { color: #666; font-weight: 600; font-size: 0.9cqw; margin-bottom: 0.8cqh; font-family: 'Inter', sans-serif; }
+  .srv-examples { display: flex; flex-direction: column; gap: 0.5cqh; width: 100%; max-width: 42cqw; }
+  .srv-example {
+    padding: 0.7cqh 1.2cqw; background: white; border: 1px solid #ddd;
+    border-radius: 0.4cqw; font-size: 0.75cqw; color: #333;
+    text-align: left; font-family: 'Inter', sans-serif;
+  }
+
+  /* ── Input area ── */
+  .srv-input-area {
+    flex-shrink: 0; background: white; border-top: 1px solid #ddd;
+    padding: 1.5cqh 4cqw;
+    display: flex; align-items: flex-end; gap: 0.8cqw;
+  }
+  .srv-input {
+    flex: 1; min-height: 4.5cqh; padding: 1cqh 1.2cqw;
+    border: 1px solid #ddd; border-radius: 0.4cqw;
+    font-size: 1.0cqw; font-family: 'Inter', sans-serif;
+    color: #132a1d; background: white; display: flex; align-items: center;
+  }
+  #typed-text { color: #132a1d; }
+  #cursor { color: #0a6b45; font-weight: 300; display: inline; margin-left: 0.1cqw; }
+  #ask-button {
+    flex: none; min-height: 4.5cqh; padding: 0 2cqw;
+    background: #0a6b45; color: white; border: none; border-radius: 0.4cqw;
+    font-size: 0.9cqw; font-weight: 600; cursor: pointer;
+    white-space: nowrap; font-family: 'Inter', sans-serif;
+  }
+</style>
+
+<div id="root" data-composition-id="05-demo-ask" data-width="1920" data-height="1080" data-duration="5">
+  <div class="vignette"></div>
+
+  <div class="browser-window clip" id="browser-window" data-start="0" data-duration="5">
+
+    <!-- Chrome bar -->
+    <div class="bc">
+      <div class="dot dot-r"></div>
+      <div class="dot dot-y"></div>
+      <div class="dot dot-g"></div>
+      <div class="url-bar">
+        <span class="lock-icon">🔒</span>
+        ngscorecard.ng/ask
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="page-area">
+
+      <header class="pt-header">
+        <a class="pt-home">
+          <svg class="pt-crest" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="14" fill="#132a1d"/>
+            <path d="M17 16h7v32h-7zM40 16h7v32h-7z" fill="#f7f5ec"/>
+            <path d="M17 16h8l22 32h-8z" fill="#3fbf82"/>
+          </svg>
+          <div>
+            <div class="pt-eyebrow" data-layout-ignore>CIVIC ACCOUNTABILITY · NIGERIA</div>
+            <div class="pt-headline">NGScorecard</div>
+          </div>
+        </a>
+        <nav class="pt-nav" data-layout-ignore>
+          <span class="pt-nav-link">Commitments</span>
+          <span class="pt-nav-link">Publications</span>
+          <span class="pt-nav-link">Guide</span>
+          <span class="pt-nav-link active">Ask</span>
+        </nav>
+      </header>
+
+      <div class="srv-heading">
+        <h1>Ask about government services</h1>
+        <p>Answers come from the Government Service Portal and NHREC, with sources shown.</p>
+      </div>
+
+      <div class="srv-chat">
+        <div class="srv-messages">
+          <div class="srv-empty">
+            <div class="srv-empty-icon">💬</div>
+            <p>No questions yet. Try asking about:</p>
+            <div class="srv-examples">
+              <div class="srv-example">How do I register a business in Nigeria?</div>
+              <div class="srv-example">What are the requirements for a Nigerian passport?</div>
+              <div class="srv-example">How do I get a tax clearance certificate from FIRS?</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="input-area" class="srv-input-area">
+          <div class="srv-input">
+            <span id="typed-text"></span><span id="cursor">|</span>
+          </div>
+          <button id="ask-button">Ask</button>
+        </div>
+      </div>
+
+    </div><!-- /.page-area -->
+  </div><!-- /.browser-window -->
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var tl = gsap.timeline({ paused: true });
+
+  gsap.set("#browser-window", { opacity: 0, y: 30, scale: 1.0, transformOrigin: "50% 50%" });
+  tl.to("#browser-window", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0);
+  tl.to("#browser-window", { scale: 1.04, duration: 5, ease: "power1.in" }, 0);
+
+  var question = "How do I register a business in Nigeria?";
+  question.split("").forEach(function(ch, i){
+    tl.call(function(){
+      var el = document.getElementById("typed-text");
+      if(el) el.textContent += ch;
+    }, [], 0.5 + i * 0.052);
+  });
+
+  for(var b = 0; b < 5; b++){
+    tl.to("#cursor", { opacity: 0, duration: 0.22 }, 0.5 + b * 0.45);
+    tl.to("#cursor", { opacity: 1, duration: 0.22 }, 0.72 + b * 0.45);
+  }
+
+  tl.to("#cursor", { opacity: 0, duration: 0.1 }, 2.75);
+  tl.to("#ask-button", { backgroundColor: "#075236", duration: 0.25, ease: "power2.in" }, 2.75);
+  tl.call(function(){
+    var btn = document.getElementById("ask-button");
+    if(btn) btn.textContent = "Searching...";
+  }, [], 3.0);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["05-demo-ask"] = tl;
+})();
+</script>
+</template>
+</body></html>

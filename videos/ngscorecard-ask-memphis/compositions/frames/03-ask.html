@@ -1,0 +1,157 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"/></head><body>
+<template>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;600;700;800&display=swap"/>
+<style>
+  #root {
+    position:absolute; inset:0; container-type:size; overflow:hidden;
+    --paper:#fff4dc; --ink:#132a1d; --green:#0a6b45; --yellow:#ffc93c;
+    background: radial-gradient(ellipse 85% 75% at 50% 46%, #fff8e6 0%, var(--paper) 60%, #f3e8ca 100%);
+    font-family:"Inter",sans-serif;
+  }
+  .grain { position:absolute; inset:0; pointer-events:none; opacity:.4;
+    background-image: radial-gradient(circle, rgba(19,42,29,.06) 1px, transparent 1.4px); background-size:7px 7px; }
+  .tag { position:absolute; z-index:8; top:4.8cqh; left:7cqw;
+    font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:1.5cqw; letter-spacing:.16em; text-transform:uppercase;
+    background:var(--yellow); color:var(--ink); border:.4cqw solid var(--ink); box-shadow:.5cqw .5cqw 0 var(--ink); padding:.7cqw 1.6cqw; transform:rotate(-2deg); }
+
+  .browser-window {
+    position:absolute; left:13cqw; top:13cqh; width:74cqw; height:76cqh;
+    border:0.42cqw solid var(--ink); border-radius:0.5cqw; overflow:hidden;
+    box-shadow: 1.4cqw 1.4cqw 0 var(--ink); container-type:size; background:#1e1e1e;
+  }
+  .bc { position:absolute; top:0; left:0; right:0; height:4.8cqh; background:#1e1e1e;
+    display:flex; align-items:center; padding:0 1.5cqw; gap:.55cqw; z-index:10; }
+  .dot { width:.85cqw; height:.85cqw; border-radius:50%; flex-shrink:0; }
+  .dot-r{background:#ff5f57;} .dot-y{background:#ffbd2e;} .dot-g{background:#28c840;}
+  .url-bar { margin-left:1.2cqw; height:2.1cqh; background:#2d2d2d; border-radius:.4cqw; flex:1; max-width:34cqw;
+    display:flex; align-items:center; padding:0 .9cqw; gap:.5cqw; font-size:.8cqw; color:#b7b7b7; white-space:nowrap; overflow:hidden; }
+  .lock { flex-shrink:0; opacity:.6; font-size:.75cqw; }
+
+  .page-area { position:absolute; top:4.8cqh; left:0; right:0; bottom:0; background:#f9f9f9; display:flex; flex-direction:column; }
+  .pt-header { background:#fffef9; border-bottom:1px solid #b9cbc1; flex-shrink:0; display:flex; align-items:center; justify-content:space-between; padding:0 2cqw; height:8cqh; }
+  .pt-home { display:flex; align-items:center; gap:.9cqw; }
+  .pt-crest { width:3.6cqw; height:3.6cqw; border-radius:.5cqw; flex-shrink:0; }
+  .pt-eyebrow { color:#006b45; font-size:.62cqw; font-weight:800; letter-spacing:.08em; text-transform:uppercase; line-height:1; }
+  .pt-headline { margin-top:.15cqw; color:#073f2a; font-family:Georgia,serif; font-size:2.0cqw; font-weight:800; line-height:1; }
+  .pt-nav { display:flex; align-items:center; gap:1cqw; }
+  .pt-nav-link { color:#7f8c84; font-size:.78cqw; font-weight:700; white-space:nowrap; }
+  .pt-nav-link.active { color:#006b45; border-bottom:2px solid #006b45; padding-bottom:1px; }
+
+  .srv-heading { padding:2.8cqh 2cqw 1.8cqh; background:white; border-bottom:1px solid #e0e0e0; text-align:center; flex-shrink:0; }
+  .srv-heading h1 { font-family:Georgia,serif; font-size:2.1cqw; font-weight:700; color:#132a1d; margin-bottom:.6cqh; }
+  .srv-heading p { color:#666; font-size:.8cqw; }
+
+  .srv-chat { flex:1; display:flex; flex-direction:column; min-height:0; }
+  .srv-messages { flex:1; padding:2cqh 2cqw; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .srv-empty { display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .srv-empty p { color:#666; font-weight:600; font-size:.95cqw; margin-bottom:1cqh; }
+  .srv-examples { display:flex; flex-direction:column; gap:.6cqh; width:100%; max-width:44cqw; }
+  .srv-example { padding:.8cqh 1.2cqw; background:white; border:1px solid #ddd; border-radius:.4cqw; font-size:.8cqw; color:#333; text-align:left; }
+
+  .srv-input-area { flex-shrink:0; background:white; border-top:1px solid #ddd; padding:1.6cqh 3cqw; display:flex; align-items:center; gap:.8cqw; }
+  .srv-input { flex:1; min-height:4.8cqh; padding:1cqh 1.2cqw; border:1.5px solid #cdd6d0; border-radius:.4cqw; font-size:1.05cqw; color:#132a1d; background:white; display:flex; align-items:center; }
+  #cursor-caret { color:#0a6b45; font-weight:300; margin-left:.1cqw; }
+  #ask-button { flex:none; min-height:4.8cqh; padding:0 2.2cqw; background:#0a6b45; color:white; border:none; border-radius:.4cqw; font-size:.95cqw; font-weight:700; white-space:nowrap; }
+
+  /* Memphis pointer */
+  .pointer { position:absolute; z-index:20; left:78cqw; top:82cqh; width:3cqw; height:3cqw; filter: drop-shadow(.3cqw .3cqw 0 rgba(19,42,29,.35)); }
+</style>
+
+<div id="root" data-composition-id="03-ask" data-width="1920" data-height="1080" data-duration="5.5" data-layout-allow-overlap data-layout-allow-overflow>
+  <div class="grain"></div>
+  <div class="tag clip" id="tag" data-start="0.1" data-duration="5.4">Live · the ask page</div>
+
+  <div class="browser-window clip" id="win" data-start="0" data-duration="5.5">
+    <div class="bc">
+      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      <div class="url-bar"><span class="lock">🔒</span>ngscorecard.ng/ask</div>
+    </div>
+    <div class="page-area">
+      <header class="pt-header">
+        <a class="pt-home">
+          <svg class="pt-crest" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="14" fill="#132a1d"/>
+            <path d="M17 16h7v32h-7zM40 16h7v32h-7z" fill="#f7f5ec"/>
+            <path d="M17 16h8l22 32h-8z" fill="#3fbf82"/>
+          </svg>
+          <div>
+            <div class="pt-eyebrow" data-layout-ignore>CIVIC ACCOUNTABILITY · NIGERIA</div>
+            <div class="pt-headline">NGScorecard</div>
+          </div>
+        </a>
+        <nav class="pt-nav" data-layout-ignore>
+          <span class="pt-nav-link">Commitments</span>
+          <span class="pt-nav-link">Publications</span>
+          <span class="pt-nav-link">Guide</span>
+          <span class="pt-nav-link active">Ask</span>
+        </nav>
+      </header>
+      <div class="srv-heading">
+        <h1>Ask about government services</h1>
+        <p>Answers come from the Government Service Portal and NHREC, with the sources shown.</p>
+      </div>
+      <div class="srv-chat">
+        <div class="srv-messages">
+          <div class="srv-empty">
+            <p>No questions yet. Try asking about:</p>
+            <div class="srv-examples">
+              <div class="srv-example">How do I apply for a Nigerian passport?</div>
+              <div class="srv-example">What documents do I need for a birth certificate?</div>
+              <div class="srv-example">How do I register a business in Nigeria?</div>
+            </div>
+          </div>
+        </div>
+        <div class="srv-input-area">
+          <div class="srv-input"><span id="typed-text"></span><span id="cursor-caret">|</span></div>
+          <button id="ask-button">Ask</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <svg class="pointer clip" id="ptr" data-start="0.6" data-duration="4.9" viewBox="0 0 24 24">
+    <path d="M4 2 L4 20 L9 15 L12.5 22 L15.5 20.5 L12 13.5 L19 13.5 Z" fill="#132a1d" stroke="#fffef9" stroke-width="1.2" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var tl = gsap.timeline({ paused:true });
+
+  gsap.set("#tag",{opacity:0,x:-30,rotate:-12});
+  tl.to("#tag",{opacity:1,x:0,rotate:-2,duration:0.3,ease:"back.out(2)"},0.1);
+
+  gsap.set("#win",{opacity:0,y:40,scale:0.98,transformOrigin:"50% 50%"});
+  tl.to("#win",{opacity:1,y:0,scale:1,duration:0.5,ease:"power3.out"},0);
+  tl.to("#win",{scale:1.03,duration:5.5,ease:"power1.in"},0);
+
+  // type the real question
+  var q = "How do I register a business in Nigeria?";
+  q.split("").forEach(function(ch,i){
+    tl.call(function(){ var el=document.getElementById("typed-text"); if(el) el.textContent += ch; }, [], 0.9 + i*0.05);
+  });
+  // caret blink
+  for(var b=0;b<5;b++){
+    tl.to("#cursor-caret",{opacity:0,duration:0.22},0.9+b*0.45).to("#cursor-caret",{opacity:1,duration:0.22},1.12+b*0.45);
+  }
+
+  // pointer glides to Ask button and clicks
+  gsap.set("#ptr",{opacity:0,x:-260,y:150});
+  tl.to("#ptr",{opacity:1,duration:0.2},0.6);
+  tl.to("#ptr",{x:0,y:0,duration:1.4,ease:"power2.inOut"},1.9);
+  tl.to("#ptr",{scale:0.82,duration:0.1,ease:"power2.in"},3.5).to("#ptr",{scale:1,duration:0.14,ease:"power2.out"},3.6);
+
+  // click Ask -> searching
+  tl.to("#cursor-caret",{opacity:0,duration:0.1},3.5);
+  tl.to("#ask-button",{backgroundColor:"#075236",scale:0.96,duration:0.12,ease:"power2.in"},3.5)
+    .to("#ask-button",{scale:1,duration:0.14,ease:"power2.out"},3.62);
+  tl.call(function(){ var b=document.getElementById("ask-button"); if(b) b.textContent="Searching documents…"; }, [], 3.68);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["03-ask"] = tl;
+})();
+</script>
+</template>
+</body></html>

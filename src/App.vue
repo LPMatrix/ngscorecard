@@ -315,9 +315,14 @@ const activeResponse = ref('all') // fraud tab: government-response filter
 const searchQuery    = ref('')
 const expandedId     = ref(initial?.expandedId ?? null)
 const copied         = ref(false)
+const dataError      = ref(false)
 
 async function loadData(admin) {
-  const get = (name) => fetch(`/api/${admin}/${name}`).then(r => r.json()).catch(() => [])
+  dataError.value = false
+  let hadError = false
+  const get = (name) => fetch(`/api/${admin}/${name}`)
+    .then(r => { if (!r.ok) { hadError = true; return [] } return r.json() })
+    .catch(() => { hadError = true; return [] })
   const [p, i, f, o, m, bu, bi, ind, ap, j, g, hist, mf, pr] = await Promise.all([
     get('promises'), get('inherited'), get('fraud'),
     get('orders'), get('ministers'), get('budget'), get('bills'),
@@ -338,6 +343,7 @@ async function loadData(admin) {
   history.value      = hist
   manifesto.value    = Array.isArray(mf) ? { state: 'pending', documents: [], note: null } : mf
   projects.value      = pr
+  if (hadError) dataError.value = true
 }
 
 // Reader "suggest a correction" modal — opened from any card's Report button.
@@ -381,7 +387,9 @@ onMounted(async () => {
   // — we switch into compare mode here if the URL asks for it.
   if (params.get('mode') === 'compare') {
     if (!ADMINISTRATIONS.value.length) {
-      const presidents = await fetch('/api/presidents').then(r => r.json()).catch(() => [])
+      const presidents = await fetch('/api/presidents')
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .catch(() => { dataError.value = true; return [] })
       ADMINISTRATIONS.value = presidents.map(mapPresident)
     }
     viewMode.value = 'compare'
@@ -395,7 +403,9 @@ onMounted(async () => {
 
   // Server already rendered this exact admin/tab — nothing to fetch.
   if (!initial) {
-    const presidents = await fetch('/api/presidents').then(r => r.json()).catch(() => [])
+    const presidents = await fetch('/api/presidents')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .catch(() => { dataError.value = true; return [] })
     ADMINISTRATIONS.value = presidents.map(mapPresident)
 
     // SPA-only bootstrap (SSR normally provides initialData). Route via the
@@ -1140,6 +1150,12 @@ const indicatorsIntro = computed(() => t('indicators.intro', {
          that hasn't had a native review yet (see PREVIEW_LOCALE_CODES) ── -->
     <div v-if="isDraftLocale" class="pt-draft-note" role="note">
       {{ t('i18n.previewNote') }}
+    </div>
+
+    <!-- ── Database unavailable notice ── -->
+    <div v-if="dataError" class="pt-data-error" role="alert">
+      Some data could not be loaded — the database may be temporarily unavailable.
+      <a href="" @click.prevent="() => location.reload()" style="color:inherit;text-decoration:underline;margin-left:0.4em">Reload</a>
     </div>
 
     <!-- ── Not found: the URL's admin segment matches no tracked

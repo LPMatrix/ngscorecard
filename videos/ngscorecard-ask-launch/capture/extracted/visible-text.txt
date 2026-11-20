@@ -1,0 +1,29 @@
+NGScorecard — Civic Accountability · Nigeria
+
+Ask feature (/ask)
+Page heading: "Ask about government services"
+Subtitle: "Answers come from the Government Service Portal and NHREC, with the sources shown."
+
+Corpus:
+- Government Service Portal (services.gov.ng) — step-by-step guides for Nigerian public services
+- NHREC (nhrec.gov.ng) — National Health Research Ethics Committee of Nigeria; regulations, guidelines, SOPs
+
+Flow:
+1. User types a question in the input bar at the bottom
+2. User clicks "Ask"
+3. Spinner shows "Searching documents..."
+4. Answer appears in a white card in the conversation area
+5. Sources are shown below the answer: numbered [1] [2], with badge (e.g. "CAC"), document title, and source metadata
+
+Example question: "How do I register a business in Nigeria?"
+Example answer: "To register a business in Nigeria, apply to the Corporate Affairs Commission (CAC). Start by reserving a business name on the CAC portal, then submit form CAC 2 (for a business name) or CAC 7 (for a company) along with the prescribed filing fee. For a private limited company you also need a Memorandum and Articles of Association. Once approved you receive a Certificate of Incorporation or RC Registration Certificate, usually within 1–5 working days online."
+Example sources: [1] CAC — Business Registration Process; [2] CAC — CAC (Company Registration)
+
+Suggestion chips (empty state):
+- "How do I apply for a Nigerian passport?"
+- "What documents do I need for a birth certificate?"
+- "How do I register a business in Nigeria?"
+
+Navigation: Recurring commitments · Publications · Guide · Developers · Press · Ask (active)
+
+CTA: ngscorecard.ng/ask

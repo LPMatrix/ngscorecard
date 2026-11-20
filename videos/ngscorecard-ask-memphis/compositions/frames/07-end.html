@@ -1,0 +1,81 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"/></head><body>
+<template>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@500;700&display=swap"/>
+<style>
+  #root {
+    position:absolute; inset:0; container-type:size; overflow:hidden;
+    --paper:#fff4dc; --ink:#132a1d; --green:#0a6b45; --yellow:#ffc93c; --coral:#ff6b57; --cream:#fffef9;
+    background: radial-gradient(ellipse 85% 70% at 50% 44%, #1d3b2a 0%, #122419 55%, #0b170f 100%);
+    font-family:"Inter",sans-serif;
+  }
+  .grain { position:absolute; inset:0; pointer-events:none; opacity:.35;
+    background-image: radial-gradient(circle, rgba(255,244,220,.05) 1px, transparent 1.4px); background-size:7px 7px; }
+
+  .eyebrow { position:absolute; z-index:4; top:26cqh; left:0; right:0; text-align:center;
+    font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:1.6cqw; letter-spacing:.3em; text-transform:uppercase; color:rgba(255,244,220,.6); }
+
+  .lockup { position:absolute; z-index:4; left:0; right:0; top:42cqh; transform:translateY(-50%);
+    display:flex; align-items:center; justify-content:center; gap:2.4cqw; }
+  .crest { width:11cqw; height:11cqw; flex-shrink:0; }
+  .wordmark { font-family:Georgia,"Times New Roman",serif; font-weight:700; font-size:8cqw; color:var(--cream); letter-spacing:-.01em;
+    clip-path: inset(0 100% 0 0); }
+
+  .cta { position:absolute; z-index:5; left:50%; top:66cqh; transform:translate(-50%,0) rotate(-2deg);
+    font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:2.6cqw; letter-spacing:.04em;
+    background:var(--yellow); color:var(--ink); border:.42cqw solid #0b170f; box-shadow:.9cqw .9cqw 0 rgba(0,0,0,.45); padding:1.1cqw 2.8cqw; white-space:nowrap; }
+
+  .checks { position:absolute; left:0; right:0; bottom:0; height:2.2cqw; z-index:2;
+    background: conic-gradient(var(--yellow) 25%, #0b170f 0 50%, var(--yellow) 0 75%, #0b170f 0) 0 0/4.4cqw 4.4cqw; }
+</style>
+
+<div id="root" data-composition-id="07-end" data-width="1920" data-height="1080" data-duration="4.5" data-layout-allow-overlap data-layout-allow-overflow>
+  <div class="grain"></div>
+
+  <div class="eyebrow clip" id="eb" data-start="0.5" data-duration="4.0">Civic Accountability · Nigeria</div>
+
+  <div class="lockup">
+    <svg class="crest clip" id="crest" data-start="0.1" data-duration="4.4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <rect id="cr-rect" width="64" height="64" rx="14" fill="#102a1c"/>
+      <path id="cr-pillars" d="M17 16h7v32h-7zM40 16h7v32h-7z" fill="#f7f5ec"/>
+      <path id="cr-diag" d="M17 16h8l22 32h-8z" fill="#3fbf82"/>
+    </svg>
+    <div class="wordmark clip" id="wm" data-start="0.55" data-duration="3.95">NGScorecard</div>
+  </div>
+
+  <div class="cta clip" id="cta" data-start="1.5" data-duration="3.0">ngscorecard.ng/ask</div>
+  <div class="checks clip" id="ck" data-start="1.5" data-duration="3.0"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var tl = gsap.timeline({ paused:true });
+
+  // crest pops in, diagonal fill rises through it
+  gsap.set("#crest",{opacity:0,scale:0.4,rotate:-10,transformOrigin:"50% 50%"});
+  gsap.set("#cr-diag",{transformOrigin:"50% 100%",scaleY:0});
+  tl.to("#crest",{opacity:1,scale:1,rotate:0,duration:0.5,ease:"back.out(2)"},0.1);
+  tl.to("#cr-diag",{scaleY:1,duration:0.5,ease:"power3.out"},0.45);
+
+  // wordmark wipes in from left
+  tl.to("#wm",{clipPath:"inset(0 0% 0 0)",duration:0.6,ease:"power3.inOut"},0.75);
+
+  gsap.set("#eb",{opacity:0,y:-14});
+  tl.to("#eb",{opacity:1,y:0,duration:0.5,ease:"power2.out"},0.5);
+
+  // CTA tag thunks in
+  gsap.set("#cta",{opacity:0,scale:1.8,rotate:-16,transformOrigin:"50% 50%"});
+  tl.to("#cta",{opacity:1,scale:1,rotate:-2,duration:0.26,ease:"power4.out"},1.5)
+    .to("#cta",{scale:1.04,duration:0.1,ease:"power2.out"},1.76)
+    .to("#cta",{scale:1,duration:0.16,ease:"power2.inOut"},1.86);
+
+  gsap.set("#ck",{scaleX:0,transformOrigin:"left center"});
+  tl.to("#ck",{scaleX:1,duration:0.6,ease:"power2.out"},1.5);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["07-end"] = tl;
+})();
+</script>
+</template>
+</body></html>

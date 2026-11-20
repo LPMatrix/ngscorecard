@@ -1,0 +1,96 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"/></head><body>
+<template>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@500;700&display=swap"/>
+<style>
+  #root {
+    position:absolute; inset:0; container-type:size; overflow:hidden;
+    --paper:#fff4dc; --ink:#132a1d; --green:#0a6b45; --yellow:#ffc93c; --sky:#7fd3e0; --coral:#ff6b57; --cream:#fffef9;
+    background: radial-gradient(ellipse 80% 65% at 50% 40%, #fff8e6 0%, var(--paper) 60%, #f3e8ca 100%);
+    font-family:"Inter",sans-serif;
+  }
+  .grain { position:absolute; inset:0; pointer-events:none; opacity:.45;
+    background-image: radial-gradient(circle, rgba(19,42,29,.06) 1px, transparent 1.4px); background-size:7px 7px; }
+  .d-dots { position:absolute; right:6%; top:10%; width:12cqw; height:7cqw; z-index:1;
+    background-image: radial-gradient(circle, var(--ink) 1.3px, transparent 1.7px); background-size:1.8cqw 1.8cqw; opacity:.8; }
+
+  .head { position:absolute; z-index:3; left:0; right:0; top:15cqh; text-align:center;
+    font-family:"Archivo Black",sans-serif; color:var(--ink); font-size:7.4cqw; line-height:1.02; letter-spacing:-.01em; }
+  .head .hl { background:var(--yellow); box-shadow:.5cqw .5cqw 0 rgba(19,42,29,.18); padding:0 1.2cqw; }
+
+  .cites { position:absolute; z-index:4; left:0; right:0; top:42cqh; display:flex; flex-direction:column; align-items:center; gap:2.4cqh; }
+  .cite { display:flex; align-items:center; gap:1.4cqw; background:var(--cream); border:.42cqw solid var(--ink);
+    box-shadow:.8cqw .8cqw 0 var(--ink); padding:1.4cqh 2.4cqw; }
+  .cite .num { font-family:"Archivo Black",sans-serif; font-size:2.6cqw; color:var(--green); }
+  .cite .org { font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:1.5cqw; letter-spacing:.06em; background:var(--green); color:var(--cream); padding:.5cqw 1.1cqw; }
+  .cite .ttl { font-family:"Inter",sans-serif; font-weight:700; font-size:2cqw; color:var(--ink); }
+  .c1 { transform:rotate(-2.5deg); } .c2 { transform:rotate(2deg); }
+
+  .stamp { position:absolute; z-index:6; left:50%; top:71cqh; transform:translate(-50%,-50%) rotate(-7deg);
+    display:flex; align-items:center; gap:1.4cqw; background:var(--green); color:var(--cream);
+    border:.7cqw solid var(--ink); box-shadow:1.1cqw 1.1cqw 0 var(--ink);
+    font-family:"Archivo Black",sans-serif; font-size:4.6cqw; letter-spacing:.03em; padding:1.3cqw 3.4cqw 1.6cqw; }
+  .stamp .ring { width:4.4cqw; height:4.4cqw; border:.55cqw solid var(--cream); border-radius:50%; display:flex; align-items:center; justify-content:center; }
+  .stamp .ring svg { width:2.8cqw; height:2.8cqw; }
+
+  .checks { position:absolute; left:0; right:0; bottom:0; height:2.2cqw; z-index:2;
+    background: conic-gradient(var(--ink) 25%, var(--paper) 0 50%, var(--ink) 0 75%, var(--paper) 0) 0 0/4.4cqw 4.4cqw; border-top:.4cqw solid var(--ink); }
+</style>
+
+<div id="root" data-composition-id="05-stamp" data-width="1920" data-height="1080" data-duration="5" data-layout-allow-overlap data-layout-allow-overflow>
+  <div class="grain"></div>
+  <div class="d-dots"></div>
+
+  <div class="head">
+    <span class="clip" id="h1" data-start="0.1" data-duration="4.9" style="display:inline-block">Every answer, <span class="hl">sourced.</span></span>
+  </div>
+
+  <div class="cites">
+    <div class="cite c1 clip" id="c1" data-start="0.7" data-duration="4.3">
+      <span class="num">[1]</span><span class="org">CAC</span><span class="ttl">Business Registration Process</span>
+    </div>
+    <div class="cite c2 clip" id="c2" data-start="1.0" data-duration="4.0">
+      <span class="num">[2]</span><span class="org">CAC</span><span class="ttl">CAC (Company Registration)</span>
+    </div>
+  </div>
+
+  <div class="stamp clip" id="stamp" data-start="1.6" data-duration="3.4">
+    <span class="ring"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L10 18.5 L20 6" stroke="#fffef9" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <span>SOURCED</span>
+  </div>
+
+  <div class="checks clip" id="ck" data-start="0.3" data-duration="4.7"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var tl = gsap.timeline({ paused:true });
+
+  gsap.set("#h1",{opacity:0,y:50,scale:0.85,transformOrigin:"center center"});
+  tl.to("#h1",{opacity:1,y:0,scale:1.04,duration:0.24,ease:"power4.out"},0.1)
+    .to("#h1",{scale:1,duration:0.18,ease:"power2.inOut"},0.34);
+
+  [["#c1",-2.5,0.7],["#c2",2,1.0]].forEach(function(p){
+    gsap.set(p[0],{opacity:0,y:-120,rotate:p[1]-6,scale:1.1});
+    tl.to(p[0],{opacity:1,y:0,rotate:p[1],scale:1,duration:0.26,ease:"power3.out"},p[2]);
+  });
+
+  // approval stamp slams in
+  gsap.set("#stamp",{opacity:0,scale:2.6,rotate:-24,transformOrigin:"50% 50%"});
+  tl.to("#stamp",{opacity:1,scale:1,rotate:-7,duration:0.2,ease:"power4.out"},1.6)
+    .to("#stamp",{scale:1.05,duration:0.1,ease:"power2.out"},1.8)
+    .to("#stamp",{scale:1,duration:0.16,ease:"power2.inOut"},1.9);
+  // settle wobble
+  tl.to("#stamp",{rotate:-5.5,duration:0.5,ease:"sine.inOut"},2.3)
+    .to("#stamp",{rotate:-7,duration:0.6,ease:"sine.inOut"},2.9);
+
+  gsap.set("#ck",{scaleX:0,transformOrigin:"left center"});
+  tl.to("#ck",{scaleX:1,duration:0.5,ease:"power2.out"},0.3);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["05-stamp"] = tl;
+})();
+</script>
+</template>
+</body></html>

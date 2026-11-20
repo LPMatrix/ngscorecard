@@ -1,0 +1,9 @@
+{
+  "bgm": {
+    "path": "assets/bgm.aac",
+    "volume": 0.75,
+    "source": "host"
+  },
+  "voices": [],
+  "sfx": []
+}

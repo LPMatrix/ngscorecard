@@ -1,0 +1,77 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"/></head><body>
+<template>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@500;700&display=swap"/>
+<style>
+  #root {
+    position: absolute; inset: 0; container-type: size; overflow: hidden;
+    --paper:#fff4dc; --ink:#132a1d; --green:#0a6b45; --yellow:#ffc93c; --sky:#7fd3e0; --coral:#ff6b57;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 42%, #fff8e6 0%, var(--paper) 60%, #f6eccf 100%);
+    font-family: "Inter", sans-serif;
+  }
+  .grain { position:absolute; inset:0; pointer-events:none; opacity:.5;
+    background-image: radial-gradient(circle, rgba(19,42,29,.06) 1px, transparent 1.4px);
+    background-size: 7px 7px; }
+  /* deco (static, in margins) */
+  .deco { position:absolute; z-index:1; pointer-events:none; }
+  .d-circle { top:9%; right:7%; width:9cqw; height:9cqw; border-radius:50%; border:.55cqw solid var(--ink); }
+  .d-dots { left:5.5%; bottom:11%; width:13cqw; height:8cqw;
+    background-image: radial-gradient(circle, var(--ink) 1.4px, transparent 1.8px); background-size:1.9cqw 1.9cqw; opacity:.85; }
+  .d-half { right:11%; bottom:13%; width:7cqw; height:3.5cqw; border:.55cqw solid var(--coral); border-bottom:none; border-radius:100% 100% 0 0; }
+  .d-plus { left:11%; top:12%; width:4cqw; height:4cqw; }
+  .d-plus::before,.d-plus::after{ content:""; position:absolute; background:var(--green); }
+  .d-plus::before{ left:45%; top:0; width:.7cqw; height:100%; }
+  .d-plus::after{ top:45%; left:0; height:.7cqw; width:100%; }
+
+  .wrap { position:absolute; z-index:3; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:0 10cqw; }
+  .eyebrow { font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:1.7cqw; letter-spacing:.18em; text-transform:uppercase;
+    background:var(--yellow); border:.4cqw solid var(--ink); box-shadow:.6cqw .6cqw 0 var(--ink);
+    padding:.9cqw 2cqw; margin-bottom:4cqw; transform:rotate(-2deg); color:var(--ink); }
+  .head { font-family:"Archivo Black",sans-serif; color:var(--ink); text-align:center;
+    font-size:7.2cqw; line-height:1.04; letter-spacing:-.01em; }
+  .ln { display:block; overflow:visible; }
+  .hl { background:var(--yellow); box-shadow:.5cqw .5cqw 0 rgba(19,42,29,.18);
+    padding:0 1.1cqw; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+  .q { color:var(--green); }
+</style>
+
+<div id="root" data-composition-id="01-hook" data-width="1920" data-height="1080" data-duration="4.5" data-layout-allow-overlap data-layout-allow-overflow>
+  <div class="grain"></div>
+  <div class="deco d-circle"></div>
+  <div class="deco d-dots"></div>
+  <div class="deco d-half"></div>
+  <div class="deco d-plus"></div>
+
+  <div class="wrap">
+    <div class="eyebrow clip" id="eb" data-start="0.15" data-duration="4.35">ASK · NGSCORECARD</div>
+    <div class="head">
+      <span class="ln clip" id="l1" data-start="0.5" data-duration="4.0">How do I</span>
+      <span class="ln clip" id="l2" data-start="0.9" data-duration="3.6"><span class="hl">register a business</span></span>
+      <span class="ln clip" id="l3" data-start="1.35" data-duration="3.15">in Nigeria<span class="q">?</span></span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var tl = gsap.timeline({ paused:true });
+  gsap.set("#eb",{opacity:0,scale:0.6,rotate:-14,transformOrigin:"left center"});
+  gsap.set(["#l1","#l2","#l3"],{opacity:0,y:70,scale:0.8,transformOrigin:"center center"});
+
+  tl.to("#eb",{opacity:1,scale:1,rotate:-2,duration:0.34,ease:"back.out(2.2)"},0.15);
+  [["#l1",0.5],["#l2",0.9],["#l3",1.35]].forEach(function(p){
+    tl.to(p[0],{opacity:1,y:0,scale:1.06,duration:0.2,ease:"power4.out"},p[1]);
+    tl.to(p[0],{scale:1,duration:0.16,ease:"power2.inOut"},p[1]+0.2);
+  });
+  // tiny settle breath on the highlight
+  tl.to("#l2",{rotate:-1.2,duration:0.5,ease:"sine.inOut"},1.6)
+    .to("#l2",{rotate:0,duration:0.6,ease:"sine.inOut"},2.4);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["01-hook"] = tl;
+})();
+</script>
+</template>
+</body></html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"/></head><body>
+<template>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap"/>
+<style>
+  #root {
+    position: absolute; inset: 0;
+    container-type: size;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 68% at 50% 48%, #fff9f2 0%, #fffef9 45%, #f2ece0 100%);
+  }
+  .vignette {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 55%, rgba(130,110,70,0.1) 100%);
+  }
+  .lockup {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; flex-direction: column;
+    align-items: center; gap: 2.2cqh;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.15cqw; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    color: #006b45; opacity: 0;
+  }
+  .identity-row {
+    display: flex; flex-direction: row;
+    align-items: center; gap: 2.2cqw;
+  }
+  #crest { width: 11cqw; height: 11cqw; flex-shrink: 0; opacity: 0; }
+  #wordmark {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 5.6cqw; font-weight: 500; letter-spacing: -0.02em;
+    color: #132a1d; white-space: nowrap; display: flex;
+    line-height: 1;
+  }
+  .wc { display: inline-block; opacity: 0; }
+  .ask-tagline {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 4.0cqw; font-weight: 500; letter-spacing: -0.02em;
+    color: #0a6b45; opacity: 0;
+  }
+</style>
+
+<div id="root" data-composition-id="03-brand-reveal" data-width="1920" data-height="1080" data-duration="5">
+  <div class="vignette"></div>
+  <div class="lockup">
+    <div class="eyebrow" id="eyebrow" data-layout-ignore>CIVIC ACCOUNTABILITY · NIGERIA</div>
+    <div class="identity-row">
+      <svg id="crest" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <rect width="64" height="64" rx="14" fill="#132a1d"/>
+        <path d="M17 16h7v32h-7zM40 16h7v32h-7z" fill="#f7f5ec"/>
+        <path d="M17 16h8l22 32h-8z" fill="#3fbf82"/>
+      </svg>
+      <div id="wordmark">
+        <span class="wc">N</span><span class="wc">G</span><span class="wc">S</span><span class="wc">c</span><span class="wc">o</span><span class="wc">r</span><span class="wc">e</span><span class="wc">c</span><span class="wc">a</span><span class="wc">r</span><span class="wc">d</span>
+      </div>
+    </div>
+    <div class="ask-tagline" id="ask-tagline">Ask.</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var tl = gsap.timeline({ paused: true });
+  gsap.set("#crest", { scale: 0.4, opacity: 0, transformOrigin: "center center" });
+
+  tl.to("#crest", { opacity: 1, scale: 1.1, duration: 0.28, ease: "power4.out" }, 0.2);
+  tl.to("#crest", { scale: 1.0, duration: 0.18, ease: "power2.in" }, 0.48);
+
+  var chars = document.querySelectorAll(".wc");
+  tl.to(chars, { opacity: 1, duration: 0.001, stagger: 0.055 }, 1.3);
+
+  gsap.set("#eyebrow", { opacity: 0, y: 14 });
+  tl.to("#eyebrow", { opacity: 0.85, y: 0, duration: 0.5, ease: "power2.out" }, 2.5);
+
+  tl.to("#ask-tagline", { opacity: 1, duration: 0.4, ease: "power2.out" }, 3.9);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["03-brand-reveal"] = tl;
+})();
+</script>
+</template>
+</body></html>

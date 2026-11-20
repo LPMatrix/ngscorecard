@@ -1,0 +1,80 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"/></head><body>
+<template>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"/>
+<style>
+  #root {
+    position: absolute; inset: 0;
+    container-type: size; overflow: hidden;
+    background: radial-gradient(ellipse 80% 70% at 50% 48%, #1e4232 0%, #0c1a0f 50%, #060d09 100%);
+  }
+  .vignette {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(4,10,6,0.6) 100%);
+  }
+  .lockup {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center; gap: 2cqh;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 1.1cqw; font-weight: 400;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    color: rgba(255,254,249,0.6); opacity: 0;
+  }
+  .crest-row { display: flex; flex-direction: row; align-items: center; gap: 2.2cqw; }
+  #crest { width: 11cqw; height: 11cqw; opacity: 0; transform-origin: center center; }
+  #wm {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 5.5cqw; font-weight: 500; letter-spacing: -0.02em;
+    color: #fffef9; white-space: nowrap; line-height: 1;
+  }
+  #wm span { opacity: 0; display: inline-block; }
+  #url {
+    font-family: 'JetBrains Mono', monospace; font-size: 2.1cqw; font-weight: 400;
+    color: #3fbf82; white-space: nowrap; line-height: 1;
+  }
+  #url span { opacity: 0; display: inline-block; }
+</style>
+
+<div id="root" data-composition-id="07-end-card" data-width="1920" data-height="1080" data-duration="5">
+  <div class="vignette"></div>
+  <div class="lockup">
+    <div class="eyebrow" id="eyebrow" data-layout-ignore>CIVIC ACCOUNTABILITY · NIGERIA</div>
+    <div class="crest-row">
+      <svg id="crest" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <rect width="64" height="64" rx="14" fill="#132a1d"/>
+        <path d="M17 16h7v32h-7zM40 16h7v32h-7z" fill="#f7f5ec"/>
+        <path d="M17 16h8l22 32h-8z" fill="#3fbf82"/>
+      </svg>
+      <div id="wm"><span>N</span><span>G</span><span>S</span><span>c</span><span>o</span><span>r</span><span>e</span><span>c</span><span>a</span><span>r</span><span>d</span></div>
+    </div>
+    <div id="url"><span>n</span><span>g</span><span>s</span><span>c</span><span>o</span><span>r</span><span>e</span><span>c</span><span>a</span><span>r</span><span>d</span><span>.</span><span>n</span><span>g</span><span>/</span><span>a</span><span>s</span><span>k</span></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var tl = gsap.timeline({ paused: true });
+
+  gsap.set("#crest", { scale: 0.4, opacity: 0, transformOrigin: "center center" });
+  tl.to("#crest", { opacity: 1, scale: 1.1, duration: 0.3, ease: "power4.out" }, 0.15);
+  tl.to("#crest", { scale: 1.0, duration: 0.2, ease: "power2.in" }, 0.45);
+
+  var wmChars = document.querySelectorAll("#wm span");
+  tl.to(wmChars, { opacity: 1, duration: 0.001, stagger: 0.055 }, 1.3);
+
+  tl.to("#eyebrow", { opacity: 1, duration: 0.4, ease: "power2.out" }, 1.7);
+
+  var urlChars = document.querySelectorAll("#url span");
+  tl.to(urlChars, { opacity: 1, duration: 0.001, stagger: 0.045 }, 2.9);
+
+  tl.to({}, { duration: 0.5 }, 4.5);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["07-end-card"] = tl;
+})();
+</script>
+</template>
+</body></html>

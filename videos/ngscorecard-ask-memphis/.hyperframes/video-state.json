@@ -1,0 +1,465 @@
+{
+  "version": 1,
+  "historyId": "19ef5293-2136-479f-a905-f47123364656",
+  "currentRevision": "7b68a84a-5b7e-49b3-a12f-9ee0647f2f78",
+  "pendingChanges": false,
+  "files": {
+    "AGENTS.md": {
+      "hash": "729e31835a21c7b42ee006e2aacc63016abc05d26883f871ad3bf206943f2cfb",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/72/729e31835a21c7b42ee006e2aacc63016abc05d26883f871ad3bf206943f2cfb"
+    },
+    "CLAUDE.md": {
+      "hash": "729e31835a21c7b42ee006e2aacc63016abc05d26883f871ad3bf206943f2cfb",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/72/729e31835a21c7b42ee006e2aacc63016abc05d26883f871ad3bf206943f2cfb"
+    },
+    "SPEC.md": {
+      "hash": "761a406e1d54fea999bda4fcc4e1f30d5b8e4f110c0c24a673cd130bab150a6f",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/76/761a406e1d54fea999bda4fcc4e1f30d5b8e4f110c0c24a673cd130bab150a6f"
+    },
+    "assets/bgm.aac": {
+      "hash": "2b883ebfaed3a9df39617c352efa21a47c1530712b952a18bc51f89162c25179",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/2b/2b883ebfaed3a9df39617c352efa21a47c1530712b952a18bc51f89162c25179"
+    },
+    "compositions/frames/01-hook.html": {
+      "hash": "ea76ff2fe8ff43133853464bc781d72c6be114732cc231a3f8d8e0be7d8fafda",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/ea/ea76ff2fe8ff43133853464bc781d72c6be114732cc231a3f8d8e0be7d8fafda"
+    },
+    "compositions/frames/02-old-way.html": {
+      "hash": "23eb869b40d0ea35041534d0fc94d9009c892b6b9bc93d4a0bbdaab8bc9e347f",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/23/23eb869b40d0ea35041534d0fc94d9009c892b6b9bc93d4a0bbdaab8bc9e347f"
+    },
+    "compositions/frames/03-ask.html": {
+      "hash": "00c48b11b6537aa5caf19fb9e1da63b28ebfcf982cdec42b8d80d323b90e8e53",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/00/00c48b11b6537aa5caf19fb9e1da63b28ebfcf982cdec42b8d80d323b90e8e53"
+    },
+    "compositions/frames/04-answer.html": {
+      "hash": "c8213b64aeb3590b15db5521b0a8ffe88e124254665872e1861754508f28529f",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/c8/c8213b64aeb3590b15db5521b0a8ffe88e124254665872e1861754508f28529f"
+    },
+    "compositions/frames/05-stamp.html": {
+      "hash": "101b34e8e7af0095f636091b0b3315276088455752313165265bba645b1f8369",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/10/101b34e8e7af0095f636091b0b3315276088455752313165265bba645b1f8369"
+    },
+    "compositions/frames/06-tagline.html": {
+      "hash": "6eb6189aca8ad15484984fbc618a9026882a7f3e3180d3804163458b85d9de26",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/6e/6eb6189aca8ad15484984fbc618a9026882a7f3e3180d3804163458b85d9de26"
+    },
+    "compositions/frames/07-end.html": {
+      "hash": "7ba8d2cb7a3c9ad0439e8cb4aa7c25e0dbceff3308fccc1b3b66c4cbf2b68334",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/7b/7ba8d2cb7a3c9ad0439e8cb4aa7c25e0dbceff3308fccc1b3b66c4cbf2b68334"
+    },
+    "hyperframes.json": {
+      "hash": "53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/53/53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
+    },
+    "index.html": {
+      "hash": "70ba34dda715b60e27b58171a56967ac4f8a3cf1809218e51b1f303a689b7b7b",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/70/70ba34dda715b60e27b58171a56967ac4f8a3cf1809218e51b1f303a689b7b7b"
+    },
+    "meta.json": {
+      "hash": "16b0901265ac9712600b08e86d6e6b7108e9728f4974d587da87c2ceea1ec348",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/16/16b0901265ac9712600b08e86d6e6b7108e9728f4974d587da87c2ceea1ec348"
+    },
+    "package.json": {
+      "hash": "eba9810d6515b1cc325ceaec02b2cbec4ded2a234085b9cbf3b285f02b0c7ea0",
+      "content": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/eb/eba9810d6515b1cc325ceaec02b2cbec4ded2a234085b9cbf3b285f02b0c7ea0"
+    }
+  },
+  "revisions": {
+    "d1e5f705-1cbe-428e-94af-b9c2438d3722": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795113905038,
+      "endedAt": 1795113905038,
+      "files": {
+        "compositions/frames/04-answer.html": {
+          "before": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/67/6764ffda36674b4dc92410b6ef931c00086618bef08dfdc7aae7ac03ee8074ee",
+          "after": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/c8/c8213b64aeb3590b15db5521b0a8ffe88e124254665872e1861754508f28529f"
+        }
+      }
+    },
+    "7b68a84a-5b7e-49b3-a12f-9ee0647f2f78": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795114200805,
+      "endedAt": 1795114200805,
+      "files": {
+        "index.html": {
+          "before": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/51/5118aeb1586c3fa0503838baa2a0d43bdd10c8b3e2adf5ab5b2304137f00ddbf",
+          "after": "/Users/mubaraq/.cache/hyperframes/history/19ef5293-2136-479f-a905-f47123364656/blobs/70/70ba34dda715b60e27b58171a56967ac4f8a3cf1809218e51b1f303a689b7b7b"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": "7b68a84a-5b7e-49b3-a12f-9ee0647f2f78",
+      "id": "abee2242-7455-47b0-a7c9-4d174e996bd5"
+    },
+    "revisions": {
+      "d1e5f705-1cbe-428e-94af-b9c2438d3722": [
+        {
+          "id": "bc5ec759-dd70-4d22-8ffe-2211f68debc2",
+          "scope": "project",
+          "report": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/checks/bc5ec759-dd70-4d22-8ffe-2211f68debc2.json",
+          "metadata": {
+            "ok": false,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 45000,
+              "cache": true,
+              "contrast": true,
+              "craft": true,
+              "strict": false,
+              "snapshots": false,
+              "safeZones": [
+                "tiktok",
+                "reels",
+                "shorts"
+              ],
+              "browserGpuMode": "auto",
+              "includeUnmounted": false
+            }
+          },
+          "createdAt": 1795113913368,
+          "contentHash": "3c921df44ec9d062dab6f52896c446b779717c3cb39fab4e57caee53801c19eb",
+          "revision": "d1e5f705-1cbe-428e-94af-b9c2438d3722",
+          "inputFingerprint": "fb35b7637ce241ab0eecb86e3d23645a14edb0c69f7ed378f5e0acb62d132c6e",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ],
+      "7b68a84a-5b7e-49b3-a12f-9ee0647f2f78": [
+        {
+          "id": "abee2242-7455-47b0-a7c9-4d174e996bd5",
+          "scope": "project",
+          "report": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/checks/abee2242-7455-47b0-a7c9-4d174e996bd5.json",
+          "metadata": {
+            "ok": false,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 45000,
+              "cache": true,
+              "contrast": true,
+              "craft": true,
+              "strict": false,
+              "snapshots": false,
+              "safeZones": [
+                "tiktok",
+                "reels",
+                "shorts"
+              ],
+              "browserGpuMode": "auto",
+              "includeUnmounted": false
+            }
+          },
+          "createdAt": 1795114218606,
+          "contentHash": "3c921df44ec9d062dab6f52896c446b779717c3cb39fab4e57caee53801c19eb",
+          "revision": "7b68a84a-5b7e-49b3-a12f-9ee0647f2f78",
+          "inputFingerprint": "07b0f493e49a1f4d280f49fba84417fb0623ccccd313d596c11972ca16099984",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "113413da-1f27-412e-8d6b-d2067031e4fb",
+        "scope": "project",
+        "report": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/checks/113413da-1f27-412e-8d6b-d2067031e4fb.json",
+        "metadata": {
+          "ok": false,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 45000,
+            "cache": true,
+            "contrast": true,
+            "craft": true,
+            "strict": false,
+            "snapshots": false,
+            "safeZones": [
+              "tiktok",
+              "reels",
+              "shorts"
+            ],
+            "browserGpuMode": "auto",
+            "includeUnmounted": false
+          }
+        },
+        "createdAt": 1795110854929,
+        "contentHash": "ad5ee8f36a39324a4d2dc194a18f6c59f40026fabcfe4327715b4287d79dea2b",
+        "revision": null,
+        "inputFingerprint": "2c4775320ef2222c45941c9f04ee3420d1f4ace99d02774fed7e002788dbca60",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": {
+      "revision": "d1e5f705-1cbe-428e-94af-b9c2438d3722",
+      "id": "30ab8b5c-f67e-4646-8f82-1a214b0b3744-2"
+    },
+    "revisions": {
+      "d1e5f705-1cbe-428e-94af-b9c2438d3722": [
+        {
+          "scope": "full",
+          "id": "30ab8b5c-f67e-4646-8f82-1a214b0b3744-0",
+          "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/7d1a4d8d-bbb9-4813-8a2c-5da968c8c628/frame-00-at-13.3s.png",
+          "time": 13.3,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1795113920084,
+          "contentHash": "47781d7ce12070123d5c7032dbc1ca1c8045071cf7f6310849b7415be6951c42",
+          "revision": "d1e5f705-1cbe-428e-94af-b9c2438d3722",
+          "inputFingerprint": "fb35b7637ce241ab0eecb86e3d23645a14edb0c69f7ed378f5e0acb62d132c6e",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "30ab8b5c-f67e-4646-8f82-1a214b0b3744-1",
+          "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/7d1a4d8d-bbb9-4813-8a2c-5da968c8c628/frame-01-at-20.8s.png",
+          "time": 20.8,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1795113920084,
+          "contentHash": "75e2f2d11d2f215be22cef33751c85483d7e786de3716f3ea0ad6e8ae4706a05",
+          "revision": "d1e5f705-1cbe-428e-94af-b9c2438d3722",
+          "inputFingerprint": "fb35b7637ce241ab0eecb86e3d23645a14edb0c69f7ed378f5e0acb62d132c6e",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "30ab8b5c-f67e-4646-8f82-1a214b0b3744-2",
+          "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/7d1a4d8d-bbb9-4813-8a2c-5da968c8c628/frame-02-at-34.25s.png",
+          "time": 34.25,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1795113920084,
+          "contentHash": "98d1b8508b31cf875c6abdad7906517efb11eae3f31f6f3ad438e4bcb3a0f2e4",
+          "revision": "d1e5f705-1cbe-428e-94af-b9c2438d3722",
+          "inputFingerprint": "fb35b7637ce241ab0eecb86e3d23645a14edb0c69f7ed378f5e0acb62d132c6e",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "scope": "full",
+        "id": "c6060d67-b6ef-43f0-8c1e-c89f7b19399b-0",
+        "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/72d60fb8-0c27-4536-be48-45a8b5a82792/frame-00-at-2.6s.png",
+        "time": 2.6,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1795110875765,
+        "contentHash": "182365d9ccf8d273bd77b4bb8819567d223eaf89f4aa17e3655c0a0dcd47d90e",
+        "revision": null,
+        "inputFingerprint": "2c4775320ef2222c45941c9f04ee3420d1f4ace99d02774fed7e002788dbca60",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "c6060d67-b6ef-43f0-8c1e-c89f7b19399b-1",
+        "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/72d60fb8-0c27-4536-be48-45a8b5a82792/frame-01-at-7s.png",
+        "time": 7,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1795110875765,
+        "contentHash": "de7640d896a6d926421b2d579bfdb2c60bc42d757974826fcf93ec029e8db8d9",
+        "revision": null,
+        "inputFingerprint": "2c4775320ef2222c45941c9f04ee3420d1f4ace99d02774fed7e002788dbca60",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "c6060d67-b6ef-43f0-8c1e-c89f7b19399b-2",
+        "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/72d60fb8-0c27-4536-be48-45a8b5a82792/frame-02-at-12s.png",
+        "time": 12,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1795110875766,
+        "contentHash": "34af070dfd4c846928db4b0d39914e99a0601fd934f6af3c04bd841bb41b9775",
+        "revision": null,
+        "inputFingerprint": "2c4775320ef2222c45941c9f04ee3420d1f4ace99d02774fed7e002788dbca60",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "c6060d67-b6ef-43f0-8c1e-c89f7b19399b-3",
+        "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/72d60fb8-0c27-4536-be48-45a8b5a82792/frame-03-at-19.5s.png",
+        "time": 19.5,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1795110875766,
+        "contentHash": "250eb3947beb5c0562f8fbc83337cfa44762ea0828c649788c1a744fdc611c4e",
+        "revision": null,
+        "inputFingerprint": "2c4775320ef2222c45941c9f04ee3420d1f4ace99d02774fed7e002788dbca60",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "c6060d67-b6ef-43f0-8c1e-c89f7b19399b-4",
+        "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/72d60fb8-0c27-4536-be48-45a8b5a82792/frame-04-at-24s.png",
+        "time": 24,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1795110875766,
+        "contentHash": "f4c83da7f5b50d319819d4db8617e8ea487af6472b74c54a0865285bacf1b264",
+        "revision": null,
+        "inputFingerprint": "2c4775320ef2222c45941c9f04ee3420d1f4ace99d02774fed7e002788dbca60",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "c6060d67-b6ef-43f0-8c1e-c89f7b19399b-5",
+        "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/72d60fb8-0c27-4536-be48-45a8b5a82792/frame-05-at-28s.png",
+        "time": 28,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1795110875766,
+        "contentHash": "9913301683719c5fffa2aae2620bd92e4c0e0959e21837245ddc97ab8802dd33",
+        "revision": null,
+        "inputFingerprint": "2c4775320ef2222c45941c9f04ee3420d1f4ace99d02774fed7e002788dbca60",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "c6060d67-b6ef-43f0-8c1e-c89f7b19399b-6",
+        "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/72d60fb8-0c27-4536-be48-45a8b5a82792/frame-06-at-33s.png",
+        "time": 33,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1795110875766,
+        "contentHash": "98d1b8508b31cf875c6abdad7906517efb11eae3f31f6f3ad438e4bcb3a0f2e4",
+        "revision": null,
+        "inputFingerprint": "2c4775320ef2222c45941c9f04ee3420d1f4ace99d02774fed7e002788dbca60",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "c6060d67-b6ef-43f0-8c1e-c89f7b19399b-7",
+        "image": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/.hyperframes/artifacts/snapshots/72d60fb8-0c27-4536-be48-45a8b5a82792/frame-07-at-34.25s.png",
+        "time": 34.25,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1795110875766,
+        "contentHash": "98d1b8508b31cf875c6abdad7906517efb11eae3f31f6f3ad438e4bcb3a0f2e4",
+        "revision": null,
+        "inputFingerprint": "2c4775320ef2222c45941c9f04ee3420d1f4ace99d02774fed7e002788dbca60",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "renders": {
+    "latest": {
+      "id": "73886113-d616-478a-a8e2-351a122f4a40",
+      "completedAt": 1795114281870,
+      "output": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-memphis/renders/ngscorecard-ask-memphis_2026-11-19_19-50-20.mp4",
+      "status": "completed",
+      "revision": "7b68a84a-5b7e-49b3-a12f-9ee0647f2f78"
+    },
+    "retainedRevisions": [
+      "7b68a84a-5b7e-49b3-a12f-9ee0647f2f78",
+      "d1e5f705-1cbe-428e-94af-b9c2438d3722"
+    ]
+  },
+  "pendingArtifactCleanup": []
+}

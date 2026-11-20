@@ -1,0 +1,89 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"/></head><body>
+<template>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap"/>
+<style>
+  #root {
+    position: absolute; inset: 0;
+    container-type: size;
+    overflow: hidden;
+    background: radial-gradient(ellipse 90% 70% at 50% 48%, #1a3d28 0%, #0d1f14 45%, #060d09 100%);
+  }
+  .vignette {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(4,10,6,0.55) 100%);
+  }
+  .flash {
+    position: absolute;
+    left: 0; right: 0; top: 50%; transform: translateY(-50%);
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #fffef9;
+    line-height: 1;
+  }
+  #p1 { font-size: 7.0cqw; }
+  #p2 { font-size: 6.5cqw; }
+  #p3 { font-size: 6.0cqw; }
+  .col {
+    position: absolute;
+    left: 20cqw; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 2.2cqw;
+  }
+  .col-line {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 5.5cqw;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #fffef9;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  #col3 { opacity: 0.6; }
+</style>
+
+<div id="root" data-composition-id="02-pain" data-width="1920" data-height="1080" data-duration="5">
+  <div class="vignette"></div>
+  <div class="clip flash" id="p1" data-start="0.0" data-duration="1.1">No clear answer.</div>
+  <div class="clip flash" id="p2" data-start="1.2" data-duration="1.1">17 PDF links.</div>
+  <div class="clip flash" id="p3" data-start="2.4" data-duration="0.95">Still waiting.</div>
+  <div class="clip col" id="col" data-start="3.5" data-duration="1.5">
+    <div class="col-line" id="col1">No clear answer.</div>
+    <div class="col-line" id="col2">17 PDF links.</div>
+    <div class="col-line" id="col3">Still waiting.</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var tl = gsap.timeline({ paused: true });
+
+  var flashes = [
+    {id:"#p1",t:0.0},
+    {id:"#p2",t:1.2},
+    {id:"#p3",t:2.4}
+  ];
+  flashes.forEach(function(f){
+    gsap.set(f.id,{opacity:0,scale:0.5,transformOrigin:"center center"});
+    tl.to(f.id,{opacity:1,scale:1.1,duration:0.16,ease:"power4.out"},f.t);
+    tl.to(f.id,{scale:1,duration:0.12,ease:"power2.in"},f.t+0.16);
+  });
+  tl.to("#p1",{opacity:0,scale:0.9,duration:0.15,ease:"power2.in"},1.05);
+  tl.to("#p2",{opacity:0,scale:0.9,duration:0.15,ease:"power2.in"},2.25);
+  tl.to("#p3",{opacity:0,duration:0.2,ease:"power2.in"},3.1);
+
+  gsap.set("#col",{opacity:0,x:-60});
+  tl.to("#col",{opacity:1,x:0,duration:0.4,ease:"power3.out"},3.5);
+  gsap.set(["#col1","#col2","#col3"],{x:-40,opacity:0});
+  tl.to("#col1",{x:0,opacity:1,duration:0.3,ease:"power3.out"},3.5);
+  tl.to("#col2",{x:0,opacity:1,duration:0.3,ease:"power3.out"},3.62);
+  tl.to("#col3",{x:0,opacity:0.6,duration:0.3,ease:"power3.out"},3.74);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["02-pain"] = tl;
+})();
+</script>
+</template>
+</body></html>

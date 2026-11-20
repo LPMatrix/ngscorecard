@@ -194,6 +194,18 @@ a:focus-visible {
   text-align: center;
 }
 
+/* Database-unavailable notice — shown when any API route returned an error. */
+.pt-data-error {
+  padding: 8px 24px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #7a2e0b;
+  background: #fef3ee;
+  border-bottom: 1px solid #fcc8a0;
+  text-align: center;
+}
+
 .pt-crest {
   display: block;
   width: 52px;

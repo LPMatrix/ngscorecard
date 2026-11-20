@@ -1,0 +1,357 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 3,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "timeline_track_too_dense",
+        "severity": "warning",
+        "message": "This HTML file has 8 timed elements. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-launch/compositions/frames/01-hook.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move coherent scene groups into smaller .html files and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate."
+      },
+      {
+        "code": "timeline_track_too_dense",
+        "severity": "warning",
+        "message": "This HTML file has 4 timed elements. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-launch/compositions/frames/02-pain.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move coherent scene groups into smaller .html files and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate."
+      },
+      {
+        "code": "studio_missing_editable_id",
+        "severity": "warning",
+        "message": "<div class=\"scene-center\" data-start=\"0\" data-track-index=\"1\"> has no id, so Studio cannot use a stable edit target for its timeline and canvas controls.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/Users/mubaraq/Documents/Projects/Dev/JavaScript/ngscorecard/videos/ngscorecard-ask-launch/compositions/frames/04-tagline.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Add a stable, human-readable id such as id=\"hero-title\" or id=\"scene-1-card\" to every timeline-visible element you want agents or Studio to edit."
+      }
+    ],
+    "filesScanned": 8
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "duration": 35,
+    "samples": [
+      1.944,
+      5.833,
+      9.722,
+      13.611,
+      17.5,
+      21.389,
+      25.278,
+      29.167,
+      33.056
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 0,
+    "truncated": false,
+    "faceCheck": {
+      "ran": true,
+      "candidates": 0,
+      "faces": 0
+    }
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.944,
+      9.722,
+      17.5,
+      25.278,
+      33.056
+    ],
+    "checked": 26,
+    "passed": 26
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 3,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "first_frame_empty",
+        "severity": "warning",
+        "message": "Frame 0 shows only the background, and the first frame is the thumbnail on social players: have the title or key image already on screen at 0 s instead of entering from nothing; see references/review.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 8 text elements stay under it for 0.5 s or more, the smallest \"ngscorecard.ng/ask\" at 11 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "ngscorecard.ng/ask",
+        "selector": "#browser-window > div:nth-of-type(1) > div:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/frames/05-demo-ask.html",
+        "bbox": {
+          "x": 364.39,
+          "y": 122.83,
+          "width": 103.41,
+          "height": 14
+        },
+        "time": 18.125,
+        "times": [
+          18.125,
+          18.125,
+          18.125,
+          18.125,
+          18.125,
+          18.125,
+          18.125,
+          18.125
+        ],
+        "fontPx": 10.94,
+        "floorPx": 28,
+        "seconds": 4.875,
+        "elements": [
+          {
+            "selector": "#browser-window > div:nth-of-type(1) > div:nth-of-type(4)",
+            "text": "ngscorecard.ng/ask",
+            "fontPx": 10.94,
+            "time": 18.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "div.srv-heading > p:nth-of-type(1)",
+            "text": "Answers come from the Government Service Portal and NHREC, with sources shown.",
+            "fontPx": 10.94,
+            "time": 18.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "div.srv-examples > div:nth-of-type(1)",
+            "text": "How do I register a business in Nigeria?",
+            "fontPx": 10.94,
+            "time": 18.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "div.srv-examples > div:nth-of-type(2)",
+            "text": "What are the requirements for a Nigerian passport?",
+            "fontPx": 10.94,
+            "time": 18.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "div.srv-examples > div:nth-of-type(3)",
+            "text": "How do I get a tax clearance certificate from FIRS?",
+            "fontPx": 10.94,
+            "time": 18.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "div.srv-empty > p:nth-of-type(1)",
+            "text": "No questions yet. Try asking about:",
+            "fontPx": 13.13,
+            "time": 18.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "#ask-button",
+            "text": "Searching...",
+            "fontPx": 13.13,
+            "time": 18.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "#typed-text",
+            "text": "How do I register a business in Nigeria??airegiN ni ssenisub a retsiger I od woH",
+            "fontPx": 14.59,
+            "time": 18.125,
+            "seconds": 4.875
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 10 text elements stay under it for 0.5 s or more, the smallest \"2 sources:\" at 9 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "2 sources:",
+        "selector": "span.sources-label",
+        "dataAttributes": {},
+        "sourceFile": "compositions/frames/06-demo-answer.html",
+        "bbox": {
+          "x": 244.52,
+          "y": 445.19,
+          "width": 65.3,
+          "height": 12.79
+        },
+        "time": 27.625,
+        "times": [
+          23,
+          23,
+          23,
+          27.625,
+          27.875,
+          27.875,
+          27.875,
+          28.125,
+          28.125,
+          28.125
+        ],
+        "fontPx": 9.33,
+        "floorPx": 28,
+        "seconds": 2.375,
+        "elements": [
+          {
+            "selector": "span.sources-label",
+            "text": "2 sources:",
+            "fontPx": 9.33,
+            "time": 27.625,
+            "seconds": 2.375
+          },
+          {
+            "selector": "#s1 > span:nth-of-type(2)",
+            "text": "CAC",
+            "fontPx": 9.36,
+            "time": 27.875,
+            "seconds": 2.125
+          },
+          {
+            "selector": "#s2 > span:nth-of-type(2)",
+            "text": "CAC",
+            "fontPx": 9.38,
+            "time": 28.125,
+            "seconds": 1.875
+          },
+          {
+            "selector": "#bw > div:nth-of-type(1) > div:nth-of-type(4)",
+            "text": "ngscorecard.ng/ask",
+            "fontPx": 11.38,
+            "time": 23,
+            "seconds": 7
+          },
+          {
+            "selector": "#searching",
+            "text": "Searching documents…",
+            "fontPx": 11.38,
+            "time": 23,
+            "seconds": 1
+          },
+          {
+            "selector": "#s1 > span:nth-of-type(1)",
+            "text": "[1]",
+            "fontPx": 12.48,
+            "time": 27.875,
+            "seconds": 2.125
+          },
+          {
+            "selector": "#s1 > span:nth-of-type(3)",
+            "text": "Business Registration Process",
+            "fontPx": 12.48,
+            "time": 27.875,
+            "seconds": 2.125
+          },
+          {
+            "selector": "#s2 > span:nth-of-type(1)",
+            "text": "[2]",
+            "fontPx": 12.51,
+            "time": 28.125,
+            "seconds": 1.875
+          },
+          {
+            "selector": "#s2 > span:nth-of-type(3)",
+            "text": "CAC (Company Registration)",
+            "fontPx": 12.51,
+            "time": 28.125,
+            "seconds": 1.875
+          },
+          {
+            "selector": "#qb",
+            "text": "How do I register a business in Nigeria?",
+            "fontPx": 15.18,
+            "time": 23,
+            "seconds": 7
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 280
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

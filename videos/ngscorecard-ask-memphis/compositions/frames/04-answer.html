@@ -1,0 +1,146 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"/></head><body>
+<template>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;600;700;800&display=swap"/>
+<style>
+  #root {
+    position:absolute; inset:0; container-type:size; overflow:hidden;
+    --paper:#fff4dc; --ink:#132a1d; --green:#0a6b45; --yellow:#ffc93c;
+    background: radial-gradient(ellipse 85% 75% at 50% 46%, #fff8e6 0%, var(--paper) 60%, #f3e8ca 100%);
+    font-family:"Inter",sans-serif;
+  }
+  .grain { position:absolute; inset:0; pointer-events:none; opacity:.4;
+    background-image: radial-gradient(circle, rgba(19,42,29,.06) 1px, transparent 1.4px); background-size:7px 7px; }
+  .tag { position:absolute; z-index:8; top:4.8cqh; left:7cqw;
+    font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:1.5cqw; letter-spacing:.16em; text-transform:uppercase;
+    background:var(--green); color:#fffef9; border:.4cqw solid var(--ink); box-shadow:.5cqw .5cqw 0 var(--ink); padding:.7cqw 1.6cqw; transform:rotate(-2deg); }
+
+  .browser-window {
+    position:absolute; left:13cqw; top:13cqh; width:74cqw; height:76cqh;
+    border:0.42cqw solid var(--ink); border-radius:0.5cqw; overflow:hidden;
+    box-shadow: 1.4cqw 1.4cqw 0 var(--ink); container-type:size; background:#1e1e1e;
+  }
+  .bc { position:absolute; top:0; left:0; right:0; height:4.8cqh; background:#1e1e1e; display:flex; align-items:center; padding:0 1.5cqw; gap:.55cqw; z-index:10; }
+  .dot { width:.85cqw; height:.85cqw; border-radius:50%; flex-shrink:0; }
+  .dot-r{background:#ff5f57;} .dot-y{background:#ffbd2e;} .dot-g{background:#28c840;}
+  .url-bar { margin-left:1.2cqw; height:2.1cqh; background:#2d2d2d; border-radius:.4cqw; flex:1; max-width:34cqw; display:flex; align-items:center; padding:0 .9cqw; gap:.5cqw; font-size:.8cqw; color:#b7b7b7; white-space:nowrap; overflow:hidden; }
+  .lock { flex-shrink:0; opacity:.6; font-size:.75cqw; }
+
+  .page-area { position:absolute; top:4.8cqh; left:0; right:0; bottom:0; background:#f9f9f9; display:flex; flex-direction:column; }
+  .pt-header { background:#fffef9; border-bottom:1px solid #b9cbc1; flex-shrink:0; display:flex; align-items:center; justify-content:space-between; padding:0 2cqw; height:8cqh; }
+  .pt-home { display:flex; align-items:center; gap:.9cqw; }
+  .pt-crest { width:3.6cqw; height:3.6cqw; border-radius:.5cqw; flex-shrink:0; }
+  .pt-eyebrow { color:#006b45; font-size:.62cqw; font-weight:800; letter-spacing:.08em; text-transform:uppercase; line-height:1; }
+  .pt-headline { margin-top:.15cqw; color:#073f2a; font-family:Georgia,serif; font-size:2.0cqw; font-weight:800; line-height:1; }
+  .pt-nav { display:flex; align-items:center; gap:1cqw; }
+  .pt-nav-link { color:#7f8c84; font-size:.78cqw; font-weight:700; white-space:nowrap; }
+  .pt-nav-link.active { color:#006b45; border-bottom:2px solid #006b45; padding-bottom:1px; }
+
+  .conv { flex:1; padding:2.4cqh 3.5cqw; display:flex; flex-direction:column; gap:1.9cqh; overflow:hidden; }
+  .q-bubble { align-self:flex-end; background:#073f2a; color:#fffef9; border-radius:.6cqw .6cqw .1cqw .6cqw; padding:1.2cqh 1.7cqw; max-width:60%; font-family:Georgia,serif; font-size:1.35cqw; line-height:1.5; }
+  .spinner-row { display:flex; align-items:center; gap:.8cqw; align-self:flex-start; }
+  .spinner-svg { width:2cqw; height:2cqw; flex-shrink:0; }
+  #searching { font-family:"IBM Plex Mono",monospace; font-size:1cqw; font-weight:500; text-transform:uppercase; letter-spacing:.1em; color:#64748b; }
+  .answer-card { align-self:flex-start; background:white; border:1px solid #e2e8f0; border-radius:.6cqw; padding:2cqh 2.3cqw; max-width:82%; opacity:0; box-shadow:0 .3cqw 1cqw rgba(19,42,29,.06); }
+  #answer-text { font-family:Georgia,serif; font-size:1.42cqw; color:#132a1d; line-height:1.6; min-height:2cqh; }
+  .sources-section { align-self:flex-start; max-width:82%; opacity:0; }
+  .sources-label { display:block; font-family:"IBM Plex Mono",monospace; font-size:.92cqw; font-weight:600; text-transform:uppercase; letter-spacing:.12em; color:#64748b; margin-bottom:1cqh; }
+  .source-badge { display:flex; align-items:center; gap:.7cqw; margin-bottom:.8cqh; opacity:0; }
+  .source-num { font-family:Georgia,serif; font-size:1.3cqw; color:#006b45; flex-shrink:0; font-weight:700; }
+  .source-org { background:#006b45; color:white; font-family:"IBM Plex Mono",monospace; font-size:.88cqw; font-weight:600; text-transform:uppercase; letter-spacing:.06em; border-radius:.25cqw; padding:.3cqh .8cqw; flex-shrink:0; }
+  .source-title { font-family:"Inter",sans-serif; font-size:1.18cqw; color:#006b45; font-weight:600; }
+</style>
+
+<div id="root" data-composition-id="04-answer" data-width="1920" data-height="1080" data-duration="7" data-layout-allow-overlap data-layout-allow-overflow>
+  <div class="grain"></div>
+  <div class="tag clip" id="tag" data-start="2.2" data-duration="4.8">Sourced · cited</div>
+
+  <div class="browser-window clip" id="bw" data-start="0" data-duration="7">
+    <div class="bc">
+      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      <div class="url-bar"><span class="lock">🔒</span>ngscorecard.ng/ask</div>
+    </div>
+    <div class="page-area">
+      <header class="pt-header">
+        <a class="pt-home">
+          <svg class="pt-crest" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="14" fill="#132a1d"/>
+            <path d="M17 16h7v32h-7zM40 16h7v32h-7z" fill="#f7f5ec"/>
+            <path d="M17 16h8l22 32h-8z" fill="#3fbf82"/>
+          </svg>
+          <div>
+            <div class="pt-eyebrow" data-layout-ignore>CIVIC ACCOUNTABILITY · NIGERIA</div>
+            <div class="pt-headline">NGScorecard</div>
+          </div>
+        </a>
+        <nav class="pt-nav" data-layout-ignore>
+          <span class="pt-nav-link">Commitments</span>
+          <span class="pt-nav-link">Publications</span>
+          <span class="pt-nav-link">Guide</span>
+          <span class="pt-nav-link active">Ask</span>
+        </nav>
+      </header>
+      <div class="conv">
+        <div class="q-bubble">How do I register a business in Nigeria?</div>
+        <div class="spinner-row" id="sr">
+          <svg class="spinner-svg" id="spinner" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="#e2e8f0" stroke-width="2.5"/>
+            <path d="M12 2 A10 10 0 0 1 22 12" stroke="#006b45" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span id="searching">Searching documents…</span>
+        </div>
+        <div class="answer-card" id="ac" data-layout-ignore>
+          <p id="answer-text"></p>
+        </div>
+        <div class="sources-section" id="ss" data-layout-ignore>
+          <span class="sources-label">2 sources</span>
+          <div class="source-badge" id="s1">
+            <span class="source-num">[1]</span><span class="source-org">CAC</span>
+            <span class="source-title">Business Registration Process</span>
+          </div>
+          <div class="source-badge" id="s2">
+            <span class="source-num">[2]</span><span class="source-org">CAC</span>
+            <span class="source-title">CAC (Company Registration)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  var tl = gsap.timeline({ paused:true });
+
+  gsap.set("#bw",{opacity:1,scale:1.03,transformOrigin:"50% 42%"});
+  tl.to("#bw",{scale:1.13,duration:7,ease:"power1.in"},0);
+
+  gsap.set("#tag",{opacity:0,x:-30,rotate:-12});
+  tl.to("#tag",{opacity:1,x:0,rotate:-2,duration:0.3,ease:"back.out(2)"},2.2);
+
+  tl.to("#spinner",{rotation:540,transformOrigin:"50% 50%",duration:1.5,ease:"linear"},0);
+  tl.to("#searching",{opacity:0.45,duration:0.25,overwrite:"auto"},0.7)
+    .to("#searching",{opacity:1,duration:0.25,overwrite:"auto"},0.95)
+    .to("#searching",{opacity:0.45,duration:0.25,overwrite:"auto"},1.2)
+    .to("#searching",{opacity:1,duration:0.15,overwrite:"auto"},1.45);
+
+  tl.to("#sr",{opacity:0,duration:0.3,ease:"power1.inOut"},1.5);
+  tl.fromTo("#ac",{opacity:0,y:14},{opacity:1,y:0,duration:0.4,ease:"power2.out"},1.5);
+
+  var words = "To register a business in Nigeria, apply to the Corporate Affairs Commission (CAC). Reserve a business name on the CAC portal, then submit form CAC 2 or CAC 7 with the filing fee. Once approved you receive a Certificate of Incorporation, usually within 1–5 working days.".split(" ");
+  var el = document.getElementById("answer-text");
+  words.forEach(function(w,i){
+    tl.call(function(){ if(el) el.textContent += (i>0?" ":"") + w; }, [], 1.85 + i*0.078);
+  });
+
+  tl.to("#ss",{opacity:1,duration:0.3,ease:"power2.out"},4.7);
+  tl.fromTo("#s1",{opacity:0,x:-18},{opacity:1,x:0,duration:0.32,ease:"back.out(1.8)"},4.9);
+  tl.fromTo("#s2",{opacity:0,x:-18},{opacity:1,x:0,duration:0.32,ease:"back.out(1.8)"},5.2);
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["04-answer"] = tl;
+})();
+</script>
+</template>
+</body></html>
