@@ -131,8 +131,8 @@ function handleKeydown(e) {
   <div class="srv-container">
     <div class="srv-header">
       <h1>Ask about government services</h1>
-      <p>Answers come from the service pages on the Government Service Portal, with the sources shown.</p>
-      <p class="srv-subtitle">Ask about any service listed on <a href="https://services.gov.ng" target="_blank" rel="noopener">services.gov.ng</a>. If the portal doesn't cover it, this will say so.</p>
+      <p>Answers are drawn from government service pages, rights body documents, and the Government Service Portal — with sources shown.</p>
+      <p class="srv-subtitle">Ask about passports, NIN, taxes, land, rights, court orders, or any other government service. If the sources don't cover it, this will say so.</p>
     </div>
 
     <div class="srv-chat">
